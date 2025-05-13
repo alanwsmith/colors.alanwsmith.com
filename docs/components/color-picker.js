@@ -65,7 +65,7 @@ function ac(obj, classList) {
   });
 }
 
-function d(value) {
+function dbg(value) {
   if (debug === true) {
     console.log(value);
   }
@@ -189,34 +189,46 @@ class Picker extends HTMLElement {
     });
   }
 
+  getAspectIndex(key) {
+    return config
+      .aspects
+      .findIndex((aspect) => {
+        return aspect.key === key
+      });
+  }
+
+  getAspectMax(key) {
+    const index = this.getAspectIndex(key);
+    return config.aspects[index].max;
+  }
+
+  getAspectStep(key) {
+    const index = this.getAspectIndex(key);
+    return config.aspects[index].max / 10000;
+  }
+
   initBaseSliders() {
     for (let index in config.aspects) {
-      const key = `base-slider`;
-      const connector = `${key}-${index}`;
+      const key = config.aspects[index].key;
+      const token = `base-slider`;
+      const connector = `${token}-${index}`;
 
       const div = dc('div');
-      ac(div, [`${key}-wrapper`, `${key}-wrapper-${index}`]);
+      ac(div, [`${token}-wrapper`, `${token}-wrapper-${index}`]);
 
       const label = dc('label');
-      ac(label, [`${key}-label`, `${key}-label-${index}`]);
+      ac(label, [`${token}-label`, `${token}-label-${index}`]);
       sa(label, 'for', connector);
       html(label, config.aspects[index].name)
 
       const slider = dc('input');
-      ac(slider, [`${key}`, `${key}-${index}`]);
+      ac(slider, [`${token}`, `${token}-${index}`]);
       sa(slider, 'name', connector);
       sa(slider, 'min', 0);
       sa(slider, 'type', 'range');
+      sa(slider, 'max', this.getAspectMax(key));
+      sa(slider, 'step', this.getAspectStep(key).toFixed(5));
 
-      //sa(slider, 'max', s.configV2.aspects[aspect].max);
-      //slider.setAttribute('step', s.getStep(aspect));
-
-      // const connector = `background-${aspect}`;
-      // const label = dc('label');
-      // label.setAttribute('for', connector);
-      // label.classList.add('color-primary');
-      // label.innerHTML = s.configV2.aspects[aspect].name;
-      // this.el('sliders').appendChild(label);
 
       // const slider = dc('input');
       // slider.setAttribute('name', connector);
@@ -246,7 +258,7 @@ class Picker extends HTMLElement {
   }
 
   loadData() {
-    d("Loading data");
+    dbg("Loading data");
     const checkData = localStorage.getItem(
       config.storageName
     );
@@ -258,7 +270,7 @@ class Picker extends HTMLElement {
   }
 
   loadDefaults() {
-    d("Loading defaults");
+    dbg("Loading defaults");
     data = {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
@@ -287,7 +299,6 @@ class Picker extends HTMLElement {
   }
 
   updateBaseColorsStyleSheet() {
-    d("ping");
     this.styleSheets['baseColors'].innerHTML = `
 :root {
 --color-base: oklch(20% 0 0); 

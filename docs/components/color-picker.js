@@ -65,7 +65,6 @@ function ac(obj, classList) {
   });
 }
 
-
 function d(value) {
   if (debug === true) {
     console.log(value);
@@ -78,6 +77,14 @@ function dc(name) {
 
 function el(className) {
   return document.querySelector(`.${className}`);
+}
+
+function html(obj, str) {
+  obj.innerHTML = str;
+}
+
+function sa(obj, key, value) {
+  obj.setAttribute(key, value);
 }
 
 const template = `
@@ -185,22 +192,45 @@ class Picker extends HTMLElement {
   initBaseSliders() {
     for (let index in config.aspects) {
       const key = `base-slider`;
+      const connector = `${key}-${index}`;
+
       const div = dc('div');
-      ac(div, [
-        `${key}-wrapper`,
-        `${key}-wrapper-${index}`
-      ]);
+      ac(div, [`${key}-wrapper`, `${key}-wrapper-${index}`]);
+
       const label = dc('label');
-      ac(label, [
-        `${key}-label`, 
-        `${key}-label-${index}`
-      ]);
-      label.innerHTML = config.aspects[index].name;
+      ac(label, [`${key}-label`, `${key}-label-${index}`]);
+      sa(label, 'for', connector);
+      html(label, config.aspects[index].name)
+
       const slider = dc('input');
-      ac(slider, [
-        key, 
-        `${key}-${index}`
-      ]);
+      ac(slider, [`${key}`, `${key}-${index}`]);
+      sa(slider, 'name', connector);
+      sa(slider, 'min', 0);
+      sa(slider, 'type', 'range');
+
+      //sa(slider, 'max', s.configV2.aspects[aspect].max);
+      //slider.setAttribute('step', s.getStep(aspect));
+
+      // const connector = `background-${aspect}`;
+      // const label = dc('label');
+      // label.setAttribute('for', connector);
+      // label.classList.add('color-primary');
+      // label.innerHTML = s.configV2.aspects[aspect].name;
+      // this.el('sliders').appendChild(label);
+
+      // const slider = dc('input');
+      // slider.setAttribute('name', connector);
+      // slider.setAttribute('type', 'range');
+      // slider.setAttribute('min', 0);
+      // slider.setAttribute('max', s.configV2.aspects[aspect].max);
+      // slider.setAttribute('step', s.getStep(aspect));
+      // slider.value = s.getBackgroundValue(aspect, s.visibleModeIndex());
+      // slider.dataset.kind = 'background';
+      // slider.dataset.aspect = aspect;
+      // slider.dataset.mode = s.visibleModeIndex();
+      // slider.style.accentColor = `var(--color-bw-match-80)`;
+      // this.el('sliders').appendChild(slider);
+
       a(div, label);
       a(div, slider);
       a('base-sliders', div);

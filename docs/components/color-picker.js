@@ -50,6 +50,15 @@ let debug = true;
 
 let p = {};
 
+function a(target, obj) {
+  if (typeof target === "string") {
+    const el = document.querySelector(`.${target}`)
+    el.appendChild(obj);
+  } else {
+    target.appendChild(obj);
+  }
+}
+
 function d(value) {
   if (debug === true) {
     console.log(value);
@@ -139,7 +148,6 @@ const config = {
   "storageName": "colorPickerData"
 }
 
-
 class Picker extends HTMLElement {
   constructor() {
     super();
@@ -168,7 +176,17 @@ class Picker extends HTMLElement {
   }
 
   initBaseSliders() {
-
+    for (let index in config.aspects) {
+      const div = dc('div');
+      div.classList.add('base-slider');
+      div.classList.add(`base-slider-${index}`);
+      const label = dc('label');
+      div.classList.add('base-slider-label');
+      div.classList.add(`base-slider-label-${index}`);
+      label.innerHTML = config.aspects[index].name;
+      a(div, label);
+      a('base-sliders', div);
+    }
   }
 
   initTemplate() {

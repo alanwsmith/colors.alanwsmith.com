@@ -224,18 +224,13 @@ class Picker extends HTMLElement {
       const slider = dc('input');
       ac(slider, [`${token}`, `${token}-${index}`]);
       sa(slider, 'name', connector);
-      sa(slider, 'min', 0);
       sa(slider, 'type', 'range');
+      sa(slider, 'min', 0);
       sa(slider, 'max', this.getAspectMax(key));
       sa(slider, 'step', this.getAspectStep(key).toFixed(5));
+      slider.value = p.modes[p.activeMode].base[key]
 
 
-      // const slider = dc('input');
-      // slider.setAttribute('name', connector);
-      // slider.setAttribute('type', 'range');
-      // slider.setAttribute('min', 0);
-      // slider.setAttribute('max', s.configV2.aspects[aspect].max);
-      // slider.setAttribute('step', s.getStep(aspect));
       // slider.value = s.getBackgroundValue(aspect, s.visibleModeIndex());
       // slider.dataset.kind = 'background';
       // slider.dataset.aspect = aspect;

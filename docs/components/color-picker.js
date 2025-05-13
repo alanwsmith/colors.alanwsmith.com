@@ -58,29 +58,35 @@ function dc(name) {
   return document.createElement(name);
 }
 
-const defaults = {
-  "modes": {
-    "light": {
-      "base": { "l": 90, "c": 0.0, "h": 0 },
-      "color": {
-        "chroma": 0.0,
-        "fadedValues": [40, 80],
-        "lightLevel": 1,
-        "hueRotations": 3,
-        "hueRotation": 0
-      }
-    },
-    "dark": {
-      "base": { "l": 20, "c": 0.0, "h": 0 },
-      "color": {
-        "chroma": 0.0,
-        "fadedValues": [40, 80],
-        "lightLevel": 1,
-        "hueRotations": 3,
-        "hueRotation": 0
-      }
-    }
+function el(className) {
+  return document.querySelector(`.${className}`);
+}
+
+const template = `
+<div class="debug"></div>
+`;
+
+const activeMode = 0;
+
+const defaultColors = {
+  "dark": {
+    "chroma": 0.0,
+    "fadedValues": [40, 80],
+    "lightLevel": 1,
+    "hueRotations": 3,
+    "hueRotation": 0
   },
+  "light": {
+    "chroma": 0.0,
+    "fadedValues": [40, 80],
+    "lightLevel": 1,
+    "hueRotations": 3,
+    "hueRotation": 0
+  }
+};
+
+const defaultPalette = {
+  "fadedNames": ["fader", "fader-2"],
   "colorNames": [
     "primary",
     "secondary",
@@ -91,9 +97,24 @@ const defaults = {
     "extra",
     "bonus"
   ],
-  "fadedNames": ["fader", "fader-2"],
+  "modes": [
+    {
+      "base": { "l": 90, "c": 0.0, "h": 0 },
+      "colors": [],
+      "key": "light",
+      "name": "Light",
+    },
+    { 
+      "base": { "l": 20, "c": 0.0, "h": 0 },
+      "colors": [],
+      "key": "dark",
+      "name": "Dark",
+    }
+  ],
+  "name": "Color Palette",
   "numberOfColors": 5,
-  "numberOfFaded": 2
+  "numberOfFaded": 2,
+  "preferredMode": 0,
 }
 
 const config = {
@@ -106,8 +127,10 @@ const config = {
   "hueRotations": [30, 45, 60, 90],
   "lightLevels": [0, 20, 40, 60, 80, 100],
   "maxNumberOfColors": 8,
+  "validSchemeVersions": [[1,0,0]],
   "storageName": "colorPickerData"
 }
+
 
 class Picker extends HTMLElement {
   constructor() {
@@ -120,6 +143,9 @@ class Picker extends HTMLElement {
     this.updatePickerStyles();
     this.updateMainStyleSheets();
     this.loadData();
+    this.renderTemplate();
+    this.updateData();
+    this.updatePage();
   }
 
   attachStyleSheets() {
@@ -148,20 +174,28 @@ class Picker extends HTMLElement {
   loadDefaults() {
     d("Loading defaults");
     data = {
-      "asdf": "asdfasdf"
+      "palettes": [defaultPalette],
+      "schemaVersion": [1,0,0]
     };
-
-    d(data);
   }
 
-  updatePickerStyles() {
-    this.styleSheets['pickerStyles'].innerHTML = `
-    body { background-color: var(--color-base); };
-  `;
+  renderDebuggingInfo() {
+    if (debug === true) {
+      el('debug').innerHTML = `
+<h2>Debuggin</h2>
+<h3>Data</h3>
+<pre>${JSON.stringify(data, null, 2)}</pre>
+<h3>Config</h3>
+<pre>${JSON.stringify(config, null, 2)}</pre>
+`;
+    }
   }
 
-  updateMainStyleSheets() {
-    this.updateBaseColorsStyleSheet();
+  renderTemplate() {
+    const templateEl = this.ownerDocument.createElement('template')
+    templateEl.innerHTML = template;
+    const content = templateEl.content.cloneNode(true);
+    this.append(content);
   }
 
   updateBaseColorsStyleSheet() {
@@ -169,10 +203,35 @@ class Picker extends HTMLElement {
     this.styleSheets['baseColors'].innerHTML = `
 :root {
 --color-base: oklch(20% 0 0); 
+--color-primary: oklch(90% 0 0 );
 }
     `;
   }
 
+  updateData() {
+  }
+
+  updateMainStyleSheets() {
+    this.updateBaseColorsStyleSheet();
+  }
+
+  updatePage() {
+    this.renderDebuggingInfo();
+  }
+
+  updatePickerStyles() {
+    this.styleSheets['pickerStyles'].innerHTML = `
+* {
+  margin: 0;
+}
+
+body { 
+  font-family: system-ui;
+  background-color: var(--color-base); 
+  color: var(--color-primary);
+};
+  `;
+  }
 
 }
 

@@ -59,6 +59,13 @@ function a(target, obj) {
   }
 }
 
+function ac(obj, classList) {
+  classList.forEach((c) => {
+    obj.classList.add(c);
+  });
+}
+
+
 function d(value) {
   if (debug === true) {
     console.log(value);
@@ -177,14 +184,25 @@ class Picker extends HTMLElement {
 
   initBaseSliders() {
     for (let index in config.aspects) {
+      const key = `base-slider`;
       const div = dc('div');
-      div.classList.add('base-slider');
-      div.classList.add(`base-slider-${index}`);
+      ac(div, [
+        `${key}-wrapper`,
+        `${key}-wrapper-${index}`
+      ]);
       const label = dc('label');
-      div.classList.add('base-slider-label');
-      div.classList.add(`base-slider-label-${index}`);
+      ac(label, [
+        `${key}-label`, 
+        `${key}-label-${index}`
+      ]);
       label.innerHTML = config.aspects[index].name;
+      const slider = dc('input');
+      ac(slider, [
+        key, 
+        `${key}-${index}`
+      ]);
       a(div, label);
+      a(div, slider);
       a('base-sliders', div);
     }
   }

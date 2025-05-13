@@ -48,6 +48,8 @@ let data = {};
 
 let debug = true;
 
+let p = {};
+
 function d(value) {
   if (debug === true) {
     console.log(value);
@@ -63,10 +65,15 @@ function el(className) {
 }
 
 const template = `
+<h2 class="palette-name"></h2>
+<div class="base-wrapper">
+  <fieldset>
+    <legend>Base</legend>
+    <div class="base-sliders"></div>
+  </fieldset>
+</div>
 <div class="debug"></div>
 `;
-
-const activeMode = 0;
 
 const defaultColors = {
   "dark": {
@@ -86,7 +93,7 @@ const defaultColors = {
 };
 
 const defaultPalette = {
-  "fadedNames": ["fader", "fader-2"],
+  "activeMode": 0,
   "colorNames": [
     "primary",
     "secondary",
@@ -97,6 +104,7 @@ const defaultPalette = {
     "extra",
     "bonus"
   ],
+  "fadedNames": ["fader", "fader-2"],
   "modes": [
     {
       "base": { "l": 90, "c": 0.0, "h": 0 },
@@ -143,9 +151,9 @@ class Picker extends HTMLElement {
     this.updatePickerStyles();
     this.updateMainStyleSheets();
     this.loadData();
-    this.renderTemplate();
+    this.initTemplate();
     this.updateData();
-    this.updatePage();
+    this.renderPage();
   }
 
   attachStyleSheets() {
@@ -159,16 +167,28 @@ class Picker extends HTMLElement {
     });
   }
 
+  initBaseSliders() {
+
+  }
+
+  initTemplate() {
+    const templateEl = this.ownerDocument.createElement('template')
+    templateEl.innerHTML = template;
+    const content = templateEl.content.cloneNode(true);
+    this.append(content);
+    this.initBaseSliders();
+  }
+
   loadData() {
     d("Loading data");
     const checkData = localStorage.getItem(
       config.storageName
     );
     if (checkData && checkData.version[0] === 1) {
-
     } else {
       this.loadDefaults();
     }
+    p = data.palettes[0];
   }
 
   loadDefaults() {
@@ -182,20 +202,22 @@ class Picker extends HTMLElement {
   renderDebuggingInfo() {
     if (debug === true) {
       el('debug').innerHTML = `
-<h2>Debuggin</h2>
-<h3>Data</h3>
-<pre>${JSON.stringify(data, null, 2)}</pre>
+<h2>Debugging</h2>
+<h3>Palette</h3>
+<pre>${JSON.stringify(p, null, 2)}</pre>
 <h3>Config</h3>
 <pre>${JSON.stringify(config, null, 2)}</pre>
 `;
     }
   }
 
-  renderTemplate() {
-    const templateEl = this.ownerDocument.createElement('template')
-    templateEl.innerHTML = template;
-    const content = templateEl.content.cloneNode(true);
-    this.append(content);
+  renderPage() {
+    this.renderPaletteName();
+    this.renderDebuggingInfo();
+  }
+
+  renderPaletteName() {
+    el('palette-name').innerHTML = p.name;
   }
 
   updateBaseColorsStyleSheet() {
@@ -215,9 +237,6 @@ class Picker extends HTMLElement {
     this.updateBaseColorsStyleSheet();
   }
 
-  updatePage() {
-    this.renderDebuggingInfo();
-  }
 
   updatePickerStyles() {
     this.styleSheets['pickerStyles'].innerHTML = `

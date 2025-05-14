@@ -94,16 +94,18 @@ function el(className) {
 }
 
 // Get Float from DataSet Key From Event
+// TODO: put event last
 function gdf(event, key) {
   return parseFloat(event.target.dataset[key])
 }
 
 // Get Int from DataSet Key From Event
-function gdi(event, key) {
+function gdi(key, event) {
   return parseInt(event.target.dataset[key], 10)
 }
 
 // Get String from DataSet Key From Event
+// TODO: put event last
 function gds(event, key) {
   return event.target.dataset[key]
 }
@@ -221,7 +223,7 @@ const template = `
 const colorElementInternalTemplate = `
 <div class="color-name">Color Name</div>
 <div class="hue-set-wrapper">
-  <label class="color-hue-set-selector-label">Hue Set (either 45degrees or 60degrees)</label>
+  <label class="color-hue-set-selector-label">Hue Set:</label>
   <select class="color-hue-set-selector"></select>
   <div class="color-hue-set">---</div>
 </div>
@@ -229,32 +231,78 @@ const colorElementInternalTemplate = `
 
 const defaultColors = [
   {
+    // TODO: DEPRECATE chroma to inside degree set stuff
     "chroma": 0.1,
     "fadedValues": [40, 80],
+    // TODO: DEPRECATE lightlevel to inside degree set stuff
     "lightLevel": 0,
-    "hueSet": 0,
-    "hueSets": [0, 0],
+    "degreeSet": 0,
+    "degreeSetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ]
   },
   {
     "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 1,
-    "hueSet": 0,
-    "hueSets": [0, 0],
+    "degreeSet": 0,
+    "degreeSetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ]
   },
   {
     "chroma": 0,
     "fadedValues": [40, 80],
     "lightLevel": 4,
-    "hueSet": 0,
-    "hueSets": [0, 0],
+    "degreeSet": 0,
+    "degreeSetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ]
   },
   {
     "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 5,
-    "hueSet": 0,
-    "hueSets": [0, 0],
+    "degreeSet": 0,
+    "degreeSetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ]
   }
 ];
 
@@ -290,7 +338,7 @@ const defaultPalette = {
     "bonus-color"
   ],
   "fadedNames": ["faded", "faded-2"],
-  "hueSets": [60, 45],
+  "degreeSetIndexes": [60, 45],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -470,30 +518,36 @@ class Picker extends HTMLElement {
       ad("mode", p.activeMode, selector);
       sa("name", `color-hue-set-selector-${index}`, selector);
       ad("color", index, selector);
-      p.hueSets.forEach((hs, hsIndex) => {
+      p.degreeSetIndexes.forEach((hs, hsIndex) => {
         const opt = dc('option');
         sv(hsIndex, opt);
         html(`${hs}°`, opt);
-        if (hsIndex === p.modes[p.activeMode].colors[index].hueSet) {
+        if (hsIndex === p.modes[p.activeMode].colors[index].degreeSet) {
           opt.selected = true;
         }
         a(opt, selector);
       });
-      const hueSetEl = colorEl.querySelector('.color-hue-set');
-      const hueCount = Math.round(360 / p.hueSets[
-        colorData.hueSet
+      const degreeSetEl = colorEl.querySelector('.color-hue-set');
+      const hueCount = Math.round(360 / p.degreeSetIndexes[
+        colorData.degreeSet
       ]);
-      for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++ ) {
-        const hueWrapper = dc('div');
+      for (let degreeSetIndex = 0; degreeSetIndex < hueCount; degreeSetIndex ++ ) {
+        const degreeSetWrapper = dc('div');
         this.getLightLevelValues().forEach((level, levelIndex) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
+          ad('mode', p.activeMode, button);
+          ad('color', index, button);
+          ad('degreeset', colorData.degreeSet, button);
+          ad('degreesetindex', degreeSetIndex, button);
+          ad('lightness', levelIndex, button);
+          //ad('color', index, button);
           ac('color-light-level', button);
-          ac(`hue-selector--mode-${p.activeMode}--color-${index}--hue-${hueIndex}--lightness-${levelIndex}`, button);
+          ac(`hue-selector--mode-${p.activeMode}--color-${index}--hue-${degreeSetIndex}--lightness-${levelIndex}`, button);
           html(level.toString().padStart(3, '0'), button);
-          a(button, hueWrapper);
+          a(button, degreeSetWrapper);
         });
-        a(hueWrapper, hueSetEl);
+        a(degreeSetWrapper, degreeSetEl);
       }
     }
   }
@@ -693,20 +747,17 @@ ${sheets.join("\n")}
     const lines = [];
     for (let color = 0; color < p.numberOfColors; color ++) {
       const colorData = p.modes[p.activeMode].colors[color];
-      const hueCount = Math.round(360 / p.hueSets[colorData.hueSet]);
-      //dbg(hueCount);
-      //dbg(colorData);
+      const hueCount = Math.round(360 / p.degreeSetIndexes[colorData.degreeSet]);
       for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
         this.getLightLevelValues().reverse().forEach((lightLevel, lightIndex) => {
           const className = `.hue-selector--mode-${p.activeMode}--color-${color}--hue-${hueIndex}--lightness-${lightIndex}`;
           const c = p.modes[p.activeMode].colors[color].chroma;
-          const h = p.modes[p.activeMode].colors[color].hueSets;
+          const h = p.modes[p.activeMode].colors[color].degreeSetIndexes;
           //dbg(c)
           const style = `oklch(${lightLevel}% ${c} 0)`;
           lines.push(
             `${className} { color: ${style};}`
           );
-          // dbg(className);
         });
       }
     }
@@ -805,13 +856,12 @@ pre{
   }
 
   updateData(event) {
-    dbg(event.type);
     let triggerRefresh = false;
     if (event.target.dataset.kind === "color-hue-set-selector" && event.type === "change") {
-      const mode = gdi(event, "mode");
-      const color = gdi(event, "color");
+      const mode = gdi("mode", event);
+      const color = gdi("color", event);
       const value = gvi(event);
-      p.modes[mode].colors[color].hueSet = value;
+      p.modes[mode].colors[color].degreeSet = value;
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "base") {
@@ -826,13 +876,20 @@ pre{
         triggerRefresh = true;
       }
     } else if (event.target.dataset.kind === "mode-button") {
-      p.activeMode = gdi(event, "mode");
+      p.activeMode = gdi("mode", event);
       this.updateModeButtonStyles()
       this.updateBaseSliders();
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-hue-lightness-button") {
-      dbg(event.target.dataset);
+      const mode = gdi("mode", event);
+      const color = gdi("color", event);
+      const degreeSet = gdi("degreeset", event);
+      const offsetIndex = gdi("degreesetindex", event);
+      const lightnessIndex = gdi("lightness", event);
+      p.modes[mode].colors[color].degreeSetValues[degreeSet].h = offsetIndex ;
+      p.modes[mode].colors[color].degreeSetValues[degreeSet].l = offsetIndex ;
+      triggerRefresh = true;
     }  
     if (triggerRefresh === true) {
       window.requestAnimationFrame(this.requestRender);

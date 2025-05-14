@@ -73,7 +73,7 @@ function ad(obj, key, value) {
 }
 
 // Debug
-function d(value) {
+function db(value) {
   if (debug === true) {
     console.log(value);
   }
@@ -121,12 +121,19 @@ function sa(obj, key, value) {
 
 const template = `
 <h2 class="palette-name"></h2>
-<div class="base-wrapper">
-  <fieldset>
-    <legend>Base</legend>
-    <div class="base-sliders"></div>
-  </fieldset>
-</div>
+<fieldset class="base-wrapper">
+  <legend>Base</legend>
+  <div class="base-sliders"></div>
+</fieldset>
+<fieldset class="settings-wrapper">
+  <legend>Settings</legend>
+  <div class="number-of-colors-wrapper">
+    <label for="number-of-colors-selector-label">
+      Number of Colors:
+    </label>
+    <select name="number-of-colors-selector" class="number-of-colors-selector"></select>
+  </div>
+</fieldset>
 <div class="debug"></div>
 `;
 
@@ -162,7 +169,7 @@ const defaultPalette = {
   "fadedNames": ["fader", "fader-2"],
   "modes": [
     {
-      "base": { "l": 90, "c": 0.0, "h": 0 },
+      "base": { "l": 50, "c": 0.0, "h": 0 },
       "colors": [],
       "key": "light",
     },
@@ -298,6 +305,17 @@ ${lines.sort().join("\n")}
     this.styleSheets['bwVars'].innerHTML = out;
   }
 
+  initNumberOfColors() {
+    for (let index = 0; index < config.maxNumberOfColors; index ++) {
+     const opt = dc('option');
+      html(opt, index + 1);
+      if (index + 1 === p.numberOfColors) {
+        opt.selected = true;
+      } 
+      a(el('number-of-colors-selector'), opt);
+    }
+  }
+
 
   initPickerStyles() {
     this.styleSheets['pickerStyles'].innerHTML = `
@@ -336,10 +354,11 @@ body {
     const content = templateEl.content.cloneNode(true);
     this.append(content);
     this.initBaseSliders();
+    this.initNumberOfColors();
   }
 
   loadData() {
-    d("Loading data");
+    db("Loading data");
     const checkData = localStorage.getItem(
       config.storageName
     );
@@ -351,7 +370,7 @@ body {
   }
 
   loadDefaults() {
-    d("Loading defaults");
+    db("Loading defaults");
     data = {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
@@ -391,16 +410,14 @@ ${sheets.join("\n")}
       "--color-base: var(--light-color-base);",
       "--color-primary: #333;"
     ];
-
     p.modes.forEach((modeData) => {
       const mode = modeData.key;
       const l = modeData.base.l;
       const c = modeData.base.c;
       const h = modeData.base.h;
       lines.push(`--${mode}-color-base: oklch(${l}% ${c} ${h});`);
-      d(modeData);
+      //db(modeData);
     });
-
     this.styleSheets['baseColors'].innerHTML = `
 :root {
 ${lines.sort().join("\n")}

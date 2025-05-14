@@ -60,11 +60,15 @@ function a(child, parent) {
   }
 }
 
-// Add Class
-function ac(obj, classList) {
-  classList.forEach((c) => {
-    obj.classList.add(c);
-  });
+// Add ClassList to Object
+function ac(classList, obj) {
+  if (typeof classList === "string") {
+    obj.classList.add(classList);
+  } else {
+    classList.forEach((c) => {
+      obj.classList.add(c);
+    });
+  }
 }
 
 // Add Data
@@ -158,6 +162,12 @@ const template = `
 <div class="debug"></div>
 `;
 
+const colorElementTemplate = `
+<div class="color-name">Color Name</div>
+<select class="color-rotation-selector"></select>
+<div>Hue Groups Go Here</div>
+`;
+
 const defaultColors = {
   "dark": {
     "chroma": 0.0,
@@ -230,7 +240,7 @@ class Picker extends HTMLElement {
     this.requestRender = this.renderPage.bind(this);
     this.styleSheets = {};
     this.initStyleSheets();
-    this.updateStyleSheets();
+    this.reloadStyleSheets();
     this.initTemplate();
     this.addListeners();
     this.renderPage();
@@ -269,22 +279,22 @@ class Picker extends HTMLElement {
       const token = `base-slider`;
       const connector = `${token}-${index}`;
       const div = dc('div');
-      ac(div, [
+      ac([
         `${token}-wrapper`, 
         `${token}-wrapper-${index}`
-      ]);
+      ], div);
       const label = dc('label');
-      ac(label, [
+      ac([
         `${token}-label`, 
         `${token}-label-${index}`
-      ]);
+      ], label);
       sa(label, 'for', connector);
       html(label, config.aspects[index].name)
       const slider = dc('input');
-      ac(slider, [
+      ac([
         `${token}`, 
         `${token}-${index}`
-      ]);
+      ], slider);
       sa(slider, 'name', connector);
       sa(slider, 'type', 'range');
       sa(slider, 'min', 0);
@@ -300,7 +310,7 @@ class Picker extends HTMLElement {
     }
   }
 
-  initBwVars() {
+  initStaticBwVars() {
     // using local modes here since there
     // are really only these two. (it would
     // be overly complicated to figure out what
@@ -309,21 +319,21 @@ class Picker extends HTMLElement {
     //const out = [":root {"];
     const lines = [];
     localModes.forEach((mode) => {
+      let num1 = 100;
+      let num2 = 0;
+      if (mode === 'dark') {
+        num1 = 0;
+        num2 = 100;
+      }
+      lines.push(`--${mode}-color-bw-match: oklch(${num1}% 0 0);`);
+      lines.push(`--${mode}-color-bw-reverse: oklch(${num2}% 0 0);`);
       for (let amount = 10; amount < 100; amount += 10) {
-        let num1 = 100;
-        let num2 = 0;
-        if (mode === 'dark') {
-          num1 = 0;
-          num2 = 100;
-        }
         lines.push(`--${mode}-color-bw-match-${amount}: oklch(${num1}% 0 0 / ${amount}%);`);
         lines.push(`--${mode}-color-bw-reverse-${amount}: oklch(${num2}% 0 0 / ${amount}%);`);
       }
     })
-    const out = `:root {
-${lines.sort().join("\n")}
-}`;
-    this.styleSheets['bwVars'].innerHTML = out;
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['staticBwVars'].innerHTML = out;
   }
 
 
@@ -332,14 +342,29 @@ ${lines.sort().join("\n")}
     // number of colors changes. 
     const wrapper = el('colors-content-wrapper');  
     html(wrapper, "");
+
     for (let index = 0; index < p.numberOfColors; index ++) {
-      const color = dc("div");
-      ac(color, [`color-wrapper`]);
-      const name = dc('div');
-      html(name, p.colorNames[index]);
-      a(name, color);
-      a(color, wrapper);
+      const colorEl = dc('div'); 
+      ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
+      html(colorEl, colorElementTemplate);
+      a(colorEl, wrapper);
+      const colorNameEl = colorEl.querySelector('.color-name');
+      ac([`color-name-${index}`], colorNameEl);
+      ac([`color-name-${p.colorNames[index]}`], colorNameEl);
+      
+
+     // db(colorEl.querySelector('.color-name'));
+
+
+
+    //   const color = dc("div");
+    //   ac(color, [`color-wrapper`]);
+    //   const name = dc('div');
+    //   html(name, p.colorNames[index]);
+    //   const rotationDiv = dc('div')
+    //   a(name, color);
     }
+
   }
 
   initNumberOfColors() {
@@ -354,8 +379,8 @@ ${lines.sort().join("\n")}
   }
 
 
-  initPickerStyles() {
-    this.styleSheets['pickerStyles'].innerHTML = `
+  initStaticPickerStyles() {
+    this.styleSheets['staticPickerStyles'].innerHTML = `
 * {
   margin: 0;
 }
@@ -368,21 +393,24 @@ body {
   background-color: var(--color-base); 
   color: var(--color-primary);
 }
+.color-name-primary { color: var(--color-primary); }
   `;
   }
 
   initStyleSheets() {
     const sheetNames = [
-      'bwVars',
-      'baseColors',
-      'pickerStyles', 
+      'dynamicBwVars',
+      'dynamicModeColorSwitches',
+      'dynamicModeColorVars',
+      'staticBwVars',
+      'staticPickerStyles', 
     ];
     sheetNames.forEach((name) => {
       this.styleSheets[name] = document.createElement('style');
       document.body.appendChild(this.styleSheets[name]);
     });
-    this.initBwVars();
-    this.initPickerStyles();
+    this.initStaticBwVars();
+    this.initStaticPickerStyles();
   }
 
   initTemplate() {
@@ -448,9 +476,31 @@ ${sheets.join("\n")}
     el('palette-name').innerHTML = p.name;
   }
 
-  updateColorVarsStyleSheet() {
+  reloadDynamicBwVars() {
+    const lines = [];
+    const mode = p.modes[p.activeMode].key;
+    lines.push(`--color-bw-match: var(--${mode}-color-bw-match;`);
+    lines.push(`--color-bw-reverse: var(--${mode}-color-bw-reverse;`);
+    for (let amount = 10; amount < 100; amount += 10) {
+      lines.push(`--color-bw-match-${amount}: var(--${mode}-color-bw-match-${amount};`);
+      lines.push(`--color-bw-reverse-${amount}: var(--${mode}-color-bw-reverse-${amount};`);
+    }
+    const out = `:root {${lines.sort().join("\n")}}`;
+    this.styleSheets['dynamicBwVars'].innerHTML = out;
+  }
+
+  reloadDynamicModeColorSwitches() {
     const lines = [
       "--color-base: var(--light-color-base);",
+    ];
+    this.styleSheets['dynamicModeColorSwitches'].innerHTML =
+      `:root {
+${lines.sort().join("\n")}
+}`;
+  }
+
+  reloadDynamicModeColorVars() {
+    const lines = [
       "--color-primary: #333;"
     ];
     p.modes.forEach((modeData) => {
@@ -460,7 +510,7 @@ ${sheets.join("\n")}
       const h = modeData.base.h;
       lines.push(`--${mode}-color-base: oklch(${l}% ${c} ${h});`);
     });
-    this.styleSheets['baseColors'].innerHTML = `
+    this.styleSheets['dynamicModeColorVars'].innerHTML = `
 :root {
 ${lines.sort().join("\n")}
 }`;
@@ -479,12 +529,14 @@ ${lines.sort().join("\n")}
         this.initColors();
       }
     }
-    this.updateStyleSheets();
+    this.reloadStyleSheets();
     window.requestAnimationFrame(this.requestRender);
   }
 
-  updateStyleSheets() {
-    this.updateColorVarsStyleSheet();
+  reloadStyleSheets() {
+    this.reloadDynamicModeColorSwitches();
+    this.reloadDynamicModeColorVars();
+    this.reloadDynamicBwVars();
   }
 
 }

@@ -312,14 +312,6 @@ class Picker extends HTMLElement {
     })
   }
 
-  // getAspectIndex(key) {
-  //   return p 
-  //     .aspects
-  //     .findIndex((aspect) => {
-  //       return aspect.key === key
-  //     });
-  // }
-
   getAspectMax(key) {
     return p.aspects[key].max;
   }
@@ -386,19 +378,15 @@ class Picker extends HTMLElement {
         lines.push(`--${scrubStyle(data.name)}-bw-reverse-${amount}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
       }
     })
-
-
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['staticBwVars'].innerHTML = out;
   }
-
 
   initColors() {
     // Clear it first so this can be used if the
     // number of colors changes. 
     const wrapper = el('colors-content-wrapper');  
     html(wrapper, "");
-
     for (let index = 0; index < p.numberOfColors; index ++) {
       const colorEl = dc('div'); 
       ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
@@ -407,18 +395,6 @@ class Picker extends HTMLElement {
       const colorNameEl = colorEl.querySelector('.color-name');
       ac([`color-name-${index}`], colorNameEl);
       ac([`color-name-${p.colorNames[index]}`], colorNameEl);
-      
-
-     // db(colorEl.querySelector('.color-name'));
-
-
-
-    //   const color = dc("div");
-    //   ac(color, [`color-wrapper`]);
-    //   const name = dc('div');
-    //   html(name, p.colorNames[index]);
-    //   const rotationDiv = dc('div')
-    //   a(name, color);
     }
   }
 
@@ -514,12 +490,12 @@ ${sheets.join("\n")}
 
   reloadDynamicBwVars() {
     const lines = [];
-    const mode = p.modes[p.activeMode].key;
-    lines.push(`--color-bw-match: var(--${mode}-color-bw-match;`);
-    lines.push(`--color-bw-reverse: var(--${mode}-color-bw-reverse;`);
+    const data = p.modes[p.activeMode];
+    lines.push(`--bw-match: var(--${scrubStyle(data.name)}-bw-match);`);
+    lines.push(`--bw-reverse: var(--${scrubStyle(data.name)}-bw-reverse);`);
     for (let amount = 10; amount < 100; amount += 10) {
-      lines.push(`--color-bw-match-${amount}: var(--${mode}-color-bw-match-${amount};`);
-      lines.push(`--color-bw-reverse-${amount}: var(--${mode}-color-bw-reverse-${amount};`);
+      lines.push(`--bw-match-${amount}: var(--${scrubStyle(data.name)}-bw-match-${amount});`);
+      lines.push(`--bw-reverse-${amount}: var(--${scrubStyle(data.name)}-bw-reverse-${amount});`);
     }
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicBwVars'].innerHTML = out;
@@ -557,8 +533,6 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicColorVars'].innerHTML = out;
   }
 
-  // Stuff to deliver as part of the baseline
-  // for setting up a page that folks can edit
   reloadDynamicPickerStyles() {
     const out = `
 * {

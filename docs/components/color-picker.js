@@ -188,11 +188,23 @@ const template = `
       data-kind="number-of-colors-selector"
     ></select>
   </div>
+  <h4>TODO List</h4>
     <ul>
-      <li>TODO: Rename of CSS variables</li>
-      <li>TODO: Copy button for CSS</li>
-      <li>TODO: Edit CSS</li>
-      <li>TODO: Edit HTML</li>
+      <li><input type="checkbox" disabled /> Contrast calculations</li>
+      <li><input type="checkbox" disabled /> Undo/Redo</li>
+      <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
+      <li><input type="checkbox" disabled /> Faded alternatives</li>
+      <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
+      <li><input type="checkbox" disabled /> Optional utility classes</li>
+      <li><input type="checkbox" disabled /> Change CSS variable names</li>
+      <li><input type="checkbox" disabled /> Copy button for CSS</li>
+      <li><input type="checkbox" disabled /> Edit CSS</li>
+      <li><input type="checkbox" disabled /> Edit HTML</li>
+      <li><input type="checkbox" disabled /> Save/Load</li>
+      <li><input type="checkbox" disabled /> Shareable URLs</li>
+      <li><input type="checkbox" disabled /> Implementation example</li>
+      <li><input type="checkbox" disabled /> Web component</li>
+      <li><input type="checkbox" disabled /> Randomizer</li>
     </ul>
   </details>
 </fieldset>
@@ -284,28 +296,28 @@ const defaultPalette = {
   "maxNumberOfFaded": 2,
   "modes": [
     {
-      "base": { "l": 60, "c": 0.0, "h": 0 },
+      "base": { "l": 67.67, "c": 0.0504, "h": 73.872 },
       "bwValues": [100, 0],
       "category": 3,
       "colors": [],
       "name": "Light",
     },
     {
-      "base": { "l": 100, "c": 0.0, "h": 0 },
+      "base": { "l": 100, "c": 0.0492, "h": 101.484 },
       "bwValues": [100, 0],
       "category": 2,
       "colors": [],
       "name": "High-Contrast Light",
     },
     { 
-      "base": { "l": 20, "c": 0.0, "h": 0 },
+      "base": { "l": 24.68, "c": 0.05523, "h": 354.348 },
       "bwValues": [0, 100],
       "category": 0,
       "colors": [],
       "name": "Dark",
     },
     { 
-      "base": { "l": 0, "c": 0.0, "h": 0 },
+      "base": { "l": 5.89, "c": 0.21735, "h": 360 },
       "bwValues": [0, 100],
       "category": 1,
       "colors": [],
@@ -474,11 +486,12 @@ class Picker extends HTMLElement {
       for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++ ) {
         const hueWrapper = dc('div');
         this.getLightLevelValues().forEach((level, levelIndex) => {
-          const lightLevel = dc('button'); 
-          ac('color-light-level', lightLevel);
-          ac(`hue-selector--mode-${p.activeMode}--color-${index}--hue-${hueIndex}--lightness-${levelIndex}`, lightLevel);
-          html(level.toString().padStart(3, '0'), lightLevel);
-          a(lightLevel, hueWrapper);
+          const button = dc('button'); 
+          ad('kind', 'color-hue-lightness-button', button);
+          ac('color-light-level', button);
+          ac(`hue-selector--mode-${p.activeMode}--color-${index}--hue-${hueIndex}--lightness-${levelIndex}`, button);
+          html(level.toString().padStart(3, '0'), button);
+          a(button, hueWrapper);
         });
         a(hueWrapper, hueSetEl);
       }
@@ -726,7 +739,7 @@ COLORS
   border-radius: 0.3rem;
 }
 .base-slider {
-  accent-color: var(--BWREVERSE-40);
+  accent-color: var(--BWREVERSE-90);
   height: 1px;
 }
 body { 
@@ -818,7 +831,9 @@ pre{
       this.updateBaseSliders();
       this.initColors();
       triggerRefresh = true;
-    } 
+    } else if (event.target.dataset.kind === "color-hue-lightness-button") {
+      dbg(event.target.dataset);
+    }  
     if (triggerRefresh === true) {
       window.requestAnimationFrame(this.requestRender);
     }

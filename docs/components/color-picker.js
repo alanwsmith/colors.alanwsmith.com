@@ -204,28 +204,28 @@ const colorElementTemplate = `
 
 const defaultColors = [
   {
-    "chroma": 0.0,
+    "chroma": 0,
     "fadedValues": [40, 80],
-    "lightLevel": 2,
+    "lightLevel": 0,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
   {
-    "chroma": 0.0,
+    "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 1,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
   {
-    "chroma": 0.0,
+    "chroma": 0,
     "fadedValues": [40, 80],
-    "lightLevel": 3,
+    "lightLevel": 4,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
   {
-    "chroma": 0.0,
+    "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 5,
     "hueRotationsIndex": 3,
@@ -333,6 +333,10 @@ class Picker extends HTMLElement {
 
   getColorL(mode, color) {
     return this.getLightLevelValues()[p.modes[mode].colors[color].lightLevel];
+  }
+
+  getColorC(mode, color) {
+    return p.modes[mode].colors[color].chroma;
   }
 
   getLightLevelValues() {
@@ -566,10 +570,8 @@ ${sheets.join("\n")}
       for (let index = 0; index < p.numberOfColors; index ++) {
         const colorName = p.colorNames[index];
         const l = this.getColorL(mode, index);
-        const c = 0.1;
+        const c = this.getColorC(mode, index);
         const h = 200;
-        //const l = p.lightLevels[p.modes[mode].colors[index].lightLevel];
-        //const c = p.lightLevels[p.modes[mode].colors[index].chroma];
         //const h = this.getHueForColor(mode, index);
         lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
       }

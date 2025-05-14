@@ -215,13 +215,11 @@ class Picker extends HTMLElement {
       const key = config.aspects[index].key;
       const token = `base-slider`;
       const connector = `${token}-${index}`;
-
       const div = dc('div');
       ac(div, [
         `${token}-wrapper`, 
         `${token}-wrapper-${index}`
       ]);
-
       const label = dc('label');
       ac(label, [
         `${token}-label`, 
@@ -229,7 +227,6 @@ class Picker extends HTMLElement {
       ]);
       sa(label, 'for', connector);
       html(label, config.aspects[index].name)
-
       const slider = dc('input');
       ac(slider, [
         `${token}`, 
@@ -241,11 +238,9 @@ class Picker extends HTMLElement {
       sa(slider, 'max', this.getAspectMax(key));
       sa(slider, 'step', this.getAspectStep(key).toFixed(5));
       slider.value = p.modes[p.activeMode].base[key]
-
       ad(slider, 'kind', 'base');
       ad(slider, 'mode', p.activeMode);
       ad(slider, 'aspect', key);
-
       a(div, label);
       a(div, slider);
       a('base-sliders', div);
@@ -363,7 +358,6 @@ ${sheets.join("\n")}
     this.updateBaseColorsStyleSheet();
   }
 
-
   updatePickerStyles() {
     this.styleSheets['pickerStyles'].innerHTML = `
 * {
@@ -371,8 +365,7 @@ ${sheets.join("\n")}
 }
 
 .base-slider {
-  background-color: red;
-  accent-color: var(--color-bw-reverser-70);
+  accent-color: var(--light-color-bw-match-20);
   height: 1px;
 }
 

@@ -187,7 +187,7 @@ const defaultPalette = {
     "extra",
     "bonus"
   ],
-  "fadedNames": ["fader", "fader-2"],
+  "fadedNames": ["faded", "faded-2"],
   "modes": [
     {
       "base": { "l": 50, "c": 0.0, "h": 0 },
@@ -410,6 +410,11 @@ body {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
     };
+    data.palettes[0].modes.forEach((modeData) => {
+      for (let index = 0; index < config.maxNumberOfColors; index ++) {
+        modeData.colors.push(defaultColors[modeData.key]);
+      }
+    });
   }
 
   renderDebuggingInfo() {

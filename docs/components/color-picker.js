@@ -241,7 +241,18 @@ const defaultPalette = {
     "c": { "name": "chroma", "max": 0.3 },
     "h": { "name": "hue", "max": 360 }
   },
+  "backgroundStyleName": "background",
   "baseColorName": "color-base",
+  "borderStylePrefix": "border",
+  "borderTypes": [
+    ["full", false],
+    ["top", true],
+    ["bottom", true],
+    ["left", true],
+    ["right", true],
+    ["inline", true],
+    ["block", true],
+  ],
   "bwNames": ["bw-match", "bw-reverse"],
   "colorNames": [
     "color-primary",
@@ -458,6 +469,7 @@ class Picker extends HTMLElement {
       'dynamicColorSwitches',
       'dynamicColorVars',
       'dynamicPickerStyles', 
+      'dynamicUtilityClasses', 
     ];
     sheetNames.forEach((name) => {
       this.styleSheets[name] = document.createElement('style');
@@ -592,7 +604,6 @@ ${sheets.join("\n")}
 * Color Picker Style Template Colors:
 COLORS
 */
-
 *, 
 *::before, 
 *::after {
@@ -648,6 +659,44 @@ pre{
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 
+  reloadDynamicUtilityClasses() {
+    const lines = [];
+    lines.push(`.${p.baseColorName} { color: var(--${p.baseColorName}); }`);
+    lines.push(`.${p.backgroundStyleName}-${p.baseColorName} { background-color: var(--${p.baseColorName}); }`);
+    for (let index = 0; index < p.numberOfColors; index ++) {
+      const colorName = p.colorNames[index];
+      lines.push(`.${colorName} { color: var(--${colorName}); `);
+      lines.push(`.${p.backgroundStyleName}-${colorName} { background-color: var(--${colorName}); `);
+      db(p.borderTypes);
+      p.borderTypes.forEach((data) => {
+        if (data[1] === true) {
+          lines.push(`.${p.borderStylePrefix}-${colorName}-${data[0]} { background-${data[0]}: 1px solid var(--${colorName}); `);
+        }
+      });
+    }
+
+    //p.modes.forEach((data, mode) => {
+    //  const category = data.category;
+    //  const modeName = scrubStyle(data.name);
+    //  const lBase = data.base.l;
+    //  const cBase = data.base.c;
+    //  const hBase = data.base.h;
+    //  lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase}% ${cBase} ${hBase});`);
+    //  for (let index = 0; index < p.numberOfColors; index ++) {
+    //    const colorName = p.colorNames[index];
+    //    const l = this.getColorL(mode, index);
+    //    const c = this.getColorC(mode, index);
+    //    const h = 200;
+    //    //const h = this.getHueForColor(mode, index);
+    //    lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
+    //  }
+    //});
+
+    const out = lines.sort().join("\n");
+    this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
+  }
+
+
   updateData(event) {
     if (event.target.dataset.kind === "base") {
       const aspect = gds(event, 'aspect');
@@ -689,6 +738,7 @@ pre{
     this.reloadDynamicColorSwitches();
     this.reloadDynamicColorVars();
     this.reloadDynamicBwVars();
+    this.reloadDynamicUtilityClasses();
   }
 
 }

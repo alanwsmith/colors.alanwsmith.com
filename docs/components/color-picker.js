@@ -206,28 +206,28 @@ const defaultColors = [
   {
     "chroma": 0.0,
     "fadedValues": [40, 80],
-    "lightLevel": 4,
+    "lightLevel": 2,
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
+  },
+  {
+    "chroma": 0.0,
+    "fadedValues": [10, 20],
+    "lightLevel": 1,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
   {
     "chroma": 0.0,
     "fadedValues": [40, 80],
-    "lightLevel": 1,
+    "lightLevel": 3,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
   {
     "chroma": 0.0,
     "fadedValues": [10, 20],
-    "lightLevel": 1,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
-  },
-  {
-    "chroma": 0.0,
-    "fadedValues": [10, 20],
-    "lightLevel": 0,
+    "lightLevel": 5,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   }
@@ -260,7 +260,7 @@ const defaultPalette = {
   "maxNumberOfFaded": 2,
   "modes": [
     {
-      "base": { "l": 50, "c": 0.0, "h": 0 },
+      "base": { "l": 60, "c": 0.0, "h": 0 },
       "bwValues": [100, 0],
       "category": 3,
       "colors": [],
@@ -331,6 +331,19 @@ class Picker extends HTMLElement {
     return p.aspects[key].max / 10000;
   }
 
+  getColorL(mode, color) {
+    return this.getLightLevelValues()[p.modes[mode].colors[color].lightLevel];
+  }
+
+  getLightLevelValues() {
+    const lightLevelValues = [];
+    for (let level = 0; level <= 100; level += Math.floor(100 / (p.lightLevels - 1))) {
+      lightLevelValues.push(level);
+    }
+    return lightLevelValues;
+  }
+
+  // TODO: Rename to getColorH
   getHueForColor(mode, color) {
     const baseHue = p.modes[mode].base.h;
     const rotationMultiplier = p.hueRotations[p.modes[mode].colors[color].hueRotationsIndex];
@@ -462,11 +475,11 @@ class Picker extends HTMLElement {
   }
 
   loadData() {
-    db("Loading data");
     const checkData = localStorage.getItem(
       config.storageName
     );
     if (checkData && checkData.version[0] === 1) {
+      db(`Loaded colors from storage`);
       p = checkData;
     } else {
       this.loadDefaults();
@@ -475,7 +488,6 @@ class Picker extends HTMLElement {
   }
 
   loadDefaults() {
-    db("Loading defaults");
     data = {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
@@ -485,6 +497,7 @@ class Picker extends HTMLElement {
         modeData.colors.push(defaultColors[mode]);
       }
     });
+    db("Loaded default colors");
   }
 
   renderDebuggingInfo() {
@@ -545,18 +558,21 @@ ${sheets.join("\n")}
     const lines = [];
     p.modes.forEach((data, mode) => {
       const category = data.category;
-      const name = scrubStyle(data.name);
+      const modeName = scrubStyle(data.name);
       const lBase = data.base.l;
       const cBase = data.base.c;
       const hBase = data.base.h;
-      lines.push(`--${name}-color-base: oklch(${lBase}% ${cBase} ${hBase});`);
-      // for (let index = 0; index < p.numberOfColors; index ++) {
-      //   const name = p.colorNames[index];
-      //   const l = p.lightLevels[p.modes[modeIndex].colors[index].lightLevel];
-      //   const c = p.lightLevels[p.modes[modeIndex].colors[index].chroma];
-      //   const h = this.getHueForColor(modeIndex, index);
-      //   lines.push(`--${mode}-color-${name}: oklch(${l}% ${c} ${h});`);
-      // }
+      lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase}% ${cBase} ${hBase});`);
+      for (let index = 0; index < p.numberOfColors; index ++) {
+        const colorName = p.colorNames[index];
+        const l = this.getColorL(mode, index);
+        const c = 0.1;
+        const h = 200;
+        //const l = p.lightLevels[p.modes[mode].colors[index].lightLevel];
+        //const c = p.lightLevels[p.modes[mode].colors[index].chroma];
+        //const h = this.getHueForColor(mode, index);
+        lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
+      }
     });
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicColorVars'].innerHTML = out;

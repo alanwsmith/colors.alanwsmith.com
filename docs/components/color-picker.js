@@ -79,7 +79,6 @@ function d(value) {
   }
 }
 
-
 // Document Create
 function dc(name) {
   return document.createElement(name);
@@ -93,6 +92,21 @@ function el(className) {
 // Get Float From DataSet Key From Event
 function gf(key, event) {
   return parseFloat(event.target.dataset[key])
+}
+
+// Get Int From DataSet Key From Event
+function gi(key, event) {
+  return parseInt(event.target.dataset[key], 10)
+}
+
+// Get String From DataSet Key From Event
+function gs(key, event) {
+  return event.target.dataset[key]
+}
+
+// Get Value From an Event
+function gv(event) {
+  return parseFloat(event.target.value)
 }
 
 // Set InnerHTML
@@ -151,13 +165,11 @@ const defaultPalette = {
       "base": { "l": 90, "c": 0.0, "h": 0 },
       "colors": [],
       "key": "light",
-      "name": "Light",
     },
     { 
       "base": { "l": 20, "c": 0.0, "h": 0 },
       "colors": [],
       "key": "dark",
-      "name": "Dark",
     }
   ],
   "name": "Color Palette",
@@ -374,26 +386,39 @@ ${sheets.join("\n")}
     el('palette-name').innerHTML = p.name;
   }
 
-  updateBaseColorsStyleSheet() {
+  updateColorVarsStyleSheet() {
+    const lines = [
+      "--color-base: var(--light-color-base);",
+      "--color-primary: #333;"
+    ];
+
+    p.modes.forEach((modeData) => {
+      const mode = modeData.key;
+      const l = modeData.base.l;
+      const c = modeData.base.c;
+      const h = modeData.base.h;
+      lines.push(`--${mode}-color-base: oklch(${l}% ${c} ${h});`);
+      d(modeData);
+    });
+
     this.styleSheets['baseColors'].innerHTML = `
 :root {
---color-base: oklch(20% 0 0); 
---color-primary: oklch(90% 0 0 );
+${lines.sort().join("\n")}
 }`;
   }
 
   updateData(event) {
     if (event.target.dataset.kind === "base") {
-      d(gf('mode', event));
-
-
-      window.requestAnimationFrame(this.requestRender);
+      const mode = gi('mode', event);
+      const aspect = gs('aspect', event);
+      p.modes[mode].base[aspect] = gv(event);
     }
-    //this.renderPage();
+    this.updateStyleSheets();
+    window.requestAnimationFrame(this.requestRender);
   }
 
   updateStyleSheets() {
-    this.updateBaseColorsStyleSheet();
+    this.updateColorVarsStyleSheet();
   }
 
 }

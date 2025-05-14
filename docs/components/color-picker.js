@@ -237,7 +237,7 @@ const defaultColors = [
     // TODO: DEPRECATE lightlevel to inside degree set stuff
     "lightLevel": 0,
     "degreeSet": 0,
-    "degreeSetValues": [
+    "degreeOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -255,7 +255,7 @@ const defaultColors = [
     "fadedValues": [10, 20],
     "lightLevel": 1,
     "degreeSet": 0,
-    "degreeSetValues": [
+    "degreeOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -273,7 +273,7 @@ const defaultColors = [
     "fadedValues": [40, 80],
     "lightLevel": 4,
     "degreeSet": 0,
-    "degreeSetValues": [
+    "degreeOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -291,7 +291,7 @@ const defaultColors = [
     "fadedValues": [10, 20],
     "lightLevel": 5,
     "degreeSet": 0,
-    "degreeSetValues": [
+    "degreeOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -338,7 +338,7 @@ const defaultPalette = {
     "bonus-color"
   ],
   "fadedNames": ["faded", "faded-2"],
-  "degreeSetIndexes": [60, 45],
+  "degreeOffsets": [60, 45],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -518,7 +518,7 @@ class Picker extends HTMLElement {
       ad("mode", p.activeMode, selector);
       sa("name", `color-hue-set-selector-${index}`, selector);
       ad("color", index, selector);
-      p.degreeSetIndexes.forEach((hs, hsIndex) => {
+      p.degreeOffsets.forEach((hs, hsIndex) => {
         const opt = dc('option');
         sv(hsIndex, opt);
         html(`${hs}°`, opt);
@@ -528,7 +528,7 @@ class Picker extends HTMLElement {
         a(opt, selector);
       });
       const degreeSetEl = colorEl.querySelector('.color-hue-set');
-      const hueCount = Math.round(360 / p.degreeSetIndexes[
+      const hueCount = Math.round(360 / p.degreeOffsets[
         colorData.degreeSet
       ]);
       for (let degreeSetIndex = 0; degreeSetIndex < hueCount; degreeSetIndex ++ ) {
@@ -543,7 +543,7 @@ class Picker extends HTMLElement {
           ad('lightness', levelIndex, button);
           //ad('color', index, button);
           ac('color-light-level', button);
-          ac(`hue-selector--mode-${p.activeMode}--color-${index}--hue-${degreeSetIndex}--lightness-${levelIndex}`, button);
+          ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${index}--lightness-${levelIndex}--hue-${degreeSetIndex}`, button);
           html(level.toString().padStart(3, '0'), button);
           a(button, degreeSetWrapper);
         });
@@ -744,16 +744,23 @@ ${sheets.join("\n")}
   }
 
   reloadDynamicInterfaceClasses() {
+
+          //ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${index}--lightness-${levelIndex}--hue-${degreeSetIndex}`, button);
     const lines = [];
     for (let color = 0; color < p.numberOfColors; color ++) {
       const colorData = p.modes[p.activeMode].colors[color];
-      const hueCount = Math.round(360 / p.degreeSetIndexes[colorData.degreeSet]);
+      const hueCount = Math.round(360 / p.degreeOffsets[colorData.degreeSet]);
       for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
         this.getLightLevelValues().reverse().forEach((lightLevel, lightIndex) => {
-          const className = `.hue-selector--mode-${p.activeMode}--color-${color}--hue-${hueIndex}--lightness-${lightIndex}`;
+          const className = `.color-lightness-hue-selector--mode-${p.activeMode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
           const c = p.modes[p.activeMode].colors[color].chroma;
-          const h = p.modes[p.activeMode].colors[color].degreeSetIndexes;
-          //dbg(c)
+          const h = p.modes[p.activeMode].colors[color].degreeOffsets;
+
+          //const hueMultiplier = 
+
+
+
+
           const style = `oklch(${lightLevel}% ${c} 0)`;
           lines.push(
             `${className} { color: ${style};}`
@@ -887,8 +894,9 @@ pre{
       const degreeSet = gdi("degreeset", event);
       const offsetIndex = gdi("degreesetindex", event);
       const lightnessIndex = gdi("lightness", event);
-      p.modes[mode].colors[color].degreeSetValues[degreeSet].h = offsetIndex ;
-      p.modes[mode].colors[color].degreeSetValues[degreeSet].l = offsetIndex ;
+      p.modes[mode].colors[color].degreeOffsetValues[degreeSet].h = offsetIndex ;
+      p.modes[mode].colors[color].degreeOffsetValues[degreeSet].l = offsetIndex ;
+      dbg(p.modes[mode].colors[color]);
       triggerRefresh = true;
     }  
     if (triggerRefresh === true) {

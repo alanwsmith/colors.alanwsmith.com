@@ -109,6 +109,11 @@ function gv(event) {
   return parseFloat(event.target.value)
 }
 
+// Get Integer from Value of an Event
+function giv(event) {
+  return parseInt(event.target.value, 10)
+}
+
 // Set InnerHTML
 function html(obj, str) {
   obj.innerHTML = str;
@@ -131,7 +136,11 @@ const template = `
     <label for="number-of-colors-selector-label">
       Number of Colors:
     </label>
-    <select name="number-of-colors-selector" class="number-of-colors-selector"></select>
+    <select 
+      name="number-of-colors-selector" 
+      class="number-of-colors-selector"
+      data-kind="number-of-colors-selector"
+    ></select>
   </div>
 </fieldset>
 <div class="debug"></div>
@@ -429,6 +438,12 @@ ${lines.sort().join("\n")}
       const mode = gi('mode', event);
       const aspect = gs('aspect', event);
       p.modes[mode].base[aspect] = gv(event);
+    }
+    else if (event.target.dataset.kind === "number-of-colors-selector") {
+      const checkNum = giv(event);
+      if (p.numberOfColors !== checkNum) {
+        p.numberOfColors = checkNum;
+      }
     }
     this.updateStyleSheets();
     window.requestAnimationFrame(this.requestRender);

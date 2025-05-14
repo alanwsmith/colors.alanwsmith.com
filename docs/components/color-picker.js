@@ -71,13 +71,13 @@ function ac(data, obj) {
   }
 }
 
-// Add Data
-function ad(obj, key, value) {
+// Add Key Value Data To Dataset
+function ad(key, value, obj) {
   obj.dataset[key] = value;
 }
 
 // Debug
-function db(value) {
+function dbg(value) {
   if (debug === true) {
     console.log(value);
   }
@@ -124,7 +124,7 @@ function gvs(event) {
 }
 
 // Set InnerHTML
-function html(obj, str) {
+function html(str, obj) {
   obj.innerHTML = str;
 }
 
@@ -142,6 +142,11 @@ function rc(data, obj) {
 // Set Attribute
 function sa(key, value, obj) {
   obj.setAttribute(key, value);
+}
+
+// Set Value 
+function sv(value, obj) {
+  obj.value = value;
 }
 
 // Make CSS strings lower case for consistency
@@ -165,12 +170,14 @@ const template = `
 <!--
 <h2 class="palette-name"></h2>
 -->
-<fieldset class="base-wrapper settings-fieldset">
-  <legend>Base</legend>
+<fieldset class="base-wrapper settings-fieldset flow">
+  <div class="view-light-dark-wrapper">
+    <span class="view-mode-buttons-text">Mode:</span>
+    <div class="view-mode-buttons"></div>
+  </div>
   <div class="base-sliders"></div>
-</fieldset>
-<fieldset class="settings-wrapper settings-fieldset">
-  <legend>Settings</legend>
+  <details class="flow">
+    <summary>Advanced Settings</summary>
   <div class="number-of-colors-wrapper">
     <label for="number-of-colors-selector-label">
       Number of Colors:
@@ -181,10 +188,13 @@ const template = `
       data-kind="number-of-colors-selector"
     ></select>
   </div>
-  <div class="view-light-dark-wrapper">
-    <span class="view-mode-buttons-text">Mode:</span>
-    <div class="view-mode-buttons"></div>
-  </div>
+    <ul>
+      <li>TODO: Rename of CSS variables</li>
+      <li>TODO: Copy button for CSS</li>
+      <li>TODO: Edit CSS</li>
+      <li>TODO: Edit HTML</li>
+    </ul>
+  </details>
 </fieldset>
 <div class="main-content">
   <div class="example-content">
@@ -193,46 +203,46 @@ const template = `
   <div class="colors-content-wrapper">
   </div>
 </div>
-<div class="debug"></div>
+<div class="debug flow"></div>
 `;
 
 const colorElementInternalTemplate = `
 <div class="color-name">Color Name</div>
 <div class="hue-set-wrapper">
-  <label for="TODO-with-index" class="color-hue-set-selector-label">Hue Set (either 45degrees or 60degrees)</label>
-  <select name="TODO-with-index" class="color-hue-set-selector"></select>
+  <label class="color-hue-set-selector-label">Hue Set (either 45degrees or 60degrees)</label>
+  <select class="color-hue-set-selector"></select>
   <div class="color-hue-set">---</div>
 </div>
 `;
 
 const defaultColors = [
   {
-    "activeHueSet": 1,
-    "chroma": 0,
+    "chroma": 0.1,
     "fadedValues": [40, 80],
     "lightLevel": 0,
-    "hueSets": [],
+    "hueSet": 0,
+    "hueSets": [0, 0],
   },
   {
-    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 1,
-    "hueSets": [],
+    "hueSet": 0,
+    "hueSets": [0, 0],
   },
   {
-    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [40, 80],
     "lightLevel": 4,
-    "hueSets": [],
+    "hueSet": 0,
+    "hueSets": [0, 0],
   },
   {
-    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 5,
-    "hueSets": [],
+    "hueSet": 0,
+    "hueSets": [0, 0],
   }
 ];
 
@@ -268,7 +278,7 @@ const defaultPalette = {
     "bonus-color"
   ],
   "fadedNames": ["faded", "faded-2"],
-  "hueSets": [45, 60],
+  "hueSets": [60, 45],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -329,6 +339,9 @@ class Picker extends HTMLElement {
   }
 
   addListeners() {
+    this.addEventListener('change', (event) => {
+      this.updateData.call(this, event);
+     })
     this.addEventListener('click', (event) => {
       this.updateData.call(this, event);
      })
@@ -389,7 +402,7 @@ class Picker extends HTMLElement {
         `${token}-label-${key}`
       ], label);
       sa('for', connector, label);
-      html(label, p.aspects[key].name)
+      html(p.aspects[key].name, label);
       const slider = dc('input');
       ac([
         `${token}`, 
@@ -401,8 +414,8 @@ class Picker extends HTMLElement {
       sa('max', this.getAspectMax(key), slider);
       sa('step', this.getAspectStep(key).toFixed(5), slider);
       slider.value = p.modes[p.activeMode].base[key]
-      ad(slider, 'kind', 'base');
-      ad(slider, 'aspect', key);
+      ad('kind', 'base', slider);
+      ad('aspect', key, slider);
       a(label, div);
       a(slider, div);
       a(div, 'base-sliders');
@@ -428,25 +441,47 @@ class Picker extends HTMLElement {
     // number of colors changes, or the names
     // of the colors change.
     const wrapper = el('colors-content-wrapper');  
-    html(wrapper, "");
+    html("", wrapper);
     for (let index = 0; index < p.numberOfColors; index ++) {
+      const colorData = p.modes[p.activeMode].colors[index];
       const colorEl = dc('div'); 
       ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
-      html(colorEl, colorElementInternalTemplate);
+      html(colorElementInternalTemplate, colorEl);
       a(colorEl, wrapper);
       const colorNameEl = colorEl.querySelector('.color-name');
       ac([`color-name-${index}`], colorNameEl);
       ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
-      html(colorNameEl, p.colorNames[index]);
+      html(p.colorNames[index], colorNameEl);
       const selector = colorEl.querySelector('.color-hue-set-selector');
+      ac([`color-hue-set-selector-${index}`], selector);
+      ad("kind", "color-hue-set-selector", selector);
+      ad("mode", p.activeMode, selector);
+      sa("name", `color-hue-set-selector-${index}`, selector);
+      ad("color", index, selector);
       p.hueSets.forEach((hs, hsIndex) => {
         const opt = dc('option');
-        html(opt, `${hs}°`);
-        if (hsIndex === p.modes[p.activeMode].colors[index].activeHueSet) {
-          sa('selected', true, opt);
+        sv(hsIndex, opt);
+        html(`${hs}°`, opt);
+        if (hsIndex === p.modes[p.activeMode].colors[index].hueSet) {
+          opt.selected = true;
         }
         a(opt, selector);
       });
+      const hueSetEl = colorEl.querySelector('.color-hue-set');
+      const hueCount = Math.round(360 / p.hueSets[
+        colorData.hueSet
+      ]);
+      for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++ ) {
+        const hueWrapper = dc('div');
+        this.getLightLevelValues().forEach((level, levelIndex) => {
+          const lightLevel = dc('button'); 
+          ac('color-light-level', lightLevel);
+          ac(`hue-selector--mode-${p.activeMode}--color-${index}--hue-${hueIndex}--lightness-${levelIndex}`, lightLevel);
+          html(level.toString().padStart(3, '0'), lightLevel);
+          a(lightLevel, hueWrapper);
+        });
+        a(hueWrapper, hueSetEl);
+      }
     }
   }
 
@@ -456,11 +491,11 @@ class Picker extends HTMLElement {
     // the active button.
     p.modes.forEach((data, mode) => {
       const button = dc('button');
-      html(button, data.name);
+      html(data.name, button);
       ac('mode-button', button);
       ac(`mode-button-${mode}`, button);
-      ad(button, 'kind', 'mode-button');
-      ad(button, 'mode', mode);
+      ad('kind', 'mode-button', button);
+      ad('mode', mode, button);
       a(button, el('view-mode-buttons'));
     })
   }
@@ -468,7 +503,7 @@ class Picker extends HTMLElement {
   initNumberOfColors() {
     for (let index = 0; index < p.maxNumberOfColors; index ++) {
      const opt = dc('option');
-      html(opt, index + 1);
+      html(index + 1, opt);
       if (index + 1 === p.numberOfColors) {
         opt.selected = true;
       } 
@@ -485,6 +520,7 @@ class Picker extends HTMLElement {
       'dynamicColorVars',
       'dynamicPickerStyles', 
       'dynamicUtilityClasses', 
+      'dynamicInterfaceClasses', 
     ];
     sheetNames.forEach((name) => {
       this.styleSheets[name] = document.createElement('style');
@@ -536,7 +572,7 @@ class Picker extends HTMLElement {
       config.storageName
     );
     if (checkData && checkData.version[0] === 1) {
-      db(`Loaded colors from storage`);
+      dbg(`Loaded colors from storage`);
       p = checkData;
     } else {
       this.loadDefaults();
@@ -551,10 +587,10 @@ class Picker extends HTMLElement {
     };
     data.palettes[0].modes.forEach((modeData, mode) => {
       for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
-        modeData.colors.push(defaultColors[mode]);
+        modeData.colors.push(JSON.parse(JSON.stringify(defaultColors[mode])));
       }
     });
-    db("Loaded default colors");
+    dbg("Loaded default colors");
   }
 
   renderDebuggingInfo() {
@@ -565,7 +601,14 @@ class Picker extends HTMLElement {
         sheets.push(`<pre class="debug-stylesheet">${this.styleSheets[sheetName].innerHTML}</pre>`);
       };
       el('debug').innerHTML = `
-<h2>Debugging</h2>
+<h2>Debugging - Here Be Dragons</h2>
+<p>
+  This is a prototype. The data below is
+  normally behind the scenes. It's 
+  visible now to help me finish the
+  build out. It can safely be ignored. 
+</p>
+
 <h3>Palette</h3>
 <pre>${JSON.stringify(p, null, 2)}</pre>
 <h3>Config</h3>
@@ -633,6 +676,31 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicColorVars'].innerHTML = out;
   }
 
+  reloadDynamicInterfaceClasses() {
+    const lines = [];
+    for (let color = 0; color < p.numberOfColors; color ++) {
+      const colorData = p.modes[p.activeMode].colors[color];
+      const hueCount = Math.round(360 / p.hueSets[colorData.hueSet]);
+      //dbg(hueCount);
+      //dbg(colorData);
+      for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
+        this.getLightLevelValues().reverse().forEach((lightLevel, lightIndex) => {
+          const className = `.hue-selector--mode-${p.activeMode}--color-${color}--hue-${hueIndex}--lightness-${lightIndex}`;
+          const c = p.modes[p.activeMode].colors[color].chroma;
+          const h = p.modes[p.activeMode].colors[color].hueSets;
+          //dbg(c)
+          const style = `oklch(${lightLevel}% ${c} 0)`;
+          lines.push(
+            `${className} { color: ${style};}`
+          );
+          // dbg(className);
+        });
+      }
+    }
+    const out = lines.sort().join("\n");
+    this.styleSheets['dynamicInterfaceClasses'].innerHTML = out;
+  }
+
   reloadDynamicPickerStyles() {
     const templateList = p.colorNames.map((name, index) => {
       if (index < p.numberOfColors) {
@@ -665,6 +733,9 @@ body {
   font-family: system-ui;
   background-color: var(--BASECOLOR); 
   color: var(--COLOR1);
+}
+.color-light-level {
+  border: 1px solid var(--BWREVERSE-20);
 }
 .content-wrapper {
   margin-inline: auto;
@@ -700,7 +771,6 @@ pre{
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 
-
   reloadDynamicUtilityClasses() {
     const lines = [];
     lines.push(`.${p.baseColorName} { color: var(--${p.baseColorName}); }`);
@@ -721,24 +791,37 @@ pre{
     this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
   }
 
-
   updateData(event) {
-    if (event.target.dataset.kind === "base") {
+    dbg(event.type);
+    let triggerRefresh = false;
+    if (event.target.dataset.kind === "color-hue-set-selector" && event.type === "change") {
+      const mode = gdi(event, "mode");
+      const color = gdi(event, "color");
+      const value = gvi(event);
+      p.modes[mode].colors[color].hueSet = value;
+      this.initColors();
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "base") {
       const aspect = gds(event, 'aspect');
       p.modes[p.activeMode].base[aspect] = gvf(event);
+      triggerRefresh = true;
     } else if (event.target.dataset.kind === "number-of-colors-selector") {
       const checkNum = gvi(event);
       if (p.numberOfColors !== checkNum) {
         p.numberOfColors = checkNum;
         this.initColors();
+        triggerRefresh = true;
       }
     } else if (event.target.dataset.kind === "mode-button") {
       p.activeMode = gdi(event, "mode");
       this.updateModeButtonStyles()
       this.updateBaseSliders();
       this.initColors();
+      triggerRefresh = true;
+    } 
+    if (triggerRefresh === true) {
+      window.requestAnimationFrame(this.requestRender);
     }
-    window.requestAnimationFrame(this.requestRender);
   }
 
   updateBaseSliders() {
@@ -760,6 +843,7 @@ pre{
   }
 
   reloadStyleSheets() {
+    this.reloadDynamicInterfaceClasses();
     this.reloadDynamicPickerStyles();
     this.reloadDynamicColorSwitches();
     this.reloadDynamicColorVars();

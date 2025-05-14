@@ -358,7 +358,6 @@ class Picker extends HTMLElement {
       sa(slider, 'step', this.getAspectStep(key).toFixed(5));
       slider.value = p.modes[p.activeMode].base[key]
       ad(slider, 'kind', 'base');
-      ad(slider, 'mode', p.activeMode);
       ad(slider, 'aspect', key);
       a(label, div);
       a(slider, div);
@@ -566,9 +565,8 @@ body {
 
   updateData(event) {
     if (event.target.dataset.kind === "base") {
-      const mode = gdi(event, 'mode');
       const aspect = gds(event, 'aspect');
-      p.modes[mode].base[aspect] = gvf(event);
+      p.modes[p.activeMode].base[aspect] = gvf(event);
     } else if (event.target.dataset.kind === "number-of-colors-selector") {
       const checkNum = gvi(event);
       if (p.numberOfColors !== checkNum) {
@@ -577,8 +575,16 @@ body {
       }
     } else if (event.target.dataset.kind === "mode-button") {
       p.activeMode = gdi(event, "mode");
+      this.updateBaseSliders();
     }
     window.requestAnimationFrame(this.requestRender);
+  }
+
+  updateBaseSliders() {
+    for (let key in p.aspects) {
+      const slider = el(`base-slider-${key}`);
+      slider.value = p.modes[p.activeMode].base[key];
+    }
   }
 
   reloadStyleSheets() {

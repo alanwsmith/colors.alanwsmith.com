@@ -148,6 +148,13 @@ const template = `
     ></select>
   </div>
 </fieldset>
+<div class="main-content">
+  <div class="example-content">
+    <h1>Welcome To Alan's Color Picker</h1>
+  </div>
+  <div class="colors-content-wrapper">
+  </div>
+</div>
 <div class="debug"></div>
 `;
 
@@ -319,6 +326,19 @@ ${lines.sort().join("\n")}
     this.styleSheets['bwVars'].innerHTML = out;
   }
 
+
+  initColors() {
+    // Clear it first so this can be used if the
+    // number of colors changes. 
+    const wrapper = el('colors-content-wrapper');  
+    html(wrapper, "");
+    for (let index = 0; index < p.numberOfColors; index ++) {
+      const color = dc("div");
+      html(color, p.colorNames[index]);
+      a(wrapper, color);
+    }
+  }
+
   initNumberOfColors() {
     for (let index = 0; index < config.maxNumberOfColors; index ++) {
      const opt = dc('option');
@@ -369,6 +389,7 @@ body {
     this.append(content);
     this.initBaseSliders();
     this.initNumberOfColors();
+    this.initColors();
   }
 
   loadData() {

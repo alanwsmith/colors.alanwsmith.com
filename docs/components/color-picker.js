@@ -249,28 +249,28 @@ const defaultPalette = {
   "modes": [
     {
       "base": { "l": 50, "c": 0.0, "h": 0 },
-      "bwOpacity": [0, 100],
+      "bwValues": [100, 0],
       "category": 3,
       "colors": [],
       "name": "Light",
     },
     { 
       "base": { "l": 20, "c": 0.0, "h": 0 },
-      "bwOpacity": [100, 0],
+      "bwValues": [0, 100],
       "category": 0,
       "colors": [],
       "name": "Dark",
     },
     {
       "base": { "l": 100, "c": 0.0, "h": 0 },
-      "bwOpacity": [0, 100],
+      "bwValues": [100, 0],
       "category": 2,
       "colors": [],
       "name": "High-Contrast Light",
     },
     { 
       "base": { "l": 0, "c": 0.0, "h": 0 },
-      "bwOpacity": [100, 0],
+      "bwValues": [0, 100],
       "category": 1,
       "colors": [],
       "name": "High-Contrast Dark",
@@ -377,27 +377,17 @@ class Picker extends HTMLElement {
   }
 
   initStaticBwVars() {
-    // using local modes here since there
-    // are really only these two. (it would
-    // be overly complicated to figure out what
-    // would need to happen for others. 
-    const localModes = ['light', 'dark'];
-    //const out = [":root {"];
     const lines = [];
-    localModes.forEach((mode) => {
-      let num1 = 100;
-      let num2 = 0;
-      if (mode === 'dark') {
-        num1 = 0;
-        num2 = 100;
-      }
-      lines.push(`--${mode}-color-bw-match: oklch(${num1}% 0 0);`);
-      lines.push(`--${mode}-color-bw-reverse: oklch(${num2}% 0 0);`);
+    p.modes.forEach((data, mode) => {
+      lines.push(`--${scrubStyle(data.name)}-bw-match: oklch(${data.bwValues[0]}% 0 0);`);
+      lines.push(`--${scrubStyle(data.name)}-bw-reverse: oklch(${data.bwValues[1]}% 0 0);`);
       for (let amount = 10; amount < 100; amount += 10) {
-        lines.push(`--${mode}-color-bw-match-${amount}: oklch(${num1}% 0 0 / ${amount}%);`);
-        lines.push(`--${mode}-color-bw-reverse-${amount}: oklch(${num2}% 0 0 / ${amount}%);`);
+        lines.push(`--${scrubStyle(data.name)}-bw-match-${amount}: oklch(${data.bwValues[0]}% 0 0 / ${amount}%);`);
+        lines.push(`--${scrubStyle(data.name)}-bw-reverse-${amount}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
       }
     })
+
+
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['staticBwVars'].innerHTML = out;
   }

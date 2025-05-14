@@ -60,7 +60,7 @@ function a(child, parent) {
   }
 }
 
-// Add ClassList to Object
+// Add classes to Object
 function ac(data, obj) {
   if (typeof data === "string") {
     obj.classList.add(data);
@@ -126,6 +126,17 @@ function gvs(event) {
 // Set InnerHTML
 function html(obj, str) {
   obj.innerHTML = str;
+}
+
+// Remove classes from Object
+function rc(data, obj) {
+  if (typeof data === "string") {
+    obj.classList.remove(data);
+  } else {
+    data.forEach((c) => {
+      obj.classList.remove(c);
+    });
+  }
 }
 
 // Set Attribute
@@ -396,6 +407,9 @@ class Picker extends HTMLElement {
   }
 
   initModeButtons() {
+    // TODO: Figure out what the proper
+    // aria label is to add to indicate 
+    // the active button.
     p.modes.forEach((data, mode) => {
       const button = dc('button');
       html(button, data.name);
@@ -442,6 +456,7 @@ class Picker extends HTMLElement {
     this.initModeButtons();
     this.initNumberOfColors();
     this.initColors();
+    this.updateModeButtonStyles()
   }
 
   loadData() {
@@ -550,6 +565,10 @@ ${sheets.join("\n")}
 * {
   margin: 0;
 }
+.active-mode-button {
+  outline: 1px solid red;
+  border-radius: 0.3rem;
+}
 .base-slider {
   accent-color: var(--light-color-bw-match-20);
   height: 1px;
@@ -575,6 +594,7 @@ body {
       }
     } else if (event.target.dataset.kind === "mode-button") {
       p.activeMode = gdi(event, "mode");
+      this.updateModeButtonStyles()
       this.updateBaseSliders();
     }
     window.requestAnimationFrame(this.requestRender);
@@ -585,6 +605,17 @@ body {
       const slider = el(`base-slider-${key}`);
       slider.value = p.modes[p.activeMode].base[key];
     }
+  }
+
+  updateModeButtonStyles() {
+    p.modes.forEach((data, index) => {
+      const button = el(`mode-button-${index}`);
+      if (index === p.activeMode) {
+        ac('active-mode-button', button);
+      } else {
+        rc('active-mode-button', button);
+      }
+    });
   }
 
   reloadStyleSheets() {

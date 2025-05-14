@@ -279,7 +279,6 @@ class Picker extends HTMLElement {
     const rotationCount = p.modes[mode].colors[color].hueRotationCount;
     const rotationAdjustment = rotationMultiplier * rotationCount;
     let colorHue = baseHue + rotationAdjustment;
-
     if (colorHue > 360) {
       colorHue -= 360
     }
@@ -503,11 +502,15 @@ ${sheets.join("\n")}
   }
 
   reloadDynamicColorSwitches() {
-    const lines = [
-      "--color-base: var(--light-color-base);",
-    ];
-    this.styleSheets['dynamicColorSwitches'].innerHTML =
-      `:root {\n${lines.sort().join("\n")}\n}`;
+    const lines = [];
+    for (let index = 0; index < p.numberOfColors; index ++) {
+      const name = p.colorNames[index];
+      lines.push(`--color-${name}: var(--${p.modes[p.activeMode].key}-color-${name});`);
+    }
+    lines.push(`--color-base: var(--${p.modes[p.activeMode].key}-color-base);`);
+
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['dynamicColorSwitches'].innerHTML = out;
   }
 
   reloadDynamicColorVars() {

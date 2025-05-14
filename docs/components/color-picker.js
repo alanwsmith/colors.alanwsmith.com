@@ -165,11 +165,11 @@ const template = `
 <!--
 <h2 class="palette-name"></h2>
 -->
-<fieldset class="base-wrapper">
+<fieldset class="base-wrapper settings-fieldset">
   <legend>Base</legend>
   <div class="base-sliders"></div>
 </fieldset>
-<fieldset class="settings-wrapper">
+<fieldset class="settings-wrapper settings-fieldset">
   <legend>Settings</legend>
   <div class="number-of-colors-wrapper">
     <label for="number-of-colors-selector-label">
@@ -593,6 +593,11 @@ ${sheets.join("\n")}
 COLORS
 */
 
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+}
 * {
   margin: 0;
 }
@@ -609,11 +614,29 @@ body {
   background-color: var(--BASECOLOR); 
   color: var(--COLOR1);
 }
+.content-wrapper {
+  margin-inline: auto;
+  width: min(100vw - 1.4rem, 39rem);
+}
+.flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1em);
+}
+pre{
+  font-size: 0.7rem;
+  white-space: pre-wrap; 
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+  overscroll-behavior-x: auto;
+}
+.settings-fieldset {
+  border: 1px solid var(--BWREVERSE-20);
+  border-radius: 0.3rem;
+}
 `;
-    out = out.replace("MODE", scrubStyle(p.modes[p.activeMode].name));
-    out = out.replace("BWMATCH", scrubStyle(p.bwNames[0]));
-    out = out.replace("BWREVERSE", scrubStyle(p.bwNames[1]));
-    out = out.replace("BASECOLOR", scrubStyle(p.baseColorName));
+    out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));
+    out = out.replaceAll("BWMATCH", scrubStyle(p.bwNames[0]));
+    out = out.replaceAll("BWREVERSE", scrubStyle(p.bwNames[1]));
+    out = out.replaceAll("BASECOLOR", scrubStyle(p.baseColorName));
     for (let index = 0; index < p.maxNumberOfColors; index ++) {
       if (index < p.numberOfColors) {
         out = out.replaceAll(`COLOR${index+1}`, p.colorNames[index]);
@@ -621,7 +644,7 @@ body {
         out = out.replaceAll(`COLOR${index+1}`, `UNKNOWN-COLOR${index+1}`);
       }
     }
-    out = out.replace("COLORS", templateList);
+    out = out.replaceAll("COLORS", templateList);
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 

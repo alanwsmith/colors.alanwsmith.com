@@ -50,6 +50,7 @@ let debug = true;
 
 let p = {};
 
+// Append Child
 function a(target, obj) {
   if (typeof target === "string") {
     const el = document.querySelector(`.${target}`)
@@ -59,30 +60,42 @@ function a(target, obj) {
   }
 }
 
+// Add Class
 function ac(obj, classList) {
   classList.forEach((c) => {
     obj.classList.add(c);
   });
 }
 
+// Add Data
+function ad(obj, key, value) {
+  obj.dataset[key] = value;
+}
+
+// Debug
 function dbg(value) {
   if (debug === true) {
     console.log(value);
   }
 }
 
+
+// Document Create
 function dc(name) {
   return document.createElement(name);
 }
 
+// Get Element By Class Name
 function el(className) {
   return document.querySelector(`.${className}`);
 }
 
+// Set InnerHTML
 function html(obj, str) {
   obj.innerHTML = str;
 }
 
+// Set Attribute
 function sa(obj, key, value) {
   obj.setAttribute(key, value);
 }
@@ -169,7 +182,7 @@ class Picker extends HTMLElement {
 
   connectedCallback() {
     this.styleSheets = {};
-    this.attachStyleSheets();
+    this.initStyleSheets();
     this.updatePickerStyles();
     this.updateMainStyleSheets();
     this.loadData();
@@ -178,16 +191,6 @@ class Picker extends HTMLElement {
     this.renderPage();
   }
 
-  attachStyleSheets() {
-    const sheetNames = [
-      'baseColors',
-      'pickerStyles', 
-    ];
-    sheetNames.forEach((name) => {
-      this.styleSheets[name] = document.createElement('style');
-      document.body.appendChild(this.styleSheets[name]);
-    });
-  }
 
   getAspectIndex(key) {
     return config
@@ -214,15 +217,24 @@ class Picker extends HTMLElement {
       const connector = `${token}-${index}`;
 
       const div = dc('div');
-      ac(div, [`${token}-wrapper`, `${token}-wrapper-${index}`]);
+      ac(div, [
+        `${token}-wrapper`, 
+        `${token}-wrapper-${index}`
+      ]);
 
       const label = dc('label');
-      ac(label, [`${token}-label`, `${token}-label-${index}`]);
+      ac(label, [
+        `${token}-label`, 
+        `${token}-label-${index}`
+      ]);
       sa(label, 'for', connector);
       html(label, config.aspects[index].name)
 
       const slider = dc('input');
-      ac(slider, [`${token}`, `${token}-${index}`]);
+      ac(slider, [
+        `${token}`, 
+        `${token}-${index}`
+      ]);
       sa(slider, 'name', connector);
       sa(slider, 'type', 'range');
       sa(slider, 'min', 0);
@@ -230,18 +242,53 @@ class Picker extends HTMLElement {
       sa(slider, 'step', this.getAspectStep(key).toFixed(5));
       slider.value = p.modes[p.activeMode].base[key]
 
-
-      // slider.value = s.getBackgroundValue(aspect, s.visibleModeIndex());
-      // slider.dataset.kind = 'background';
-      // slider.dataset.aspect = aspect;
-      // slider.dataset.mode = s.visibleModeIndex();
-      // slider.style.accentColor = `var(--color-bw-match-80)`;
-      // this.el('sliders').appendChild(slider);
+      ad(slider, 'kind', 'base');
+      ad(slider, 'mode', p.activeMode);
+      ad(slider, 'aspect', key);
 
       a(div, label);
       a(div, slider);
       a('base-sliders', div);
     }
+  }
+
+  initBwVars() {
+    // using local modes here since there
+    // are really only these two. (it would
+    // be overly complicated to figure out what
+    // would need to happen for others. 
+    const localModes = ['light', 'dark'];
+    //const out = [":root {"];
+    const lines = [];
+    localModes.forEach((mode) => {
+      for (let amount = 10; amount < 100; amount += 10) {
+        let num1 = 100;
+        let num2 = 0;
+        if (mode === 'dark') {
+          num1 = 0;
+          num2 = 100;
+        }
+        lines.push(`--${mode}-color-bw-match-${amount}: oklch(${num1}% 0 0 / ${amount}%);`);
+        lines.push(`--${mode}-color-bw-reverse-${amount}: oklch(${num2}% 0 0 / ${amount}%);`);
+      }
+    })
+    const out = `:root {
+${lines.sort().join("\n")}
+}`;
+    this.styleSheets['bwVars'].innerHTML = out;
+  }
+
+  initStyleSheets() {
+    const sheetNames = [
+      'bwVars',
+      'baseColors',
+      'pickerStyles', 
+    ];
+    sheetNames.forEach((name) => {
+      this.styleSheets[name] = document.createElement('style');
+      document.body.appendChild(this.styleSheets[name]);
+    });
+    this.initBwVars();
   }
 
   initTemplate() {
@@ -274,12 +321,19 @@ class Picker extends HTMLElement {
 
   renderDebuggingInfo() {
     if (debug === true) {
+      const sheets = [];
+      for (let sheetName in this.styleSheets) {
+        sheets.push(`<h4>${sheetName}</h4>`);
+        sheets.push(`<pre class="debug-stylesheet">${this.styleSheets[sheetName].innerHTML}</pre>`);
+      };
       el('debug').innerHTML = `
 <h2>Debugging</h2>
 <h3>Palette</h3>
 <pre>${JSON.stringify(p, null, 2)}</pre>
 <h3>Config</h3>
 <pre>${JSON.stringify(config, null, 2)}</pre>
+<h3>Style Sheets</h3>
+${sheets.join("\n")}
 `;
     }
   }
@@ -316,11 +370,19 @@ class Picker extends HTMLElement {
   margin: 0;
 }
 
+.base-slider {
+  background-color: red;
+  accent-color: var(--color-bw-reverser-70);
+  height: 1px;
+}
+
 body { 
   font-family: system-ui;
   background-color: var(--color-base); 
   color: var(--color-primary);
-};
+}
+
+
   `;
   }
 

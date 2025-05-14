@@ -241,15 +241,17 @@ const defaultPalette = {
     "c": { "name": "chroma", "max": 0.3 },
     "h": { "name": "hue", "max": 360 }
   },
+  "baseColorName": "color-base",
+  "bwNames": ["bw-match", "bw-reverse"],
   "colorNames": [
-    "primary",
-    "secondary",
-    "accent",
-    "highlight",
-    "info",
-    "warning",
-    "extra",
-    "bonus"
+    "color-primary",
+    "color-secondary",
+    "color-accent",
+    "color-highlight",
+    "color-info",
+    "color-warning",
+    "color-extra",
+    "color-bonus"
   ],
   "fadedNames": ["faded", "faded-2"],
   "hueRotations": [45, 60],
@@ -379,11 +381,11 @@ class Picker extends HTMLElement {
   initStaticBwVars() {
     const lines = [];
     p.modes.forEach((data, mode) => {
-      lines.push(`--${scrubStyle(data.name)}-bw-match: oklch(${data.bwValues[0]}% 0 0);`);
-      lines.push(`--${scrubStyle(data.name)}-bw-reverse: oklch(${data.bwValues[1]}% 0 0);`);
+      lines.push(`--${scrubStyle(data.name)}-${p.bwNames[0]}: oklch(${data.bwValues[0]}% 0 0);`);
+      lines.push(`--${scrubStyle(data.name)}-${p.bwNames[1]}: oklch(${data.bwValues[1]}% 0 0);`);
       for (let amount = 10; amount < 100; amount += 10) {
-        lines.push(`--${scrubStyle(data.name)}-bw-match-${amount}: oklch(${data.bwValues[0]}% 0 0 / ${amount}%);`);
-        lines.push(`--${scrubStyle(data.name)}-bw-reverse-${amount}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
+        lines.push(`--${scrubStyle(data.name)}-${p.bwNames[0]}-${amount}: oklch(${data.bwValues[0]}% 0 0 / ${amount}%);`);
+        lines.push(`--${scrubStyle(data.name)}-${p.bwNames[1]}-${amount}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
       }
     })
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
@@ -517,11 +519,11 @@ ${sheets.join("\n")}
   reloadDynamicBwVars() {
     const lines = [];
     const data = p.modes[p.activeMode];
-    lines.push(`--bw-match: var(--${scrubStyle(data.name)}-bw-match);`);
-    lines.push(`--bw-reverse: var(--${scrubStyle(data.name)}-bw-reverse);`);
+    lines.push(`--${p.bwNames[0]}: var(--${scrubStyle(data.name)}-${p.bwNames[0]});`);
+    lines.push(`--${p.bwNames[1]}: var(--${scrubStyle(data.name)}-${p.bwNames[1]});`);
     for (let amount = 10; amount < 100; amount += 10) {
-      lines.push(`--bw-match-${amount}: var(--${scrubStyle(data.name)}-bw-match-${amount});`);
-      lines.push(`--bw-reverse-${amount}: var(--${scrubStyle(data.name)}-bw-reverse-${amount});`);
+      lines.push(`--${p.bwNames[0]}-${amount}: var(--${scrubStyle(data.name)}-${p.bwNames[0]}-${amount});`);
+      lines.push(`--${p.bwNames[1]}-${amount}: var(--${scrubStyle(data.name)}-${p.bwNames[1]}-${amount});`);
     }
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicBwVars'].innerHTML = out;
@@ -532,9 +534,9 @@ ${sheets.join("\n")}
     const activeModeKey = scrubStyle(p.modes[p.activeMode].name);
     for (let index = 0; index < p.numberOfColors; index ++) {
       const name = p.colorNames[index];
-      lines.push(`--color-${name}: var(--${activeModeKey}-color-${name});`);
+      lines.push(`--${name}: var(--${activeModeKey}-${name});`);
     }
-    lines.push(`--color-base: var(--${activeModeKey}-color-base);`);
+    lines.push(`--${p.baseColorName}: var(--${activeModeKey}-${p.baseColorName});`);
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicColorSwitches'].innerHTML = out;
   }
@@ -561,24 +563,47 @@ ${sheets.join("\n")}
   }
 
   reloadDynamicPickerStyles() {
-    const out = `
+    const templateList = p.colorNames.map((name, index) => {
+      if (index < p.numberOfColors) {
+        return `* COLOR${index + 1} = ${p.colorNames[index]}`; 
+      }
+    }).join("\n").trim();
+    let out = `
+/*
+* TODO: Move this to external insturctions
+* Color Picker Style Template Colors:
+COLORS
+*/
+
 * {
   margin: 0;
 }
 .active-mode-button {
-  outline: 1px solid red;
+  outline: 1px solid var(--MODE-COLOR3);
   border-radius: 0.3rem;
 }
 .base-slider {
-  accent-color: var(--light-color-bw-match-20);
+  accent-color: var(--BWREVERSE-40);
   height: 1px;
 }
 body { 
   font-family: system-ui;
-  background-color: var(--color-base); 
-  color: var(--color-primary);
+  background-color: var(--BASECOLOR); 
+  color: var(--COLOR1);
 }
 `;
+    out = out.replace("MODE", scrubStyle(p.modes[p.activeMode].name));
+    out = out.replace("BWMATCH", scrubStyle(p.bwNames[0]));
+    out = out.replace("BWREVERSE", scrubStyle(p.bwNames[1]));
+    out = out.replace("BASECOLOR", scrubStyle(p.baseColorName));
+    for (let index = 0; index < p.maxNumberOfColors; index ++) {
+      if (index < p.numberOfColors) {
+        out = out.replaceAll(`COLOR${index+1}`, p.colorNames[index]);
+      } else {
+        out = out.replaceAll(`COLOR${index+1}`, `UNKNOWN-COLOR${index+1}`);
+      }
+    }
+    out = out.replace("COLORS", templateList);
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 

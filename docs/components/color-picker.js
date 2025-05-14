@@ -192,44 +192,45 @@ const colorElementTemplate = `
 <div>Hue Groups Go Here</div>
 `;
 
-const defaultColors = {
-  "dark": {
+const defaultColors = [
+  {
     "chroma": 0.0,
     "fadedValues": [40, 80],
-    "lightLevel": 2,
+    "lightLevel": 4,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
-  "high-contract-dark": {
-    "chroma": 0.0,
-    "fadedValues": [10, 20],
-    "lightLevel": 5,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
-  },
-  "high-contract-light": {
-    "chroma": 0.0,
-    "fadedValues": [10, 20],
-    "lightLevel": 0,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
-  },
-  "light": {
+  {
     "chroma": 0.0,
     "fadedValues": [40, 80],
     "lightLevel": 1,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
+  },
+  {
+    "chroma": 0.0,
+    "fadedValues": [10, 20],
+    "lightLevel": 1,
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
+  },
+  {
+    "chroma": 0.0,
+    "fadedValues": [10, 20],
+    "lightLevel": 0,
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
   }
-};
+];
 
 const defaultPalette = {
   "activeMode": 0,
-  "aspects": [
-    { "key": "l", "name": "lightness", "max": 100 },
-    { "key": "c", "name": "chroma", "max": 0.3 },
-    { "key": "h", "name": "hue", "max": 360 }
-  ],
+  "aspectOrder": ["l", "c", "h"],
+  "aspects": {
+    "l": { "name": "lightness", "max": 100 },
+    "c": { "name": "chroma", "max": 0.3 },
+    "h": { "name": "hue", "max": 360 }
+  },
   "colorNames": [
     "primary",
     "secondary",
@@ -245,7 +246,6 @@ const defaultPalette = {
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
-  "modeCategories": ["light", "dark"],
   "modes": [
     {
       "base": { "l": 50, "c": 0.0, "h": 0 },
@@ -312,22 +312,20 @@ class Picker extends HTMLElement {
     })
   }
 
-  getAspectIndex(key) {
-    return p 
-      .aspects
-      .findIndex((aspect) => {
-        return aspect.key === key
-      });
-  }
+  // getAspectIndex(key) {
+  //   return p 
+  //     .aspects
+  //     .findIndex((aspect) => {
+  //       return aspect.key === key
+  //     });
+  // }
 
   getAspectMax(key) {
-    const index = this.getAspectIndex(key);
-    return p.aspects[index].max;
+    return p.aspects[key].max;
   }
 
   getAspectStep(key) {
-    const index = this.getAspectIndex(key);
-    return p.aspects[index].max / 10000;
+    return p.aspects[key].max / 10000;
   }
 
   getHueForColor(mode, color) {
@@ -343,26 +341,25 @@ class Picker extends HTMLElement {
   }
 
   initBaseSliders() {
-    for (let index in p.aspects) {
-      const key = p.aspects[index].key;
+    for (let key in p.aspects) {
       const token = `base-slider`;
-      const connector = `${token}-${index}`;
+      const connector = `${token}-${key}`;
       const div = dc('div');
       ac([
         `${token}-wrapper`, 
-        `${token}-wrapper-${index}`
+        `${token}-wrapper-${key}`
       ], div);
       const label = dc('label');
       ac([
         `${token}-label`, 
-        `${token}-label-${index}`
+        `${token}-label-${key}`
       ], label);
       sa(label, 'for', connector);
-      html(label, p.aspects[index].name)
+      html(label, p.aspects[key].name)
       const slider = dc('input');
       ac([
         `${token}`, 
-        `${token}-${index}`
+        `${token}-${key}`
       ], slider);
       sa(slider, 'name', connector);
       sa(slider, 'type', 'range');
@@ -490,10 +487,9 @@ class Picker extends HTMLElement {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
     };
-    data.palettes[0].modes.forEach((modeData) => {
+    data.palettes[0].modes.forEach((modeData, mode) => {
       for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
-        const modeCategory = data.palettes[0].modeCategories[modeData.category];
-        modeData.colors.push(defaultColors[modeCategory]);
+        modeData.colors.push(defaultColors[mode]);
       }
     });
   }

@@ -469,6 +469,7 @@ ${lines.sort().join("\n")}
       const checkNum = giv(event);
       if (p.numberOfColors !== checkNum) {
         p.numberOfColors = checkNum;
+        this.initColors();
       }
     }
     this.updateStyleSheets();

@@ -94,32 +94,32 @@ function el(className) {
 }
 
 // Get Float from DataSet Key From Event
-function gfd(key, event) {
+function gdf(event, key) {
   return parseFloat(event.target.dataset[key])
 }
 
 // Get Int from DataSet Key From Event
-function gid(key, event) {
+function gdi(event, key) {
   return parseInt(event.target.dataset[key], 10)
 }
 
 // Get String from DataSet Key From Event
-function gsd(key, event) {
+function gds(event, key) {
   return event.target.dataset[key]
 }
 
 // Get Float Value from an Event
-function gfv(event) {
+function gvf(event) {
   return parseFloat(event.target.value)
 }
 
 // Get Integer Value from an Event
-function giv(event) {
+function gvi(event) {
   return parseInt(event.target.value, 10)
 }
 
 // Get String Value from an Event
-function gsv(event) {
+function gvs(event) {
   return parseInt(event.target.value, 10)
 }
 
@@ -566,16 +566,17 @@ body {
 
   updateData(event) {
     if (event.target.dataset.kind === "base") {
-      const mode = gid('mode', event);
-      const aspect = gsd('aspect', event);
-      p.modes[mode].base[aspect] = gfv(event);
-    }
-    else if (event.target.dataset.kind === "number-of-colors-selector") {
-      const checkNum = giv(event);
+      const mode = gdi(event, 'mode');
+      const aspect = gds(event, 'aspect');
+      p.modes[mode].base[aspect] = gvf(event);
+    } else if (event.target.dataset.kind === "number-of-colors-selector") {
+      const checkNum = gvi(event);
       if (p.numberOfColors !== checkNum) {
         p.numberOfColors = checkNum;
         this.initColors();
       }
+    } else if (event.target.dataset.kind === "mode-button") {
+      p.activeMode = gdi(event, "mode");
     }
     window.requestAnimationFrame(this.requestRender);
   }

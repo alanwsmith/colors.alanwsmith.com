@@ -133,8 +133,27 @@ function sa(obj, key, value) {
   obj.setAttribute(key, value);
 }
 
+// Make CSS strings lower case for consistency
+// and scrub them some. Note that this
+// won't catch everything. A full 
+// CSS parser is outside the scope of
+// this tool. 
+function scrubStyle(input) {
+  return input
+    .replace(" ", "-")
+    .replace(":", "-")
+    .replace("{", "-")
+    .replace("}", "-")
+    .replace(";", "-")
+    .replace("(", "-")
+    .replace(")", "-")
+    .toLowerCase()
+}
+
 const template = `
+<!--
 <h2 class="palette-name"></h2>
+-->
 <fieldset class="base-wrapper">
   <legend>Base</legend>
   <div class="base-sliders"></div>
@@ -151,10 +170,15 @@ const template = `
       data-kind="number-of-colors-selector"
     ></select>
   </div>
+  <div class="view-light-dark-wrapper">
+    <span class="view-light-dark-text">View:</span>
+    <div class="view-light-dark-modes">
+    </div>
+  </div>
 </fieldset>
 <div class="main-content">
   <div class="example-content">
-    <h1>Welcome To Alan's Color Picker</h1>
+    <h1></h1>
   </div>
   <div class="colors-content-wrapper">
   </div>
@@ -172,7 +196,21 @@ const defaultColors = {
   "dark": {
     "chroma": 0.0,
     "fadedValues": [40, 80],
-    "lightLevel": 1,
+    "lightLevel": 2,
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
+  },
+  "high-contract-dark": {
+    "chroma": 0.0,
+    "fadedValues": [10, 20],
+    "lightLevel": 5,
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
+  },
+  "high-contract-light": {
+    "chroma": 0.0,
+    "fadedValues": [10, 20],
+    "lightLevel": 0,
     "hueRotationsIndex": 3,
     "hueRotationCount": 0
   },
@@ -187,6 +225,11 @@ const defaultColors = {
 
 const defaultPalette = {
   "activeMode": 0,
+  "aspects": [
+    { "key": "l", "name": "lightness", "max": 100 },
+    { "key": "c", "name": "chroma", "max": 0.3 },
+    { "key": "h", "name": "hue", "max": 360 }
+  ],
   "colorNames": [
     "primary",
     "secondary",
@@ -198,18 +241,39 @@ const defaultPalette = {
     "bonus"
   ],
   "fadedNames": ["faded", "faded-2"],
-  "hueRotations": [30, 45, 60, 90],
-  "lightLevels": [0, 20, 40, 60, 80, 100],
+  "hueRotations": [45, 60],
+  "lightLevels": 6,
+  "maxNumberOfColors": 8,
+  "maxNumberOfFaded": 2,
+  "modeCategories": ["light", "dark"],
   "modes": [
     {
       "base": { "l": 50, "c": 0.0, "h": 0 },
+      "bwOpacity": [0, 100],
+      "category": 3,
       "colors": [],
-      "key": "light",
+      "name": "Light",
     },
     { 
       "base": { "l": 20, "c": 0.0, "h": 0 },
+      "bwOpacity": [100, 0],
+      "category": 0,
       "colors": [],
-      "key": "dark",
+      "name": "Dark",
+    },
+    {
+      "base": { "l": 100, "c": 0.0, "h": 0 },
+      "bwOpacity": [0, 100],
+      "category": 2,
+      "colors": [],
+      "name": "High-Contrast Light",
+    },
+    { 
+      "base": { "l": 0, "c": 0.0, "h": 0 },
+      "bwOpacity": [100, 0],
+      "category": 1,
+      "colors": [],
+      "name": "High-Contrast Dark",
     }
   ],
   "name": "Color Palette",
@@ -219,13 +283,6 @@ const defaultPalette = {
 }
 
 const config = {
-  "aspects": [
-    { "key": "l", "name": "lightness", "max": 100 },
-    { "key": "c", "name": "chroma", "max": 0.3 },
-    { "key": "h", "name": "hue", "max": 360 }
-  ],
-  "fadedKeys": ["f1", "f2"],
-  "maxNumberOfColors": 8,
   "validSchemeVersions": [[1,0,0]],
   "storageName": "colorPickerData"
 }
@@ -256,7 +313,7 @@ class Picker extends HTMLElement {
   }
 
   getAspectIndex(key) {
-    return config
+    return p 
       .aspects
       .findIndex((aspect) => {
         return aspect.key === key
@@ -265,12 +322,12 @@ class Picker extends HTMLElement {
 
   getAspectMax(key) {
     const index = this.getAspectIndex(key);
-    return config.aspects[index].max;
+    return p.aspects[index].max;
   }
 
   getAspectStep(key) {
     const index = this.getAspectIndex(key);
-    return config.aspects[index].max / 10000;
+    return p.aspects[index].max / 10000;
   }
 
   getHueForColor(mode, color) {
@@ -286,8 +343,8 @@ class Picker extends HTMLElement {
   }
 
   initBaseSliders() {
-    for (let index in config.aspects) {
-      const key = config.aspects[index].key;
+    for (let index in p.aspects) {
+      const key = p.aspects[index].key;
       const token = `base-slider`;
       const connector = `${token}-${index}`;
       const div = dc('div');
@@ -301,7 +358,7 @@ class Picker extends HTMLElement {
         `${token}-label-${index}`
       ], label);
       sa(label, 'for', connector);
-      html(label, config.aspects[index].name)
+      html(label, p.aspects[index].name)
       const slider = dc('input');
       ac([
         `${token}`, 
@@ -376,11 +433,10 @@ class Picker extends HTMLElement {
     //   const rotationDiv = dc('div')
     //   a(name, color);
     }
-
   }
 
   initNumberOfColors() {
-    for (let index = 0; index < config.maxNumberOfColors; index ++) {
+    for (let index = 0; index < p.maxNumberOfColors; index ++) {
      const opt = dc('option');
       html(opt, index + 1);
       if (index + 1 === p.numberOfColors) {
@@ -390,39 +446,19 @@ class Picker extends HTMLElement {
     }
   }
 
-
-  initStaticPickerStyles() {
-    this.styleSheets['staticPickerStyles'].innerHTML = `
-* {
-  margin: 0;
-}
-.base-slider {
-  accent-color: var(--light-color-bw-match-20);
-  height: 1px;
-}
-body { 
-  font-family: system-ui;
-  background-color: var(--color-base); 
-  color: var(--color-primary);
-}
-.color-name-primary { color: var(--color-primary); }
-  `;
-  }
-
   initStyleSheets() {
     const sheetNames = [
+      'staticBwVars',
       'dynamicBwVars',
       'dynamicColorSwitches',
       'dynamicColorVars',
-      'staticBwVars',
-      'staticPickerStyles', 
+      'dynamicPickerStyles', 
     ];
     sheetNames.forEach((name) => {
       this.styleSheets[name] = document.createElement('style');
       document.body.appendChild(this.styleSheets[name]);
     });
     this.initStaticBwVars();
-    this.initStaticPickerStyles();
   }
 
   initTemplate() {
@@ -441,6 +477,7 @@ body {
       config.storageName
     );
     if (checkData && checkData.version[0] === 1) {
+      p = checkData;
     } else {
       this.loadDefaults();
     }
@@ -454,8 +491,9 @@ body {
       "schemaVersion": [1,0,0]
     };
     data.palettes[0].modes.forEach((modeData) => {
-      for (let index = 0; index < config.maxNumberOfColors; index ++) {
-        modeData.colors.push(defaultColors[modeData.key]);
+      for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
+        const modeCategory = data.palettes[0].modeCategories[modeData.category];
+        modeData.colors.push(defaultColors[modeCategory]);
       }
     });
   }
@@ -485,7 +523,7 @@ ${sheets.join("\n")}
   }
 
   renderPaletteName() {
-    el('palette-name').innerHTML = p.name;
+    //el('palette-name').innerHTML = p.name;
   }
 
   reloadDynamicBwVars() {
@@ -508,29 +546,49 @@ ${sheets.join("\n")}
       lines.push(`--color-${name}: var(--${p.modes[p.activeMode].key}-color-${name});`);
     }
     lines.push(`--color-base: var(--${p.modes[p.activeMode].key}-color-base);`);
-
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicColorSwitches'].innerHTML = out;
   }
 
   reloadDynamicColorVars() {
     const lines = [];
-    p.modes.forEach((modeData, modeIndex) => {
-      const mode = modeData.key;
-      const lBase = modeData.base.l;
-      const cBase = modeData.base.c;
-      const hBase = modeData.base.h;
-      lines.push(`--${mode}-color-base: oklch(${lBase}% ${cBase} ${hBase});`);
-      for (let index = 0; index < p.numberOfColors; index ++) {
-        const name = p.colorNames[index];
-        const l = p.lightLevels[p.modes[modeIndex].colors[index].lightLevel];
-        const c = p.lightLevels[p.modes[modeIndex].colors[index].chroma];
-        const h = this.getHueForColor(modeIndex, index);
-        lines.push(`--${mode}-color-${name}: oklch(${l}% ${c} ${h});`);
-      }
+    p.modes.forEach((data, mode) => {
+      const category = data.category;
+      const name = scrubStyle(data.name);
+      const lBase = data.base.l;
+      const cBase = data.base.c;
+      const hBase = data.base.h;
+      lines.push(`--${name}-color-base: oklch(${lBase}% ${cBase} ${hBase});`);
+      // for (let index = 0; index < p.numberOfColors; index ++) {
+      //   const name = p.colorNames[index];
+      //   const l = p.lightLevels[p.modes[modeIndex].colors[index].lightLevel];
+      //   const c = p.lightLevels[p.modes[modeIndex].colors[index].chroma];
+      //   const h = this.getHueForColor(modeIndex, index);
+      //   lines.push(`--${mode}-color-${name}: oklch(${l}% ${c} ${h});`);
+      // }
     });
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicColorVars'].innerHTML = out;
+  }
+
+  // Stuff to deliver as part of the baseline
+  // for setting up a page that folks can edit
+  reloadDynamicPickerStyles() {
+    const out = `
+* {
+  margin: 0;
+}
+.base-slider {
+  accent-color: var(--light-color-bw-match-20);
+  height: 1px;
+}
+body { 
+  font-family: system-ui;
+  background-color: var(--color-base); 
+  color: var(--color-primary);
+}
+`;
+    this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 
   updateData(event) {
@@ -551,6 +609,7 @@ ${sheets.join("\n")}
   }
 
   reloadStyleSheets() {
+    this.reloadDynamicPickerStyles();
     this.reloadDynamicColorSwitches();
     this.reloadDynamicColorVars();
     this.reloadDynamicBwVars();

@@ -173,15 +173,15 @@ const defaultColors = {
     "chroma": 0.0,
     "fadedValues": [40, 80],
     "lightLevel": 1,
-    "hueRotations": 3,
-    "hueRotation": 0
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
   },
   "light": {
     "chroma": 0.0,
     "fadedValues": [40, 80],
     "lightLevel": 1,
-    "hueRotations": 3,
-    "hueRotation": 0
+    "hueRotationsIndex": 3,
+    "hueRotationCount": 0
   }
 };
 
@@ -198,6 +198,7 @@ const defaultPalette = {
     "bonus"
   ],
   "fadedNames": ["faded", "faded-2"],
+  "hueRotations": [30, 45, 60, 90],
   "lightLevels": [0, 20, 40, 60, 80, 100],
   "modes": [
     {
@@ -224,7 +225,6 @@ const config = {
     { "key": "h", "name": "hue", "max": 360 }
   ],
   "fadedKeys": ["f1", "f2"],
-  "hueRotations": [30, 45, 60, 90],
   "maxNumberOfColors": 8,
   "validSchemeVersions": [[1,0,0]],
   "storageName": "colorPickerData"
@@ -271,6 +271,19 @@ class Picker extends HTMLElement {
   getAspectStep(key) {
     const index = this.getAspectIndex(key);
     return config.aspects[index].max / 10000;
+  }
+
+  getHueForColor(mode, color) {
+    const baseHue = p.modes[mode].base.h;
+    const rotationMultiplier = p.hueRotations[p.modes[mode].colors[color].hueRotationsIndex];
+    const rotationCount = p.modes[mode].colors[color].hueRotationCount;
+    const rotationAdjustment = rotationMultiplier * rotationCount;
+    let colorHue = baseHue + rotationAdjustment;
+
+    if (colorHue > 360) {
+      colorHue -= 360
+    }
+    return colorHue;
   }
 
   initBaseSliders() {
@@ -508,8 +521,8 @@ ${sheets.join("\n")}
       for (let index = 0; index < p.numberOfColors; index ++) {
         const name = p.colorNames[index];
         const l = p.lightLevels[p.modes[modeIndex].colors[index].lightLevel];
-        const c = 0;
-        const h = 0;
+        const c = p.lightLevels[p.modes[modeIndex].colors[index].chroma];
+        const h = this.getHueForColor(modeIndex, index);
         lines.push(`--${mode}-color-${name}: oklch(${l}% ${c} ${h});`);
       }
     });

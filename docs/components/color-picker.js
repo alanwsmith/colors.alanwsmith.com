@@ -61,11 +61,11 @@ function a(child, parent) {
 }
 
 // Add ClassList to Object
-function ac(classList, obj) {
-  if (typeof classList === "string") {
-    obj.classList.add(classList);
+function ac(data, obj) {
+  if (typeof data === "string") {
+    obj.classList.add(data);
   } else {
-    classList.forEach((c) => {
+    data.forEach((c) => {
       obj.classList.add(c);
     });
   }
@@ -171,9 +171,8 @@ const template = `
     ></select>
   </div>
   <div class="view-light-dark-wrapper">
-    <span class="view-light-dark-text">View:</span>
-    <div class="view-light-dark-modes">
-    </div>
+    <span class="view-mode-buttons-text">Mode:</span>
+    <div class="view-mode-buttons"></div>
   </div>
 </fieldset>
 <div class="main-content">
@@ -297,7 +296,6 @@ class Picker extends HTMLElement {
     this.requestRender = this.renderPage.bind(this);
     this.styleSheets = {};
     this.initStyleSheets();
-    this.reloadStyleSheets();
     this.initTemplate();
     this.addListeners();
     this.renderPage();
@@ -398,6 +396,18 @@ class Picker extends HTMLElement {
     }
   }
 
+  initModeButtons() {
+    p.modes.forEach((data, mode) => {
+      const button = dc('button');
+      html(button, data.name);
+      ac('mode-button', button);
+      ac(`mode-button-${mode}`, button);
+      ad(button, 'kind', 'mode-button');
+      ad(button, 'mode', mode);
+      a(button, el('view-mode-buttons'));
+    })
+  }
+
   initNumberOfColors() {
     for (let index = 0; index < p.maxNumberOfColors; index ++) {
      const opt = dc('option');
@@ -430,6 +440,7 @@ class Picker extends HTMLElement {
     const content = templateEl.content.cloneNode(true);
     this.append(content);
     this.initBaseSliders();
+    this.initModeButtons();
     this.initNumberOfColors();
     this.initColors();
   }
@@ -480,6 +491,7 @@ ${sheets.join("\n")}
   }
 
   renderPage() {
+    this.reloadStyleSheets();
     this.renderPaletteName();
     this.renderDebuggingInfo();
   }
@@ -503,11 +515,12 @@ ${sheets.join("\n")}
 
   reloadDynamicColorSwitches() {
     const lines = [];
+    const activeModeKey = scrubStyle(p.modes[p.activeMode].name);
     for (let index = 0; index < p.numberOfColors; index ++) {
       const name = p.colorNames[index];
-      lines.push(`--color-${name}: var(--${p.modes[p.activeMode].key}-color-${name});`);
+      lines.push(`--color-${name}: var(--${activeModeKey}-color-${name});`);
     }
-    lines.push(`--color-base: var(--${p.modes[p.activeMode].key}-color-base);`);
+    lines.push(`--color-base: var(--${activeModeKey}-color-base);`);
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicColorSwitches'].innerHTML = out;
   }
@@ -564,7 +577,6 @@ body {
         this.initColors();
       }
     }
-    this.reloadStyleSheets();
     window.requestAnimationFrame(this.requestRender);
   }
 

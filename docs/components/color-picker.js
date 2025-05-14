@@ -73,7 +73,7 @@ function ad(obj, key, value) {
 }
 
 // Debug
-function dbg(value) {
+function d(value) {
   if (debug === true) {
     console.log(value);
   }
@@ -88,6 +88,11 @@ function dc(name) {
 // Get Element By Class Name
 function el(className) {
   return document.querySelector(`.${className}`);
+}
+
+// Get Float From DataSet Key From Event
+function gf(key, event) {
+  return parseFloat(event.target.dataset[key])
 }
 
 // Set InnerHTML
@@ -188,8 +193,7 @@ class Picker extends HTMLElement {
     this.updateStyleSheets();
     this.initTemplate();
     this.addListeners();
-    this.updateData();
-  //  this.renderPage();
+    this.renderPage();
   }
 
   addListeners() {
@@ -323,7 +327,7 @@ body {
   }
 
   loadData() {
-    dbg("Loading data");
+    d("Loading data");
     const checkData = localStorage.getItem(
       config.storageName
     );
@@ -335,7 +339,7 @@ body {
   }
 
   loadDefaults() {
-    dbg("Loading defaults");
+    d("Loading defaults");
     data = {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
@@ -375,13 +379,16 @@ ${sheets.join("\n")}
 :root {
 --color-base: oklch(20% 0 0); 
 --color-primary: oklch(90% 0 0 );
-}
-    `;
+}`;
   }
 
   updateData(event) {
-    console.log(event);
-    window.requestAnimationFrame(this.requestRender);
+    if (event.target.dataset.kind === "base") {
+      d(gf('mode', event));
+
+
+      window.requestAnimationFrame(this.requestRender);
+    }
     //this.renderPage();
   }
 
@@ -390,7 +397,6 @@ ${sheets.join("\n")}
   }
 
 }
-
 
 customElements.define('color-picker', Picker);
 

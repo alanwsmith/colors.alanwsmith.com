@@ -140,7 +140,7 @@ function rc(data, obj) {
 }
 
 // Set Attribute
-function sa(obj, key, value) {
+function sa(key, value, obj) {
   obj.setAttribute(key, value);
 }
 
@@ -196,40 +196,43 @@ const template = `
 <div class="debug"></div>
 `;
 
-const colorElementTemplate = `
+const colorElementInternalTemplate = `
 <div class="color-name">Color Name</div>
-<select class="color-rotation-selector"></select>
-<div>Hue Groups Go Here</div>
+<div class="hue-set-wrapper">
+  <label for="TODO-with-index" class="color-hue-set-selector-label">Hue Set (either 45degrees or 60degrees)</label>
+  <select name="TODO-with-index" class="color-hue-set-selector"></select>
+  <div class="color-hue-set">---</div>
+</div>
 `;
 
 const defaultColors = [
   {
+    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [40, 80],
     "lightLevel": 0,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
+    "hueSets": [],
   },
   {
+    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 1,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
+    "hueSets": [],
   },
   {
+    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [40, 80],
     "lightLevel": 4,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
+    "hueSets": [],
   },
   {
+    "activeHueSet": 1,
     "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 5,
-    "hueRotationsIndex": 3,
-    "hueRotationCount": 0
+    "hueSets": [],
   }
 ];
 
@@ -242,7 +245,7 @@ const defaultPalette = {
     "h": { "name": "hue", "max": 360 }
   },
   "backgroundStyleName": "background",
-  "baseColorName": "color-base",
+  "baseColorName": "base-color",
   "borderStylePrefix": "border",
   "borderTypes": [
     ["full", false],
@@ -253,19 +256,19 @@ const defaultPalette = {
     ["inline", true],
     ["block", true],
   ],
-  "bwNames": ["bw-match", "bw-reverse"],
+  "bwNames": ["match-bw", "reverse-bw"],
   "colorNames": [
-    "color-primary",
-    "color-secondary",
-    "color-accent",
-    "color-highlight",
-    "color-info",
-    "color-warning",
-    "color-extra",
-    "color-bonus"
+    "primary-color",
+    "secondary-color",
+    "accent-color",
+    "highlight-color",
+    "info-color",
+    "warning-color",
+    "extra-color",
+    "bonus-color"
   ],
   "fadedNames": ["faded", "faded-2"],
-  "hueRotations": [45, 60],
+  "hueSets": [45, 60],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -385,18 +388,18 @@ class Picker extends HTMLElement {
         `${token}-label`, 
         `${token}-label-${key}`
       ], label);
-      sa(label, 'for', connector);
+      sa('for', connector, label);
       html(label, p.aspects[key].name)
       const slider = dc('input');
       ac([
         `${token}`, 
         `${token}-${key}`
       ], slider);
-      sa(slider, 'name', connector);
-      sa(slider, 'type', 'range');
-      sa(slider, 'min', 0);
-      sa(slider, 'max', this.getAspectMax(key));
-      sa(slider, 'step', this.getAspectStep(key).toFixed(5));
+      sa('name', connector, slider);
+      sa('type', 'range', slider);
+      sa('min', 0, slider);
+      sa('max', this.getAspectMax(key), slider);
+      sa('step', this.getAspectStep(key).toFixed(5), slider);
       slider.value = p.modes[p.activeMode].base[key]
       ad(slider, 'kind', 'base');
       ad(slider, 'aspect', key);
@@ -409,11 +412,11 @@ class Picker extends HTMLElement {
   initStaticBwVars() {
     const lines = [];
     p.modes.forEach((data, mode) => {
-      lines.push(`--${scrubStyle(data.name)}-${p.bwNames[0]}: oklch(${data.bwValues[0]}% 0 0);`);
-      lines.push(`--${scrubStyle(data.name)}-${p.bwNames[1]}: oklch(${data.bwValues[1]}% 0 0);`);
+      lines.push(`--${p.bwNames[0]}--${scrubStyle(data.name)}: oklch(${data.bwValues[0]}% 0 0);`);
+      lines.push(`--${p.bwNames[1]}--${scrubStyle(data.name)}: oklch(${data.bwValues[1]}% 0 0);`);
       for (let amount = 10; amount < 100; amount += 10) {
-        lines.push(`--${scrubStyle(data.name)}-${p.bwNames[0]}-${amount}: oklch(${data.bwValues[0]}% 0 0 / ${amount}%);`);
-        lines.push(`--${scrubStyle(data.name)}-${p.bwNames[1]}-${amount}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
+        lines.push(`--${p.bwNames[0]}-${amount}--${scrubStyle(data.name)}: oklch(${data.bwValues[0]}% 0 0 / ${amount}%);`);
+        lines.push(`--${p.bwNames[1]}-${amount}--${scrubStyle(data.name)}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
       }
     })
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
@@ -422,17 +425,28 @@ class Picker extends HTMLElement {
 
   initColors() {
     // Clear it first so this can be used if the
-    // number of colors changes. 
+    // number of colors changes, or the names
+    // of the colors change.
     const wrapper = el('colors-content-wrapper');  
     html(wrapper, "");
     for (let index = 0; index < p.numberOfColors; index ++) {
       const colorEl = dc('div'); 
       ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
-      html(colorEl, colorElementTemplate);
+      html(colorEl, colorElementInternalTemplate);
       a(colorEl, wrapper);
       const colorNameEl = colorEl.querySelector('.color-name');
       ac([`color-name-${index}`], colorNameEl);
-      ac([`color-name-${p.colorNames[index]}`], colorNameEl);
+      ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
+      html(colorNameEl, p.colorNames[index]);
+      const selector = colorEl.querySelector('.color-hue-set-selector');
+      p.hueSets.forEach((hs, hsIndex) => {
+        const opt = dc('option');
+        html(opt, `${hs}°`);
+        if (hsIndex === p.modes[p.activeMode].colors[index].activeHueSet) {
+          sa('selected', true, opt);
+        }
+        a(opt, selector);
+      });
     }
   }
 
@@ -465,6 +479,7 @@ class Picker extends HTMLElement {
   initStyleSheets() {
     const sheetNames = [
       'staticBwVars',
+      'staticBwUtilityClasses',
       'dynamicBwVars',
       'dynamicColorSwitches',
       'dynamicColorVars',
@@ -476,6 +491,7 @@ class Picker extends HTMLElement {
       document.body.appendChild(this.styleSheets[name]);
     });
     this.initStaticBwVars();
+    this.initStaticBwClasses();
   }
 
   initTemplate() {
@@ -488,6 +504,31 @@ class Picker extends HTMLElement {
     this.initNumberOfColors();
     this.initColors();
     this.updateModeButtonStyles()
+  }
+
+  initStaticBwClasses() {
+    const lines = [];
+    for (let amount = 0; amount < 100; amount += 10) {
+      let amountString = `-${amount}`;
+      if (amount === 0) {
+        amountString = '';
+      } 
+      lines.push(`.${p.bwNames[0]}${amountString} { color: var(--${p.bwNames[0]}${amountString}); }`);
+      lines.push(`.${p.bwNames[1]}${amountString} { color: var(--${p.bwNames[1]}${amountString}); }`);
+      lines.push(`.${p.bwNames[0]}-${p.backgroundStyleName}${amountString} { background-color: var(--${p.bwNames[0]}${amountString}); }`);
+      lines.push(`.${p.bwNames[1]}-${p.backgroundStyleName}${amountString} { background-color: var(--${p.bwNames[1]}${amountString}); }`);
+      p.borderTypes.forEach((data) => {
+        if (data[1] === true) {
+          lines.push(`.${p.bwNames[0]}-${data[0]}-${p.borderStylePrefix}${amountString} { border-${data[0]}: 1px solid var(--${p.bwNames[0]}${amountString}); }`);
+          lines.push(`.${p.bwNames[1]}-${data[0]}-${p.borderStylePrefix}${amountString} { border-${data[0]}: 1px solid var(--${p.bwNames[1]}${amountString}); }`);
+        } else {
+          lines.push(`.${p.bwNames[0]}-${p.borderStylePrefix}${amountString} { border: 1px solid var(--${p.bwNames[0]}${amountString}); }`);
+          lines.push(`.${p.bwNames[1]}-${p.borderStylePrefix}${amountString} { border: 1px solid var(--${p.bwNames[1]}${amountString}); }`);
+        }
+      });
+    }
+    const out = lines.sort().join("\n");
+    this.styleSheets['staticBwUtilityClasses'].innerHTML = out;
   }
 
   loadData() {
@@ -548,11 +589,11 @@ ${sheets.join("\n")}
   reloadDynamicBwVars() {
     const lines = [];
     const data = p.modes[p.activeMode];
-    lines.push(`--${p.bwNames[0]}: var(--${scrubStyle(data.name)}-${p.bwNames[0]});`);
-    lines.push(`--${p.bwNames[1]}: var(--${scrubStyle(data.name)}-${p.bwNames[1]});`);
+    lines.push(`--${p.bwNames[0]}: var(--${p.bwNames[0]}-${scrubStyle(data.name)});`);
+    lines.push(`--${p.bwNames[1]}: var(--${p.bwNames[1]}-${scrubStyle(data.name)});`);
     for (let amount = 10; amount < 100; amount += 10) {
-      lines.push(`--${p.bwNames[0]}-${amount}: var(--${scrubStyle(data.name)}-${p.bwNames[0]}-${amount});`);
-      lines.push(`--${p.bwNames[1]}-${amount}: var(--${scrubStyle(data.name)}-${p.bwNames[1]}-${amount});`);
+      lines.push(`--${p.bwNames[0]}-${amount}: var(--${p.bwNames[0]}-${amount}--${scrubStyle(data.name)});`);
+      lines.push(`--${p.bwNames[1]}-${amount}: var(--${p.bwNames[1]}-${amount}--${scrubStyle(data.name)});`);
     }
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicBwVars'].innerHTML = out;
@@ -659,39 +700,23 @@ pre{
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 
+
   reloadDynamicUtilityClasses() {
     const lines = [];
     lines.push(`.${p.baseColorName} { color: var(--${p.baseColorName}); }`);
-    lines.push(`.${p.backgroundStyleName}-${p.baseColorName} { background-color: var(--${p.baseColorName}); }`);
+    lines.push(`.${p.baseColorName}-${p.backgroundStyleName} { background-color: var(--${p.baseColorName}); }`);
     for (let index = 0; index < p.numberOfColors; index ++) {
       const colorName = p.colorNames[index];
-      lines.push(`.${colorName} { color: var(--${colorName}); `);
-      lines.push(`.${p.backgroundStyleName}-${colorName} { background-color: var(--${colorName}); `);
-      db(p.borderTypes);
+      lines.push(`.${colorName} { color: var(--${colorName}); }`);
+      lines.push(`.${colorName}-${p.backgroundStyleName} { background-color: var(--${colorName}); }`);
       p.borderTypes.forEach((data) => {
         if (data[1] === true) {
-          lines.push(`.${p.borderStylePrefix}-${colorName}-${data[0]} { background-${data[0]}: 1px solid var(--${colorName}); `);
+          lines.push(`.${colorName}-${p.borderStylePrefix}-${data[0]} { border-${data[0]}: 1px solid var(--${colorName}); }`);
+        } else {
+          lines.push(`.${colorName}-${p.borderStylePrefix} { border: 1px solid var(--${colorName}); }`);
         }
       });
     }
-
-    //p.modes.forEach((data, mode) => {
-    //  const category = data.category;
-    //  const modeName = scrubStyle(data.name);
-    //  const lBase = data.base.l;
-    //  const cBase = data.base.c;
-    //  const hBase = data.base.h;
-    //  lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase}% ${cBase} ${hBase});`);
-    //  for (let index = 0; index < p.numberOfColors; index ++) {
-    //    const colorName = p.colorNames[index];
-    //    const l = this.getColorL(mode, index);
-    //    const c = this.getColorC(mode, index);
-    //    const h = 200;
-    //    //const h = this.getHueForColor(mode, index);
-    //    lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
-    //  }
-    //});
-
     const out = lines.sort().join("\n");
     this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
   }
@@ -711,6 +736,7 @@ pre{
       p.activeMode = gdi(event, "mode");
       this.updateModeButtonStyles()
       this.updateBaseSliders();
+      this.initColors();
     }
     window.requestAnimationFrame(this.requestRender);
   }

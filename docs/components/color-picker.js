@@ -50,8 +50,8 @@ let debug = true;
 
 let p = {};
 
-// Append Child
-function a(target, obj) {
+// Append Object To Target
+function a(obj, target) {
   if (typeof target === "string") {
     const el = document.querySelector(`.${target}`)
     el.appendChild(obj);
@@ -294,9 +294,9 @@ class Picker extends HTMLElement {
       ad(slider, 'kind', 'base');
       ad(slider, 'mode', p.activeMode);
       ad(slider, 'aspect', key);
-      a(div, label);
-      a(div, slider);
-      a('base-sliders', div);
+      a(label, div);
+      a(slider, div);
+      a(div, 'base-sliders');
     }
   }
 
@@ -334,8 +334,11 @@ ${lines.sort().join("\n")}
     html(wrapper, "");
     for (let index = 0; index < p.numberOfColors; index ++) {
       const color = dc("div");
-      html(color, p.colorNames[index]);
-      a(wrapper, color);
+      ac(color, [`color-wrapper`]);
+      const name = dc('div');
+      html(name, p.colorNames[index]);
+      a(name, color);
+      a(color, wrapper);
     }
   }
 
@@ -346,7 +349,7 @@ ${lines.sort().join("\n")}
       if (index + 1 === p.numberOfColors) {
         opt.selected = true;
       } 
-      a(el('number-of-colors-selector'), opt);
+      a(opt, el('number-of-colors-selector'));
     }
   }
 
@@ -456,7 +459,6 @@ ${sheets.join("\n")}
       const c = modeData.base.c;
       const h = modeData.base.h;
       lines.push(`--${mode}-color-base: oklch(${l}% ${c} ${h});`);
-      //db(modeData);
     });
     this.styleSheets['baseColors'].innerHTML = `
 :root {

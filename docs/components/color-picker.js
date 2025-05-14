@@ -89,28 +89,33 @@ function el(className) {
   return document.querySelector(`.${className}`);
 }
 
-// Get Float From DataSet Key From Event
-function gf(key, event) {
+// Get Float from DataSet Key From Event
+function gfd(key, event) {
   return parseFloat(event.target.dataset[key])
 }
 
-// Get Int From DataSet Key From Event
-function gi(key, event) {
+// Get Int from DataSet Key From Event
+function gid(key, event) {
   return parseInt(event.target.dataset[key], 10)
 }
 
-// Get String From DataSet Key From Event
-function gs(key, event) {
+// Get String from DataSet Key From Event
+function gsd(key, event) {
   return event.target.dataset[key]
 }
 
-// Get Value From an Event
-function gv(event) {
+// Get Float Value from an Event
+function gfv(event) {
   return parseFloat(event.target.value)
 }
 
-// Get Integer from Value of an Event
+// Get Integer Value from an Event
 function giv(event) {
+  return parseInt(event.target.value, 10)
+}
+
+// Get String Value from an Event
+function gsv(event) {
   return parseInt(event.target.value, 10)
 }
 
@@ -435,9 +440,9 @@ ${lines.sort().join("\n")}
 
   updateData(event) {
     if (event.target.dataset.kind === "base") {
-      const mode = gi('mode', event);
-      const aspect = gs('aspect', event);
-      p.modes[mode].base[aspect] = gv(event);
+      const mode = gid('mode', event);
+      const aspect = gsd('aspect', event);
+      p.modes[mode].base[aspect] = gfv(event);
     }
     else if (event.target.dataset.kind === "number-of-colors-selector") {
       const checkNum = giv(event);

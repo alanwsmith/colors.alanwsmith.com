@@ -198,6 +198,7 @@ const defaultPalette = {
     "bonus"
   ],
   "fadedNames": ["faded", "faded-2"],
+  "lightLevels": [0, 20, 40, 60, 80, 100],
   "modes": [
     {
       "base": { "l": 50, "c": 0.0, "h": 0 },
@@ -224,7 +225,6 @@ const config = {
   ],
   "fadedKeys": ["f1", "f2"],
   "hueRotations": [30, 45, 60, 90],
-  "lightLevels": [0, 20, 40, 60, 80, 100],
   "maxNumberOfColors": 8,
   "validSchemeVersions": [[1,0,0]],
   "storageName": "colorPickerData"
@@ -400,8 +400,8 @@ body {
   initStyleSheets() {
     const sheetNames = [
       'dynamicBwVars',
-      'dynamicModeColorSwitches',
-      'dynamicModeColorVars',
+      'dynamicColorSwitches',
+      'dynamicColorVars',
       'staticBwVars',
       'staticPickerStyles', 
     ];
@@ -485,35 +485,36 @@ ${sheets.join("\n")}
       lines.push(`--color-bw-match-${amount}: var(--${mode}-color-bw-match-${amount};`);
       lines.push(`--color-bw-reverse-${amount}: var(--${mode}-color-bw-reverse-${amount};`);
     }
-    const out = `:root {${lines.sort().join("\n")}}`;
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicBwVars'].innerHTML = out;
   }
 
-  reloadDynamicModeColorSwitches() {
+  reloadDynamicColorSwitches() {
     const lines = [
       "--color-base: var(--light-color-base);",
     ];
-    this.styleSheets['dynamicModeColorSwitches'].innerHTML =
-      `:root {
-${lines.sort().join("\n")}
-}`;
+    this.styleSheets['dynamicColorSwitches'].innerHTML =
+      `:root {\n${lines.sort().join("\n")}\n}`;
   }
 
-  reloadDynamicModeColorVars() {
-    const lines = [
-      "--color-primary: #333;"
-    ];
-    p.modes.forEach((modeData) => {
+  reloadDynamicColorVars() {
+    const lines = [];
+    p.modes.forEach((modeData, modeIndex) => {
       const mode = modeData.key;
-      const l = modeData.base.l;
-      const c = modeData.base.c;
-      const h = modeData.base.h;
-      lines.push(`--${mode}-color-base: oklch(${l}% ${c} ${h});`);
+      const lBase = modeData.base.l;
+      const cBase = modeData.base.c;
+      const hBase = modeData.base.h;
+      lines.push(`--${mode}-color-base: oklch(${lBase}% ${cBase} ${hBase});`);
+      for (let index = 0; index < p.numberOfColors; index ++) {
+        const name = p.colorNames[index];
+        const l = p.lightLevels[p.modes[modeIndex].colors[index].lightLevel];
+        const c = 0;
+        const h = 0;
+        lines.push(`--${mode}-color-${name}: oklch(${l}% ${c} ${h});`);
+      }
     });
-    this.styleSheets['dynamicModeColorVars'].innerHTML = `
-:root {
-${lines.sort().join("\n")}
-}`;
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['dynamicColorVars'].innerHTML = out;
   }
 
   updateData(event) {
@@ -534,8 +535,8 @@ ${lines.sort().join("\n")}
   }
 
   reloadStyleSheets() {
-    this.reloadDynamicModeColorSwitches();
-    this.reloadDynamicModeColorVars();
+    this.reloadDynamicColorSwitches();
+    this.reloadDynamicColorVars();
     this.reloadDynamicBwVars();
   }
 

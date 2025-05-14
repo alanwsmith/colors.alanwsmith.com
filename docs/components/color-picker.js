@@ -51,12 +51,12 @@ let debug = true;
 let p = {};
 
 // Append Object To Target
-function a(obj, target) {
-  if (typeof target === "string") {
-    const el = document.querySelector(`.${target}`)
-    el.appendChild(obj);
+function a(child, parent) {
+  if (typeof parent === "string") {
+    const el = document.querySelector(`.${parent}`)
+    el.appendChild(child);
   } else {
-    target.appendChild(obj);
+    parent.appendChild(child);
   }
 }
 

@@ -264,19 +264,19 @@ const defaultPalette = {
       "colors": [],
       "name": "Light",
     },
-    { 
-      "base": { "l": 20, "c": 0.0, "h": 0 },
-      "bwValues": [0, 100],
-      "category": 0,
-      "colors": [],
-      "name": "Dark",
-    },
     {
       "base": { "l": 100, "c": 0.0, "h": 0 },
       "bwValues": [100, 0],
       "category": 2,
       "colors": [],
       "name": "High-Contrast Light",
+    },
+    { 
+      "base": { "l": 20, "c": 0.0, "h": 0 },
+      "bwValues": [0, 100],
+      "category": 0,
+      "colors": [],
+      "name": "Dark",
     },
     { 
       "base": { "l": 0, "c": 0.0, "h": 0 },

@@ -174,74 +174,91 @@ const template = `
 <h2 class="palette-name"></h2>
 -->
 
-<div class="main-content">
+<div class="main-body">
+
   <details class="flow" open>
-    <summary>Content</summary>
+    <summary class="interface-text">Content</summary>
     <h2>Welcome to the Color Picker</h2>
-    <p>This is some content.
-Dip the pail once and let it settle.
-Draw <a href="">the chart with heavy</a> black lines.</p>
-
-<p>
-Drop the ashes on the worn old rug.
-Fasten two pins on each side.</p>
-
-<p>Fly by night, and you waste little time.
-Glue the sheet to the dark blue background.
-Go now and come here later.</p>
-
-<p>Greet the new guests and leave quickly.
-Guess the results from the first scores.
-Hang tinsel from both branches.
-Heave the line over the port side.</p>
-
-
+    <p>
+      This is some content.
+      Dip the pail once and let it settle.
+      Draw <a href="">the chart with heavy</a> black lines.
+    </p>
+    <p>
+      Drop the ashes on the worn old rug.
+      Fasten two pins on each side.
+    </p>
+    <p>
+      Fly by night, and you waste little time.
+      Glue the sheet to the dark blue background.
+      Go now and come here later.
+    </p>
+    <p>
+      Greet the new guests and leave quickly.
+      Guess the results from the first scores.
+      Hang tinsel from both branches.
+      Heave the line over the port side.
+    </p>
   </details>
-  <details class="flow" open>
-    <summary>Background</summary>
-  <div class="view-light-dark-wrapper">
-    <span class="view-mode-buttons-text">Mode:</span>
-    <div class="view-mode-buttons"></div>
-  </div>
-  <div class="base-sliders"></div>
-  <details class="flow">
-    <summary>Advanced Settings</summary>
-  <div class="number-of-colors-wrapper">
-    <label for="number-of-colors-selector-label">
-      Number of Colors:
-    </label>
-    <select 
-      name="number-of-colors-selector" 
-      class="number-of-colors-selector"
-      data-kind="number-of-colors-selector"
-    ></select>
-  </div>
-  <h4>TODO List</h4>
-    <ul>
-      <li><input type="checkbox" disabled /> Set min light level for each color</li>
-      <li><input type="checkbox" disabled /> Contrast calculations</li>
-      <li><input type="checkbox" disabled /> Undo/Redo</li>
-      <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
-      <li><input type="checkbox" disabled /> Faded alternatives</li>
-      <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
-      <li><input type="checkbox" disabled /> Optional utility classes</li>
-      <li><input type="checkbox" disabled /> Change CSS variable names</li>
-      <li><input type="checkbox" disabled /> Chnage mode names</li>
-      <li><input type="checkbox" disabled /> Copy button for CSS</li>
-      <li><input type="checkbox" disabled /> Edit CSS</li>
-      <li><input type="checkbox" disabled /> Edit HTML</li>
-      <li><input type="checkbox" disabled /> Save/Load</li>
-      <li><input type="checkbox" disabled /> Shareable URLs</li>
-      <li><input type="checkbox" disabled /> Implementation example</li>
-      <li><input type="checkbox" disabled /> Web component</li>
-      <li><input type="checkbox" disabled /> Randomizer</li>
-      <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
-      <li><input type="checkbox" disabled /> Add/subtract modes</li>
-    </ul>
+
+  <div class="sidebar flow"> 
+
+    <div class="base-wrapper">
+      <div class="view-light-dark-wrapper">
+        <div class="view-mode-buttons"></div>
+      </div>
+      <div class="base-sliders"></div>
+    </div>
+
+    <details class="flow" open>
+      <summary class="interface-text">Colors</summary>
+      <div class="colors-content-wrapper flow"></div>
     </details>
-    <div class="colors-content-wrapper flow"></div>
-  </details>
-<div class="debug flow"></div>
+
+    <details class="flow">
+      <summary class="interface-text">Advanced Settings</summary>
+      <div class="number-of-colors-wrapper">
+        <label for="number-of-colors-selector-label">
+          Number of Colors:
+        </label>
+        <select 
+          name="number-of-colors-selector" 
+          class="number-of-colors-selector"
+          data-kind="number-of-colors-selector"
+        ></select>
+      </div>
+    </details>
+    <details class="flow">
+      <summary class="interface-text">TODO List</summary>
+      <ul>
+        <li><input type="checkbox" disabled /> Set min light level for each color</li>
+        <li><input type="checkbox" disabled /> Contrast calculations</li>
+        <li><input type="checkbox" disabled /> Undo/Redo</li>
+        <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
+        <li><input type="checkbox" disabled /> Faded alternatives</li>
+        <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
+        <li><input type="checkbox" disabled /> Optional utility classes</li>
+        <li><input type="checkbox" disabled /> Change CSS variable names</li>
+        <li><input type="checkbox" disabled /> Chnage mode names</li>
+        <li><input type="checkbox" disabled /> Copy button for CSS</li>
+        <li><input type="checkbox" disabled /> Edit CSS</li>
+        <li><input type="checkbox" disabled /> Edit HTML</li>
+        <li><input type="checkbox" disabled /> Save/Load</li>
+        <li><input type="checkbox" disabled /> Shareable URLs</li>
+        <li><input type="checkbox" disabled /> Implementation example</li>
+        <li><input type="checkbox" disabled /> Web component</li>
+        <li><input type="checkbox" disabled /> Randomizer</li>
+        <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
+        <li><input type="checkbox" disabled /> Add/subtract modes</li>
+      </ul>
+    </details>
+
+</div>
+
+<div class="footer">
+  <div class="debug flow"></div>
+</div>
+
 `;
 
 const colorElementInternalTemplate = `
@@ -275,9 +292,9 @@ const defaultColors = [
     "hueOffsetIndex": 0,
     "hueOffsetValues": [
       {
-        "l": 2,
-        "c": 0.1,
-        "h": 0
+        "l": 3,
+        "c": 0.118,
+        "h": 2
       },
       {
         "l": 4,
@@ -372,11 +389,10 @@ const defaultPalette = {
     "bonus-color"
   ],
   "fadedNames": ["faded", "faded-2"],
-  // 60 has more shift between colors
-  // and feels generally better. might
-  // still turn on 45 at some point, 
-  // but it's way down the list. 
-  "hueOffsets": [60, 45],
+  // i've got back and forth between 
+  // 45 and 60 here. going with 45 for
+  // now since it offers more colors
+  "hueOffsets": [45, 60],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -384,31 +400,601 @@ const defaultPalette = {
   "minLightValue": 10,
   "modes": [
     {
-      "base": { "l": 67.67, "c": 0.0504, "h": 73.872 },
+      "base": { "l": 80.84, "c": 0.02916, "h": 87.552},
       "bwValues": [100, 0],
       "category": 3,
-      "colors": [],
+      "colors": [
+
+        // 0 - 0
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 1,
+              "c": 0.15879,
+              "h": 1
+            },
+            {
+              "l": 1,
+              "c": 0.15879,
+              "h": 1
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 0 - 1
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 0,
+              "c": 0.3,
+              "h": 7
+            },
+            {
+              "l": 0,
+              "c": 0.3,
+              "h": 7
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 0 - 2
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 2,
+              "c": 0.118,
+              "h": 3
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 0 - 3
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 0
+            },
+            {
+              "l": 2,
+              "c": 0.118,
+              "h": 0
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+
+
+      ],
       "name": "Light",
     },
     {
       "base": { "l": 100, "c": 0.0492, "h": 101.484 },
       "bwValues": [100, 0],
       "category": 2,
-      "colors": [],
+      "colors": [
+
+
+
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+
+
+      ],
       "name": "High-Contrast Light",
     },
     { 
-      "base": { "l": 24.68, "c": 0.05523, "h": 354.348 },
+      "base": { "l": 25.71, "c": 0.07395, "h": 58.896 },
       "bwValues": [0, 100],
       "category": 0,
-      "colors": [],
+      "colors": [
+
+
+
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+
+
+
+      ],
       "name": "Dark",
     },
     { 
-      "base": { "l": 5.89, "c": 0.21735, "h": 360 },
+      "base": { "l": 5.21, "c": 0.28248, "h": 74.808 },
       "bwValues": [0, 100],
       "category": 1,
-      "colors": [],
+      "colors": [
+
+
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 3,
+        "c": 0.118,
+        "h": 2
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+
+
+      ],
       "name": "High-Contrast Dark",
     }
   ],
@@ -522,8 +1108,9 @@ class Picker extends HTMLElement {
         `${token}-label`, 
         `${token}-label-${key}`
       ], label);
+      ac('interface-text', label);
       sa('for', connector, label);
-      html(p.aspects[key].name, label);
+      html(`${key}: `, label);
       const slider = dc('input');
       ac([
         `${token}`, 
@@ -738,23 +1325,35 @@ class Picker extends HTMLElement {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
     };
-    data.palettes[0].modes.forEach((modeData, mode) => {
-      for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
-        modeData.colors.push(JSON.parse(JSON.stringify(defaultColors[mode])));
-      }
-    });
+
+    // data.palettes[0].modes.forEach((modeData, mode) => {
+    //   for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
+    //     modeData.colors.push(JSON.parse(JSON.stringify(defaultColors[mode])));
+    //   }
+    // });
+
     dbg("Loaded default colors");
   }
 
   renderDebuggingInfo() {
     if (debug === true) {
+      const colorStyles = [];
+      p.modes.forEach((_, mode) => {
+        for (let color = 0; color < p.maxNumberOfColors; color ++) {
+          const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+          const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+          const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
+          const h = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+          colorStyles.push(`mode: ${mode} color: ${color} l: ${l} c: ${c} h: ${h})`);
+        }
+      })
       const sheets = [];
       for (let sheetName in this.styleSheets) {
         sheets.push(`<h4>${sheetName}</h4>`);
         sheets.push(`<pre class="debug-stylesheet">${this.styleSheets[sheetName].innerHTML}</pre>`);
       };
       el('debug').innerHTML = `
-<details>
+<details class="flow" open>
   <summary>Debugging</summary>
 <h2>Here Be Dragons</h2>
 <p>
@@ -763,6 +1362,9 @@ class Picker extends HTMLElement {
   visible now to help me finish the
   build out. It can safely be ignored. 
 </p>
+<h3>Notes</h3>
+
+${colorStyles.join("<br />")}
 
 <h3>Palette</h3>
 <pre>${JSON.stringify(p, null, 2)}</pre>
@@ -857,17 +1459,7 @@ ${sheets.join("\n")}
   }
 
   reloadDynamicPickerStyles() {
-    const templateList = p.colorNames.map((name, index) => {
-      if (index < p.numberOfColors) {
-        return `* COLOR${index + 1} = ${p.colorNames[index]}`; 
-      }
-    }).join("\n").trim();
     let out = `
-/*
-* TODO: Move this to external insturctions
-* Color Picker Style Template Colors:
-COLORS
-*/
 *, 
 *::before, 
 *::after {
@@ -881,8 +1473,7 @@ a {
   color: var(--COLOR3);
 }
 .active-mode-button {
-  outline: 1px solid var(--MODE-COLOR3);
-  border-radius: 0.3rem;
+  outline: 1px solid var(--BWREVERSE-70);
 }
 .base-slider, .picker-slider {
   accent-color: var(--BWREVERSE-90);
@@ -907,7 +1498,7 @@ button{
 }
 .content-wrapper {
   margin-inline: auto;
-  width: min(100vw - 1.4rem, 54rem);
+  width: min(100vw - 1.4rem, 50rem);
 }
 .flow > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
@@ -916,9 +1507,23 @@ h1, h2 {
   color: var(--COLOR2);
   border-bottom: 1px solid var(--COLOR4);
 }
-.main-content {
+.interface-text {
+  color: var(--BWREVERSE-50);
+}
+.main-body {
   display: grid;
   grid-template-columns: 1fr 12rem;
+  gap: 1.5rem;
+}
+.mode-button {
+  font-size: 0.8rem;
+  margin: 0.2rem;
+  color: var(--BWREVERSE-50);
+  padding-inline: 0.2rem;
+  border-radius: 0.1rem;
+}
+.view-mode-buttons{
+  margin-bottom: 0.8rem;
 }
 pre{
   font-size: 0.7rem;
@@ -932,6 +1537,17 @@ pre{
   border-radius: 0.3rem;
 }
 `;
+    // this is for adding a map to the active names. 
+    // it's off until stuff is moved to a more structured
+    // output
+    /*
+    const templateList = p.colorNames.map((name, index) => {
+      if (index < p.numberOfColors) {
+        return `* COLOR${index + 1} = ${p.colorNames[index]}`; 
+      }
+    }).join("\n").trim();
+    */
+    // out = out.replaceAll("COLORS", templateList);
     out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));
     out = out.replaceAll("BWMATCH", scrubStyle(p.bwNames[0]));
     out = out.replaceAll("BWREVERSE", scrubStyle(p.bwNames[1]));
@@ -943,7 +1559,6 @@ pre{
         out = out.replaceAll(`COLOR${index+1}`, `UNKNOWN-COLOR${index+1}`);
       }
     }
-    out = out.replaceAll("COLORS", templateList);
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 
@@ -1044,4 +1659,70 @@ pre{
 }
 
 customElements.define('color-picker', Picker);
+
+
+
+class TabGroup extends HTMLElement {
+  get tabs() {
+    return [...this.querySelectorAll('[role=tab]')];
+  }
+
+  get panels() {
+    return [...this.querySelectorAll('[role=tabpanel]')];
+  }
+
+  get selected() {
+    return this.querySelector('[role=tab][aria-selected=true]');
+  }
+
+  set selected(element) {
+    this.selected?.setAttribute('aria-selected', 'false');
+    element?.setAttribute('aria-selected', 'true');
+    element?.focus();
+    this.updateSelection();
+  }
+
+  connectedCallback() {
+    this.generateIds();
+    this.updateSelection();
+    this.setupEvents();
+  }
+
+  generateIds() {
+    const prefix = Math.floor(Date.now()).toString(36);
+    this.tabs.forEach((tab, index) => {
+      const panel = this.panels[index];
+      tab.id ||= `${prefix}-tab-${index}`;
+      panel.id ||= `${prefix}-panel-${index}`;
+      tab.setAttribute('aria-controls', panel.id);
+      panel.setAttribute('aria-labelledby', tab.id);
+    });
+  }
+
+  updateSelection() {
+    this.tabs.forEach((tab, index) => {
+      const panel = this.panels[index];
+      const isSelected = tab.getAttribute('aria-selected') === 'true';
+      tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      tab.setAttribute('tabindex', isSelected ? '0' : '-1');
+      panel.setAttribute('tabindex', isSelected ? '0' : '-1');
+      panel.hidden = !isSelected;
+    });
+  }
+
+  setupEvents() {
+    this.tabs.forEach((tab) => {
+      tab.addEventListener('click', () => this.selected = tab);
+      tab.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+          this.selected = tab.previousElementSibling ?? this.tabs.at(-1);
+        } else if (e.key === 'ArrowRight') {
+          this.selected = tab.nextElementSibling ?? this.tabs.at(0);
+        }
+      });
+    });
+  }
+}
+
+customElements.define('tab-group', TabGroup);
 

@@ -192,6 +192,7 @@ const template = `
   </div>
   <h4>TODO List</h4>
     <ul>
+      <li><input type="checkbox" disabled /> Set min light level for each color</li>
       <li><input type="checkbox" disabled /> Contrast calculations</li>
       <li><input type="checkbox" disabled /> Undo/Redo</li>
       <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
@@ -253,7 +254,6 @@ const colorElementInternalTemplate = `
 const defaultColors = [
   {
     "fadedValues": [40, 80],
-    // TODO: DEPRECATE lightlevel to inside degree set stuff
     "hueOffsetIndex": 0,
     "hueOffsetValues": [
       {
@@ -266,7 +266,8 @@ const defaultColors = [
         "c": 0.2,
         "h": 3
       }
-    ]
+    ], 
+    "minLightValue": 10,
   },
   {
     "fadedValues": [10, 20],
@@ -282,7 +283,8 @@ const defaultColors = [
         "c": 0.2,
         "h": 3
       }
-    ]
+    ],
+    "minLightValue": 10,
   },
   {
     "fadedValues": [40, 80],
@@ -298,7 +300,8 @@ const defaultColors = [
         "c": 0.2,
         "h": 3
       }
-    ]
+    ],
+    "minLightValue": 10,
   },
   {
     "fadedValues": [10, 20],
@@ -314,7 +317,8 @@ const defaultColors = [
         "c": 0.2,
         "h": 3
       }
-    ]
+    ],
+    "minLightValue": 10,
   }
 ];
 
@@ -550,6 +554,7 @@ class Picker extends HTMLElement {
       const colorNameEl = colorEl.querySelector('.color-name');
       ac([`color-name-${index}`], colorNameEl);
       ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
+      ac(p.colorNames[index], colorNameEl);
       html(p.colorNames[index], colorNameEl);
       const slider = colorEl.querySelector('.color-hue-chroma-slider');
       sa('type', 'range', slider);
@@ -561,6 +566,9 @@ class Picker extends HTMLElement {
       ad('mode', p.activeMode, slider);
       ad('color', index, slider);
       ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
+      const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
+      ac(p.colorNames[index], sliderLabel);
+
 
 
       /*
@@ -793,13 +801,13 @@ ${sheets.join("\n")}
       const lBase = data.base.l;
       const cBase = data.base.c;
       const hBase = data.base.h;
-      lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase}% ${cBase} ${hBase});`);
+      lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase.toFixed(5)}% ${cBase.toFixed(5)} ${hBase.toFixed(5)});`);
       for (let index = 0; index < p.numberOfColors; index ++) {
         const colorName = p.colorNames[index];
         const l = this.getColorL(mode, index);
         const c = this.getColorC(mode, index);
         const h = this.getColorH(mode, index);
-        lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
+        lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
       }
     });
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
@@ -818,7 +826,7 @@ ${sheets.join("\n")}
             const c = this.getColorC(mode, color);
             const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
-            const style = `oklch(${lightLevel}% ${c} ${h})`;
+            const style = `oklch(${lightLevel.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)})`;
             lines.push(
               `${className} { color: ${style};}`
             );

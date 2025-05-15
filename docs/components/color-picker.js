@@ -212,10 +212,11 @@ const template = `
   </details>
 </fieldset>
 <div class="main-content">
-  <div class="example-content flow">
-    <h2>Example Conent</h2>
+  <details class="example-content flow" open>
+    <summary>Example Conent</summary>
+    <h2>Welcome to the Color Picker</h2>
     <p>This is some content</p>
-  </div>
+  </details>
     <div class="colors-content-wrapper flow">
   </div>
 </div>
@@ -425,12 +426,26 @@ class Picker extends HTMLElement {
     return p.aspects[key].max / 10000;
   }
 
-  getColorL(mode, color) {
-    return this.getLightLevelValues()[p.modes[mode].colors[color].lightLevel];
+  getColorC(mode, color) {
+    const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
+    const c = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].c;
+    return c;
   }
 
-  getColorC(mode, color) {
-    return p.modes[mode].colors[color].chroma;
+  getColorH(mode, color) {
+    const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
+    const h = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h;
+    let value = this.getHueValues(degreeOffsetIndex)[h] + p.modes[p.activeMode].base.h;
+    if (value > 360) {
+      value -= 360;
+    }
+    return value;
+  }
+
+  getColorL(mode, color) {
+    const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
+    const l = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l;
+    return this.getLightLevelValues()[l];
   }
 
   getLightLevelValues() {
@@ -441,18 +456,15 @@ class Picker extends HTMLElement {
     return lightLevelValues;
   }
 
-  // TODO: Rename to getColorH
-  getHueForColor(mode, color) {
-    const baseHue = p.modes[mode].base.h;
-    const rotationMultiplier = p.hueRotations[p.modes[mode].colors[color].hueRotationsIndex];
-    const rotationCount = p.modes[mode].colors[color].hueRotationCount;
-    const rotationAdjustment = rotationMultiplier * rotationCount;
-    let colorHue = baseHue + rotationAdjustment;
-    if (colorHue > 360) {
-      colorHue -= 360
+  getHueValues(degreeOffsetIndex) {
+    const values = [];
+    const adder = p.degreeOffsets[degreeOffsetIndex];
+    for (let value = 0; value <= 360; value += adder) {
+      values.push(value);
     }
-    return colorHue;
+    return values;
   }
+
 
   initBaseSliders() {
     for (let key in p.aspects) {
@@ -751,8 +763,7 @@ ${sheets.join("\n")}
         const colorName = p.colorNames[index];
         const l = this.getColorL(mode, index);
         const c = this.getColorC(mode, index);
-        const h = 200;
-        //const h = this.getHueForColor(mode, index);
+        const h = this.getColorH(mode, index);
         lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
       }
     });
@@ -766,7 +777,7 @@ ${sheets.join("\n")}
       const colorData = p.modes[p.activeMode].colors[color];
       const hueCount = Math.round(360 / p.degreeOffsets[colorData.degreeOffsetIndex]);
       for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
-        this.getLightLevelValues().reverse().forEach((lightLevel, lightIndex) => {
+        this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
           const className = `.color-lightness-hue-selector--mode-${p.activeMode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
           const c = p.modes[p.activeMode].colors[color].chroma;
           const hueMultiplier = p.degreeOffsets[colorData.degreeOffsetIndex];
@@ -918,8 +929,10 @@ pre{
       const offsetIndex = gdi("degreesetindex", event);
       const lightnessIndex = gdi("lightness", event);
       p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h = offsetIndex ;
-      p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l = offsetIndex ;
-      dbg(p.modes[mode].colors[color]);
+      p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l = lightnessIndex;
+
+      dbg(`${this.getColorL(mode, color)} - ${this.getColorC(mode, color)} - ${this.getColorH(mode, color)}`);
+
       triggerRefresh = true;
     }  
     if (triggerRefresh === true) {

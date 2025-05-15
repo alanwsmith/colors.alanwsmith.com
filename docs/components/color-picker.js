@@ -239,8 +239,6 @@ const colorElementInternalTemplate = `
 
 const defaultColors = [
   {
-    // TODO: DEPRECATE chroma to inside degree set stuff
-    "chroma": 0.1,
     "fadedValues": [40, 80],
     // TODO: DEPRECATE lightlevel to inside degree set stuff
     "lightLevel": 0,
@@ -259,7 +257,6 @@ const defaultColors = [
     ]
   },
   {
-    "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 1,
     "degreeOffsetIndex": 0,
@@ -277,7 +274,6 @@ const defaultColors = [
     ]
   },
   {
-    "chroma": 0,
     "fadedValues": [40, 80],
     "lightLevel": 4,
     "degreeOffsetIndex": 0,
@@ -295,7 +291,6 @@ const defaultColors = [
     ]
   },
   {
-    "chroma": 0,
     "fadedValues": [10, 20],
     "lightLevel": 5,
     "degreeOffsetIndex": 0,
@@ -780,7 +775,8 @@ ${sheets.join("\n")}
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            const c = p.modes[mode].colors[color].chroma;
+            //const c = p.modes[mode].colors[color].chroma;
+            const c = this.getColorC(mode, color);
             const hueMultiplier = p.degreeOffsets[colorData.degreeOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
             const style = `oklch(${lightLevel}% ${c} ${h})`;

@@ -775,7 +775,6 @@ ${sheets.join("\n")}
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            //const c = p.modes[mode].colors[color].chroma;
             const c = this.getColorC(mode, color);
             const hueMultiplier = p.degreeOffsets[colorData.degreeOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
@@ -928,7 +927,6 @@ pre{
       const lightnessIndex = gdi("lightness", event);
       p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h = offsetIndex ;
       p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l = lightnessIndex;
-      //dbg(`${this.getColorL(mode, color)} - ${this.getColorC(mode, color)} - ${this.getColorH(mode, color)}`);
       triggerRefresh = true;
     }  
     if (triggerRefresh === true) {

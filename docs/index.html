@@ -2,6 +2,12 @@
 <html lang="en">
   <head>
     <title>Alan's Color Picker</title>
+    <style>
+body {
+  background: black;
+  color: #888;
+}
+    </style>
   </head>
   <body>
     <header class="content-wrapper">
@@ -12,5 +18,8 @@
       <color-picker class="flow"></color-picker>
     </main>
     <script src="/components/color-picker.js" type="module"></script>
+    <noscript>
+      Could not load the picker. It appears JavaScript is not available.
+    </noscript>
   </body>
 </html>

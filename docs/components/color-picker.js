@@ -212,19 +212,23 @@ const template = `
   </details>
 </fieldset>
 <div class="main-content">
-  <details class="example-content flow" open>
-    <summary>Example Conent</summary>
+  <details class="flow" open>
+    <summary>Example Content</summary>
     <h2>Welcome to the Color Picker</h2>
     <p>This is some content</p>
   </details>
-    <div class="colors-content-wrapper flow">
-  </div>
+  <details class="flow" open>
+    <summary>Colors</summary>
+    <div class="colors-content-wrapper flow"></div>
+  </details>
 </div>
 <div class="debug flow"></div>
 `;
 
 const colorElementInternalTemplate = `
+<!--
 <details class="flow" open>
+-->
 <summary class="color-name">Color Name</summary>
 <div class="hue-set-wrapper">
   <!--
@@ -241,16 +245,17 @@ const colorElementInternalTemplate = `
     <div class="color-hue-faded-wrapper"></div>
   </div>
 </div>
+<!--
 </details>
+-->
 `;
 
 const defaultColors = [
   {
     "fadedValues": [40, 80],
     // TODO: DEPRECATE lightlevel to inside degree set stuff
-    "lightLevel": 0,
-    "degreeOffsetIndex": 0,
-    "degreeOffsetValues": [
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -265,9 +270,8 @@ const defaultColors = [
   },
   {
     "fadedValues": [10, 20],
-    "lightLevel": 1,
-    "degreeOffsetIndex": 0,
-    "degreeOffsetValues": [
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -282,9 +286,8 @@ const defaultColors = [
   },
   {
     "fadedValues": [40, 80],
-    "lightLevel": 4,
-    "degreeOffsetIndex": 0,
-    "degreeOffsetValues": [
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -299,9 +302,8 @@ const defaultColors = [
   },
   {
     "fadedValues": [10, 20],
-    "lightLevel": 5,
-    "degreeOffsetIndex": 0,
-    "degreeOffsetValues": [
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
       {
         "l": 2,
         "c": 0.1,
@@ -352,10 +354,12 @@ const defaultPalette = {
   // and feels generally better. might
   // still turn on 45 at some point, 
   // but it's way down the list. 
-  "degreeOffsets": [60, 45],
+  "hueOffsets": [60, 45],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
+  "maxLightValue": 100,
+  "minLightValue": 10,
   "modes": [
     {
       "base": { "l": 67.67, "c": 0.0504, "h": 73.872 },
@@ -433,15 +437,15 @@ class Picker extends HTMLElement {
   }
 
   getColorC(mode, color) {
-    const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
-    const c = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].c;
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
     return c;
   }
 
   getColorH(mode, color) {
-    const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
-    const h = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h;
-    let value = this.getHueValues(degreeOffsetIndex)[h] + p.modes[mode].base.h;
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const h = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+    let value = this.getHueValues(hueOffsetIndex)[h] + p.modes[mode].base.h;
     if (value > 360) {
       value -= 360;
     }
@@ -449,22 +453,32 @@ class Picker extends HTMLElement {
   }
 
   getColorL(mode, color) {
-    const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
-    const l = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l;
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
     return this.getLightLevelValues()[l];
   }
 
   getLightLevelValues() {
-    const lightLevelValues = [];
-    for (let level = 0; level <= 100; level += Math.floor(100 / (p.lightLevels - 1))) {
-      lightLevelValues.push(level);
+    const levels = [];
+    const adder = ((p.maxLightValue - p.minLightValue) / p.lightLevels);
+    for (let level = p.minLightValue; level <= p.maxLightValue; level += adder) {
+      levels.push(level);
     }
-    return lightLevelValues;
+
+    // for (let level = 0; level <= 100; level += Math.floor(100 / (p.lightLevels - 1))) {
+    //   if (level === 0) {
+    //     lightLevelValues.push(10);
+    //   } else {
+    //     lightLevelValues.push(level);
+    //   }
+    // }
+
+    return levels;
   }
 
-  getHueValues(degreeOffsetIndex) {
+  getHueValues(hueOffsetIndex) {
     const values = [];
-    const adder = p.degreeOffsets[degreeOffsetIndex];
+    const adder = p.hueOffsets[hueOffsetIndex];
     for (let value = 0; value <= 360; value += adder) {
       values.push(value);
     }
@@ -537,36 +551,16 @@ class Picker extends HTMLElement {
       ac([`color-name-${index}`], colorNameEl);
       ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
       html(p.colorNames[index], colorNameEl);
-
-      // this is the slider
       const slider = colorEl.querySelector('.color-hue-chroma-slider');
-      //sa('name', connector, slider);
       sa('type', 'range', slider);
       sa('min', 0, slider);
       sa('max', this.getAspectMax('c'), slider);
       sa('step', this.getAspectStep('c').toFixed(5), slider);
-      const c = colorData.degreeOffsetValues[colorData.degreeOffsetIndex].c;
-      slider.value = c;
-
-      // const slider = dc('input');
-      // ac([
-      //   `${token}`, 
-      //   `${token}-${key}`
-      // ], slider);
-      // sa('name', connector, slider);
-      // sa('type', 'range', slider);
-      // sa('min', 0, slider);
-      // sa('max', this.getAspectMax(key), slider);
-      // sa('step', this.getAspectStep(key).toFixed(5), slider);
-      // slider.value = p.modes[p.activeMode].base[key]
-      // ad('kind', 'base', slider);
-      // ad('aspect', key, slider);
-      // a(label, div);
-      // a(slider, div);
-      // a(div, 'base-sliders');
-      // dbg(slider);
-
-
+      slider.value = colorData.hueOffsetValues[colorData.hueOffsetIndex].c;
+      ad('kind', 'color-chroma-slider', slider);
+      ad('mode', p.activeMode, slider);
+      ad('color', index, slider);
+      ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
 
 
       /*
@@ -580,11 +574,11 @@ class Picker extends HTMLElement {
       ad("mode", p.activeMode, selector);
       sa("name", `color-hue-set-selector-${index}`, selector);
       ad("color", index, selector);
-      p.degreeOffsets.forEach((hs, hsIndex) => {
+      p.hueOffsets.forEach((hs, hsIndex) => {
         const opt = dc('option');
         sv(hsIndex, opt);
         html(`${hs}°`, opt);
-        if (hsIndex === p.modes[p.activeMode].colors[index].degreeOffsetIndex) {
+        if (hsIndex === p.modes[p.activeMode].colors[index].hueOffsetIndex) {
           opt.selected = true;
         }
         a(opt, selector);
@@ -592,28 +586,28 @@ class Picker extends HTMLElement {
 
 */
 
-      const degreeOffsetIndexEl = colorEl.querySelector('.color-hue-set');
-      const hueCount = Math.round(360 / p.degreeOffsets[
-        colorData.degreeOffsetIndex
+      const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
+      const hueCount = Math.round(360 / p.hueOffsets[
+        colorData.hueOffsetIndex
       ]);
-      for (let degreeOffsetIndexIndex = 0; degreeOffsetIndexIndex < hueCount; degreeOffsetIndexIndex ++ ) {
-        const degreeOffsetIndexWrapper = dc('div');
+      for (let hueOffsetIndexIndex = 0; hueOffsetIndexIndex < hueCount; hueOffsetIndexIndex ++ ) {
+        const hueOffsetIndexWrapper = dc('div');
         this.getLightLevelValues().forEach((level, levelIndex) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
           ad('mode', p.activeMode, button);
           ad('color', index, button);
-          ad('degreeset', colorData.degreeOffsetIndex, button);
-          ad('degreesetindex', degreeOffsetIndexIndex, button);
+          ad('degreeset', colorData.hueOffsetIndex, button);
+          ad('degreesetindex', hueOffsetIndexIndex, button);
           ad('lightness', levelIndex, button);
           //ad('color', index, button);
           ac('color-light-level', button);
-          ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${index}--lightness-${levelIndex}--hue-${degreeOffsetIndexIndex}`, button);
+          ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${index}--lightness-${levelIndex}--hue-${hueOffsetIndexIndex}`, button);
           //html(level.toString().padStart(3, '0'), button);
           html('set', button);
-          a(button, degreeOffsetIndexWrapper);
+          a(button, hueOffsetIndexWrapper);
         });
-        a(degreeOffsetIndexWrapper, degreeOffsetIndexEl);
+        a(hueOffsetIndexWrapper, hueOffsetIndexEl);
       }
     }
   }
@@ -734,7 +728,9 @@ class Picker extends HTMLElement {
         sheets.push(`<pre class="debug-stylesheet">${this.styleSheets[sheetName].innerHTML}</pre>`);
       };
       el('debug').innerHTML = `
-<h2>Debugging - Here Be Dragons</h2>
+<details>
+  <summary>Debugging</summary>
+<h2>Here Be Dragons</h2>
 <p>
   This is a prototype. The data below is
   normally behind the scenes. It's 
@@ -748,6 +744,8 @@ class Picker extends HTMLElement {
 <pre>${JSON.stringify(config, null, 2)}</pre>
 <h3>Style Sheets</h3>
 ${sheets.join("\n")}
+
+</details>
 `;
     }
   }
@@ -813,12 +811,12 @@ ${sheets.join("\n")}
     for (let mode = 0; mode < p.modes.length; mode ++) {
       for (let color = 0; color < p.numberOfColors; color ++) {
         const colorData = p.modes[mode].colors[color];
-        const hueCount = Math.round(360 / p.degreeOffsets[colorData.degreeOffsetIndex]);
+        const hueCount = Math.round(360 / p.hueOffsets[colorData.hueOffsetIndex]);
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
             const c = this.getColorC(mode, color);
-            const hueMultiplier = p.degreeOffsets[colorData.degreeOffsetIndex];
+            const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
             const style = `oklch(${lightLevel}% ${c} ${h})`;
             lines.push(
@@ -941,7 +939,7 @@ pre{
       const mode = gdi("mode", event);
       const color = gdi("color", event);
       const value = gvi(event);
-      p.modes[mode].colors[color].degreeOffsetIndex = value;
+      p.modes[mode].colors[color].hueOffsetIndex = value;
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "base") {
@@ -964,11 +962,17 @@ pre{
     } else if (event.target.dataset.kind === "color-hue-lightness-button") {
       const mode = gdi("mode", event);
       const color = gdi("color", event);
-      const degreeOffsetIndex = gdi("degreeset", event);
+      const hueOffsetIndex = gdi("degreeset", event);
       const offsetIndex = gdi("degreesetindex", event);
       const lightnessIndex = gdi("lightness", event);
-      p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h = offsetIndex ;
-      p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l = lightnessIndex;
+      p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h = offsetIndex ;
+      p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l = lightnessIndex;
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "color-chroma-slider") {
+      const mode = gdi("mode", event);
+      const color = gdi("color", event);
+      const hueOffsetIndex = gdi("hueoffsetindex", event);
+      p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c = gvf(event);
       triggerRefresh = true;
     }  
     if (triggerRefresh === true) {

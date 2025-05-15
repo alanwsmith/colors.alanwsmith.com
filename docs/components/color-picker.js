@@ -1,0 +1,1047 @@
+/* *************************************************
+ *
+ * MIT License (with Alan's Note)
+ * https://www.alanwsmith.com/
+ * 
+ * Copyright (c) 2025 Alan W. Smith
+ * 
+ * Hello! Welcome to Color Picker. This code is
+ * licensed with the MIT License (details below). 
+ * There's no requirement that you keep the link 
+ * to my site at the bottom of the component. 
+ * But, I worked really hard on this and would 
+ * appreciate it if you did.
+ * 
+ * Thanks, and enjoy your colors!
+ * 
+ * -a
+ * 
+ * Permission is hereby granted, free of charge, to 
+ * any person obtaining a copy of this software and 
+ * associated documentation files (the "Software"), 
+ * to deal in the Software without restriction, 
+ * including without limitation the rights to use, 
+ * copy, modify, merge, publish, distribute, 
+ * sublicense, and/or sell copies of the Software, 
+ * and to permit persons to whom the Software is 
+ * furnished to do so, subject to the following 
+ * conditions:
+ * 
+ * The above copyright notice and this permission 
+ * notice shall be included in all copies or 
+ * substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY 
+ * OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ * SOFTWARE.
+ * 
+ * ****************************************************/
+
+let data = {};
+
+let debug = true;
+
+let p = {};
+
+// Append Object To Target
+function a(child, parent) {
+  if (typeof parent === "string") {
+    const el = document.querySelector(`.${parent}`)
+    el.appendChild(child);
+  } else {
+    parent.appendChild(child);
+  }
+}
+
+// Add classes to Object
+function ac(data, obj) {
+  if (typeof data === "string") {
+    obj.classList.add(data);
+  } else {
+    data.forEach((c) => {
+      obj.classList.add(c);
+    });
+  }
+}
+
+// Add Key Value Data To Dataset
+function ad(key, value, obj) {
+  obj.dataset[key] = value;
+}
+
+// Debug
+function dbg(value) {
+  if (debug === true) {
+    console.log(value);
+  }
+}
+
+// Document Create
+function dc(name) {
+  return document.createElement(name);
+}
+
+// Get Element By Class Name
+function el(className) {
+  return document.querySelector(`.${className}`);
+}
+
+// Get Float from DataSet Key From Event
+// TODO: put event last
+function gdf(event, key) {
+  return parseFloat(event.target.dataset[key])
+}
+
+// Get Int from DataSet Key From Event
+function gdi(key, event) {
+  return parseInt(event.target.dataset[key], 10)
+}
+
+// Get String from DataSet Key From Event
+// TODO: put event last
+function gds(event, key) {
+  return event.target.dataset[key]
+}
+
+// Get Float Value from an Event
+function gvf(event) {
+  return parseFloat(event.target.value)
+}
+
+// Get Integer Value from an Event
+function gvi(event) {
+  return parseInt(event.target.value, 10)
+}
+
+// Get String Value from an Event
+function gvs(event) {
+  return parseInt(event.target.value, 10)
+}
+
+// Set InnerHTML
+function html(str, obj) {
+  obj.innerHTML = str;
+}
+
+// Remove classes from Object
+function rc(data, obj) {
+  if (typeof data === "string") {
+    obj.classList.remove(data);
+  } else {
+    data.forEach((c) => {
+      obj.classList.remove(c);
+    });
+  }
+}
+
+// Set Attribute
+function sa(key, value, obj) {
+  obj.setAttribute(key, value);
+}
+
+// Set Value 
+function sv(value, obj) {
+  obj.value = value;
+}
+
+// Make CSS strings lower case for consistency
+// and scrub them some. Note that this
+// won't catch everything. A full 
+// CSS parser is outside the scope of
+// this tool. 
+function scrubStyle(input) {
+  return input
+    .replace(" ", "-")
+    .replace(":", "-")
+    .replace("{", "-")
+    .replace("}", "-")
+    .replace(";", "-")
+    .replace("(", "-")
+    .replace(")", "-")
+    .toLowerCase()
+}
+
+
+const template = `
+<!--
+<h2 class="palette-name"></h2>
+-->
+
+<div class="main-content">
+  <details class="flow" open>
+    <summary>Content</summary>
+    <h2>Welcome to the Color Picker</h2>
+    <p>This is some content.
+Dip the pail once and let it settle.
+Draw <a href="">the chart with heavy</a> black lines.</p>
+
+<p>
+Drop the ashes on the worn old rug.
+Fasten two pins on each side.</p>
+
+<p>Fly by night, and you waste little time.
+Glue the sheet to the dark blue background.
+Go now and come here later.</p>
+
+<p>Greet the new guests and leave quickly.
+Guess the results from the first scores.
+Hang tinsel from both branches.
+Heave the line over the port side.</p>
+
+
+  </details>
+  <details class="flow" open>
+    <summary>Background</summary>
+  <div class="view-light-dark-wrapper">
+    <span class="view-mode-buttons-text">Mode:</span>
+    <div class="view-mode-buttons"></div>
+  </div>
+  <div class="base-sliders"></div>
+  <details class="flow">
+    <summary>Advanced Settings</summary>
+  <div class="number-of-colors-wrapper">
+    <label for="number-of-colors-selector-label">
+      Number of Colors:
+    </label>
+    <select 
+      name="number-of-colors-selector" 
+      class="number-of-colors-selector"
+      data-kind="number-of-colors-selector"
+    ></select>
+  </div>
+  <h4>TODO List</h4>
+    <ul>
+      <li><input type="checkbox" disabled /> Set min light level for each color</li>
+      <li><input type="checkbox" disabled /> Contrast calculations</li>
+      <li><input type="checkbox" disabled /> Undo/Redo</li>
+      <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
+      <li><input type="checkbox" disabled /> Faded alternatives</li>
+      <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
+      <li><input type="checkbox" disabled /> Optional utility classes</li>
+      <li><input type="checkbox" disabled /> Change CSS variable names</li>
+      <li><input type="checkbox" disabled /> Chnage mode names</li>
+      <li><input type="checkbox" disabled /> Copy button for CSS</li>
+      <li><input type="checkbox" disabled /> Edit CSS</li>
+      <li><input type="checkbox" disabled /> Edit HTML</li>
+      <li><input type="checkbox" disabled /> Save/Load</li>
+      <li><input type="checkbox" disabled /> Shareable URLs</li>
+      <li><input type="checkbox" disabled /> Implementation example</li>
+      <li><input type="checkbox" disabled /> Web component</li>
+      <li><input type="checkbox" disabled /> Randomizer</li>
+      <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
+      <li><input type="checkbox" disabled /> Add/subtract modes</li>
+    </ul>
+    </details>
+    <div class="colors-content-wrapper flow"></div>
+  </details>
+<div class="debug flow"></div>
+`;
+
+const colorElementInternalTemplate = `
+<!--
+<details class="flow" open>
+-->
+<summary class="color-name">Color Name</summary>
+<div class="hue-set-wrapper">
+  <!--
+  TODO: Add advanced setting to turn this on
+  <label class="color-hue-set-selector-label">Hue Set:</label>
+  <select class="color-hue-set-selector"></select>
+  -->
+  <div>
+    <div class="color-hue-set"></div>
+    <div class="color-hue-chroma-slider-wrapper">
+      <label class="color-hue-chroma-slider-label">c</label>
+      <input type="range" class="color-hue-chroma-slider picker-slider" />
+    </div>
+    <div class="color-hue-faded-wrapper"></div>
+  </div>
+</div>
+<!--
+</details>
+-->
+`;
+
+const defaultColors = [
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ], 
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [10, 20],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ],
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [40, 80],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ],
+    "minLightValue": 10,
+  },
+  {
+    "fadedValues": [10, 20],
+    "hueOffsetIndex": 0,
+    "hueOffsetValues": [
+      {
+        "l": 2,
+        "c": 0.1,
+        "h": 0
+      },
+      {
+        "l": 4,
+        "c": 0.2,
+        "h": 3
+      }
+    ],
+    "minLightValue": 10,
+  }
+];
+
+const defaultPalette = {
+  "activeMode": 0,
+  "aspectOrder": ["l", "c", "h"],
+  "aspects": {
+    "l": { "name": "lightness", "max": 100 },
+    "c": { "name": "chroma", "max": 0.3 },
+    "h": { "name": "hue", "max": 360 }
+  },
+  "backgroundStyleName": "background",
+  "baseColorName": "base-color",
+  "borderStylePrefix": "border",
+  "borderTypes": [
+    ["full", false],
+    ["top", true],
+    ["bottom", true],
+    ["left", true],
+    ["right", true],
+    ["inline", true],
+    ["block", true],
+  ],
+  "bwNames": ["match-bw", "reverse-bw"],
+  "colorNames": [
+    "primary-color",
+    "secondary-color",
+    "accent-color",
+    "highlight-color",
+    "info-color",
+    "warning-color",
+    "extra-color",
+    "bonus-color"
+  ],
+  "fadedNames": ["faded", "faded-2"],
+  // 60 has more shift between colors
+  // and feels generally better. might
+  // still turn on 45 at some point, 
+  // but it's way down the list. 
+  "hueOffsets": [60, 45],
+  "lightLevels": 6,
+  "maxNumberOfColors": 8,
+  "maxNumberOfFaded": 2,
+  "maxLightValue": 100,
+  "minLightValue": 10,
+  "modes": [
+    {
+      "base": { "l": 67.67, "c": 0.0504, "h": 73.872 },
+      "bwValues": [100, 0],
+      "category": 3,
+      "colors": [],
+      "name": "Light",
+    },
+    {
+      "base": { "l": 100, "c": 0.0492, "h": 101.484 },
+      "bwValues": [100, 0],
+      "category": 2,
+      "colors": [],
+      "name": "High-Contrast Light",
+    },
+    { 
+      "base": { "l": 24.68, "c": 0.05523, "h": 354.348 },
+      "bwValues": [0, 100],
+      "category": 0,
+      "colors": [],
+      "name": "Dark",
+    },
+    { 
+      "base": { "l": 5.89, "c": 0.21735, "h": 360 },
+      "bwValues": [0, 100],
+      "category": 1,
+      "colors": [],
+      "name": "High-Contrast Dark",
+    }
+  ],
+  "name": "Color Palette",
+  "numberOfColors": 4,
+  "numberOfFaded": 1,
+  "preferredMode": 0,
+}
+
+const config = {
+  "validSchemeVersions": [[1,0,0]],
+  "storageName": "colorPickerData"
+}
+
+class Picker extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.loadData();
+    this.requestRender = this.renderPage.bind(this);
+    this.styleSheets = {};
+    this.initStyleSheets();
+    this.initTemplate();
+    this.addListeners();
+    this.renderPage();
+  }
+
+  addListeners() {
+    this.addEventListener('change', (event) => {
+      this.updateData.call(this, event);
+     })
+    this.addEventListener('click', (event) => {
+      this.updateData.call(this, event);
+     })
+    this.addEventListener('input', (event) => {
+      this.updateData.call(this, event);
+    })
+  }
+
+  getAspectMax(key) {
+    return p.aspects[key].max;
+  }
+
+  getAspectStep(key) {
+    return p.aspects[key].max / 10000;
+  }
+
+  getColorC(mode, color) {
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
+    return c;
+  }
+
+  getColorH(mode, color) {
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const h = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+    let value = this.getHueValues(hueOffsetIndex)[h] + p.modes[mode].base.h;
+    if (value > 360) {
+      value -= 360;
+    }
+    return value;
+  }
+
+  getColorL(mode, color) {
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+    return this.getLightLevelValues()[l];
+  }
+
+  getLightLevelValues() {
+    const levels = [];
+    const adder = ((p.maxLightValue - p.minLightValue) / p.lightLevels);
+    for (let level = p.minLightValue; level <= p.maxLightValue; level += adder) {
+      levels.push(level);
+    }
+
+    // for (let level = 0; level <= 100; level += Math.floor(100 / (p.lightLevels - 1))) {
+    //   if (level === 0) {
+    //     lightLevelValues.push(10);
+    //   } else {
+    //     lightLevelValues.push(level);
+    //   }
+    // }
+
+    return levels;
+  }
+
+  getHueValues(hueOffsetIndex) {
+    const values = [];
+    const adder = p.hueOffsets[hueOffsetIndex];
+    for (let value = 0; value <= 360; value += adder) {
+      values.push(value);
+    }
+    return values;
+  }
+
+
+  initBaseSliders() {
+    for (let key in p.aspects) {
+      const token = `base-slider`;
+      const connector = `${token}-${key}`;
+      const div = dc('div');
+      ac([
+        `${token}-wrapper`, 
+        `${token}-wrapper-${key}`
+      ], div);
+      const label = dc('label');
+      ac([
+        `${token}-label`, 
+        `${token}-label-${key}`
+      ], label);
+      sa('for', connector, label);
+      html(p.aspects[key].name, label);
+      const slider = dc('input');
+      ac([
+        `${token}`, 
+        `${token}-${key}`
+      ], slider);
+      sa('name', connector, slider);
+      sa('type', 'range', slider);
+      sa('min', 0, slider);
+      sa('max', this.getAspectMax(key), slider);
+      sa('step', this.getAspectStep(key).toFixed(5), slider);
+      slider.value = p.modes[p.activeMode].base[key]
+      ad('kind', 'base', slider);
+      ad('aspect', key, slider);
+      a(label, div);
+      a(slider, div);
+      a(div, 'base-sliders');
+    }
+  }
+
+  initStaticBwVars() {
+    const lines = [];
+    p.modes.forEach((data, mode) => {
+      lines.push(`--${p.bwNames[0]}--${scrubStyle(data.name)}: oklch(${data.bwValues[0]}% 0 0);`);
+      lines.push(`--${p.bwNames[1]}--${scrubStyle(data.name)}: oklch(${data.bwValues[1]}% 0 0);`);
+      for (let amount = 10; amount < 100; amount += 10) {
+        lines.push(`--${p.bwNames[0]}-${amount}--${scrubStyle(data.name)}: oklch(${data.bwValues[0]}% 0 0 / ${amount}%);`);
+        lines.push(`--${p.bwNames[1]}-${amount}--${scrubStyle(data.name)}: oklch(${data.bwValues[1]}% 0 0 / ${amount}%);`);
+      }
+    })
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['staticBwVars'].innerHTML = out;
+  }
+
+  initColors() {
+    // Clear it first so this can be used if the
+    // number of colors changes, or the names
+    // of the colors change.
+    const wrapper = el('colors-content-wrapper');  
+    html("", wrapper);
+    for (let index = 0; index < p.numberOfColors; index ++) {
+      const colorData = p.modes[p.activeMode].colors[index];
+      const colorEl = dc('div'); 
+      ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
+      html(colorElementInternalTemplate, colorEl);
+      a(colorEl, wrapper);
+      const colorNameEl = colorEl.querySelector('.color-name');
+      ac([`color-name-${index}`], colorNameEl);
+      ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
+      ac(p.colorNames[index], colorNameEl);
+      html(p.colorNames[index], colorNameEl);
+      const slider = colorEl.querySelector('.color-hue-chroma-slider');
+      sa('type', 'range', slider);
+      sa('min', 0, slider);
+      sa('max', this.getAspectMax('c'), slider);
+      sa('step', this.getAspectStep('c').toFixed(5), slider);
+      slider.value = colorData.hueOffsetValues[colorData.hueOffsetIndex].c;
+      ad('kind', 'color-chroma-slider', slider);
+      ad('mode', p.activeMode, slider);
+      ad('color', index, slider);
+      ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
+      const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
+      ac(p.colorNames[index], sliderLabel);
+
+
+
+      /*
+       * This is the degree switch. It's off for now. Add advance function to turn 
+       * it back on if folks want it, but it adds
+       * some complication to the interface that's
+       * better avoided for the default case. 
+      const selector = colorEl.querySelector('.color-hue-set-selector');
+      ac([`color-hue-set-selector-${index}`], selector);
+      ad("kind", "color-hue-set-selector", selector);
+      ad("mode", p.activeMode, selector);
+      sa("name", `color-hue-set-selector-${index}`, selector);
+      ad("color", index, selector);
+      p.hueOffsets.forEach((hs, hsIndex) => {
+        const opt = dc('option');
+        sv(hsIndex, opt);
+        html(`${hs}°`, opt);
+        if (hsIndex === p.modes[p.activeMode].colors[index].hueOffsetIndex) {
+          opt.selected = true;
+        }
+        a(opt, selector);
+      });
+
+*/
+
+      const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
+      const hueCount = Math.round(360 / p.hueOffsets[
+        colorData.hueOffsetIndex
+      ]);
+      for (let hueOffsetIndexIndex = 0; hueOffsetIndexIndex < hueCount; hueOffsetIndexIndex ++ ) {
+        const hueOffsetIndexWrapper = dc('div');
+        this.getLightLevelValues().forEach((level, levelIndex) => {
+          const button = dc('button'); 
+          ad('kind', 'color-hue-lightness-button', button);
+          ad('mode', p.activeMode, button);
+          ad('color', index, button);
+          ad('degreeset', colorData.hueOffsetIndex, button);
+          ad('degreesetindex', hueOffsetIndexIndex, button);
+          ad('lightness', levelIndex, button);
+          //ad('color', index, button);
+          ac('color-light-level', button);
+          ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${index}--lightness-${levelIndex}--hue-${hueOffsetIndexIndex}`, button);
+          //html(level.toString().padStart(3, '0'), button);
+          html('set', button);
+          a(button, hueOffsetIndexWrapper);
+        });
+        a(hueOffsetIndexWrapper, hueOffsetIndexEl);
+      }
+    }
+  }
+
+  initModeButtons() {
+    // TODO: Figure out what the proper
+    // aria label is to add to indicate 
+    // the active button.
+    p.modes.forEach((data, mode) => {
+      const button = dc('button');
+      html(data.name, button);
+      ac('mode-button', button);
+      ac(`mode-button-${mode}`, button);
+      ad('kind', 'mode-button', button);
+      ad('mode', mode, button);
+      a(button, el('view-mode-buttons'));
+    })
+  }
+
+  initNumberOfColors() {
+    for (let index = 0; index < p.maxNumberOfColors; index ++) {
+     const opt = dc('option');
+      html(index + 1, opt);
+      if (index + 1 === p.numberOfColors) {
+        opt.selected = true;
+      } 
+      a(opt, el('number-of-colors-selector'));
+    }
+  }
+
+  initStyleSheets() {
+    const sheetNames = [
+      'staticBwVars',
+      'staticBwUtilityClasses',
+      'dynamicBwVars',
+      'dynamicColorSwitches',
+      'dynamicColorVars',
+      'dynamicPickerStyles', 
+      'dynamicUtilityClasses', 
+      'dynamicInterfaceClasses', 
+    ];
+    sheetNames.forEach((name) => {
+      this.styleSheets[name] = document.createElement('style');
+      document.body.appendChild(this.styleSheets[name]);
+    });
+    this.initStaticBwVars();
+    this.initStaticBwClasses();
+  }
+
+  initTemplate() {
+    const templateEl = this.ownerDocument.createElement('template')
+    templateEl.innerHTML = template;
+    const content = templateEl.content.cloneNode(true);
+    this.append(content);
+    this.initBaseSliders();
+    this.initModeButtons();
+    this.initNumberOfColors();
+    this.initColors();
+    this.updateModeButtonStyles()
+  }
+
+  initStaticBwClasses() {
+    const lines = [];
+    for (let amount = 0; amount < 100; amount += 10) {
+      let amountString = `-${amount}`;
+      if (amount === 0) {
+        amountString = '';
+      } 
+      lines.push(`.${p.bwNames[0]}${amountString} { color: var(--${p.bwNames[0]}${amountString}); }`);
+      lines.push(`.${p.bwNames[1]}${amountString} { color: var(--${p.bwNames[1]}${amountString}); }`);
+      lines.push(`.${p.bwNames[0]}-${p.backgroundStyleName}${amountString} { background-color: var(--${p.bwNames[0]}${amountString}); }`);
+      lines.push(`.${p.bwNames[1]}-${p.backgroundStyleName}${amountString} { background-color: var(--${p.bwNames[1]}${amountString}); }`);
+      p.borderTypes.forEach((data) => {
+        if (data[1] === true) {
+          lines.push(`.${p.bwNames[0]}-${data[0]}-${p.borderStylePrefix}${amountString} { border-${data[0]}: 1px solid var(--${p.bwNames[0]}${amountString}); }`);
+          lines.push(`.${p.bwNames[1]}-${data[0]}-${p.borderStylePrefix}${amountString} { border-${data[0]}: 1px solid var(--${p.bwNames[1]}${amountString}); }`);
+        } else {
+          lines.push(`.${p.bwNames[0]}-${p.borderStylePrefix}${amountString} { border: 1px solid var(--${p.bwNames[0]}${amountString}); }`);
+          lines.push(`.${p.bwNames[1]}-${p.borderStylePrefix}${amountString} { border: 1px solid var(--${p.bwNames[1]}${amountString}); }`);
+        }
+      });
+    }
+    const out = lines.sort().join("\n");
+    this.styleSheets['staticBwUtilityClasses'].innerHTML = out;
+  }
+
+  loadData() {
+    const checkData = localStorage.getItem(
+      config.storageName
+    );
+    if (checkData && checkData.version[0] === 1) {
+      dbg(`Loaded colors from storage`);
+      p = checkData;
+    } else {
+      this.loadDefaults();
+    }
+    p = data.palettes[0];
+  }
+
+  loadDefaults() {
+    data = {
+      "palettes": [defaultPalette],
+      "schemaVersion": [1,0,0]
+    };
+    data.palettes[0].modes.forEach((modeData, mode) => {
+      for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
+        modeData.colors.push(JSON.parse(JSON.stringify(defaultColors[mode])));
+      }
+    });
+    dbg("Loaded default colors");
+  }
+
+  renderDebuggingInfo() {
+    if (debug === true) {
+      const sheets = [];
+      for (let sheetName in this.styleSheets) {
+        sheets.push(`<h4>${sheetName}</h4>`);
+        sheets.push(`<pre class="debug-stylesheet">${this.styleSheets[sheetName].innerHTML}</pre>`);
+      };
+      el('debug').innerHTML = `
+<details>
+  <summary>Debugging</summary>
+<h2>Here Be Dragons</h2>
+<p>
+  This is a prototype. The data below is
+  normally behind the scenes. It's 
+  visible now to help me finish the
+  build out. It can safely be ignored. 
+</p>
+
+<h3>Palette</h3>
+<pre>${JSON.stringify(p, null, 2)}</pre>
+<h3>Config</h3>
+<pre>${JSON.stringify(config, null, 2)}</pre>
+<h3>Style Sheets</h3>
+${sheets.join("\n")}
+
+</details>
+`;
+    }
+  }
+
+  renderPage() {
+    this.reloadStyleSheets();
+    this.renderPaletteName();
+    this.renderDebuggingInfo();
+  }
+
+  renderPaletteName() {
+    //el('palette-name').innerHTML = p.name;
+  }
+
+  reloadDynamicBwVars() {
+    const lines = [];
+    const data = p.modes[p.activeMode];
+    lines.push(`--${p.bwNames[0]}: var(--${p.bwNames[0]}-${scrubStyle(data.name)});`);
+    lines.push(`--${p.bwNames[1]}: var(--${p.bwNames[1]}-${scrubStyle(data.name)});`);
+    for (let amount = 10; amount < 100; amount += 10) {
+      lines.push(`--${p.bwNames[0]}-${amount}: var(--${p.bwNames[0]}-${amount}--${scrubStyle(data.name)});`);
+      lines.push(`--${p.bwNames[1]}-${amount}: var(--${p.bwNames[1]}-${amount}--${scrubStyle(data.name)});`);
+    }
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['dynamicBwVars'].innerHTML = out;
+  }
+
+  reloadDynamicColorSwitches() {
+    const lines = [];
+    const activeModeKey = scrubStyle(p.modes[p.activeMode].name);
+    for (let index = 0; index < p.numberOfColors; index ++) {
+      const name = p.colorNames[index];
+      lines.push(`--${name}: var(--${activeModeKey}-${name});`);
+    }
+    lines.push(`--${p.baseColorName}: var(--${activeModeKey}-${p.baseColorName});`);
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['dynamicColorSwitches'].innerHTML = out;
+  }
+
+  reloadDynamicColorVars() {
+    const lines = [];
+    p.modes.forEach((data, mode) => {
+      const category = data.category;
+      const modeName = scrubStyle(data.name);
+      const lBase = data.base.l;
+      const cBase = data.base.c;
+      const hBase = data.base.h;
+      lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase.toFixed(5)}% ${cBase.toFixed(5)} ${hBase.toFixed(5)});`);
+      for (let index = 0; index < p.numberOfColors; index ++) {
+        const colorName = p.colorNames[index];
+        const l = this.getColorL(mode, index);
+        const c = this.getColorC(mode, index);
+        const h = this.getColorH(mode, index);
+        lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
+      }
+    });
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['dynamicColorVars'].innerHTML = out;
+  }
+
+  reloadDynamicInterfaceClasses() {
+    const lines = [];
+    for (let mode = 0; mode < p.modes.length; mode ++) {
+      for (let color = 0; color < p.numberOfColors; color ++) {
+        const colorData = p.modes[mode].colors[color];
+        const hueCount = Math.round(360 / p.hueOffsets[colorData.hueOffsetIndex]);
+        for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
+          this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
+            const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
+            const c = this.getColorC(mode, color);
+            const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
+            const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
+            const style = `oklch(${lightLevel.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)})`;
+            lines.push(
+              `${className} { color: ${style};}`
+            );
+          });
+        }
+      }
+    }
+    const out = lines.sort().join("\n");
+    this.styleSheets['dynamicInterfaceClasses'].innerHTML = out;
+  }
+
+  reloadDynamicPickerStyles() {
+    const templateList = p.colorNames.map((name, index) => {
+      if (index < p.numberOfColors) {
+        return `* COLOR${index + 1} = ${p.colorNames[index]}`; 
+      }
+    }).join("\n").trim();
+    let out = `
+/*
+* TODO: Move this to external insturctions
+* Color Picker Style Template Colors:
+COLORS
+*/
+*, 
+*::before, 
+*::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+  color: var(--COLOR3);
+}
+.active-mode-button {
+  outline: 1px solid var(--MODE-COLOR3);
+  border-radius: 0.3rem;
+}
+.base-slider, .picker-slider {
+  accent-color: var(--BWREVERSE-90);
+  height: 1px;
+}
+body { 
+  font-family: system-ui;
+  background-color: var(--BASECOLOR); 
+  color: var(--COLOR1);
+}
+button{
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  outline: inherit;
+  padding: 0;
+}
+.color-light-level {
+  padding: 0.14rem;
+}
+.content-wrapper {
+  margin-inline: auto;
+  width: min(100vw - 1.4rem, 54rem);
+}
+.flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1em);
+}
+h1, h2 {
+  color: var(--COLOR2);
+  border-bottom: 1px solid var(--COLOR4);
+}
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 12rem;
+}
+pre{
+  font-size: 0.7rem;
+  white-space: pre-wrap; 
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+  overscroll-behavior-x: auto;
+}
+.settings-fieldset {
+  border: 1px solid var(--BWREVERSE-20);
+  border-radius: 0.3rem;
+}
+`;
+    out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));
+    out = out.replaceAll("BWMATCH", scrubStyle(p.bwNames[0]));
+    out = out.replaceAll("BWREVERSE", scrubStyle(p.bwNames[1]));
+    out = out.replaceAll("BASECOLOR", scrubStyle(p.baseColorName));
+    for (let index = 0; index < p.maxNumberOfColors; index ++) {
+      if (index < p.numberOfColors) {
+        out = out.replaceAll(`COLOR${index+1}`, p.colorNames[index]);
+      } else {
+        out = out.replaceAll(`COLOR${index+1}`, `UNKNOWN-COLOR${index+1}`);
+      }
+    }
+    out = out.replaceAll("COLORS", templateList);
+    this.styleSheets['dynamicPickerStyles'].innerHTML = out;
+  }
+
+  reloadDynamicUtilityClasses() {
+    const lines = [];
+    lines.push(`.${p.baseColorName} { color: var(--${p.baseColorName}); }`);
+    lines.push(`.${p.baseColorName}-${p.backgroundStyleName} { background-color: var(--${p.baseColorName}); }`);
+    for (let index = 0; index < p.numberOfColors; index ++) {
+      const colorName = p.colorNames[index];
+      lines.push(`.${colorName} { color: var(--${colorName}); }`);
+      lines.push(`.${colorName}-${p.backgroundStyleName} { background-color: var(--${colorName}); }`);
+      p.borderTypes.forEach((data) => {
+        if (data[1] === true) {
+          lines.push(`.${colorName}-${p.borderStylePrefix}-${data[0]} { border-${data[0]}: 1px solid var(--${colorName}); }`);
+        } else {
+          lines.push(`.${colorName}-${p.borderStylePrefix} { border: 1px solid var(--${colorName}); }`);
+        }
+      });
+    }
+    const out = lines.sort().join("\n");
+    this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
+  }
+
+  updateData(event) {
+    let triggerRefresh = false;
+    if (event.target.dataset.kind === "color-hue-set-selector" && event.type === "change") {
+      const mode = gdi("mode", event);
+      const color = gdi("color", event);
+      const value = gvi(event);
+      p.modes[mode].colors[color].hueOffsetIndex = value;
+      this.initColors();
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "base") {
+      const aspect = gds(event, 'aspect');
+      p.modes[p.activeMode].base[aspect] = gvf(event);
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "number-of-colors-selector") {
+      const checkNum = gvi(event);
+      if (p.numberOfColors !== checkNum) {
+        p.numberOfColors = checkNum;
+        this.initColors();
+        triggerRefresh = true;
+      }
+    } else if (event.target.dataset.kind === "mode-button") {
+      p.activeMode = gdi("mode", event);
+      this.updateModeButtonStyles();
+      this.updateBaseSliders();
+      this.initColors();
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "color-hue-lightness-button") {
+      const mode = gdi("mode", event);
+      const color = gdi("color", event);
+      const hueOffsetIndex = gdi("degreeset", event);
+      const offsetIndex = gdi("degreesetindex", event);
+      const lightnessIndex = gdi("lightness", event);
+      p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h = offsetIndex ;
+      p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l = lightnessIndex;
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "color-chroma-slider") {
+      const mode = gdi("mode", event);
+      const color = gdi("color", event);
+      const hueOffsetIndex = gdi("hueoffsetindex", event);
+      p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c = gvf(event);
+      triggerRefresh = true;
+    }  
+    if (triggerRefresh === true) {
+      window.requestAnimationFrame(this.requestRender);
+    }
+  }
+
+  updateBaseSliders() {
+    for (let key in p.aspects) {
+      const slider = el(`base-slider-${key}`);
+      slider.value = p.modes[p.activeMode].base[key];
+    }
+  }
+
+  updateModeButtonStyles() {
+    p.modes.forEach((data, index) => {
+      const button = el(`mode-button-${index}`);
+      if (index === p.activeMode) {
+        ac('active-mode-button', button);
+      } else {
+        rc('active-mode-button', button);
+      }
+    });
+  }
+
+  reloadStyleSheets() {
+    this.reloadDynamicInterfaceClasses();
+    this.reloadDynamicPickerStyles();
+    this.reloadDynamicColorSwitches();
+    this.reloadDynamicColorVars();
+    this.reloadDynamicBwVars();
+    this.reloadDynamicUtilityClasses();
+  }
+
+}
+
+customElements.define('color-picker', Picker);
+

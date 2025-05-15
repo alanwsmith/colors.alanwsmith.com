@@ -168,11 +168,37 @@ function scrubStyle(input) {
     .toLowerCase()
 }
 
+
 const template = `
 <!--
 <h2 class="palette-name"></h2>
 -->
-<fieldset class="base-wrapper settings-fieldset flow">
+
+<div class="main-content">
+  <details class="flow" open>
+    <summary>Content</summary>
+    <h2>Welcome to the Color Picker</h2>
+    <p>This is some content.
+Dip the pail once and let it settle.
+Draw <a href="">the chart with heavy</a> black lines.</p>
+
+<p>
+Drop the ashes on the worn old rug.
+Fasten two pins on each side.</p>
+
+<p>Fly by night, and you waste little time.
+Glue the sheet to the dark blue background.
+Go now and come here later.</p>
+
+<p>Greet the new guests and leave quickly.
+Guess the results from the first scores.
+Hang tinsel from both branches.
+Heave the line over the port side.</p>
+
+
+  </details>
+  <details class="flow" open>
+    <summary>Background</summary>
   <div class="view-light-dark-wrapper">
     <span class="view-mode-buttons-text">Mode:</span>
     <div class="view-mode-buttons"></div>
@@ -200,6 +226,7 @@ const template = `
       <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
       <li><input type="checkbox" disabled /> Optional utility classes</li>
       <li><input type="checkbox" disabled /> Change CSS variable names</li>
+      <li><input type="checkbox" disabled /> Chnage mode names</li>
       <li><input type="checkbox" disabled /> Copy button for CSS</li>
       <li><input type="checkbox" disabled /> Edit CSS</li>
       <li><input type="checkbox" disabled /> Edit HTML</li>
@@ -208,21 +235,12 @@ const template = `
       <li><input type="checkbox" disabled /> Implementation example</li>
       <li><input type="checkbox" disabled /> Web component</li>
       <li><input type="checkbox" disabled /> Randomizer</li>
-      <li><input type="checkbox" disabled /> Ability to switch between 45 and 60 degrees</li>
+      <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
+      <li><input type="checkbox" disabled /> Add/subtract modes</li>
     </ul>
-  </details>
-</fieldset>
-<div class="main-content">
-  <details class="flow" open>
-    <summary>Example Content</summary>
-    <h2>Welcome to the Color Picker</h2>
-    <p>This is some content</p>
-  </details>
-  <details class="flow" open>
-    <summary>Colors</summary>
+    </details>
     <div class="colors-content-wrapper flow"></div>
   </details>
-</div>
 <div class="debug flow"></div>
 `;
 
@@ -858,6 +876,10 @@ COLORS
 * {
   margin: 0;
 }
+a {
+  text-decoration: none;
+  color: var(--COLOR3);
+}
 .active-mode-button {
   outline: 1px solid var(--MODE-COLOR3);
   border-radius: 0.3rem;
@@ -889,6 +911,10 @@ button{
 }
 .flow > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
+}
+h1, h2 {
+  color: var(--COLOR2);
+  border-bottom: 1px solid var(--COLOR4);
 }
 .main-content {
   display: grid;

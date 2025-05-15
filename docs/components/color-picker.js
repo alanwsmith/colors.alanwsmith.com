@@ -435,7 +435,7 @@ class Picker extends HTMLElement {
   getColorH(mode, color) {
     const degreeOffsetIndex = p.modes[mode].colors[color].degreeOffsetIndex;
     const h = p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h;
-    let value = this.getHueValues(degreeOffsetIndex)[h] + p.modes[p.activeMode].base.h;
+    let value = this.getHueValues(degreeOffsetIndex)[h] + p.modes[mode].base.h;
     if (value > 360) {
       value -= 360;
     }
@@ -773,20 +773,22 @@ ${sheets.join("\n")}
 
   reloadDynamicInterfaceClasses() {
     const lines = [];
-    for (let color = 0; color < p.numberOfColors; color ++) {
-      const colorData = p.modes[p.activeMode].colors[color];
-      const hueCount = Math.round(360 / p.degreeOffsets[colorData.degreeOffsetIndex]);
-      for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
-        this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
-          const className = `.color-lightness-hue-selector--mode-${p.activeMode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-          const c = p.modes[p.activeMode].colors[color].chroma;
-          const hueMultiplier = p.degreeOffsets[colorData.degreeOffsetIndex];
-          const h = (hueMultiplier * hueIndex) + p.modes[p.activeMode].base.h ;
-          const style = `oklch(${lightLevel}% ${c} ${h})`;
-          lines.push(
-            `${className} { color: ${style};}`
-          );
-        });
+    for (let mode = 0; mode < p.modes.length; mode ++) {
+      for (let color = 0; color < p.numberOfColors; color ++) {
+        const colorData = p.modes[mode].colors[color];
+        const hueCount = Math.round(360 / p.degreeOffsets[colorData.degreeOffsetIndex]);
+        for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
+          this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
+            const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
+            const c = p.modes[mode].colors[color].chroma;
+            const hueMultiplier = p.degreeOffsets[colorData.degreeOffsetIndex];
+            const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
+            const style = `oklch(${lightLevel}% ${c} ${h})`;
+            lines.push(
+              `${className} { color: ${style};}`
+            );
+          });
+        }
       }
     }
     const out = lines.sort().join("\n");
@@ -918,7 +920,7 @@ pre{
       }
     } else if (event.target.dataset.kind === "mode-button") {
       p.activeMode = gdi("mode", event);
-      this.updateModeButtonStyles()
+      this.updateModeButtonStyles();
       this.updateBaseSliders();
       this.initColors();
       triggerRefresh = true;
@@ -930,9 +932,7 @@ pre{
       const lightnessIndex = gdi("lightness", event);
       p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].h = offsetIndex ;
       p.modes[mode].colors[color].degreeOffsetValues[degreeOffsetIndex].l = lightnessIndex;
-
-      dbg(`${this.getColorL(mode, color)} - ${this.getColorC(mode, color)} - ${this.getColorH(mode, color)}`);
-
+      //dbg(`${this.getColorL(mode, color)} - ${this.getColorC(mode, color)} - ${this.getColorH(mode, color)}`);
       triggerRefresh = true;
     }  
     if (triggerRefresh === true) {

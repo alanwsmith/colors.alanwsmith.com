@@ -232,7 +232,14 @@ const colorElementInternalTemplate = `
   <label class="color-hue-set-selector-label">Hue Set:</label>
   <select class="color-hue-set-selector"></select>
   -->
-  <div class="color-hue-set"></div>
+  <div>
+    <div class="color-hue-set"></div>
+    <div class="color-hue-chroma-slider-wrapper">
+      <label class="color-hue-chroma-slider-label">c</label>
+      <input type="range" class="color-hue-chroma-slider picker-slider" />
+    </div>
+    <div class="color-hue-faded-wrapper"></div>
+  </div>
 </div>
 </details>
 `;
@@ -341,7 +348,11 @@ const defaultPalette = {
     "bonus-color"
   ],
   "fadedNames": ["faded", "faded-2"],
-  "degreeOffsets": [45, 60],
+  // 60 has more shift between colors
+  // and feels generally better. might
+  // still turn on 45 at some point, 
+  // but it's way down the list. 
+  "degreeOffsets": [60, 45],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -814,7 +825,7 @@ COLORS
   outline: 1px solid var(--MODE-COLOR3);
   border-radius: 0.3rem;
 }
-.base-slider {
+.base-slider, .picker-slider {
   accent-color: var(--BWREVERSE-90);
   height: 1px;
 }

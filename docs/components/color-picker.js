@@ -212,17 +212,19 @@ const template = `
   </details>
 </fieldset>
 <div class="main-content">
-  <div class="example-content">
-    <h1></h1>
+  <div class="example-content flow">
+    <h2>Example Conent</h2>
+    <p>This is some content</p>
   </div>
-  <div class="colors-content-wrapper">
+    <div class="colors-content-wrapper flow">
   </div>
 </div>
 <div class="debug flow"></div>
 `;
 
 const colorElementInternalTemplate = `
-<div class="color-name">Color Name</div>
+<details class="flow" open>
+<summary class="color-name">Color Name</summary>
 <div class="hue-set-wrapper">
   <!--
   TODO: Add advanced setting to turn this on
@@ -231,6 +233,7 @@ const colorElementInternalTemplate = `
   -->
   <div class="color-hue-set"></div>
 </div>
+</details>
 `;
 
 const defaultColors = [
@@ -826,10 +829,14 @@ button{
 }
 .content-wrapper {
   margin-inline: auto;
-  width: min(100vw - 1.4rem, 39rem);
+  width: min(100vw - 1.4rem, 54rem);
 }
 .flow > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
+}
+.main-content {
+  display: grid;
+  grid-template-columns: 1fr 12rem;
 }
 pre{
   font-size: 0.7rem;

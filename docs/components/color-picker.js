@@ -538,8 +538,39 @@ class Picker extends HTMLElement {
       ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
       html(p.colorNames[index], colorNameEl);
 
+      // this is the slider
+      const slider = colorEl.querySelector('.color-hue-chroma-slider');
+      //sa('name', connector, slider);
+      sa('type', 'range', slider);
+      sa('min', 0, slider);
+      sa('max', this.getAspectMax('c'), slider);
+      sa('step', this.getAspectStep('c').toFixed(5), slider);
+      const c = colorData.degreeOffsetValues[colorData.degreeOffsetIndex].c;
+      slider.value = c;
+
+      // const slider = dc('input');
+      // ac([
+      //   `${token}`, 
+      //   `${token}-${key}`
+      // ], slider);
+      // sa('name', connector, slider);
+      // sa('type', 'range', slider);
+      // sa('min', 0, slider);
+      // sa('max', this.getAspectMax(key), slider);
+      // sa('step', this.getAspectStep(key).toFixed(5), slider);
+      // slider.value = p.modes[p.activeMode].base[key]
+      // ad('kind', 'base', slider);
+      // ad('aspect', key, slider);
+      // a(label, div);
+      // a(slider, div);
+      // a(div, 'base-sliders');
+      // dbg(slider);
+
+
+
+
       /*
-       * This is off for now. Add advance function to turn 
+       * This is the degree switch. It's off for now. Add advance function to turn 
        * it back on if folks want it, but it adds
        * some complication to the interface that's
        * better avoided for the default case. 

@@ -309,8 +309,14 @@ const colorElementInternalTemplate = `
       <input type="range" class="color-hue-chroma-slider picker-slider" />
     </div>
     <div class="color-hue-buttons">
-      <div class="color-issolate-button interface-text">
-        Issolate: <input type="checkbox" class="color-issolate-checkbox"></div>
+      <div class="color-issolate-button-wrapper">
+        <label class="interface-text ui-font-size-small">Issolate:</label>
+        <input type="checkbox" class="color-issolate-checkbox">
+      </div>
+      <div class="color-focus-button-wrapper">
+        <label class="interface-text ui-font-size-small">Focus:</label>
+        <input type="checkbox" class="color-focus-checkbox">
+      </div>
     </div>
     <div class="color-hue-faded-wrapper"></div>
   </div>
@@ -1214,7 +1220,7 @@ class Picker extends HTMLElement {
       ac(`color-issolate-checkbox--mode-${p.activeMode}--color-${color}`, issolateCheckbox);
       ad(`kind`, `issolate-checkbox`, issolateCheckbox);
       ad(`color`, color, issolateCheckbox);
-      if (p.issolatedColor === color) {
+      if (p.issolatedColor !== null) {
         issolateCheckbox.checked = true;
       }
     }
@@ -1414,10 +1420,18 @@ ${sheets.join("\n")}
       lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase.toFixed(5)}% ${cBase.toFixed(5)} ${hBase.toFixed(5)});`);
       for (let index = 0; index < p.numberOfColors; index ++) {
         const colorName = p.colorNames[index];
-        const l = this.getColorL(mode, index);
-        const c = this.getColorC(mode, index);
-        const h = this.getColorH(mode, index);
-        lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
+        dbg(p.issolatedColor);
+        if (p.issolatedColor !== null && index !== p.issolatedColor) {
+          const l = p.modes[p.activeMode].base.l;
+          const c = p.modes[p.activeMode].base.c;
+          const h = p.modes[p.activeMode].base.h;
+          lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
+        } else {
+          const l = this.getColorL(mode, index);
+          const c = this.getColorC(mode, index);
+          const h = this.getColorH(mode, index);
+          lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
+        }
       }
     });
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
@@ -1591,6 +1605,9 @@ pre{
   grid-template-columns: 2.2ch 1fr;
   align-items: center;
 }
+.ui-font-size-small {
+  font-size: 0.9rem;
+}
 ul > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
 }
@@ -1670,11 +1687,23 @@ ul > :where(:not(:first-child)) {
       const aspect = gds(event, 'aspect');
       p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
+    } else if (event.target.dataset.kind === "issolate-checkbox" && event.type === "change") {
+      if (event.target.checked === true) {
+        p.issolatedColor = gdi("color", event);
+      } else {
+        p.issolatedColor = null;
+      }
+      this.initColors();
+      triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-selector") {
       const color = gdi("color", event);
       p.activeColor = color;
+      if (p.issolatedColor !== null) {
+        p.issolatedColor = color;
+      } 
       triggerRefresh = true;
-    } else if (event.target.dataset.kind === "color-hue-set-selector" && event.type === "change") {
+    } else if (event.target.dataset.kind === "color-hue-set-selector" 
+        && event.type === "change") {
       const mode = gdi("mode", event);
       const color = gdi("color", event);
       const value = gvi(event);

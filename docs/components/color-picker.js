@@ -241,16 +241,16 @@ change things around.
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
       </div>
-      <details class="flow" open>
-        <summary class="interface-text">Background</summary>
+      <fieldset class="background-fieldset">
+        <legend class="interface-text">Background</legend>
         <div class="base-sliders"></div>
-      </details>
+      </fieldset>
     </div>
 
-    <details class="flow" open>
-      <summary class="interface-text">Colors</summary>
+    <fieldset class="colors-fieldset">
+      <legend class="interface-text">Colors</legend>
       <tab-group class="colors-content-wrapper flow"></tab-group>
-    </details>
+    </fieldset>
 
     <details class="flow">
       <summary class="interface-text">Advanced Settings</summary>
@@ -419,7 +419,7 @@ const defaultPalette = {
   "colorNames": [
     "text",
     "headline",
-    "heading",
+    "sub-heading",
     "link",
     "accent",
     "warning-color",
@@ -1191,20 +1191,27 @@ class Picker extends HTMLElement {
     // number of colors changes, or the names
     // of the colors change.
     const wrapper = el('colors-content-wrapper');  
-    html(`
-  <div role="tablist">
-    <button role="tab" aria-selected="true">Tab 1</button>
-    <button role="tab">Tab 2</button>
-    <button role="tab">Tab 3</button>
-  </div>
-      `, wrapper);
+    html(``, wrapper);
 
+    const tabList = dc('tab-list');
+    for (let color  = 0; color < p.numberOfColors; color ++) {
+      const tabButton = dc('button');
+      sa("role", "tab", tabButton);
+      if (color === 0) {
+        sa("aria-selected", "true", tabButton);
+      }
+      html(Array.from(p.colorNames[color])[0], tabButton);
+      ac(p.colorNames[color], tabButton);
+      a(tabButton, tabList);
+    }
+    a(tabList, wrapper);
 
 
 
     for (let index = 0; index < p.numberOfColors; index ++) {
       const colorData = p.modes[p.activeMode].colors[index];
       const colorEl = dc('div'); 
+      sa(`role`, `tabpanel`, colorEl);
       ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
       html(colorElementInternalTemplate, colorEl);
       a(colorEl, wrapper);
@@ -1226,6 +1233,34 @@ class Picker extends HTMLElement {
       ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
       const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
       ac(p.colorNames[index], sliderLabel);
+
+
+
+
+    // for (let index = 0; index < p.numberOfColors; index ++) {
+    //   const colorData = p.modes[p.activeMode].colors[index];
+    //   const colorEl = dc('div'); 
+    //   ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
+    //   html(colorElementInternalTemplate, colorEl);
+    //   a(colorEl, wrapper);
+    //   const colorNameEl = colorEl.querySelector('.color-name');
+    //   ac([`color-name-${index}`], colorNameEl);
+    //   ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
+    //   ac('bold', colorNameEl);
+    //   ac(p.colorNames[index], colorNameEl);
+    //   html(p.colorNames[index], colorNameEl);
+    //   const slider = colorEl.querySelector('.color-hue-chroma-slider');
+    //   sa('type', 'range', slider);
+    //   sa('min', 0, slider);
+    //   sa('max', this.getAspectMax('c'), slider);
+    //   sa('step', this.getAspectStep('c').toFixed(5), slider);
+    //   slider.value = colorData.hueOffsetValues[colorData.hueOffsetIndex].c;
+    //   ad('kind', 'color-chroma-slider', slider);
+    //   ad('mode', p.activeMode, slider);
+    //   ad('color', index, slider);
+    //   ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
+    //   const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
+    //   ac(p.colorNames[index], sliderLabel);
 
 
 
@@ -1529,6 +1564,14 @@ a {
   outline: 1px solid var(--BWREVERSE-40);
   background-color: var(--BWMATCH-20);
 }
+.background-fieldset {
+  border: 1px solid var(--BWREVERSE-20);
+  border-radius: 0.3rem;
+  padding: 0;
+  & legend {
+    margin-left: 0.6rem;
+  }
+}
 .base-slider, .picker-slider {
   accent-color: var(--BWREVERSE-90);
   height: 1px;
@@ -1552,7 +1595,16 @@ button{
   padding: 0;
 }
 .color-light-level {
+  font-size: 0.9rem;
   padding: 0.14rem;
+}
+.colors-fieldset {
+  border: 1px solid var(--BWREVERSE-20);
+  border-radius: 0.3rem;
+  padding: 0;
+  & legend {
+    margin-left: 0.6rem;
+  }
 }
 .content-wrapper {
   margin-inline: auto;
@@ -1620,37 +1672,33 @@ ul > :where(:not(:first-child)) {
   margin-bottom: 0.8rem;
 }
 
+
 /* tab stuff */
 
-:root {
-  --color-selected: rgb(255 255 255);
-  --color-not-selected: rgb(255 255 255 / .6);
-}
 
 [role="tab"] {
   background: none;
-  border: none;
   color: var(--color-not-selected);
   cursor: pointer;
   font: inherit;
   outline: inherit;
-  padding-block: 0 2px;
-  padding-inline: 11px;
+  padding-inline: 7px;
   &[aria-selected='true'] {
-    border-bottom: 3px solid var(--color-selected);
+    border-bottom: 3px solid var(--BWREVERSE-50);
     color: var(--color-selected);
     padding-block: 0 0;
   }
 }
 
 [role="tablist"] {
-  border-bottom: 1px solid var(--color-selected);
 }
 
 [role="tabpanel"] {
-  padding: 0.7rem;
+  margin: 0;
+  padding-block: 0.6rem;
+  padding-inline: 0.1rem;
+  border-top: 1px solid var(--BWREVERSE-30);
 }
-
 
 `;
     // this is for adding a map to the active names. 

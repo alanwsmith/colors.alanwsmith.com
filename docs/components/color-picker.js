@@ -93,6 +93,11 @@ function el(className) {
   return document.querySelector(`.${className}`);
 }
 
+// Focus (print to console regardless of debug 
+function focus(value) {
+  console.log(value);
+}
+
 // Get Float from DataSet Key From Event
 // TODO: put event last
 function gdf(event, key) {
@@ -347,9 +352,9 @@ const defaultPalette = {
   "bwNames": ["match-bw", "reverse-bw"],
   "colorNames": [
     "text",
+    "links",
     "headline",
     "sub-headings",
-    "links",
     "accents",
     "warning",
     "info",
@@ -365,7 +370,6 @@ const defaultPalette = {
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
   "maxLightValue": 100,
-  "minLightValue": 10,
   "modes": [
 
     {
@@ -426,7 +430,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 0-3
         {
@@ -445,7 +448,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 0-4
         {
@@ -464,7 +466,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 0-5
         {
@@ -483,7 +484,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 0-6
         {
@@ -502,7 +502,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 0-7
         {
@@ -521,7 +520,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
       ],
       "name": "Light",
@@ -549,7 +547,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-1
         {
@@ -568,7 +565,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-2
         {
@@ -587,7 +583,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-3
         {
@@ -606,7 +601,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-4
         {
@@ -625,7 +619,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-5
         {
@@ -644,7 +637,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-6
         {
@@ -663,7 +655,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 1-7
         {
@@ -682,7 +673,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
       ],
       "name": "High-Contrast Light",
@@ -710,7 +700,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-1
         {
@@ -729,7 +718,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-2
         {
@@ -748,7 +736,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-3
         {
@@ -767,7 +754,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-4
         {
@@ -786,7 +772,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-5
         {
@@ -805,7 +790,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-6
         {
@@ -824,7 +808,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 2-7
         {
@@ -843,7 +826,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
       ],
       "name": "Dark",
@@ -871,7 +853,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-1
         {
@@ -890,7 +871,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-2
         {
@@ -909,7 +889,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-3
         {
@@ -928,7 +907,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-4
         {
@@ -947,7 +925,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-5
         {
@@ -966,7 +943,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-6
         {
@@ -985,7 +961,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
         // 3-7
         {
@@ -1004,7 +979,6 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
-          
         },
       ],
       "name": "High-Contrast Dark",
@@ -1075,14 +1049,14 @@ class Picker extends HTMLElement {
   getColorL(mode, color) {
     const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
-    return this.getLightLevelValues()[l];
+    return this.getLightLevelValues(mode, color)[l];
   }
 
-  getLightLevelValues() {
-    // TODO: make min light level configurable per mode/color. 
+  getLightLevelValues(mode, color) {
     const levels = [];
-    const adder = ((p.maxLightValue - p.minLightValue) / p.lightLevels);
-    for (let level = p.minLightValue; level <= p.maxLightValue; level += adder) {
+    const minLightValue = p.modes[mode].colors[color].minLightValue;
+    const adder = ((p.maxLightValue - minLightValue) / p.lightLevels);
+    for (let level = minLightValue; level <= p.maxLightValue; level += adder) {
       levels.push(level.toFixed(5));
     }
     return levels;
@@ -1150,10 +1124,13 @@ class Picker extends HTMLElement {
   }
 
   initColors() {
+    // Grab the wrapper
     const wrapper = el('colors-content-wrapper');  
     html(``, wrapper);
+    // Create the tab-group
     const tabGroup = dc('tab-group');
     a(tabGroup, wrapper);
+    // Create the tab-list
     const tabList = dc('tab-list');
     for (let color  = 0; color < p.numberOfColors; color ++) {
       const tabButton = dc('button');
@@ -1162,25 +1139,29 @@ class Picker extends HTMLElement {
       if (color === p.activeColor) {
         sa("aria-selected", "true", tabButton);
       }
-      ac(p.colorNames[color], tabButton);
+      ac(`ui-${p.colorNames[color]}`, tabButton);
       ad("kind", "color-selector", tabButton);
       ad("color", color, tabButton);
       a(tabButton, tabList);
     }
     a(tabList, tabGroup);
+    // Loop through the colors
     for (let color = 0; color < p.numberOfColors; color ++) {
-      const colorData = p.modes[p.activeMode].colors[color];
+      // Make a `tabpanel` div
       const colorEl = dc('div'); 
+      const colorData = p.modes[p.activeMode].colors[color];
       sa(`role`, `tabpanel`, colorEl);
       ac(['color-wrapper', `color-wrapper-${color}`], colorEl);
       html(colorElementInternalTemplate, colorEl);
       a(colorEl, tabGroup);
+      // Update the color name
       const colorNameEl = colorEl.querySelector('.color-name');
       ac([`color-name-${color}`], colorNameEl);
       ac([`color-name-${scrubStyle(p.colorNames[color])}`], colorNameEl);
       ac('bold', colorNameEl);
       ac(p.colorNames[color], colorNameEl);
       html(p.colorNames[color], colorNameEl);
+      // Update the chroma slider
       const slider = colorEl.querySelector('.color-hue-chroma-slider');
       sa('type', 'range', slider);
       sa('min', 0, slider);
@@ -1191,15 +1172,17 @@ class Picker extends HTMLElement {
       ad('mode', p.activeMode, slider);
       ad('color', color, slider);
       ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
+      // Update the slider label
       const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
       ac('interface-text', sliderLabel);
+      // Make the lightness/hue `set` buttons
       const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
       const hueCount = Math.round(360 / p.hueOffsets[
         colorData.hueOffsetIndex
       ]);
       for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
         const hueOffsetIndexWrapper = dc('div');
-        this.getLightLevelValues().forEach((level, levelcolor) => {
+        this.getLightLevelValues(p.activeMode, color).forEach((level, levelcolor) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
           ad('mode', p.activeMode, button);
@@ -1207,15 +1190,14 @@ class Picker extends HTMLElement {
           ad('degreeset', colorData.hueOffsetIndex, button);
           ad('degreesetindex', hueOffsetIndexcolor, button);
           ad('lightness', levelcolor, button);
-          //ad('color', color, button);
           ac('color-light-level', button);
           ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${color}--lightness-${levelcolor}--hue-${hueOffsetIndexcolor}`, button);
-          //html(level.toString().padStart(3, '0'), button);
           html('set', button);
           a(button, hueOffsetIndexWrapper);
         });
         a(hueOffsetIndexWrapper, hueOffsetIndexEl);
       }
+      // Wire up the isolate checkbox 
       const isolateCheckbox = colorEl.querySelector(".color-isolate-checkbox");
       ac(`color-isolate-checkbox--mode-${p.activeMode}--color-${color}`, isolateCheckbox);
       ad(`kind`, `isolate-checkbox`, isolateCheckbox);
@@ -1262,7 +1244,8 @@ class Picker extends HTMLElement {
       'dynamicColorVars',
       'dynamicPickerStyles', 
       'dynamicUtilityClasses', 
-      'dynamicInterfaceClasses', 
+      'dynamicUiClasses', 
+      'dynamicUiVars', 
     ];
     sheetNames.forEach((name) => {
       this.styleSheets[name] = document.createElement('style');
@@ -1410,7 +1393,6 @@ ${sheets.join("\n")}
 
   reloadDynamicColorVars() {
     const lines = [];
-    lines.push(`--interface-active-color: var(--${p.colorNames[p.activeColor]});`);
     p.modes.forEach((data, mode) => {
       const category = data.category;
       const modeName = scrubStyle(data.name);
@@ -1437,29 +1419,6 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicColorVars'].innerHTML = out;
   }
 
-  reloadDynamicInterfaceClasses() {
-    const lines = [];
-    for (let mode = 0; mode < p.modes.length; mode ++) {
-      for (let color = 0; color < p.numberOfColors; color ++) {
-        const colorData = p.modes[mode].colors[color];
-        const hueCount = Math.round(360 / p.hueOffsets[colorData.hueOffsetIndex]);
-        for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
-          this.getLightLevelValues().forEach((lightLevel, lightIndex) => {
-            const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            const c = this.getColorC(mode, color);
-            const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
-            const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
-            const style = `oklch(${lightLevel}% ${c} ${h})`;
-            lines.push(
-              `${className} { color: ${style};}`
-            );
-          });
-        }
-      }
-    }
-    const out = lines.sort().join("\n");
-    this.styleSheets['dynamicInterfaceClasses'].innerHTML = out;
-  }
 
   reloadDynamicPickerStyles() {
     let out = `
@@ -1473,7 +1432,7 @@ ${sheets.join("\n")}
 }
 a {
   text-decoration: none;
-  color: var(--COLOR4);
+  color: var(--COLOR2);
 }
 .active-mode-button {
   outline: 1px solid var(--BWREVERSE-40);
@@ -1533,7 +1492,7 @@ button{
   }
 }
 .color-name {
-  border-bottom: 1px solid var(--interface-active-color);
+  border-bottom: 1px solid var(--ui-active-color);
   padding-inline: 0.4rem;
   padding-bottom: 0.2rem;
 }
@@ -1545,12 +1504,12 @@ button{
   margin-top: var(--flow-space, 1em);
 }
 h1 {
-  color: var(--COLOR2);
-  border-bottom: 1px solid var(--COLOR4);
+  color: var(--COLOR3);
+  border-bottom: 1px solid var(--COLOR5);
 }
 h2, h3 {
-  color: var(--COLOR3);
-  border-bottom: 1px solid var(--COLOR1);
+  color: var(--COLOR4);
+  border-bottom: 1px solid var(--COLOR5);
 }
 header {
   margin-top: 1.3rem;
@@ -1621,7 +1580,7 @@ ul > :where(:not(:first-child)) {
   padding-inline: 7px;
   font-weight: bold;
   &[aria-selected='true'] {
-    border-bottom: 2px solid var(--interface-active-color);
+    border-bottom: 2px solid var(--ui-active-color);
     padding-block: 0 0;
   }
 }
@@ -1632,20 +1591,9 @@ ul > :where(:not(:first-child)) {
   padding-block: 0;
   padding-top: 0.2rem;
   padding-bottom: 0.5rem;
-  border-top: 1px solid var(--interface-active-color);
+  border-top: 1px solid var(--ui-active-color);
 }
 `;
-    // this is for adding a map to the active names. 
-    // it's off until stuff is moved to a more structured
-    // output
-    /*
-    const templateList = p.colorNames.map((name, index) => {
-      if (index < p.numberOfColors) {
-        return `* COLOR${index + 1} = ${p.colorNames[index]}`; 
-      }
-    }).join("\n").trim();
-    */
-    // out = out.replaceAll("COLORS", templateList);
     out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));
     out = out.replaceAll("BWMATCH", scrubStyle(p.bwNames[0]));
     out = out.replaceAll("BWREVERSE", scrubStyle(p.bwNames[1]));
@@ -1658,6 +1606,46 @@ ul > :where(:not(:first-child)) {
       }
     }
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
+  }
+
+  reloadDynamicUiClasses() {
+    const lines = [];
+    for (let color = 0; color < p.numberOfColors; color ++) {
+      const lUi = this.getColorL(p.activeMode, color);
+      const cUi = this.getColorC(p.activeMode, color);
+      const hUi = this.getColorH(p.activeMode, color);
+      const lineString = `.ui-${scrubStyle(p.colorNames[color])} { color: oklch(${lUi}% ${cUi} ${hUi}); }`;
+      lines.push(lineString);
+      for (let mode = 0; mode < p.modes.length; mode ++) {
+        const colorData = p.modes[mode].colors[color];
+        const hueCount = Math.round(360 / p.hueOffsets[colorData.hueOffsetIndex]);
+        for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
+          this.getLightLevelValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
+            const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
+            const c = this.getColorC(mode, color);
+            const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
+            const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
+            const style = `oklch(${lightLevel}% ${c} ${h})`;
+            lines.push(
+              `${className} { color: ${style};}`
+            );
+          });
+        }
+      }
+    }
+    const out = lines.sort().join("\n");
+    this.styleSheets['dynamicUiClasses'].innerHTML = out;
+  }
+
+  reloadDynamicUiVars() {
+    const lines = [];
+    lines.push(`--ui-active-color: var(--${p.colorNames[p.activeColor]});`);
+    p.colorNames.forEach((name, color) => {
+      const lineString = `--ui-${scrubStyle(name)}: oklch(40% 0.1 300);`;
+      lines.push(lineString);
+    });
+    const out = `:root {\n${lines.sort().join("\n")}\n}`;
+    this.styleSheets['dynamicUiVars'].innerHTML = out;
   }
 
   reloadDynamicUtilityClasses() {
@@ -1764,10 +1752,11 @@ ul > :where(:not(:first-child)) {
   }
 
   reloadStyleSheets() {
-    this.reloadDynamicInterfaceClasses();
+    this.reloadDynamicUiVars();
+    this.reloadDynamicUiClasses();
     this.reloadDynamicPickerStyles();
-    this.reloadDynamicColorSwitches();
     this.reloadDynamicColorVars();
+    this.reloadDynamicColorSwitches();
     this.reloadDynamicBwVars();
     this.reloadDynamicUtilityClasses();
   }

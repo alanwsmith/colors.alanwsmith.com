@@ -288,10 +288,10 @@ to be found in it.
       </fieldset>
     </div>
 
-    <details class="advanced-settings-wrapper flow">
+    <details class="advanced-settings-wrapper flow ui-font-size-small">
       <summary class="interface-text">Advanced Settings</summary>
-      <div class="number-of-colors-wrapper">
-        <label for="number-of-colors-selector-label">
+      <div class="number-of-colors-wrapper ui-font-size-small">
+        <label for="number-of-colors-selector-label" class="interface-text">
           Number of Colors:
         </label>
         <select 
@@ -301,13 +301,12 @@ to be found in it.
         ></select>
       </div>
     </details>
-    <details class="todo-wrapper flow">
+    <details class="todo-wrapper flow interface-text ui-font-size-small">
       <summary class="interface-text">TODO List</summary>
       <ul>
         <li><input type="checkbox" disabled /> Set min light level for each color</li>
         <li><input type="checkbox" disabled /> Contrast calculations</li>
         <li><input type="checkbox" disabled /> Undo/Redo</li>
-        <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
         <li><input type="checkbox" disabled /> Faded alternatives</li>
         <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
         <li><input type="checkbox" disabled /> Optional utility classes</li>
@@ -323,7 +322,9 @@ to be found in it.
         <li><input type="checkbox" disabled /> Randomizer</li>
         <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
         <li><input type="checkbox" disabled /> Add/subtract modes</li>
-        <li><input type="checkbox" disabled /> Issoldated color view to look at them one at a time</li>
+        <li><input type="checkbox" disabled cheked /> Show/Hide content to focus on base color</li>
+        <li><input type="checkbox" disabled checked /> Issoldated color view to look at them one at a time</li>
+        <li><input type="checkbox" disabled checked /> Use min light level from each color</li>
       </ul>
     </details>
 </div>
@@ -356,7 +357,7 @@ const colorElementInternalTemplate = `
 
 const defaultPalette = {
   "activeMode": 0,
-  "activeColor": 0,
+  "activeColor": 2,
   "aspectOrder": ["l", "c", "h"],
   "aspects": {
     "l": { "name": "lightness", "max": 100 },
@@ -1084,16 +1085,23 @@ class Picker extends HTMLElement {
     return this.getLightLevelValues(mode, color)[l];
   }
 
+  getColorMinLightLevel(mode, color) {
+    return p.modes[mode].colors[color].minLightLevel;
+  }
+
   getLightLevelValues(mode, color) {
     const levels = [];
-    const minLightLevel = p.modes[mode].colors[color].minLightLevel;
-    const adder = ((p.maxLightValue - minLightLevel) / p.lightLevels);
+    const minLightLevel = this.getColorMinLightLevel(mode, color);
+    const adder = ((p.maxLightValue - minLightLevel) / (p.lightLevels - 1));
     for (let level = minLightLevel; level <= p.maxLightValue; level += adder) {
       levels.push(level.toFixed(5));
     }
+    focus(levels);
     return levels;
   }
 
+  // TODO: set this up to take mode, color
+  // TODO: rename to getHueOffsetIndexes. 
   getHueValues(hueOffsetIndex) {
     const values = [];
     const adder = p.hueOffsets[hueOffsetIndex];
@@ -1101,6 +1109,18 @@ class Picker extends HTMLElement {
       values.push(value);
     }
     return values;
+  }
+
+  getHueOffsetIndexes(mode, color) {
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const hueOffsetValue = p.hueOffsets[hueOffsetIndex];
+    const indexes = [];
+    let counter = 0;
+    for (let value = 0; value < 360; value += hueOffsetValue) {
+      indexes.push(counter);
+      counter += 1;
+    }
+    return indexes;
   }
 
   hideUiIfNecessary() {
@@ -1232,7 +1252,7 @@ class Picker extends HTMLElement {
       ac('interface-text', sliderLabel);
       // Make the lightness/hue `set` buttons
       const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
-      const hueCount = Math.round(360 / p.hueOffsets[
+      const hueCount = Math.round(360 / p.hueOffsets [
         colorData.hueOffsetIndex
       ]);
       for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
@@ -1264,6 +1284,7 @@ class Picker extends HTMLElement {
     a(tabGroup, wrapper);
     this.initIsolateBackgroundCheckbox();
     this.hideUiIfNecessary();
+    this.underlineActiveHueLightnessButton();
   }
 
   initModeButtons() {
@@ -1507,6 +1528,9 @@ a {
   outline: 1px solid var(--BWREVERSE-40);
   background-color: var(--BWMATCH-20);
 }
+.active-hue-lightness-button {
+  text-decoration: underline;
+}
 .background-checkbox-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -1517,11 +1541,11 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 0.7rem;
-  border-top: 1px solid var(--BWREVERSE-20);
+  border-top: 1px solid var(--BWREVERSE-40);
   padding-top: 0.7rem;
 }
 .background-fieldset {
-  border: 1px solid var(--BWREVERSE-20);
+  border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-bottom: 0.8rem;
   & legend {
@@ -1552,12 +1576,12 @@ button{
 .chroma-slider-wrapper {
   padding-top: 0.5rem;
   margin-top: 0.8rem;
-  border-top : 1px solid var(--BWREVERSE-20);
+  border-top : 1px solid var(--BWREVERSE-30);
 }
 .color-hue-buttons {
   padding-top: 0.5rem;
   margin-top: 0.5rem;
-  border-top : 1px solid var(--BWREVERSE-20);
+  border-top : 1px solid var(--BWREVERSE-30);
 }
 .color-isolate-checkbox-wrapper {
   display: flex;
@@ -1570,8 +1594,13 @@ button{
   font-size: 0.9rem;
   padding: 0.14rem;
 }
+.color-name {
+  border-bottom: 1px solid var(--ui-active-color);
+  padding-inline: 0.4rem;
+  padding-bottom: 0.2rem;
+}
 .colors-fieldset {
-  border: 1px solid var(--BWREVERSE-20);
+  border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-inline: 0;
   padding-top: 0.1rem;
@@ -1579,11 +1608,6 @@ button{
   & legend {
     margin-left: 0.6rem;
   }
-}
-.color-name {
-  border-bottom: 1px solid var(--ui-active-color);
-  padding-inline: 0.4rem;
-  padding-bottom: 0.2rem;
 }
 .content-wrapper {
   margin-inline: auto;
@@ -1611,12 +1635,12 @@ header {
   background-color: var(--BWREVERSE-10);
 }
 .interface-text {
-  color: var(--BWREVERSE-50);
+  color: var(--BWREVERSE-70);
 }
 .main-body {
   display: grid;
-  grid-template-columns: 1fr 13rem;
-  gap: 1.5rem;
+  grid-template-columns: 1fr 12.8rem;
+  gap: 2rem;
 }
 .made-by {  
   text-align: right;
@@ -1644,7 +1668,7 @@ pre{
   overscroll-behavior-x: auto;
 }
 .settings-fieldset {
-  border: 1px solid var(--BWREVERSE-20);
+  border: 1px solid var(--BWREVERSE-40);
   border-radius: 0.3rem;
 }
 .slider-wrapper {
@@ -1666,11 +1690,17 @@ ul > :where(:not(:first-child)) {
   background: none;
   cursor: pointer;
   outline: inherit;
+  padding-top: 0.1rem;
   padding-inline: 7px;
   font-weight: bold;
+  border-top: 1px solid var(--BWREVERSE-20);
+  border-right: 1px solid var(--BWREVERSE-20);
+  border-left: 1px solid var(--BWREVERSE-20);
+
   &[aria-selected='true'] {
-    border-bottom: 2px solid var(--ui-active-color);
-    padding-block: 0 0;
+    border-top: 3px solid var(--ui-active-color);
+  border-left: 1px solid var(--ui-active-color);
+  border-right: 1px solid var(--ui-active-color);
   }
 }
 [role="tablist"] {
@@ -1678,7 +1708,7 @@ ul > :where(:not(:first-child)) {
 [role="tabpanel"] {
   margin: 0;
   padding-block: 0;
-  padding-top: 0.2rem;
+  padding-top: 0.4rem;
   padding-bottom: 0.5rem;
   border-top: 1px solid var(--ui-active-color);
 }
@@ -1825,6 +1855,26 @@ ul > :where(:not(:first-child)) {
     if (triggerRefresh === true) {
       window.requestAnimationFrame(this.requestRender);
     }
+  }
+
+  underlineActiveHueLightnessButton() {
+    this.getHueOffsetIndexes(p.activeMode, p.activeColor).forEach((hue) => {
+      this.getLightLevelValues(p.activeMode, p.activeColor).forEach((data, lightness) => {
+        focus(lightness);
+      });
+    });
+
+
+    //const hueCount = Math.round(360 / p.hueOffsets [
+    //  colorData.hueOffsetIndex
+    //]);
+    //  for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
+    //    const hueOffsetIndexWrapper = dc('div');
+    //    this.getLightLevelValues(p.activeMode, color).forEach((level, levelcolor) => {
+    //      //if (colorData.hueOffsetValues[colorData.hueOffsetIndex].h === hueOffsetIndexcolor) {
+    //        //ac(`active-hue-lightness-button`, button);
+    //      //}
+
   }
 
   updateBaseSliders() {

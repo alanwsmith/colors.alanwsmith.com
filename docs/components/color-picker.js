@@ -241,7 +241,6 @@ change things around.
   </div>
 
   <div class="sidebar flow"> 
-
     <div class="base-wrapper">
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
@@ -249,6 +248,12 @@ change things around.
       <fieldset class="background-fieldset">
         <legend class="interface-text">Background</legend>
         <div class="base-sliders"></div>
+        <div class="background-isolate-wrapper">
+          <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
+            Isolate:
+          </label>
+          <input type="checkbox" class="background-isolate-checkbox">
+        </div>
       </fieldset>
     </div>
 
@@ -360,11 +365,16 @@ const defaultPalette = {
     "info",
     "extra"
   ],
-  "isolatedColor": 0,
+  "isolatedColor": -2,
   "fadedNames": ["faded", "faded-2"],
   // i've got back and forth between 
   // 45 and 60 here. going with 45 for
-  // now since it offers more colors
+  // now since it offers more colors. The
+  // way to switch between them is
+  // no in production. I removed it
+  // because it felt like it was adding
+  // significant complexity without much
+  // utility. 
   "hueOffsets": [45, 60],
   "lightLevels": 6,
   "maxNumberOfColors": 8,
@@ -393,7 +403,7 @@ const defaultPalette = {
               "h": 1
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-1
         {
@@ -411,7 +421,7 @@ const defaultPalette = {
               "h": 7
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-2
         {
@@ -429,7 +439,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-3
         {
@@ -447,7 +457,7 @@ const defaultPalette = {
               "h": 0
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-4
         {
@@ -465,7 +475,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-5
         {
@@ -483,7 +493,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-6
         {
@@ -501,7 +511,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 0-7
         {
@@ -519,7 +529,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
       ],
       "name": "Light",
@@ -546,7 +556,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-1
         {
@@ -564,7 +574,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-2
         {
@@ -582,7 +592,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-3
         {
@@ -600,7 +610,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-4
         {
@@ -618,7 +628,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-5
         {
@@ -636,7 +646,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-6
         {
@@ -654,7 +664,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 1-7
         {
@@ -672,7 +682,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
       ],
       "name": "High-Contrast Light",
@@ -699,7 +709,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-1
         {
@@ -717,7 +727,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-2
         {
@@ -735,7 +745,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-3
         {
@@ -753,7 +763,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-4
         {
@@ -771,7 +781,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-5
         {
@@ -789,7 +799,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-6
         {
@@ -807,7 +817,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 2-7
         {
@@ -825,7 +835,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
       ],
       "name": "Dark",
@@ -852,7 +862,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-1
         {
@@ -870,7 +880,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-2
         {
@@ -888,7 +898,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-3
         {
@@ -906,7 +916,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-4
         {
@@ -924,7 +934,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-5
         {
@@ -942,7 +952,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-6
         {
@@ -960,7 +970,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
         // 3-7
         {
@@ -978,7 +988,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightLevel": 10,
+          "minLightLevel": 20,
         },
       ],
       "name": "High-Contrast Dark",
@@ -1123,6 +1133,18 @@ class Picker extends HTMLElement {
     this.styleSheets['staticBwVars'].innerHTML = out;
   }
 
+  initIsolateBackgroundCheckbox() {
+    const checkbox = el('background-isolate-checkbox');  
+    ad("kind", "isolate-checkbox", checkbox);
+    ad("color", -1, checkbox);
+    if (p.isolatedColor === -1) {
+      checkbox.checked = true;
+    } else {
+      checkbox.checked = false;
+    }
+    focus(checkbox);
+  }
+
   initColors() {
     // Grab the wrapper
     const wrapper = el('colors-content-wrapper');  
@@ -1202,11 +1224,12 @@ class Picker extends HTMLElement {
       ac(`color-isolate-checkbox--mode-${p.activeMode}--color-${color}`, isolateCheckbox);
       ad(`kind`, `isolate-checkbox`, isolateCheckbox);
       ad(`color`, color, isolateCheckbox);
-      if (p.isolatedColor !== null) {
+      if (p.isolatedColor >= 0) {
         isolateCheckbox.checked = true;
       }
     }
     a(tabGroup, wrapper);
+    this.initIsolateBackgroundCheckbox();
   }
 
   initModeButtons() {
@@ -1402,17 +1425,29 @@ ${sheets.join("\n")}
       lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase.toFixed(5)}% ${cBase.toFixed(5)} ${hBase.toFixed(5)});`);
       for (let index = 0; index < p.numberOfColors; index ++) {
         const colorName = p.colorNames[index];
-        if (p.isolatedColor !== null && index !== p.isolatedColor) {
-          const l = p.modes[p.activeMode].base.l;
-          const c = p.modes[p.activeMode].base.c;
-          const h = p.modes[p.activeMode].base.h;
-          lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
+        let l = 0;
+        let c = 0;
+        let h = 0;
+        if (p.isolatedColor === -2) {
+          l = this.getColorL(mode, index);
+          c = this.getColorC(mode, index);
+          h = this.getColorH(mode, index);
+        } else if (p.isolatedColor === -1){
+          l = p.modes[p.activeMode].base.l;
+          c = p.modes[p.activeMode].base.c;
+          h = p.modes[p.activeMode].base.h;
         } else {
-          const l = this.getColorL(mode, index);
-          const c = this.getColorC(mode, index);
-          const h = this.getColorH(mode, index);
-          lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
+          if (p.isolatedColor === index) {
+            l = this.getColorL(mode, index);
+            c = this.getColorC(mode, index);
+            h = this.getColorH(mode, index);
+          } else {
+            l = p.modes[p.activeMode].base.l;
+            c = p.modes[p.activeMode].base.c;
+            h = p.modes[p.activeMode].base.h;
+          }
         }
+        lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
       }
     });
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
@@ -1678,14 +1713,14 @@ ul > :where(:not(:first-child)) {
       if (event.target.checked === true) {
         p.isolatedColor = gdi("color", event);
       } else {
-        p.isolatedColor = null;
+        p.isolatedColor = -2;
       }
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-selector") {
       const color = gdi("color", event);
       p.activeColor = color;
-      if (p.isolatedColor !== null) {
+      if (p.isolatedColor >= 0) {
         p.isolatedColor = color;
       } 
       triggerRefresh = true;

@@ -257,12 +257,14 @@ change things around.
       </fieldset>
     </div>
 
-    <fieldset class="colors-fieldset">
-      <legend class="interface-text">Colors</legend>
-      <div class="colors-content-wrapper flow"></div>
-    </fieldset>
+    <div class="colors-wrapper">
+      <fieldset class="colors-fieldset">
+        <legend class="interface-text">Colors</legend>
+        <div class="colors-content-wrapper flow"></div>
+      </fieldset>
+    </div>
 
-    <details class="flow">
+    <details class="advanced-settings-wrapper flow">
       <summary class="interface-text">Advanced Settings</summary>
       <div class="number-of-colors-wrapper">
         <label for="number-of-colors-selector-label">
@@ -275,7 +277,7 @@ change things around.
         ></select>
       </div>
     </details>
-    <details class="flow">
+    <details class="todo-wrapper flow">
       <summary class="interface-text">TODO List</summary>
       <ul>
         <li><input type="checkbox" disabled /> Set min light level for each color</li>
@@ -300,7 +302,6 @@ change things around.
         <li><input type="checkbox" disabled /> Issoldated color view to look at them one at a time</li>
       </ul>
     </details>
-
 </div>
 
 <div class="footer">
@@ -1081,6 +1082,17 @@ class Picker extends HTMLElement {
     return values;
   }
 
+  hideUiIfNecessary() {
+    if (p.isolatedColor === -1) {
+      el('colors-wrapper').hidden = true;
+      el('advanced-settings-wrapper').hidden = true;
+      el('todo-wrapper').hidden = true;
+    } else {
+      el('colors-wrapper').hidden = false;
+      el('advanced-settings-wrapper').hidden = false;
+      el('todo-wrapper').hidden = false;
+    }
+  }
 
   initBaseSliders() {
     for (let key in p.aspects) {
@@ -1230,6 +1242,7 @@ class Picker extends HTMLElement {
     }
     a(tabGroup, wrapper);
     this.initIsolateBackgroundCheckbox();
+    this.hideUiIfNecessary();
   }
 
   initModeButtons() {

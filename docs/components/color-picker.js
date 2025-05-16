@@ -304,9 +304,13 @@ const colorElementInternalTemplate = `
 <div class="hue-set-wrapper">
   <div>
     <div class="color-hue-set"></div>
-    <div class="color-hue-chroma-slider-wrapper slider-wrapper">
+    <div class="color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper">
       <label class="color-hue-chroma-slider-label">c:</label>
       <input type="range" class="color-hue-chroma-slider picker-slider" />
+    </div>
+    <div class="color-hue-buttons">
+      <div class="color-issolate-button interface-text">
+        Issolate: <input type="checkbox" class="color-issolate-checkbox"></div>
     </div>
     <div class="color-hue-faded-wrapper"></div>
   </div>
@@ -409,12 +413,12 @@ const defaultPalette = {
   "colorNames": [
     "text",
     "headline",
-    "sub-heading",
-    "link",
-    "accent",
-    "warning-color",
-    "extra-color",
-    "bonus-color"
+    "sub-headings",
+    "links",
+    "accents",
+    "warning",
+    "info",
+    "extra"
   ],
   "fadedNames": ["faded", "faded-2"],
   // i've got back and forth between 
@@ -432,7 +436,6 @@ const defaultPalette = {
       "bwValues": [100, 0],
       "category": 3,
       "colors": [
-
         // 0-0
         {
           "fadedValues": [40, 80],
@@ -450,6 +453,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-1
         {
@@ -468,6 +472,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-2
         {
@@ -486,6 +491,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-3
         {
@@ -504,6 +510,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-4
         {
@@ -522,6 +529,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-5
         {
@@ -540,6 +548,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-6
         {
@@ -558,6 +567,7 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
         // 0-7
         {
@@ -576,9 +586,8 @@ const defaultPalette = {
             }
           ], 
           "minLightValue": 10,
+          "issolated": false,
         },
-
-
       ],
       "name": "Light",
     },
@@ -587,147 +596,150 @@ const defaultPalette = {
       "bwValues": [100, 0],
       "category": 2,
       "colors": [
-
-
-
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-
-
+        // 1-0
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-1
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-2
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-3
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-4
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-5
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-6
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 1-7
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
       ],
       "name": "High-Contrast Light",
     },
@@ -736,145 +748,150 @@ const defaultPalette = {
       "bwValues": [0, 100],
       "category": 0,
       "colors": [
-
-
-
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
-  {
-    "fadedValues": [40, 80],
-    "hueOffsetIndex": 0,
-    "hueOffsetValues": [
-      {
-        "l": 3,
-        "c": 0.118,
-        "h": 2
-      },
-      {
-        "l": 4,
-        "c": 0.2,
-        "h": 3
-      }
-    ], 
-    "minLightValue": 10,
-  },
+        // 2-0
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-1
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-2
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-3
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-4
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-5
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-6
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
+        // 2-7
+        {
+          "fadedValues": [40, 80],
+          "hueOffsetIndex": 0,
+          "hueOffsetValues": [
+            {
+              "l": 3,
+              "c": 0.118,
+              "h": 2
+            },
+            {
+              "l": 4,
+              "c": 0.2,
+              "h": 3
+            }
+          ], 
+          "minLightValue": 10,
+        },
       ],
       "name": "Dark",
     },
@@ -1171,7 +1188,6 @@ class Picker extends HTMLElement {
     html(``, wrapper);
     const tabGroup = dc('tab-group');
     a(tabGroup, wrapper);
-
     const tabList = dc('tab-list');
     for (let color  = 0; color < p.numberOfColors; color ++) {
       const tabButton = dc('button');
@@ -1186,19 +1202,19 @@ class Picker extends HTMLElement {
       a(tabButton, tabList);
     }
     a(tabList, tabGroup);
-    for (let index = 0; index < p.numberOfColors; index ++) {
-      const colorData = p.modes[p.activeMode].colors[index];
+    for (let color = 0; color < p.numberOfColors; color ++) {
+      const colorData = p.modes[p.activeMode].colors[color];
       const colorEl = dc('div'); 
       sa(`role`, `tabpanel`, colorEl);
-      ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
+      ac(['color-wrapper', `color-wrapper-${color}`], colorEl);
       html(colorElementInternalTemplate, colorEl);
       a(colorEl, tabGroup);
       const colorNameEl = colorEl.querySelector('.color-name');
-      ac([`color-name-${index}`], colorNameEl);
-      ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
+      ac([`color-name-${color}`], colorNameEl);
+      ac([`color-name-${scrubStyle(p.colorNames[color])}`], colorNameEl);
       ac('bold', colorNameEl);
-      ac(p.colorNames[index], colorNameEl);
-      html(p.colorNames[index], colorNameEl);
+      ac(p.colorNames[color], colorNameEl);
+      html(p.colorNames[color], colorNameEl);
       const slider = colorEl.querySelector('.color-hue-chroma-slider');
       sa('type', 'range', slider);
       sa('min', 0, slider);
@@ -1207,33 +1223,36 @@ class Picker extends HTMLElement {
       slider.value = colorData.hueOffsetValues[colorData.hueOffsetIndex].c;
       ad('kind', 'color-chroma-slider', slider);
       ad('mode', p.activeMode, slider);
-      ad('color', index, slider);
-      ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
+      ad('color', color, slider);
+      ad('hueoffsetcolor', colorData.hueOffsetIndex, slider);
       const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
       ac('interface-text', sliderLabel);
       const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
       const hueCount = Math.round(360 / p.hueOffsets[
         colorData.hueOffsetIndex
       ]);
-      for (let hueOffsetIndexIndex = 0; hueOffsetIndexIndex < hueCount; hueOffsetIndexIndex ++ ) {
+      for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
         const hueOffsetIndexWrapper = dc('div');
-        this.getLightLevelValues().forEach((level, levelIndex) => {
+        this.getLightLevelValues().forEach((level, levelcolor) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
           ad('mode', p.activeMode, button);
-          ad('color', index, button);
+          ad('color', color, button);
           ad('degreeset', colorData.hueOffsetIndex, button);
-          ad('degreesetindex', hueOffsetIndexIndex, button);
-          ad('lightness', levelIndex, button);
-          //ad('color', index, button);
+          ad('degreesetcolor', hueOffsetIndexcolor, button);
+          ad('lightness', levelcolor, button);
+          //ad('color', color, button);
           ac('color-light-level', button);
-          ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${index}--lightness-${levelIndex}--hue-${hueOffsetIndexIndex}`, button);
+          ac(`color-lightness-hue-selector--mode-${p.activeMode}--color-${color}--lightness-${levelcolor}--hue-${hueOffsetIndexcolor}`, button);
           //html(level.toString().padStart(3, '0'), button);
           html('set', button);
           a(button, hueOffsetIndexWrapper);
         });
         a(hueOffsetIndexWrapper, hueOffsetIndexEl);
       }
+      const issolateButton = colorEl.querySelector(".color-issolate-button");
+      ac(`color-issolate-button--mode-${p.activeMode}--color-${color}`, issolateButton);
+      dbg(issolateButton);
     }
     a(tabGroup, wrapper);
   }
@@ -1512,6 +1531,16 @@ button{
   outline: inherit;
   padding: 0;
 }
+.chroma-slider-wrapper {
+  padding-top: 0.5rem;
+  margin-top: 0.8rem;
+  border-top : 1px solid var(--BWREVERSE-20);
+}
+.color-hue-buttons {
+  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+  border-top : 1px solid var(--BWREVERSE-20);
+}
 .color-light-level {
   font-size: 0.9rem;
   padding: 0.14rem;
@@ -1561,7 +1590,7 @@ header {
 }
 .main-body {
   display: grid;
-  grid-template-columns: 1fr 12rem;
+  grid-template-columns: 1fr 12.5rem;
   gap: 1.5rem;
 }
 .made-by {  

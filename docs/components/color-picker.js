@@ -393,7 +393,7 @@ const defaultPalette = {
               "h": 1
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-1
         {
@@ -411,7 +411,7 @@ const defaultPalette = {
               "h": 7
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-2
         {
@@ -429,7 +429,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-3
         {
@@ -447,7 +447,7 @@ const defaultPalette = {
               "h": 0
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-4
         {
@@ -465,7 +465,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-5
         {
@@ -483,7 +483,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-6
         {
@@ -501,7 +501,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 0-7
         {
@@ -519,7 +519,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
       ],
       "name": "Light",
@@ -546,7 +546,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-1
         {
@@ -564,7 +564,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-2
         {
@@ -582,7 +582,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-3
         {
@@ -600,7 +600,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-4
         {
@@ -618,7 +618,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-5
         {
@@ -636,7 +636,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-6
         {
@@ -654,7 +654,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 1-7
         {
@@ -672,7 +672,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
       ],
       "name": "High-Contrast Light",
@@ -699,7 +699,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-1
         {
@@ -717,7 +717,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-2
         {
@@ -735,7 +735,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-3
         {
@@ -753,7 +753,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-4
         {
@@ -771,7 +771,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-5
         {
@@ -789,7 +789,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-6
         {
@@ -807,7 +807,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 2-7
         {
@@ -825,7 +825,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
       ],
       "name": "Dark",
@@ -852,7 +852,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-1
         {
@@ -870,7 +870,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-2
         {
@@ -888,7 +888,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-3
         {
@@ -906,7 +906,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-4
         {
@@ -924,7 +924,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-5
         {
@@ -942,7 +942,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-6
         {
@@ -960,7 +960,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
         // 3-7
         {
@@ -978,7 +978,7 @@ const defaultPalette = {
               "h": 3
             }
           ], 
-          "minLightValue": 10,
+          "minLightLevel": 10,
         },
       ],
       "name": "High-Contrast Dark",
@@ -1054,9 +1054,9 @@ class Picker extends HTMLElement {
 
   getLightLevelValues(mode, color) {
     const levels = [];
-    const minLightValue = p.modes[mode].colors[color].minLightValue;
-    const adder = ((p.maxLightValue - minLightValue) / p.lightLevels);
-    for (let level = minLightValue; level <= p.maxLightValue; level += adder) {
+    const minLightLevel = p.modes[mode].colors[color].minLightLevel;
+    const adder = ((p.maxLightValue - minLightLevel) / p.lightLevels);
+    for (let level = minLightLevel; level <= p.maxLightValue; level += adder) {
       levels.push(level.toFixed(5));
     }
     return levels;

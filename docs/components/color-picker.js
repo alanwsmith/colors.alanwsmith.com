@@ -317,77 +317,6 @@ const colorElementInternalTemplate = `
 </div>
 `;
 
-// const defaultColors = [
-//   {
-//     "fadedValues": [40, 80],
-//     "hueOffsetIndex": 0,
-//     "hueOffsetValues": [
-//       {
-//         "l": 3,
-//         "c": 0.118,
-//         "h": 2
-//       },
-//       {
-//         "l": 4,
-//         "c": 0.2,
-//         "h": 3
-//       }
-//     ], 
-//     "minLightValue": 10,
-//   },
-//   {
-//     "fadedValues": [10, 20],
-//     "hueOffsetIndex": 0,
-//     "hueOffsetValues": [
-//       {
-//         "l": 2,
-//         "c": 0.1,
-//         "h": 0
-//       },
-//       {
-//         "l": 4,
-//         "c": 0.2,
-//         "h": 3
-//       }
-//     ],
-//     "minLightValue": 10,
-//   },
-//   {
-//     "fadedValues": [40, 80],
-//     "hueOffsetIndex": 0,
-//     "hueOffsetValues": [
-//       {
-//         "l": 2,
-//         "c": 0.1,
-//         "h": 0
-//       },
-//       {
-//         "l": 4,
-//         "c": 0.2,
-//         "h": 3
-//       }
-//     ],
-//     "minLightValue": 10,
-//   },
-//   {
-//     "fadedValues": [10, 20],
-//     "hueOffsetIndex": 0,
-//     "hueOffsetValues": [
-//       {
-//         "l": 2,
-//         "c": 0.1,
-//         "h": 0
-//       },
-//       {
-//         "l": 4,
-//         "c": 0.2,
-//         "h": 3
-//       }
-//     ],
-//     "minLightValue": 10,
-//   }
-// ];
-
 const defaultPalette = {
   "activeMode": 0,
   "activeColor": 0,
@@ -1281,11 +1210,13 @@ class Picker extends HTMLElement {
         });
         a(hueOffsetIndexWrapper, hueOffsetIndexEl);
       }
-      // const issolateButton = colorEl.querySelector(".color-issolate-checkbox");
-      // ac(`color-issolate-checkbox--mode-${p.activeMode}--color-${color}`, issolateButton);
-      // if (p.issolatedColor === color) {
-      //   issolateButton.checked = true;
-      // }
+      const issolateCheckbox = colorEl.querySelector(".color-issolate-checkbox");
+      ac(`color-issolate-checkbox--mode-${p.activeMode}--color-${color}`, issolateCheckbox);
+      ad(`kind`, `issolate-checkbox`, issolateCheckbox);
+      ad(`color`, color, issolateCheckbox);
+      if (p.issolatedColor === color) {
+        issolateCheckbox.checked = true;
+      }
     }
     a(tabGroup, wrapper);
   }

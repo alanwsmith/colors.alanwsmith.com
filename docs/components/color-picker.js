@@ -248,11 +248,19 @@ change things around.
       <fieldset class="background-fieldset">
         <legend class="interface-text">Background</legend>
         <div class="base-sliders"></div>
-        <div class="background-isolate-wrapper">
-          <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
-            Isolate:
-          </label>
-          <input type="checkbox" class="background-isolate-checkbox">
+        <div class="background-checkboxes">
+          <div class="background-isolate-wrapper background-checkbox-wrapper">
+            <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
+              Isolate:
+            </label>
+            <input type="checkbox" class="background-isolate-checkbox" name="background-isolate-checkbox">
+          </div>
+          <div class="background-focus-wrapper background-checkbox-wrapper">
+            <label for="background-focus-checkbox" class="interface-text ui-font-size-small">
+              Focus:
+            </label>
+            <input type="checkbox" class="background-focus-checkbox" name="background-focus-checkbox">
+          </div>
         </div>
       </fieldset>
     </div>
@@ -320,13 +328,9 @@ const colorElementInternalTemplate = `
       <input type="range" class="color-hue-chroma-slider picker-slider" />
     </div>
     <div class="color-hue-buttons">
-      <div class="color-isolate-button-wrapper">
+      <div class="color-isolate-checkbox-wrapper">
         <label class="interface-text ui-font-size-small">Isolate:</label>
         <input type="checkbox" class="color-isolate-checkbox">
-      </div>
-      <div class="color-focus-button-wrapper">
-        <label class="interface-text ui-font-size-small">Focus:</label>
-        <input type="checkbox" class="color-focus-checkbox">
       </div>
     </div>
     <div class="color-hue-faded-wrapper"></div>
@@ -1486,6 +1490,19 @@ a {
   outline: 1px solid var(--BWREVERSE-40);
   background-color: var(--BWMATCH-20);
 }
+.background-checkbox-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.background-checkboxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 0.7rem;
+  border-top: 1px solid var(--BWREVERSE-20);
+  padding-top: 0.7rem;
+}
 .background-fieldset {
   border: 1px solid var(--BWREVERSE-20);
   border-radius: 0.3rem;
@@ -1524,6 +1541,13 @@ button{
   padding-top: 0.5rem;
   margin-top: 0.5rem;
   border-top : 1px solid var(--BWREVERSE-20);
+}
+.color-isolate-checkbox-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.3rem;
 }
 .color-light-level {
   font-size: 0.9rem;

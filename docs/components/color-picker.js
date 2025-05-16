@@ -178,7 +178,7 @@ const template = `
 <div class="main-body">
 
   <div class="flow">
-    <h2>Welcome to the Color Picker</h2>
+    <h1>Welcome to Alan's (prototype) Color Picker</h1>
     <p>
       I need to write up an intro here with some
 details about how this thing came to be. Or, something
@@ -249,7 +249,7 @@ change things around.
 
     <fieldset class="colors-fieldset">
       <legend class="interface-text">Colors</legend>
-      <tab-group class="colors-content-wrapper flow"></tab-group>
+      <div class="colors-content-wrapper flow"></div>
     </fieldset>
 
     <details class="flow">
@@ -283,7 +283,7 @@ change things around.
         <li><input type="checkbox" disabled /> Save/Load</li>
         <li><input type="checkbox" disabled /> Shareable URLs</li>
         <li><input type="checkbox" disabled /> Implementation example</li>
-        <li><input type="checkbox" disabled /> Web component</li>
+        <li><input type="checkbox" disabled /> Web component for mode switching</li>
         <li><input type="checkbox" disabled /> Randomizer</li>
         <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
         <li><input type="checkbox" disabled /> Add/subtract modes</li>
@@ -312,8 +312,8 @@ const colorElementInternalTemplate = `
   -->
   <div>
     <div class="color-hue-set"></div>
-    <div class="color-hue-chroma-slider-wrapper">
-      <label class="color-hue-chroma-slider-label">c</label>
+    <div class="color-hue-chroma-slider-wrapper slider-wrapper">
+      <label class="color-hue-chroma-slider-label">c:</label>
       <input type="range" class="color-hue-chroma-slider picker-slider" />
     </div>
     <div class="color-hue-faded-wrapper"></div>
@@ -1141,6 +1141,7 @@ class Picker extends HTMLElement {
       const token = `base-slider`;
       const connector = `${token}-${key}`;
       const div = dc('div');
+      ac('slider-wrapper', div);
       ac([
         `${token}-wrapper`, 
         `${token}-wrapper-${key}`
@@ -1187,34 +1188,30 @@ class Picker extends HTMLElement {
   }
 
   initColors() {
-    // Clear it first so this can be used if the
-    // number of colors changes, or the names
-    // of the colors change.
     const wrapper = el('colors-content-wrapper');  
     html(``, wrapper);
+    const tabGroup = dc('tab-group');
+    a(tabGroup, wrapper);
 
     const tabList = dc('tab-list');
     for (let color  = 0; color < p.numberOfColors; color ++) {
       const tabButton = dc('button');
+      html(Array.from(p.colorNames[color])[0], tabButton);
       sa("role", "tab", tabButton);
       if (color === 0) {
         sa("aria-selected", "true", tabButton);
       }
-      html(Array.from(p.colorNames[color])[0], tabButton);
       ac(p.colorNames[color], tabButton);
       a(tabButton, tabList);
     }
-    a(tabList, wrapper);
-
-
-
+    a(tabList, tabGroup);
     for (let index = 0; index < p.numberOfColors; index ++) {
       const colorData = p.modes[p.activeMode].colors[index];
       const colorEl = dc('div'); 
       sa(`role`, `tabpanel`, colorEl);
       ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
       html(colorElementInternalTemplate, colorEl);
-      a(colorEl, wrapper);
+      a(colorEl, tabGroup);
       const colorNameEl = colorEl.querySelector('.color-name');
       ac([`color-name-${index}`], colorNameEl);
       ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
@@ -1232,61 +1229,7 @@ class Picker extends HTMLElement {
       ad('color', index, slider);
       ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
       const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
-      ac(p.colorNames[index], sliderLabel);
-
-
-
-
-    // for (let index = 0; index < p.numberOfColors; index ++) {
-    //   const colorData = p.modes[p.activeMode].colors[index];
-    //   const colorEl = dc('div'); 
-    //   ac(['color-wrapper', `color-wrapper-${index}`], colorEl);
-    //   html(colorElementInternalTemplate, colorEl);
-    //   a(colorEl, wrapper);
-    //   const colorNameEl = colorEl.querySelector('.color-name');
-    //   ac([`color-name-${index}`], colorNameEl);
-    //   ac([`color-name-${scrubStyle(p.colorNames[index])}`], colorNameEl);
-    //   ac('bold', colorNameEl);
-    //   ac(p.colorNames[index], colorNameEl);
-    //   html(p.colorNames[index], colorNameEl);
-    //   const slider = colorEl.querySelector('.color-hue-chroma-slider');
-    //   sa('type', 'range', slider);
-    //   sa('min', 0, slider);
-    //   sa('max', this.getAspectMax('c'), slider);
-    //   sa('step', this.getAspectStep('c').toFixed(5), slider);
-    //   slider.value = colorData.hueOffsetValues[colorData.hueOffsetIndex].c;
-    //   ad('kind', 'color-chroma-slider', slider);
-    //   ad('mode', p.activeMode, slider);
-    //   ad('color', index, slider);
-    //   ad('hueoffsetindex', colorData.hueOffsetIndex, slider);
-    //   const sliderLabel = colorEl.querySelector('.color-hue-chroma-slider-label');
-    //   ac(p.colorNames[index], sliderLabel);
-
-
-
-      /*
-       * This is the degree switch. It's off for now. Add advance function to turn 
-       * it back on if folks want it, but it adds
-       * some complication to the interface that's
-       * better avoided for the default case. 
-      const selector = colorEl.querySelector('.color-hue-set-selector');
-      ac([`color-hue-set-selector-${index}`], selector);
-      ad("kind", "color-hue-set-selector", selector);
-      ad("mode", p.activeMode, selector);
-      sa("name", `color-hue-set-selector-${index}`, selector);
-      ad("color", index, selector);
-      p.hueOffsets.forEach((hs, hsIndex) => {
-        const opt = dc('option');
-        sv(hsIndex, opt);
-        html(`${hs}°`, opt);
-        if (hsIndex === p.modes[p.activeMode].colors[index].hueOffsetIndex) {
-          opt.selected = true;
-        }
-        a(opt, selector);
-      });
-
-*/
-
+      ac('interface-text', sliderLabel);
       const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
       const hueCount = Math.round(360 / p.hueOffsets[
         colorData.hueOffsetIndex
@@ -1311,6 +1254,7 @@ class Picker extends HTMLElement {
         a(hueOffsetIndexWrapper, hueOffsetIndexEl);
       }
     }
+    a(tabGroup, wrapper);
   }
 
   initModeButtons() {
@@ -1567,9 +1511,8 @@ a {
 .background-fieldset {
   border: 1px solid var(--BWREVERSE-20);
   border-radius: 0.3rem;
-  padding: 0;
+  padding-bottom: 0.8rem;
   & legend {
-    margin-left: 0.6rem;
   }
 }
 .base-slider, .picker-slider {
@@ -1665,41 +1608,37 @@ pre{
   border: 1px solid var(--BWREVERSE-20);
   border-radius: 0.3rem;
 }
+.slider-wrapper {
+  display: grid;
+  grid-template-columns: 2.2ch 1fr;
+  align-items: center;
+}
 ul > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
 }
 .view-mode-buttons{
   margin-bottom: 0.8rem;
 }
-
-
 /* tab stuff */
-
-
 [role="tab"] {
   background: none;
-  color: var(--color-not-selected);
   cursor: pointer;
-  font: inherit;
   outline: inherit;
   padding-inline: 7px;
+  font-weight: bold;
   &[aria-selected='true'] {
-    border-bottom: 3px solid var(--BWREVERSE-50);
-    color: var(--color-selected);
+    border-bottom: 3px solid var(--interface-active-color);
     padding-block: 0 0;
   }
 }
-
 [role="tablist"] {
 }
-
 [role="tabpanel"] {
   margin: 0;
   padding-block: 0.6rem;
-  padding-inline: 0.1rem;
+  padding-inline: 0.3rem;
   border-top: 1px solid var(--BWREVERSE-30);
 }
-
 `;
     // this is for adding a map to the active names. 
     // it's off until stuff is moved to a more structured
@@ -1827,7 +1766,6 @@ ul > :where(:not(:first-child)) {
 customElements.define('color-picker', Picker);
 
 
-
 class TabGroup extends HTMLElement {
   get tabs() {
     return [...this.querySelectorAll('[role=tab]')];
@@ -1854,9 +1792,12 @@ class TabGroup extends HTMLElement {
     this.setupEvents();
   }
 
+
   generateIds() {
     const prefix = Math.floor(Date.now()).toString(36);
+    console.log(prefix);
     this.tabs.forEach((tab, index) => {
+      console.log(tab);
       const panel = this.panels[index];
       tab.id ||= `${prefix}-tab-${index}`;
       panel.id ||= `${prefix}-panel-${index}`;

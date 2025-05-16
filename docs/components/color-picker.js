@@ -173,7 +173,7 @@ const template = `
 <!--
 <h2 class="palette-name"></h2>
 -->
-<div class="nav-buttons">Nav buttons</div>
+<div class="nav-buttons">more stuff will go here</div>
 
 <div class="main-body">
 
@@ -386,6 +386,7 @@ const colorElementInternalTemplate = `
 
 const defaultPalette = {
   "activeMode": 0,
+  "activeColor": 0,
   "aspectOrder": ["l", "c", "h"],
   "aspects": {
     "l": { "name": "lightness", "max": 100 },
@@ -874,9 +875,6 @@ const defaultPalette = {
     ], 
     "minLightValue": 10,
   },
-
-
-
       ],
       "name": "Dark",
     },
@@ -1098,20 +1096,12 @@ class Picker extends HTMLElement {
   }
 
   getLightLevelValues() {
+    // TODO: make min light level configurable per mode/color. 
     const levels = [];
     const adder = ((p.maxLightValue - p.minLightValue) / p.lightLevels);
     for (let level = p.minLightValue; level <= p.maxLightValue; level += adder) {
       levels.push(level);
     }
-
-    // for (let level = 0; level <= 100; level += Math.floor(100 / (p.lightLevels - 1))) {
-    //   if (level === 0) {
-    //     lightLevelValues.push(10);
-    //   } else {
-    //     lightLevelValues.push(level);
-    //   }
-    // }
-
     return levels;
   }
 
@@ -1187,10 +1177,12 @@ class Picker extends HTMLElement {
       const tabButton = dc('button');
       html(Array.from(p.colorNames[color])[0], tabButton);
       sa("role", "tab", tabButton);
-      if (color === 0) {
+      if (color === p.activeColor) {
         sa("aria-selected", "true", tabButton);
       }
       ac(p.colorNames[color], tabButton);
+      ad("kind", "color-selector", tabButton);
+      ad("color", color, tabButton);
       a(tabButton, tabList);
     }
     a(tabList, tabGroup);
@@ -1346,13 +1338,6 @@ class Picker extends HTMLElement {
       "palettes": [defaultPalette],
       "schemaVersion": [1,0,0]
     };
-
-    // data.palettes[0].modes.forEach((modeData, mode) => {
-    //   for (let index = 0; index < data.palettes[0].maxNumberOfColors; index ++) {
-    //     modeData.colors.push(JSON.parse(JSON.stringify(defaultColors[mode])));
-    //   }
-    // });
-
     dbg("Loaded default colors");
   }
 
@@ -1436,6 +1421,7 @@ ${sheets.join("\n")}
 
   reloadDynamicColorVars() {
     const lines = [];
+    lines.push(`--interface-active-color: var(--${p.colorNames[p.activeColor]});`);
     p.modes.forEach((data, mode) => {
       const category = data.category;
       const modeName = scrubStyle(data.name);
@@ -1534,14 +1520,14 @@ button{
   border: 1px solid var(--BWREVERSE-20);
   border-radius: 0.3rem;
   padding-inline: 0;
-  padding-top: 0.3rem;
+  padding-top: 0.1rem;
   padding-bottom: 0.1rem;
   & legend {
     margin-left: 0.6rem;
   }
 }
 .color-name {
-  border-bottom: 1px solid var(--BWREVERSE-20);
+  border-bottom: 1px solid var(--interface-active-color);
   padding-inline: 0.4rem;
   padding-bottom: 0.2rem;
 }
@@ -1562,6 +1548,9 @@ h2, h3 {
 }
 header {
   margin-top: 1.3rem;
+}
+.hue-set-wrapper {
+  padding: 0.3rem;
 }
 .inactive-mode-button {
   outline: 1px solid var(--BWREVERSE-40);
@@ -1623,7 +1612,7 @@ ul > :where(:not(:first-child)) {
   padding-inline: 7px;
   font-weight: bold;
   &[aria-selected='true'] {
-    border-bottom: 3px solid var(--interface-active-color);
+    border-bottom: 2px solid var(--interface-active-color);
     padding-block: 0 0;
   }
 }
@@ -1634,7 +1623,7 @@ ul > :where(:not(:first-child)) {
   padding-block: 0;
   padding-top: 0.2rem;
   padding-bottom: 0.5rem;
-  border-top: 1px solid var(--BWREVERSE-30);
+  border-top: 1px solid var(--interface-active-color);
 }
 `;
     // this is for adding a map to the active names. 
@@ -1684,16 +1673,20 @@ ul > :where(:not(:first-child)) {
 
   updateData(event) {
     let triggerRefresh = false;
-    if (event.target.dataset.kind === "color-hue-set-selector" && event.type === "change") {
+    if (event.target.dataset.kind === "base") {
+      const aspect = gds(event, 'aspect');
+      p.modes[p.activeMode].base[aspect] = gvf(event);
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "color-selector") {
+      const color = gdi("color", event);
+      p.activeColor = color;
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "color-hue-set-selector" && event.type === "change") {
       const mode = gdi("mode", event);
       const color = gdi("color", event);
       const value = gvi(event);
       p.modes[mode].colors[color].hueOffsetIndex = value;
       this.initColors();
-      triggerRefresh = true;
-    } else if (event.target.dataset.kind === "base") {
-      const aspect = gds(event, 'aspect');
-      p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "number-of-colors-selector") {
       const checkNum = gvi(event);
@@ -1789,12 +1782,9 @@ class TabGroup extends HTMLElement {
     this.setupEvents();
   }
 
-
   generateIds() {
     const prefix = Math.floor(Date.now()).toString(36);
-    console.log(prefix);
     this.tabs.forEach((tab, index) => {
-      console.log(tab);
       const panel = this.panels[index];
       tab.id ||= `${prefix}-tab-${index}`;
       panel.id ||= `${prefix}-panel-${index}`;

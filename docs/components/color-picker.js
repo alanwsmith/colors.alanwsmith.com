@@ -300,16 +300,8 @@ change things around.
 `;
 
 const colorElementInternalTemplate = `
-<!--
-<details class="flow" open>
--->
 <div class="color-name">Color Name</div>
 <div class="hue-set-wrapper">
-  <!--
-  TODO: Add advanced setting to turn this on
-  <label class="color-hue-set-selector-label">Hue Set:</label>
-  <select class="color-hue-set-selector"></select>
-  -->
   <div>
     <div class="color-hue-set"></div>
     <div class="color-hue-chroma-slider-wrapper slider-wrapper">
@@ -319,9 +311,6 @@ const colorElementInternalTemplate = `
     <div class="color-hue-faded-wrapper"></div>
   </div>
 </div>
-<!--
-</details>
--->
 `;
 
 // const defaultColors = [
@@ -1544,10 +1533,17 @@ button{
 .colors-fieldset {
   border: 1px solid var(--BWREVERSE-20);
   border-radius: 0.3rem;
-  padding: 0;
+  padding-inline: 0;
+  padding-top: 0.3rem;
+  padding-bottom: 0.1rem;
   & legend {
     margin-left: 0.6rem;
   }
+}
+.color-name {
+  border-bottom: 1px solid var(--BWREVERSE-20);
+  padding-inline: 0.4rem;
+  padding-bottom: 0.2rem;
 }
 .content-wrapper {
   margin-inline: auto;
@@ -1635,8 +1631,9 @@ ul > :where(:not(:first-child)) {
 }
 [role="tabpanel"] {
   margin: 0;
-  padding-block: 0.6rem;
-  padding-inline: 0.3rem;
+  padding-block: 0;
+  padding-top: 0.2rem;
+  padding-bottom: 0.5rem;
   border-top: 1px solid var(--BWREVERSE-30);
 }
 `;

@@ -309,9 +309,9 @@ const colorElementInternalTemplate = `
       <input type="range" class="color-hue-chroma-slider picker-slider" />
     </div>
     <div class="color-hue-buttons">
-      <div class="color-issolate-button-wrapper">
-        <label class="interface-text ui-font-size-small">Issolate:</label>
-        <input type="checkbox" class="color-issolate-checkbox">
+      <div class="color-isolate-button-wrapper">
+        <label class="interface-text ui-font-size-small">Isolate:</label>
+        <input type="checkbox" class="color-isolate-checkbox">
       </div>
       <div class="color-focus-button-wrapper">
         <label class="interface-text ui-font-size-small">Focus:</label>
@@ -355,7 +355,7 @@ const defaultPalette = {
     "info",
     "extra"
   ],
-  "issolatedColor": 0,
+  "isolatedColor": 0,
   "fadedNames": ["faded", "faded-2"],
   // i've got back and forth between 
   // 45 and 60 here. going with 45 for
@@ -1059,7 +1059,7 @@ class Picker extends HTMLElement {
   getColorC(mode, color) {
     const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
     const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
-    return c;
+    return c.toFixed(5);
   }
 
   getColorH(mode, color) {
@@ -1069,7 +1069,7 @@ class Picker extends HTMLElement {
     if (value > 360) {
       value -= 360;
     }
-    return value;
+    return value.toFixed(5);
   }
 
   getColorL(mode, color) {
@@ -1083,7 +1083,7 @@ class Picker extends HTMLElement {
     const levels = [];
     const adder = ((p.maxLightValue - p.minLightValue) / p.lightLevels);
     for (let level = p.minLightValue; level <= p.maxLightValue; level += adder) {
-      levels.push(level);
+      levels.push(level.toFixed(5));
     }
     return levels;
   }
@@ -1216,12 +1216,12 @@ class Picker extends HTMLElement {
         });
         a(hueOffsetIndexWrapper, hueOffsetIndexEl);
       }
-      const issolateCheckbox = colorEl.querySelector(".color-issolate-checkbox");
-      ac(`color-issolate-checkbox--mode-${p.activeMode}--color-${color}`, issolateCheckbox);
-      ad(`kind`, `issolate-checkbox`, issolateCheckbox);
-      ad(`color`, color, issolateCheckbox);
-      if (p.issolatedColor !== null) {
-        issolateCheckbox.checked = true;
+      const isolateCheckbox = colorEl.querySelector(".color-isolate-checkbox");
+      ac(`color-isolate-checkbox--mode-${p.activeMode}--color-${color}`, isolateCheckbox);
+      ad(`kind`, `isolate-checkbox`, isolateCheckbox);
+      ad(`color`, color, isolateCheckbox);
+      if (p.isolatedColor !== null) {
+        isolateCheckbox.checked = true;
       }
     }
     a(tabGroup, wrapper);
@@ -1420,8 +1420,7 @@ ${sheets.join("\n")}
       lines.push(`--${modeName}-${p.baseColorName}: oklch(${lBase.toFixed(5)}% ${cBase.toFixed(5)} ${hBase.toFixed(5)});`);
       for (let index = 0; index < p.numberOfColors; index ++) {
         const colorName = p.colorNames[index];
-        dbg(p.issolatedColor);
-        if (p.issolatedColor !== null && index !== p.issolatedColor) {
+        if (p.isolatedColor !== null && index !== p.isolatedColor) {
           const l = p.modes[p.activeMode].base.l;
           const c = p.modes[p.activeMode].base.c;
           const h = p.modes[p.activeMode].base.h;
@@ -1430,7 +1429,7 @@ ${sheets.join("\n")}
           const l = this.getColorL(mode, index);
           const c = this.getColorC(mode, index);
           const h = this.getColorH(mode, index);
-          lines.push(`--${modeName}-${colorName}: oklch(${l.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)});`);
+          lines.push(`--${modeName}-${colorName}: oklch(${l}% ${c} ${h});`);
         }
       }
     });
@@ -1450,7 +1449,7 @@ ${sheets.join("\n")}
             const c = this.getColorC(mode, color);
             const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
-            const style = `oklch(${lightLevel.toFixed(5)}% ${c.toFixed(5)} ${h.toFixed(5)})`;
+            const style = `oklch(${lightLevel}% ${c} ${h})`;
             lines.push(
               `${className} { color: ${style};}`
             );
@@ -1568,7 +1567,7 @@ header {
 }
 .main-body {
   display: grid;
-  grid-template-columns: 1fr 12.5rem;
+  grid-template-columns: 1fr 13rem;
   gap: 1.5rem;
 }
 .made-by {  
@@ -1687,19 +1686,19 @@ ul > :where(:not(:first-child)) {
       const aspect = gds(event, 'aspect');
       p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
-    } else if (event.target.dataset.kind === "issolate-checkbox" && event.type === "change") {
+    } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
       if (event.target.checked === true) {
-        p.issolatedColor = gdi("color", event);
+        p.isolatedColor = gdi("color", event);
       } else {
-        p.issolatedColor = null;
+        p.isolatedColor = null;
       }
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-selector") {
       const color = gdi("color", event);
       p.activeColor = color;
-      if (p.issolatedColor !== null) {
-        p.issolatedColor = color;
+      if (p.isolatedColor !== null) {
+        p.isolatedColor = color;
       } 
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-hue-set-selector" 

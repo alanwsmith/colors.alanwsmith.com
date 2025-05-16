@@ -184,13 +184,23 @@ const template = `
 
   <div class="flow">
     <h1>Welcome to Alan's (prototype) Color Picker</h1>
+
+<!--
+    <p>Hi there! Glad you made. Just one thing you 
+need to know. This is still a work in progress. 
+The picking functionality is mostly in place. Getting
+the stylesheets out is a work in progress. Check
+back if a few days.<p>
+-->
+
     <p>
-      I need to write up an intro here with some
+I need to write up an intro here with some
 details about how this thing came to be. Or, something
 like that. Right now, <a href="">there just needs</a> to be
 some text here to test with. To wit, what you're
 reading now.
     </p>
+
 <p>
 This space isn't completley wated though. We
 can use it for some basic instructions. 
@@ -218,6 +228,12 @@ change things around.
 </li>
 </ol>
 
+
+<h3>Random Filler Content</h3>
+<p>
+  Everything below is standin text to give
+you something to look at. No real information
+to be found in it.
 <p>
       
       Dip the pail once and let it settle.
@@ -370,7 +386,6 @@ const defaultPalette = {
     "info",
     "extra"
   ],
-  "isolatedColor": -2,
   "fadedNames": ["faded", "faded-2"],
   // i've got back and forth between 
   // 45 and 60 here. going with 45 for
@@ -381,6 +396,7 @@ const defaultPalette = {
   // significant complexity without much
   // utility. 
   "hueOffsets": [45, 60],
+  "isolatedColor": -2,
   "lightLevels": 6,
   "maxNumberOfColors": 8,
   "maxNumberOfFaded": 2,
@@ -1003,6 +1019,7 @@ const defaultPalette = {
   "numberOfColors": 5,
   "numberOfFaded": 1,
   "preferredMode": 0,
+  "previousIsolatedColor": -2,
 }
 
 const config = {
@@ -1747,11 +1764,18 @@ ul > :where(:not(:first-child)) {
       p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
+      focus(`legacy: ${p.previousIsolatedColor} | ${p.isolatedColor}`);
       if (event.target.checked === true) {
+        p.previousIsolatedColor = p.isolatedColor;
         p.isolatedColor = gdi("color", event);
       } else {
-        p.isolatedColor = -2;
+        if (p.isolatedColor === -1) {
+         p.isolatedColor = p.previousIsolatedColor;
+        } else {
+          p.isolatedColor = -2;
+        }
       }
+      focus(`new: ${p.previousIsolatedColor} | ${p.isolatedColor}`);
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-selector") {

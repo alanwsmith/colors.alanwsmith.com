@@ -1034,10 +1034,10 @@ class Picker extends HTMLElement {
     this.addListeners();
     this.renderPage();
 
-    // TODO: Refacor to put everything below
-    // here
+    // TODO: Refactor to put everything below here
     this.addBwColorExamples();
     this.addBwBackgroundExamples();
+    this.addBwBorderExamples();
   }
 
   addBwBackgroundExamples() {
@@ -1054,10 +1054,31 @@ class Picker extends HTMLElement {
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
         ac(`${token}`, exampleEl);
+        ac(`small-full-padding`, exampleEl);
+        ac(`small-full-margin`, exampleEl);
         a(exampleEl, kindEl);
       }
       a(kindEl, wrapper);
     });
+  }
+
+  addBwBorderExamples() {
+    const wrapper = el('bw-border-examples-wrapper');
+    const kinds = ['match', 'reverse'];
+    kinds.forEach((kind) => {
+      const kindEl = dc('div');
+      this.getDirections().forEach((data) => {
+        this.getBwValues().forEach((bwValue) => {
+          const cell = dc('div');
+          const className = `${kind}${bwValue}-${data[0]}-border`;
+          html(`.${className}`, cell);
+          ac(className, cell);
+          ac(`base-full-margin`, cell);
+          a(cell, kindEl);
+        })
+      })
+      a(kindEl, wrapper);
+    })
   }
 
   addBwColorExamples() {
@@ -1065,17 +1086,14 @@ class Picker extends HTMLElement {
     const kinds = ['match', 'reverse'];
     kinds.forEach((kind) => {
       const kindEl = dc('div');
-      for (let num = 100; num > 0; num -= 10) {
-        let display = `-${num}`;
-        if (num === 100) {
-          display = "";
-        }
-        const token = `${kind}${display}`;
+      this.getBwValues().forEach((bwValue) => {
+        const token = `${kind}${bwValue}`;
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
         ac(`${token}`, exampleEl);
+        ac(`small-full-margin`, exampleEl);
         a(exampleEl, kindEl);
-      }
+      });
       a(kindEl, wrapper);
     });
   }
@@ -1139,6 +1157,13 @@ class Picker extends HTMLElement {
     return p.aspects[key].max / 10000;
   }
 
+  getBwValues() {
+    return [
+      '', '-90', '-80', '-70', '-60',
+      '-50', '-40', '-30', '-20', '-10'
+    ]
+  }
+
   getColorC(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
@@ -1182,6 +1207,18 @@ class Picker extends HTMLElement {
 
   getColorMinLightLevel(mode, color) {
     return p.modes[mode].colors[color].minLightLevel;
+  }
+
+  getDirections() {
+    return [
+      ["full", false],
+      ["top", true],
+      ["bottom", true],
+      ["left", true],
+      ["right", true],
+      ["block", true],
+      ["inline", true],
+    ]
   }
 
   getLightLevelValues(mode, color) {

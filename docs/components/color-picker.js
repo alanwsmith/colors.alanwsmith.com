@@ -175,11 +175,6 @@ function scrubStyle(input) {
 
 
 const template = `
-<!--
-<h2 class="palette-name"></h2>
--->
-<div class="nav-buttons">more stuff will go here</div>
-
 <div class="main-body two-columns">
 
   <div class="content-area base-flow focus-toggle-watcher">
@@ -1038,6 +1033,30 @@ class Picker extends HTMLElement {
     this.initTemplate();
     this.addListeners();
     this.renderPage();
+
+    // TODO: Refacor to put everything below
+    // here
+    this.addBwColorExamples();
+  }
+
+  addBwColorExamples() {
+    const wrapper = el('bw-color-examples-wrapper');
+    const kinds = ['match', 'reverse'];
+    kinds.forEach((kind) => {
+      const kindEl = dc('div');
+      for (let num = 100; num > 0; num -= 10) {
+        let display = `-${num}`;
+        if (num === 100) {
+          display = "";
+        }
+        const token = `${kind}${display}`;
+        const exampleEl = dc('div');
+        html(`.${token}`, exampleEl);
+        ac(`${token}`, exampleEl);
+        a(exampleEl, kindEl);
+      }
+      a(kindEl, wrapper);
+    });
   }
 
   addListeners() {
@@ -1772,226 +1791,8 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicColorVars'].innerHTML = out;
   }
 
-
   reloadDynamicPickerStyles() {
-    let out = `
-*, 
-*::before, 
-*::after {
-  box-sizing: border-box;
-}
-* {
-  margin: 0;
-}
-a {
-  text-decoration: none;
-  color: var(--COLOR2);
-}
-.active-mode-button {
-  outline: 1px solid var(--BWREVERSE-40);
-  background-color: var(--BWMATCH-20);
-}
-.background-checkbox-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-.background-checkboxes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 0.7rem;
-  border-top: 1px solid var(--BWREVERSE-40);
-  padding-top: 0.7rem;
-}
-.background-fieldset {
-  border: 1px solid var(--BWREVERSE-80);
-  border-radius: 0.3rem;
-  padding-bottom: 0.8rem;
-  & legend {
-  }
-}
-.base-slider, .picker-slider {
-  accent-color: var(--BWREVERSE-90);
-  height: 1px;
-}
-body { 
-  font-family: system-ui;
-  background-color: var(--BASECOLOR); 
-  color: var(--COLOR1);
-  line-height: 1.3;
-}
-.bold {
-  font-weight: bold;
-}
-button{
-  background: none;
-  border: none;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
-  outline: inherit;
-  padding: 0;
-}
-.chroma-slider-wrapper {
-  padding-top: 0.6rem;
-  border-top : 5px solid var(--ui-active-color);
-}
-.color-hue-buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding-top: 0.5rem;
-  margin-top: 0.5rem;
-  border-top : 1px solid var(--BWREVERSE-30);
-}
-.color-hue-set {
-  display: grid;
-  justify-content: center;
-}
-.color-isolate-checkbox-wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-}
-.color-light-level {
-  font-size: 1rem;
-  padding: 0.2rem;
-}
-.color-name {
-  color: var(--base-color);
-  background-color: var(--ui-active-color);
-  padding-inline: 0.4rem;
-  padding-top: 0;
-}
-.colors-fieldset {
-  border: 1px solid var(--ui-border);
-  border-radius: 0.3rem;
-  padding-inline: 0;
-  padding-top: 0.1rem;
-  padding-bottom: 0.1rem;
-  & legend {
-    margin-left: 0.6rem;
-  }
-}
-.content-wrapper {
-  margin-inline: auto;
-  width: min(100vw - 1.4rem, 50rem);
-}
-.flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1em);
-}
-h1 {
-  color: var(--COLOR3);
-  border-bottom: 1px solid var(--COLOR5);
-}
-h2, h3 {
-  color: var(--COLOR4);
-  border-bottom: 1px solid var(--COLOR5);
-}
-header {
-  margin-top: 1.3rem;
-}
-.hue-set-wrapper {
-  background-color: var(--BACKGROUND);
-  padding-bottom: 0.7rem;
-  padding-top: 0.4rem;
-}
-.inactive-mode-button {
-  outline: 1px solid var(--BWREVERSE-40);
-  background-color: var(--BWREVERSE-10);
-}
-.interface-text {
-  color: var(--BWREVERSE-70);
-}
-.made-by {  
-  text-align: right;
-}
-.mode-button {
-  font-size: 0.8rem;
-  margin: 0.2rem;
-  color: var(--BWREVERSE-50);
-  padding-inline: 0.2rem;
-  border-radius: 0.1rem;
-}
-.nav-buttons {
-  margin-top: 0.8rem;
-  border-bottom: 1px solid var(--BWREVERSE-30);
-  margin-bottom: 2.1rem;
-}
-ol > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1em);
-}
-.one-column {
-  display: grid;
-  grid-template-columns: 38rem;
-  gap: 2rem;
-  width: 34rem;
-  margin-inline: auto;
-}
-.padding-small {
-  padding: 0.3rem;
-}
-pre{
-  font-size: 0.7rem;
-  white-space: pre-wrap; 
-  overflow-wrap: anywhere;
-  overflow-x: auto;
-  overscroll-behavior-x: auto;
-}
-.settings-fieldset {
-  border: 1px solid var(--BWREVERSE-40);
-  border-radius: 0.3rem;
-}
-.slider-wrapper {
-  display: grid;
-  grid-template-columns: 2.2ch 1fr;
-  align-items: center;
-}
-.two-columns {
-  width: 51rem;
-  display: grid;
-  grid-template-columns: 38rem 12.8rem;
-  gap: 2rem;
-  margin-inline: auto;
-}
-.ui-font-size-small {
-  font-size: 0.9rem;
-}
-ul > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1em);
-}
-.underline {
-  text-decoration: underline;
-}
-.view-mode-buttons{
-  margin-bottom: 0.8rem;
-}
-/* tab stuff */
-[role="tab"] {
-  background: none;
-  cursor: pointer;
-  outline: inherit;
-  padding-top: 0.1rem;
-  padding-inline: 7px;
-  font-weight: bold;
-  border-top: 1px solid var(--BWREVERSE-20);
-  border-right: 1px solid var(--BWREVERSE-20);
-  &[aria-selected='true'] {
-    background-color: var(--ui-active-color);
-    border-top: 1px solid var(--ui-active-color);
-    border-right: 1px solid var(--ui-active-color);
-    color: var(--base-color);
-  }
-}
-[role="tablist"] {
-}
-[role="tabpanel"] {
-  margin: 0;
-  padding-block: 0;
-  padding-bottom: 0.5rem;
-}
-`;
+    let out = ``;
     // TODO: may `--base-color` dynamic
     out = out.replaceAll("BACKGROUND", `base-color`);
     out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));

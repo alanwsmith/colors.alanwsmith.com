@@ -183,7 +183,7 @@ const template = `
 <div class="main-body">
 
   <div class="flow">
-    <h1>Welcome to Alan's (prototype) Color Picker</h1>
+    <h1>Alan's (prototype) Color Picker</h1>
 
 <!--
     <p>Hi there! Glad you made. Just one thing you 
@@ -261,9 +261,9 @@ to be found in it.
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
       </div>
-      <div class="background-fieldset ui-font-size-small flow">
+      <div class="background-fieldset ui-font-size-small base-flow">
         <div class="interface-text ui-font-size-small reverse-bw-bottom-border-80 small-full-padding">Background</div>
-        <div class="base-sliders small-inline-padding base-flow"></div>
+        <div class="base-sliders small-inline-padding xxsmall-flow"></div>
         <div class="background-checkboxes">
           <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
             <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
@@ -278,7 +278,7 @@ to be found in it.
     <div class="colors-wrapper">
       <div class="colors-fieldset">
         <div class="interface-text small-full-padding">Colors</div>
-        <div class="colors-content-wrapper flow"></div>
+        <div class="colors-content-wrapper"></div>
       </div>
     </div>
 
@@ -347,12 +347,12 @@ const colorElementInternalTemplate = `
     </label>
     <input type="checkbox" class="color-isolate-checkbox">
   </div>
-  <div class="background-focus-wrapper background-checkbox-wrapper">
-    <label for="background-focus-checkbox" 
+  <div class="color-focus-wrapper color-checkbox-wrapper">
+    <label for="color-focus-checkbox" 
       class="interface-text ui-font-size-small">
       Focus:
     </label>
-    <input type="checkbox" class="background-focus-checkbox" name="background-focus-checkbox">
+    <input type="checkbox" class="color-focus-checkbox" name="color-focus-checkbox">
   </div>
 </div>
 <div class="color-hue-faded-wrapper"></div>
@@ -399,6 +399,7 @@ const defaultPalette = {
   // because it felt like it was adding
   // significant complexity without much
   // utility. 
+  "focused": false,
   "hueOffsets": [45, 60],
   "isolatedColor": -2,
   "lightLevels": 6,
@@ -1058,6 +1059,18 @@ class Picker extends HTMLElement {
     })
   }
 
+  getActiveBaseValueC() {
+    return p.modes[p.activeMode].base.c;
+  }
+
+  getActiveBaseValueH() {
+    return p.modes[p.activeMode].base.h;
+  }
+
+  getActiveBaseValueL() {
+    return p.modes[p.activeMode].base.l;
+  }
+
   getActiveColorC() {
     return this.getColorC(p.activeMode, p.activeColor);
   }
@@ -1217,16 +1230,6 @@ class Picker extends HTMLElement {
     this.styleSheets['staticBwVars'].innerHTML = out;
   }
 
-  initIsolateBackgroundCheckbox() {
-    const checkbox = el('background-isolate-checkbox');  
-    ad("kind", "isolate-checkbox", checkbox);
-    ad("color", -1, checkbox);
-    if (p.isolatedColor === -1) {
-      checkbox.checked = true;
-    } else {
-      checkbox.checked = false;
-    }
-  }
 
   initColors() {
     // Grab the wrapper
@@ -1314,9 +1317,26 @@ class Picker extends HTMLElement {
       }
     }
     a(tabGroup, wrapper);
+    this.initColorFocusCheckbox();
     this.initIsolateBackgroundCheckbox();
     this.hideUiIfNecessary();
     this.underlineActiveHueLightnessButton();
+  }
+
+  initColorFocusCheckbox() {
+    const checkbox = el('color-focus-checkbox');  
+    ad("kind", "focus-checkbox", checkbox);
+  }
+
+  initIsolateBackgroundCheckbox() {
+    const checkbox = el('background-isolate-checkbox');  
+    ad("kind", "isolate-checkbox", checkbox);
+    ad("color", -1, checkbox);
+    if (p.isolatedColor === -1) {
+      checkbox.checked = true;
+    } else {
+      checkbox.checked = false;
+    }
   }
 
   initModeButtons() {
@@ -1344,6 +1364,7 @@ class Picker extends HTMLElement {
       a(opt, el('number-of-colors-selector'));
     }
   }
+
 
   initStaticAlanClasses() {
     this.styleSheets['staticAlanClasses'].innerHTML = `
@@ -1530,7 +1551,6 @@ class Picker extends HTMLElement {
 .xxxlarge-block-padding { padding-block: var(--xxxlarge-padding); }
 
 `;
-
   }
 
   initStaticAlanVars() {
@@ -1937,9 +1957,6 @@ pre{
   grid-template-columns: 2.2ch 1fr;
   align-items: center;
 }
-.small-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.2em);
-}
 .ui-font-size-small {
   font-size: 0.9rem;
 }
@@ -2008,13 +2025,23 @@ ul > :where(:not(:first-child)) {
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            const c = this.getColorValueC(mode, color);
-            const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
-            const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
-            const style = `oklch(${lightLevel}% ${c} ${h})`;
-            lines.push(
-              `${className} { color: ${style};}`
-            );
+            if (p.focused === true) {
+              const c = this.getActiveBaseValueC();
+              const h = this.getActiveBaseValueH();
+              const l = this.getActiveBaseValueL();
+              const style = `oklch(${l}% ${c} ${h})`;
+              lines.push(
+                `${className} { color: ${style};}`
+              );
+            } else {
+              const c = this.getColorValueC(mode, color);
+              const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
+              const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
+              const style = `oklch(${lightLevel}% ${c} ${h})`;
+              lines.push(
+                `${className} { color: ${style};}`
+              );
+            }
           });
         }
       }
@@ -2026,10 +2053,12 @@ ul > :where(:not(:first-child)) {
   reloadDynamicUiVars() {
     const lines = [];
     lines.push(`--ui-active-color: var(--${p.colorNames[p.activeColor]});`);
-    p.colorNames.forEach((name, color) => {
-      const lineString = `--ui-${scrubStyle(name)}: oklch(40% 0.1 300);`;
-      lines.push(lineString);
-    });
+
+    // p.colorNames.forEach((name, color) => {
+    //   const lineString = `--ui-${scrubStyle(name)}: oklch(40% 0.1 300);`;
+    //   lines.push(lineString);
+    // });
+
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicUiVars'].innerHTML = out;
   }
@@ -2059,6 +2088,13 @@ ul > :where(:not(:first-child)) {
     if (event.target.dataset.kind === "base") {
       const aspect = gds(event, 'aspect');
       p.modes[p.activeMode].base[aspect] = gvf(event);
+      triggerRefresh = true;
+    } else if (event.target.dataset.kind === "focus-checkbox" && event.type === "change") {
+      if (p.focused === true) {
+        p.focused = false;
+      } else {
+        p.focused = true;
+      }
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
       if (event.target.checked === true) {

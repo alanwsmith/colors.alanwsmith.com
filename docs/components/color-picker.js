@@ -1067,10 +1067,20 @@ class Picker extends HTMLElement {
     return this.getColorValueL(p.activeMode, color);
   }
 
-  // getActiveColorValueL(color) {
-  //   const hueOffsetIndex = this.getHueOffsetIndex(color);
-  //   return p.modes[p.activeMode].colors[color].hueOffsetValues[hueOffsetIndex].l;
-  // }
+  getActiveColorValueC(color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(color);
+    return this.getColorValueC(p.activeMode, color);
+  }
+
+  getActiveColorValueH(color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(color);
+    return this.getColorValueH(p.activeMode, color);
+  }
+
+  getActiveColorValueL(color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(color);
+    return this.getColorValueL(p.activeMode, color);
+  }
 
   getAspectMax(key) {
     return p.aspects[key].max;

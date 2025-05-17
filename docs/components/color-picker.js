@@ -336,7 +336,7 @@ to be found in it.
 `;
 
 const colorElementInternalTemplate = `
-<div class="color-name">Color Name</div>
+<div class="color-name"></div>
 <div class="hue-set-wrapper">
   <div>
     <div class="color-hue-set"></div>
@@ -1258,10 +1258,10 @@ class Picker extends HTMLElement {
       a(colorEl, tabGroup);
       // Update the color name
       const colorNameEl = colorEl.querySelector('.color-name');
-      ac([`color-name-${color}`], colorNameEl);
-      ac([`color-name-${scrubStyle(p.colorNames[color])}`], colorNameEl);
+      // ac([`color-name-${color}`], colorNameEl);
+      // ac([`color-name-${scrubStyle(p.colorNames[color])}`], colorNameEl);
       ac('bold', colorNameEl);
-      ac(p.colorNames[color], colorNameEl);
+      // ac(p.colorNames[color], colorNameEl);
       html(p.colorNames[color], colorNameEl);
       // Update the chroma slider
       const slider = colorEl.querySelector('.color-hue-chroma-slider');
@@ -1555,9 +1555,6 @@ a {
   outline: 1px solid var(--BWREVERSE-40);
   background-color: var(--BWMATCH-20);
 }
-.active-hue-lightness-button {
-  text-decoration: underline;
-}
 .background-checkbox-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -1622,9 +1619,10 @@ button{
   padding: 0.14rem;
 }
 .color-name {
-  border-bottom: 1px solid var(--ui-active-color);
+  color: var(--base-color);
+  background-color: var(--ui-active-color);
   padding-inline: 0.4rem;
-  padding-bottom: 0.2rem;
+  padding-top: 0;
 }
 .colors-fieldset {
   border: 1px solid var(--BWREVERSE-80);
@@ -1737,7 +1735,6 @@ ul > :where(:not(:first-child)) {
 [role="tabpanel"] {
   margin: 0;
   padding-block: 0;
-  padding-top: 0.4rem;
   padding-bottom: 0.5rem;
   border-top: 1px solid var(--ui-active-color);
 }

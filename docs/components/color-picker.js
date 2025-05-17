@@ -1080,10 +1080,23 @@ class Picker extends HTMLElement {
     return p.aspects[key].max / 10000;
   }
 
-  getColorValueC(mode, color) {
+  getColorC(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
-    return c.toFixed(5);
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
+  }
+
+  getColorH(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+  }
+
+  getColorL(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+  }
+
+  getColorValueC(mode, color) {
+    return this.getColorC(mode, color).toFixed(5);
   }
 
   getColorValueH(mode, color) {

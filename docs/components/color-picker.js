@@ -1055,31 +1055,28 @@ class Picker extends HTMLElement {
     })
   }
 
-  getActiveColorC(color) {
-    return this.getColorValueC(p.activeMode, color);
+  getActiveColorC() {
+    return this.getColorC(p.activeMode, p.activeColor);
   }
 
-  getActiveColorH(color) {
-    return this.getColorValueH(p.activeMode, color);
+  getActiveColorH() {
+    return this.getColorH(p.activeMode, p.activeColor);
   }
 
-  getActiveColorL(color) {
-    return this.getColorValueL(p.activeMode, color);
+  getActiveColorL() {
+    return this.getColorL(p.activeMode, p.activeColor);
   }
 
-  getActiveColorValueC(color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(color);
-    return this.getColorValueC(p.activeMode, color);
+  getActiveColorValueC() {
+    return this.getColorValueC(p.activeMode, p.activeColor);
   }
 
-  getActiveColorValueH(color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(color);
-    return this.getColorValueH(p.activeMode, color);
+  getActiveColorValueH() {
+    return this.getColorValueH(p.activeMode, p.activeColor);
   }
 
-  getActiveColorValueL(color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(color);
-    return this.getColorValueL(p.activeMode, color);
+  getActiveColorValueL() {
+    return this.getColorValueL(p.activeMode, p.activeColor);
   }
 
   getAspectMax(key) {
@@ -1123,7 +1120,6 @@ class Picker extends HTMLElement {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const h = this.getColorH(mode, color);
     return this.getColorHueValues(mode, color)[h];
-    return values[h];
   }
 
   getColorValueL(mode, color) {
@@ -1887,6 +1883,12 @@ ul > :where(:not(:first-child)) {
   }
 
   underlineActiveHueLightnessButton() {
+
+    focus(this.getActiveColorH());
+
+   // this.getColorHueValues(p.activeMode, p.activeColor).forEach((data, h) => {
+    //  focus(h);
+    //});
 
     //this.getHueOffsetIndexes(p.activeMode, p.activeColor).forEach((hue) => {
     //  this.getLightLevelValues(p.activeMode, p.activeColor).forEach((data, lightness) => {

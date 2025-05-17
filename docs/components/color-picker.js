@@ -180,10 +180,10 @@ const template = `
 -->
 <div class="nav-buttons">more stuff will go here</div>
 
-<div class="main-body">
+<div class="main-body two-columns">
 
-  <div class="flow">
-    <h1>Welcome to Alan's (prototype) Color Picker</h1>
+  <div class="content-area base-flow focus-toggle-watcher">
+    <h1>Alan's (prototype) Color Picker</h1>
 
 <!--
     <p>Hi there! Glad you made. Just one thing you 
@@ -256,42 +256,36 @@ to be found in it.
     </p>
   </div>
 
-  <div class="sidebar flow"> 
+  <div class="sidebar base-flow"> 
     <div class="base-wrapper">
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
       </div>
-      <fieldset class="background-fieldset">
-        <legend class="interface-text">Background</legend>
-        <div class="base-sliders"></div>
+      <div class="background-fieldset ui-font-size-small base-flow">
+        <div class="interface-text ui-font-size-small reverse-bw-bottom-border-80 small-full-padding">Background</div>
+        <div class="base-sliders small-inline-padding xxsmall-flow"></div>
         <div class="background-checkboxes">
-          <div class="background-isolate-wrapper background-checkbox-wrapper">
+          <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
             <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
               Isolate:
             </label>
             <input type="checkbox" class="background-isolate-checkbox" name="background-isolate-checkbox">
           </div>
-          <div class="background-focus-wrapper background-checkbox-wrapper">
-            <label for="background-focus-checkbox" class="interface-text ui-font-size-small">
-              Focus:
-            </label>
-            <input type="checkbox" class="background-focus-checkbox" name="background-focus-checkbox">
-          </div>
         </div>
-      </fieldset>
+      </div>
     </div>
 
     <div class="colors-wrapper">
-      <fieldset class="colors-fieldset">
-        <legend class="interface-text">Colors</legend>
-        <div class="colors-content-wrapper flow"></div>
-      </fieldset>
+      <div class="colors-fieldset">
+        <div class="interface-text small-full-padding">Colors</div>
+        <div class="colors-content-wrapper"></div>
+      </div>
     </div>
 
-    <details class="advanced-settings-wrapper flow">
+    <details class="advanced-settings-wrapper flow ui-font-size-small">
       <summary class="interface-text">Advanced Settings</summary>
-      <div class="number-of-colors-wrapper">
-        <label for="number-of-colors-selector-label">
+      <div class="number-of-colors-wrapper ui-font-size-small">
+        <label for="number-of-colors-selector-label" class="interface-text">
           Number of Colors:
         </label>
         <select 
@@ -301,13 +295,12 @@ to be found in it.
         ></select>
       </div>
     </details>
-    <details class="todo-wrapper flow">
+    <details class="todo-wrapper flow interface-text ui-font-size-small">
       <summary class="interface-text">TODO List</summary>
       <ul>
         <li><input type="checkbox" disabled /> Set min light level for each color</li>
         <li><input type="checkbox" disabled /> Contrast calculations</li>
         <li><input type="checkbox" disabled /> Undo/Redo</li>
-        <li><input type="checkbox" disabled /> Show/Hide content to focus on base color</li>
         <li><input type="checkbox" disabled /> Faded alternatives</li>
         <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
         <li><input type="checkbox" disabled /> Optional utility classes</li>
@@ -323,7 +316,9 @@ to be found in it.
         <li><input type="checkbox" disabled /> Randomizer</li>
         <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
         <li><input type="checkbox" disabled /> Add/subtract modes</li>
-        <li><input type="checkbox" disabled /> Issoldated color view to look at them one at a time</li>
+        <li><input type="checkbox" disabled cheked /> Show/Hide content to focus on base color</li>
+        <li><input type="checkbox" disabled checked /> Issoldated color view to look at them one at a time</li>
+        <li><input type="checkbox" disabled checked /> Use min light level from each color</li>
       </ul>
     </details>
 </div>
@@ -335,23 +330,25 @@ to be found in it.
 `;
 
 const colorElementInternalTemplate = `
-<div class="color-name">Color Name</div>
+<div class="color-name"></div>
 <div class="hue-set-wrapper">
   <div>
     <div class="color-hue-set"></div>
-    <div class="color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper">
-      <label class="color-hue-chroma-slider-label">c:</label>
-      <input type="range" class="color-hue-chroma-slider picker-slider" />
-    </div>
-    <div class="color-hue-buttons">
-      <div class="color-isolate-checkbox-wrapper">
-        <label class="interface-text ui-font-size-small">Isolate:</label>
-        <input type="checkbox" class="color-isolate-checkbox">
-      </div>
-    </div>
-    <div class="color-hue-faded-wrapper"></div>
   </div>
 </div>
+<div class="hide-during-focus color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper small-inline-padding">
+  <label class="color-hue-chroma-slider-label">c:</label>
+  <input type="range" class="color-hue-chroma-slider picker-slider" />
+</div>
+<div class="color-hue-buttons small-inline-padding">
+  <div class="color-isolate-checkbox-wrapper">
+    <label class="interface-text ui-font-size-small">
+      Isolate:
+    </label>
+    <input type="checkbox" class="color-isolate-checkbox">
+  </div>
+</div>
+<div class="color-hue-faded-wrapper"></div>
 `;
 
 const defaultPalette = {
@@ -395,6 +392,7 @@ const defaultPalette = {
   // because it felt like it was adding
   // significant complexity without much
   // utility. 
+  "focused": false,
   "hueOffsets": [45, 60],
   "isolatedColor": -2,
   "lightLevels": 6,
@@ -1052,6 +1050,45 @@ class Picker extends HTMLElement {
     this.addEventListener('input', (event) => {
       this.updateData.call(this, event);
     })
+    el('focus-toggle-watcher').addEventListener('click', (event) => {
+      this.setFocus();
+    });
+  }
+
+  getActiveBaseValueC() {
+    return p.modes[p.activeMode].base.c;
+  }
+
+  getActiveBaseValueH() {
+    return p.modes[p.activeMode].base.h;
+  }
+
+  getActiveBaseValueL() {
+    return p.modes[p.activeMode].base.l;
+  }
+
+  getActiveColorC() {
+    return this.getColorC(p.activeMode, p.activeColor);
+  }
+
+  getActiveColorH() {
+    return this.getColorH(p.activeMode, p.activeColor);
+  }
+
+  getActiveColorL() {
+    return this.getColorL(p.activeMode, p.activeColor);
+  }
+
+  getActiveColorValueC() {
+    return this.getColorValueC(p.activeMode, p.activeColor);
+  }
+
+  getActiveColorValueH() {
+    return this.getColorValueH(p.activeMode, p.activeColor);
+  }
+
+  getActiveColorValueL() {
+    return this.getColorValueL(p.activeMode, p.activeColor);
   }
 
   getAspectMax(key) {
@@ -1063,44 +1100,67 @@ class Picker extends HTMLElement {
   }
 
   getColorC(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
-    const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
-    return c.toFixed(5);
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
   }
 
   getColorH(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
-    const h = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
-    let value = this.getHueValues(hueOffsetIndex)[h] + p.modes[mode].base.h;
-    if (value > 360) {
-      value -= 360;
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+  }
+
+  getColorHueValues(mode, color) {
+    const values = [];
+    const h = this.getColorH(mode, color);
+    const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
+    for (let value = 0; value <= 360; value += hueOffsetAmount) {
+      values.push(value + p.modes[mode].base.h);
     }
-    return value.toFixed(5);
+    return values;
   }
 
   getColorL(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+  }
+
+  getColorValueC(mode, color) {
+    return this.getColorC(mode, color).toFixed(5);
+  }
+
+  getColorValueH(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    const h = this.getColorH(mode, color);
+    return this.getColorHueValues(mode, color)[h];
+  }
+
+  getColorValueL(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
     return this.getLightLevelValues(mode, color)[l];
   }
 
+  getColorMinLightLevel(mode, color) {
+    return p.modes[mode].colors[color].minLightLevel;
+  }
+
   getLightLevelValues(mode, color) {
     const levels = [];
-    const minLightLevel = p.modes[mode].colors[color].minLightLevel;
-    const adder = ((p.maxLightValue - minLightLevel) / p.lightLevels);
+    const minLightLevel = this.getColorMinLightLevel(mode, color);
+    const adder = ((p.maxLightValue - minLightLevel) / (p.lightLevels - 1));
     for (let level = minLightLevel; level <= p.maxLightValue; level += adder) {
       levels.push(level.toFixed(5));
     }
     return levels;
   }
 
-  getHueValues(hueOffsetIndex) {
-    const values = [];
-    const adder = p.hueOffsets[hueOffsetIndex];
-    for (let value = 0; value <= 360; value += adder) {
-      values.push(value);
-    }
-    return values;
+  getHueOffsetIndex(mode, color) {
+    return p.modes[mode].colors[color].hueOffsetIndex;
+  }
+
+  getHueOffsetAmount(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.hueOffsets[hueOffsetIndex];
   }
 
   hideUiIfNecessary() {
@@ -1166,17 +1226,6 @@ class Picker extends HTMLElement {
     this.styleSheets['staticBwVars'].innerHTML = out;
   }
 
-  initIsolateBackgroundCheckbox() {
-    const checkbox = el('background-isolate-checkbox');  
-    ad("kind", "isolate-checkbox", checkbox);
-    ad("color", -1, checkbox);
-    if (p.isolatedColor === -1) {
-      checkbox.checked = true;
-    } else {
-      checkbox.checked = false;
-    }
-    focus(checkbox);
-  }
 
   initColors() {
     // Grab the wrapper
@@ -1198,6 +1247,7 @@ class Picker extends HTMLElement {
       ad("kind", "color-selector", tabButton);
       ad("color", color, tabButton);
       a(tabButton, tabList);
+      ac(`hide-during-focus`, tabButton);
     }
     a(tabList, tabGroup);
     // Loop through the colors
@@ -1207,14 +1257,15 @@ class Picker extends HTMLElement {
       const colorData = p.modes[p.activeMode].colors[color];
       sa(`role`, `tabpanel`, colorEl);
       ac(['color-wrapper', `color-wrapper-${color}`], colorEl);
+      // ac('small-inline-padding', slider);
       html(colorElementInternalTemplate, colorEl);
       a(colorEl, tabGroup);
       // Update the color name
       const colorNameEl = colorEl.querySelector('.color-name');
-      ac([`color-name-${color}`], colorNameEl);
-      ac([`color-name-${scrubStyle(p.colorNames[color])}`], colorNameEl);
+      // ac([`color-name-${color}`], colorNameEl);
+      // ac([`color-name-${scrubStyle(p.colorNames[color])}`], colorNameEl);
       ac('bold', colorNameEl);
-      ac(p.colorNames[color], colorNameEl);
+      // ac(p.colorNames[color], colorNameEl);
       html(p.colorNames[color], colorNameEl);
       // Update the chroma slider
       const slider = colorEl.querySelector('.color-hue-chroma-slider');
@@ -1232,11 +1283,12 @@ class Picker extends HTMLElement {
       ac('interface-text', sliderLabel);
       // Make the lightness/hue `set` buttons
       const hueOffsetIndexEl = colorEl.querySelector('.color-hue-set');
-      const hueCount = Math.round(360 / p.hueOffsets[
+      const hueCount = Math.round(360 / p.hueOffsets [
         colorData.hueOffsetIndex
       ]);
       for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
         const hueOffsetIndexWrapper = dc('div');
+        ac('color-hue-set-line', hueOffsetIndexWrapper);
         this.getLightLevelValues(p.activeMode, color).forEach((level, levelcolor) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
@@ -1264,6 +1316,18 @@ class Picker extends HTMLElement {
     a(tabGroup, wrapper);
     this.initIsolateBackgroundCheckbox();
     this.hideUiIfNecessary();
+    this.underlineActiveHueLightnessButton();
+  }
+
+  initIsolateBackgroundCheckbox() {
+    const checkbox = el('background-isolate-checkbox');  
+    ad("kind", "isolate-checkbox", checkbox);
+    ad("color", -1, checkbox);
+    if (p.isolatedColor === -1) {
+      checkbox.checked = true;
+    } else {
+      checkbox.checked = false;
+    }
   }
 
   initModeButtons() {
@@ -1292,10 +1356,228 @@ class Picker extends HTMLElement {
     }
   }
 
+
+  initStaticAlanClasses() {
+    this.styleSheets['staticAlanClasses'].innerHTML = `
+
+.xxxsmall-font-size { font-size: var(--xxxsmall-font-size); }
+.xxsmall-font-size { font-size: var(--xxsmall-font-size); }
+.xsmall-font-size { font-size: var(--xsmall-font-size); }
+.small-font-size { font-size: var(--small-font-size); }
+.base-font-size { font-size: var(--base-font-size); }
+.large-font-size { font-size: var(--large-font-size); }
+.xlarge-font-size { font-size: var(--xlarge-font-size); }
+.xxlarge-font-size { font-size: var(--xxlarge-font-size); }
+.xxxlarge-font-size { font-size: var(--xxxlarge-font-size); }
+.xxxsmall-border-radius { border-radius: var(--xxxsmall-border-radius); }
+.xxsmall-border-radius { border-radius: var(--xxsmall-border-radius); }
+.xsmall-border-radius { border-radius: var(--xsmall-border-radius); }
+.small-border-radius { border-radius: var(--small-border-radius); }
+.base-border-radius { border-radius: var(--base-border-radius); }
+.large-border-radius { border-radius: var(--large-border-radius); }
+.xlarge-border-radius { border-radius: var(--xlarge-border-radius); }
+.xxlarge-border-radius { border-radius: var(--xxlarge-border-radius); }
+.xxxlarge-border-radius { border-radius: var(--xxxlarge-border-radius); }
+.xxxsmall-width { width: var(--xxxsmall-width); }
+.xxsmall-width { width: var(--xxsmall-width); }
+.xsmall-width { width: var(--xsmall-width); }
+.small-width { width: var(--small-width); }
+.base-width { width: var(--base-width); }
+.large-width { width: var(--large-width); }
+.xlarge-width { width: var(--xlarge-width); }
+.xxlarge-width { width: var(--xxlarge-width); }
+.xxxlarge-width { width: var(--xxxlarge-width); }
+.xxxsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.1em);
+}
+.xxsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.3em);
+}
+.xsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.5em);
+}
+.small-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.7em);
+}
+.base-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1em);
+}
+.large-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.2em);
+}
+.xlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.4em);
+}
+.xxlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.8em);
+}
+.xxxlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 2.2em);
+}
+.xxxsmall-full-margin { margin: var(--xxxsmall-margin); }
+.xxxsmall-full-padding { padding: var(--xxxsmall-padding); }
+.xxxsmall-left-margin { margin-left: var(--xxxsmall-margin); }
+.xxxsmall-left-padding { padding-left: var(--xxxsmall-padding); }
+.xxxsmall-right-margin { margin-right: var(--xxxsmall-margin); }
+.xxxsmall-right-padding { padding-right: var(--xxxsmall-padding); }
+.xxxsmall-top-margin { margin-top: var(--xxxsmall-margin); }
+.xxxsmall-top-padding { padding-top: var(--xxxsmall-padding); }
+.xxxsmall-bottom-margin { margin-bottom: var(--xxxsmall-margin); }
+.xxxsmall-bottom-padding { padding-bottom: var(--xxxsmall-padding); }
+.xxxsmall-inline-margin { margin-inline: var(--xxxsmall-margin); }
+.xxxsmall-inline-padding { padding-inline: var(--xxxsmall-padding); }
+.xxxsmall-block-margin { margin-block: var(--xxxsmall-margin); }
+.xxxsmall-block-padding { padding-block: var(--xxxsmall-padding); }
+.xxsmall-full-margin { margin: var(--xxsmall-margin); }
+.xxsmall-full-padding { padding: var(--xxsmall-padding); }
+.xxsmall-left-margin { margin-left: var(--xxsmall-margin); }
+.xxsmall-left-padding { padding-left: var(--xxsmall-padding); }
+.xxsmall-right-margin { margin-right: var(--xxsmall-margin); }
+.xxsmall-right-padding { padding-right: var(--xxsmall-padding); }
+.xxsmall-top-margin { margin-top: var(--xxsmall-margin); }
+.xxsmall-top-padding { padding-top: var(--xxsmall-padding); }
+.xxsmall-bottom-margin { margin-bottom: var(--xxsmall-margin); }
+.xxsmall-bottom-padding { padding-bottom: var(--xxsmall-padding); }
+.xxsmall-inline-margin { margin-inline: var(--xxsmall-margin); }
+.xxsmall-inline-padding { padding-inline: var(--xxsmall-padding); }
+.xxsmall-block-margin { margin-block: var(--xxsmall-margin); }
+.xxsmall-block-padding { padding-block: var(--xxsmall-padding); }
+.xsmall-full-margin { margin: var(--xsmall-margin); }
+.xsmall-full-padding { padding: var(--xsmall-padding); }
+.xsmall-left-margin { margin-left: var(--xsmall-margin); }
+.xsmall-left-padding { padding-left: var(--xsmall-padding); }
+.xsmall-right-margin { margin-right: var(--xsmall-margin); }
+.xsmall-right-padding { padding-right: var(--xsmall-padding); }
+.xsmall-top-margin { margin-top: var(--xsmall-margin); }
+.xsmall-top-padding { padding-top: var(--xsmall-padding); }
+.xsmall-bottom-margin { margin-bottom: var(--xsmall-margin); }
+.xsmall-bottom-padding { padding-bottom: var(--xsmall-padding); }
+.xsmall-inline-margin { margin-inline: var(--xsmall-margin); }
+.xsmall-inline-padding { padding-inline: var(--xsmall-padding); }
+.xsmall-block-margin { margin-block: var(--xsmall-margin); }
+.xsmall-block-padding { padding-block: var(--xsmall-padding); }
+.small-full-margin { margin: var(--small-margin); }
+.small-full-padding { padding: var(--small-padding); }
+.small-left-margin { margin-left: var(--small-margin); }
+.small-left-padding { padding-left: var(--small-padding); }
+.small-right-margin { margin-right: var(--small-margin); }
+.small-right-padding { padding-right: var(--small-padding); }
+.small-top-margin { margin-top: var(--small-margin); }
+.small-top-padding { padding-top: var(--small-padding); }
+.small-bottom-margin { margin-bottom: var(--small-margin); }
+.small-bottom-padding { padding-bottom: var(--small-padding); }
+.small-inline-margin { margin-inline: var(--small-margin); }
+.small-inline-padding { padding-inline: var(--small-padding); }
+.small-block-margin { margin-block: var(--small-margin); }
+.small-block-padding { padding-block: var(--small-padding); }
+.base-full-margin { margin: var(--base-margin); }
+.base-full-padding { padding: var(--base-padding); }
+.base-left-margin { margin-left: var(--base-margin); }
+.base-left-padding { padding-left: var(--base-padding); }
+.base-right-margin { margin-right: var(--base-margin); }
+.base-right-padding { padding-right: var(--base-padding); }
+.base-top-margin { margin-top: var(--base-margin); }
+.base-top-padding { padding-top: var(--base-padding); }
+.base-bottom-margin { margin-bottom: var(--base-margin); }
+.base-bottom-padding { padding-bottom: var(--base-padding); }
+.base-inline-margin { margin-inline: var(--base-margin); }
+.base-inline-padding { padding-inline: var(--base-padding); }
+.base-block-margin { margin-block: var(--base-margin); }
+.base-block-padding { padding-block: var(--base-padding); }
+.large-full-margin { margin: var(--large-margin); }
+.large-full-padding { padding: var(--large-padding); }
+.large-left-margin { margin-left: var(--large-margin); }
+.large-left-padding { padding-left: var(--large-padding); }
+.large-right-margin { margin-right: var(--large-margin); }
+.large-right-padding { padding-right: var(--large-padding); }
+.large-top-margin { margin-top: var(--large-margin); }
+.large-top-padding { padding-top: var(--large-padding); }
+.large-bottom-margin { margin-bottom: var(--large-margin); }
+.large-bottom-padding { padding-bottom: var(--large-padding); }
+.large-inline-margin { margin-inline: var(--large-margin); }
+.large-inline-padding { padding-inline: var(--large-padding); }
+.large-block-margin { margin-block: var(--large-margin); }
+.large-block-padding { padding-block: var(--large-padding); }
+.xlarge-full-margin { margin: var(--xlarge-margin); }
+.xlarge-full-padding { padding: var(--xlarge-padding); }
+.xlarge-left-margin { margin-left: var(--xlarge-margin); }
+.xlarge-left-padding { padding-left: var(--xlarge-padding); }
+.xlarge-right-margin { margin-right: var(--xlarge-margin); }
+.xlarge-right-padding { padding-right: var(--xlarge-padding); }
+.xlarge-top-margin { margin-top: var(--xlarge-margin); }
+.xlarge-top-padding { padding-top: var(--xlarge-padding); }
+.xlarge-bottom-margin { margin-bottom: var(--xlarge-margin); }
+.xlarge-bottom-padding { padding-bottom: var(--xlarge-padding); }
+.xlarge-inline-margin { margin-inline: var(--xlarge-margin); }
+.xlarge-inline-padding { padding-inline: var(--xlarge-padding); }
+.xlarge-block-margin { margin-block: var(--xlarge-margin); }
+.xlarge-block-padding { padding-block: var(--xlarge-padding); }
+.xxlarge-full-margin { margin: var(--xxlarge-margin); }
+.xxlarge-full-padding { padding: var(--xxlarge-padding); }
+.xxlarge-left-margin { margin-left: var(--xxlarge-margin); }
+.xxlarge-left-padding { padding-left: var(--xxlarge-padding); }
+.xxlarge-right-margin { margin-right: var(--xxlarge-margin); }
+.xxlarge-right-padding { padding-right: var(--xxlarge-padding); }
+.xxlarge-top-margin { margin-top: var(--xxlarge-margin); }
+.xxlarge-top-padding { padding-top: var(--xxlarge-padding); }
+.xxlarge-bottom-margin { margin-bottom: var(--xxlarge-margin); }
+.xxlarge-bottom-padding { padding-bottom: var(--xxlarge-padding); }
+.xxlarge-inline-margin { margin-inline: var(--xxlarge-margin); }
+.xxlarge-inline-padding { padding-inline: var(--xxlarge-padding); }
+.xxlarge-block-margin { margin-block: var(--xxlarge-margin); }
+.xxlarge-block-padding { padding-block: var(--xxlarge-padding); }
+.xxxlarge-full-margin { margin: var(--xxxlarge-margin); }
+.xxxlarge-full-padding { padding: var(--xxxlarge-padding); }
+.xxxlarge-left-margin { margin-left: var(--xxxlarge-margin); }
+.xxxlarge-left-padding { padding-left: var(--xxxlarge-padding); }
+.xxxlarge-right-margin { margin-right: var(--xxxlarge-margin); }
+.xxxlarge-right-padding { padding-right: var(--xxxlarge-padding); }
+.xxxlarge-top-margin { margin-top: var(--xxxlarge-margin); }
+.xxxlarge-top-padding { padding-top: var(--xxxlarge-padding); }
+.xxxlarge-bottom-margin { margin-bottom: var(--xxxlarge-margin); }
+.xxxlarge-bottom-padding { padding-bottom: var(--xxxlarge-padding); }
+.xxxlarge-inline-margin { margin-inline: var(--xxxlarge-margin); }
+.xxxlarge-inline-padding { padding-inline: var(--xxxlarge-padding); }
+.xxxlarge-block-margin { margin-block: var(--xxxlarge-margin); }
+.xxxlarge-block-padding { padding-block: var(--xxxlarge-padding); }
+
+`;
+  }
+
+  initStaticAlanVars() {
+  this.styleSheets['staticAlanVars'].innerHTML = `
+
+:root {
+--xxxsmall-padding: 0.1rem;
+--xxxsmall-margin: 0.1rem;
+--xxsmall-padding: 0.2rem;
+--xxsmall-margin: 0.2rem;
+--xsmall-padding: 0.3rem;
+--xsmall-margin: 0.3rem;
+--small-padding: 0.4rem;
+--small-margin: 0.4rem;
+--base-padding: 0.5rem;
+--base-margin: 0.5rem;
+--large-padding: 0.8rem;
+--large-margin: 0.8rem;
+--xlarge-padding: 1.3rem;
+--xlarge-margin: 1.3rem;
+--xxlarge-padding: 1.9rem;
+--xxlarge-margin: 1.9rem;
+--xxxlarge-padding: 2.4rem;
+--xxxlarge-margin: 2.4rem;
+}
+
+`;
+
+  }
+
   initStyleSheets() {
     const sheetNames = [
       'staticBwVars',
       'staticBwUtilityClasses',
+      'staticAlanClasses',
+      'staticAlanVars',
       'dynamicBwVars',
       'dynamicColorSwitches',
       'dynamicColorVars',
@@ -1308,6 +1590,8 @@ class Picker extends HTMLElement {
       this.styleSheets[name] = document.createElement('style');
       document.body.appendChild(this.styleSheets[name]);
     });
+    this.initStaticAlanVars();
+    this.initStaticAlanClasses();
     this.initStaticBwVars();
     this.initStaticBwClasses();
   }
@@ -1321,7 +1605,7 @@ class Picker extends HTMLElement {
     this.initModeButtons();
     this.initNumberOfColors();
     this.initColors();
-    this.updateModeButtonStyles()
+    this.updateModeButtonStyles();
   }
 
   initStaticBwClasses() {
@@ -1463,18 +1747,18 @@ ${sheets.join("\n")}
         let c = 0;
         let h = 0;
         if (p.isolatedColor === -2) {
-          l = this.getColorL(mode, index);
-          c = this.getColorC(mode, index);
-          h = this.getColorH(mode, index);
+          l = this.getColorValueL(mode, index);
+          c = this.getColorValueC(mode, index);
+          h = this.getColorValueH(mode, index);
         } else if (p.isolatedColor === -1){
           l = p.modes[p.activeMode].base.l;
           c = p.modes[p.activeMode].base.c;
           h = p.modes[p.activeMode].base.h;
         } else {
           if (p.isolatedColor === index) {
-            l = this.getColorL(mode, index);
-            c = this.getColorC(mode, index);
-            h = this.getColorH(mode, index);
+            l = this.getColorValueL(mode, index);
+            c = this.getColorValueC(mode, index);
+            h = this.getColorValueH(mode, index);
           } else {
             l = p.modes[p.activeMode].base.l;
             c = p.modes[p.activeMode].base.c;
@@ -1517,11 +1801,11 @@ a {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 0.7rem;
-  border-top: 1px solid var(--BWREVERSE-20);
+  border-top: 1px solid var(--BWREVERSE-40);
   padding-top: 0.7rem;
 }
 .background-fieldset {
-  border: 1px solid var(--BWREVERSE-20);
+  border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-bottom: 0.8rem;
   & legend {
@@ -1550,28 +1834,38 @@ button{
   padding: 0;
 }
 .chroma-slider-wrapper {
-  padding-top: 0.5rem;
-  margin-top: 0.8rem;
-  border-top : 1px solid var(--BWREVERSE-20);
+  padding-top: 0.6rem;
+  border-top : 5px solid var(--ui-active-color);
 }
 .color-hue-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding-top: 0.5rem;
   margin-top: 0.5rem;
-  border-top : 1px solid var(--BWREVERSE-20);
+  border-top : 1px solid var(--BWREVERSE-30);
+}
+.color-hue-set {
+  display: grid;
+  justify-content: center;
 }
 .color-isolate-checkbox-wrapper {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  padding-top: 0.3rem;
 }
 .color-light-level {
-  font-size: 0.9rem;
-  padding: 0.14rem;
+  font-size: 1rem;
+  padding: 0.2rem;
+}
+.color-name {
+  color: var(--base-color);
+  background-color: var(--ui-active-color);
+  padding-inline: 0.4rem;
+  padding-top: 0;
 }
 .colors-fieldset {
-  border: 1px solid var(--BWREVERSE-20);
+  border: 1px solid var(--ui-border);
   border-radius: 0.3rem;
   padding-inline: 0;
   padding-top: 0.1rem;
@@ -1579,11 +1873,6 @@ button{
   & legend {
     margin-left: 0.6rem;
   }
-}
-.color-name {
-  border-bottom: 1px solid var(--ui-active-color);
-  padding-inline: 0.4rem;
-  padding-bottom: 0.2rem;
 }
 .content-wrapper {
   margin-inline: auto;
@@ -1604,19 +1893,16 @@ header {
   margin-top: 1.3rem;
 }
 .hue-set-wrapper {
-  padding: 0.3rem;
+  background-color: var(--BACKGROUND);
+  padding-bottom: 0.7rem;
+  padding-top: 0.4rem;
 }
 .inactive-mode-button {
   outline: 1px solid var(--BWREVERSE-40);
   background-color: var(--BWREVERSE-10);
 }
 .interface-text {
-  color: var(--BWREVERSE-50);
-}
-.main-body {
-  display: grid;
-  grid-template-columns: 1fr 13rem;
-  gap: 1.5rem;
+  color: var(--BWREVERSE-70);
 }
 .made-by {  
   text-align: right;
@@ -1636,6 +1922,16 @@ header {
 ol > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
 }
+.one-column {
+  display: grid;
+  grid-template-columns: 38rem;
+  gap: 2rem;
+  width: 34rem;
+  margin-inline: auto;
+}
+.padding-small {
+  padding: 0.3rem;
+}
 pre{
   font-size: 0.7rem;
   white-space: pre-wrap; 
@@ -1644,7 +1940,7 @@ pre{
   overscroll-behavior-x: auto;
 }
 .settings-fieldset {
-  border: 1px solid var(--BWREVERSE-20);
+  border: 1px solid var(--BWREVERSE-40);
   border-radius: 0.3rem;
 }
 .slider-wrapper {
@@ -1652,11 +1948,21 @@ pre{
   grid-template-columns: 2.2ch 1fr;
   align-items: center;
 }
+.two-columns {
+  width: 51rem;
+  display: grid;
+  grid-template-columns: 38rem 12.8rem;
+  gap: 2rem;
+  margin-inline: auto;
+}
 .ui-font-size-small {
   font-size: 0.9rem;
 }
 ul > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
+}
+.underline {
+  text-decoration: underline;
 }
 .view-mode-buttons{
   margin-bottom: 0.8rem;
@@ -1666,11 +1972,16 @@ ul > :where(:not(:first-child)) {
   background: none;
   cursor: pointer;
   outline: inherit;
+  padding-top: 0.1rem;
   padding-inline: 7px;
   font-weight: bold;
+  border-top: 1px solid var(--BWREVERSE-20);
+  border-right: 1px solid var(--BWREVERSE-20);
   &[aria-selected='true'] {
-    border-bottom: 2px solid var(--ui-active-color);
-    padding-block: 0 0;
+    background-color: var(--ui-active-color);
+    border-top: 1px solid var(--ui-active-color);
+    border-right: 1px solid var(--ui-active-color);
+    color: var(--base-color);
   }
 }
 [role="tablist"] {
@@ -1678,11 +1989,11 @@ ul > :where(:not(:first-child)) {
 [role="tabpanel"] {
   margin: 0;
   padding-block: 0;
-  padding-top: 0.2rem;
   padding-bottom: 0.5rem;
-  border-top: 1px solid var(--ui-active-color);
 }
 `;
+    // TODO: may `--base-color` dynamic
+    out = out.replaceAll("BACKGROUND", `base-color`);
     out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));
     out = out.replaceAll("BWMATCH", scrubStyle(p.bwNames[0]));
     out = out.replaceAll("BWREVERSE", scrubStyle(p.bwNames[1]));
@@ -1700,9 +2011,9 @@ ul > :where(:not(:first-child)) {
   reloadDynamicUiClasses() {
     const lines = [];
     for (let color = 0; color < p.numberOfColors; color ++) {
-      const lUi = this.getColorL(p.activeMode, color);
-      const cUi = this.getColorC(p.activeMode, color);
-      const hUi = this.getColorH(p.activeMode, color);
+      const lUi = this.getColorValueL(p.activeMode, color);
+      const cUi = this.getColorValueC(p.activeMode, color);
+      const hUi = this.getColorValueH(p.activeMode, color);
       const lineString = `.ui-${scrubStyle(p.colorNames[color])} { color: oklch(${lUi}% ${cUi} ${hUi}); }`;
       lines.push(lineString);
       for (let mode = 0; mode < p.modes.length; mode ++) {
@@ -1711,7 +2022,7 @@ ul > :where(:not(:first-child)) {
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            const c = this.getColorC(mode, color);
+            const c = this.getColorValueC(mode, color);
             const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
             const style = `oklch(${lightLevel}% ${c} ${h})`;
@@ -1728,11 +2039,12 @@ ul > :where(:not(:first-child)) {
 
   reloadDynamicUiVars() {
     const lines = [];
+    if (p.focused === true) {
+      lines.push(`--ui-border: var(--base-color);`);
+    } else {
+      lines.push(`--ui-border: var(--reverse-bw-80);`);
+    }
     lines.push(`--ui-active-color: var(--${p.colorNames[p.activeColor]});`);
-    p.colorNames.forEach((name, color) => {
-      const lineString = `--ui-${scrubStyle(name)}: oklch(40% 0.1 300);`;
-      lines.push(lineString);
-    });
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicUiVars'].innerHTML = out;
   }
@@ -1757,6 +2069,20 @@ ul > :where(:not(:first-child)) {
     this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
   }
 
+  setFocus() {
+    if (p.focused === true) {
+      rc('one-column', el('main-body'));
+      ac('two-columns', el('main-body'));
+      el('sidebar').hidden = false;
+      p.focused = false;
+    } else {
+      el('sidebar').hidden = true;
+      ac('one-column', el('main-body'));
+      rc('two-columns', el('main-body'));
+      p.focused = true;
+    }
+  }
+
   updateData(event) {
     let triggerRefresh = false;
     if (event.target.dataset.kind === "base") {
@@ -1764,7 +2090,6 @@ ul > :where(:not(:first-child)) {
       p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
-      focus(`legacy: ${p.previousIsolatedColor} | ${p.isolatedColor}`);
       if (event.target.checked === true) {
         p.previousIsolatedColor = p.isolatedColor;
         p.isolatedColor = gdi("color", event);
@@ -1775,7 +2100,6 @@ ul > :where(:not(:first-child)) {
           p.isolatedColor = -2;
         }
       }
-      focus(`new: ${p.previousIsolatedColor} | ${p.isolatedColor}`);
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-selector") {
@@ -1784,6 +2108,7 @@ ul > :where(:not(:first-child)) {
       if (p.isolatedColor >= 0) {
         p.isolatedColor = color;
       } 
+      this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-hue-set-selector" 
         && event.type === "change") {
@@ -1814,6 +2139,7 @@ ul > :where(:not(:first-child)) {
       const lightnessIndex = gdi("lightness", event);
       p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h = offsetIndex ;
       p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l = lightnessIndex;
+      this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-chroma-slider") {
       const mode = gdi("mode", event);
@@ -1825,6 +2151,11 @@ ul > :where(:not(:first-child)) {
     if (triggerRefresh === true) {
       window.requestAnimationFrame(this.requestRender);
     }
+  }
+
+  underlineActiveHueLightnessButton() {
+    const button = el(`color-lightness-hue-selector--mode-${p.activeMode}--color-${p.activeColor}--lightness-${this.getActiveColorL()}--hue-${this.getActiveColorH()}`);
+    ac("underline", button);
   }
 
   updateBaseSliders() {
@@ -1858,9 +2189,6 @@ ul > :where(:not(:first-child)) {
   }
 
 }
-
-customElements.define('color-picker', Picker);
-
 
 class TabGroup extends HTMLElement {
   get tabs() {
@@ -1924,6 +2252,6 @@ class TabGroup extends HTMLElement {
   }
 }
 
-
 customElements.define('tab-group', TabGroup);
+customElements.define('color-picker', Picker);
 

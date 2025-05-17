@@ -1043,21 +1043,22 @@ class Picker extends HTMLElement {
   addBwBackgroundExamples() {
     const wrapper = el('bw-background-examples-wrapper');
     const kinds = ['match', 'reverse'];
-    kinds.forEach((kind) => {
+    kinds.forEach((kind, kindIndex) => {
       const kindEl = dc('div');
-      for (let num = 100; num > 0; num -= 10) {
-        let display = `-${num}`;
-        if (num === 100) {
-          display = "";
-        }
-        const token = `${kind}${display}-background`;
+      this.getBwValues().forEach((value) => {
+        const token = `${kind}${value}-background`;
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
         ac(`${token}`, exampleEl);
         ac(`small-full-padding`, exampleEl);
         ac(`small-full-margin`, exampleEl);
+        if (kindIndex === 0) {
+          ac(`${kinds[1]}`, exampleEl);
+        } else {
+          ac(`${kinds[0]}`, exampleEl);
+        }
         a(exampleEl, kindEl);
-      }
+      });
       a(kindEl, wrapper);
     });
   }
@@ -1065,15 +1066,28 @@ class Picker extends HTMLElement {
   addBwBorderExamples() {
     const wrapper = el('bw-border-examples-wrapper');
     const kinds = ['match', 'reverse'];
-    kinds.forEach((kind) => {
+    kinds.forEach((kind, kindIndex) => {
       const kindEl = dc('div');
       this.getDirections().forEach((data) => {
         this.getBwValues().forEach((bwValue) => {
           const cell = dc('div');
+          ac('base-inline-padding', cell);
+          ac('xlarge-block-padding', cell);
+          ac('base-full-margin', cell);
+          if (kindIndex === 0) {
+            ac(`${kinds[1]}-background`, cell);
+            ac(`${kinds[0]}`, cell);
+          } else {
+            ac(`${kinds[0]}-background`, cell);
+            ac(`${kinds[1]}`, cell);
+          }
+          const span = dc('span');
           const className = `${kind}${bwValue}-${data[0]}-border`;
-          html(`.${className}`, cell);
-          ac(className, cell);
-          ac(`base-full-margin`, cell);
+          html(`.${className}`, span);
+          ac(className, span);
+          ac(`xxsmall-full-padding`, span);
+          ac(`base-full-margin`, span);
+          a(span, cell);
           a(cell, kindEl);
         })
       })
@@ -1084,7 +1098,7 @@ class Picker extends HTMLElement {
   addBwColorExamples() {
     const wrapper = el('bw-color-examples-wrapper');
     const kinds = ['match', 'reverse'];
-    kinds.forEach((kind) => {
+    kinds.forEach((kind, kindIndex) => {
       const kindEl = dc('div');
       this.getBwValues().forEach((bwValue) => {
         const token = `${kind}${bwValue}`;

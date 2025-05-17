@@ -257,7 +257,7 @@ to be found in it.
   </div>
 
   <div class="sidebar flow"> 
-    <div class="base-wrapper">
+    <div class="base-wrapper hide-during-focus">
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
       </div>
@@ -282,7 +282,7 @@ to be found in it.
       </div>
     </div>
 
-    <details class="advanced-settings-wrapper flow ui-font-size-small">
+    <details class="advanced-settings-wrapper flow ui-font-size-small hide-during-focus">
       <summary class="interface-text">Advanced Settings</summary>
       <div class="number-of-colors-wrapper ui-font-size-small">
         <label for="number-of-colors-selector-label" class="interface-text">
@@ -295,7 +295,7 @@ to be found in it.
         ></select>
       </div>
     </details>
-    <details class="todo-wrapper flow interface-text ui-font-size-small">
+    <details class="todo-wrapper flow interface-text ui-font-size-small hide-during-focus">
       <summary class="interface-text">TODO List</summary>
       <ul>
         <li><input type="checkbox" disabled /> Set min light level for each color</li>
@@ -330,13 +330,13 @@ to be found in it.
 `;
 
 const colorElementInternalTemplate = `
-<div class="color-name"></div>
-<div class="hue-set-wrapper">
+<div class="color-name hide-during-focus"></div>
+<div class="hue-set-wrapper hide-during-focus">
   <div>
     <div class="color-hue-set"></div>
   </div>
 </div>
-<div class="color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper small-inline-padding">
+<div class="hide-during-focus color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper small-inline-padding">
   <label class="color-hue-chroma-slider-label">c:</label>
   <input type="range" class="color-hue-chroma-slider picker-slider" />
 </div>
@@ -1814,7 +1814,6 @@ a {
   padding-top: 0.7rem;
 }
 .background-fieldset {
-  background-color: var(--BWMATCH-20);
   border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-bottom: 0.8rem;
@@ -1875,7 +1874,6 @@ button{
   padding-top: 0;
 }
 .colors-fieldset {
-  background-color: var(--BWMATCH-20);
   border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-inline: 0;
@@ -2025,23 +2023,13 @@ ul > :where(:not(:first-child)) {
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            if (p.focused === true) {
-              const c = this.getActiveBaseValueC();
-              const h = this.getActiveBaseValueH();
-              const l = this.getActiveBaseValueL();
-              const style = `oklch(${l}% ${c} ${h})`;
-              lines.push(
-                `${className} { color: ${style};}`
-              );
-            } else {
-              const c = this.getColorValueC(mode, color);
-              const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
-              const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
-              const style = `oklch(${lightLevel}% ${c} ${h})`;
-              lines.push(
-                `${className} { color: ${style};}`
-              );
-            }
+            const c = this.getColorValueC(mode, color);
+            const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
+            const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
+            const style = `oklch(${lightLevel}% ${c} ${h})`;
+            lines.push(
+              `${className} { color: ${style};}`
+            );
           });
         }
       }
@@ -2053,12 +2041,6 @@ ul > :where(:not(:first-child)) {
   reloadDynamicUiVars() {
     const lines = [];
     lines.push(`--ui-active-color: var(--${p.colorNames[p.activeColor]});`);
-
-    // p.colorNames.forEach((name, color) => {
-    //   const lineString = `--ui-${scrubStyle(name)}: oklch(40% 0.1 300);`;
-    //   lines.push(lineString);
-    // });
-
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicUiVars'].innerHTML = out;
   }
@@ -2083,6 +2065,20 @@ ul > :where(:not(:first-child)) {
     this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
   }
 
+  setFocus(check) {
+    focus(check);
+    const els = this.querySelectorAll(".hide-during-focus");
+    if (check.checked === true) {
+      els.forEach((e) => {
+        e.style.visibility = "hidden";
+      });
+    } else  {
+      els.forEach((e) => {
+        e.style.visibility = "visible";
+      });
+    }
+  }
+
   updateData(event) {
     let triggerRefresh = false;
     if (event.target.dataset.kind === "base") {
@@ -2090,11 +2086,7 @@ ul > :where(:not(:first-child)) {
       p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "focus-checkbox" && event.type === "change") {
-      if (p.focused === true) {
-        p.focused = false;
-      } else {
-        p.focused = true;
-      }
+      this.setFocus(event.target);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
       if (event.target.checked === true) {

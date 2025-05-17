@@ -1037,6 +1037,27 @@ class Picker extends HTMLElement {
     // TODO: Refacor to put everything below
     // here
     this.addBwColorExamples();
+    this.addBwBackgroundExamples();
+  }
+
+  addBwBackgroundExamples() {
+    const wrapper = el('bw-background-examples-wrapper');
+    const kinds = ['match', 'reverse'];
+    kinds.forEach((kind) => {
+      const kindEl = dc('div');
+      for (let num = 100; num > 0; num -= 10) {
+        let display = `-${num}`;
+        if (num === 100) {
+          display = "";
+        }
+        const token = `${kind}${display}-background`;
+        const exampleEl = dc('div');
+        html(`.${token}`, exampleEl);
+        ac(`${token}`, exampleEl);
+        a(exampleEl, kindEl);
+      }
+      a(kindEl, wrapper);
+    });
   }
 
   addBwColorExamples() {

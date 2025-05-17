@@ -2,6 +2,16 @@
 <html lang="en">
   <head>
     <title>Alan's Color Picker</title>
+    <style class="tmp-dev-stuff">
+      :root {
+        --tmp-background-color: oklch(80% 0.1 200);
+        --tmp-color: oklch(10% 0.2 100);
+      }
+      body {
+        background-color: var(--tmp-background-color);
+        color: var(--tmp-color);
+      }
+    </style>
     <style class="reset-styles">
       *,
       *::before,
@@ -18,115 +28,120 @@
       ul > :where(:not(:first-child)) {
         margin-top: var(--flow-space, 1em);
       }
+      body {
+        font-family: system-ui;
+      }
     </style>
 
     <style class="black-and-white-vars">
-
-:root {
---light__match-10: oklch(100% 0 0 / .1);
---light__match-20: oklch(100% 0 0 / .2);
---light__match-30: oklch(100% 0 0 / .3);
---light__match-40: oklch(100% 0 0 / .4);
---light__match-50: oklch(100% 0 0 / .5);
---light__match-60: oklch(100% 0 0 / .6);
---light__match-70: oklch(100% 0 0 / .7);
---light__match-80: oklch(100% 0 0 / .8);
---light__match-90: oklch(100% 0 0 / .9);
---light__match: oklch(100% 0 0);
---hc-light__match-10: oklch(100% 0 0 / .1);
---hc-light__match-20: oklch(100% 0 0 / .2);
---hc-light__match-30: oklch(100% 0 0 / .3);
---hc-light__match-40: oklch(100% 0 0 / .4);
---hc-light__match-50: oklch(100% 0 0 / .5);
---hc-light__match-60: oklch(100% 0 0 / .6);
---hc-light__match-70: oklch(100% 0 0 / .7);
---hc-light__match-80: oklch(100% 0 0 / .8);
---hc-light__match-90: oklch(100% 0 0 / .9);
---hc-light__match: oklch(100% 0 0);
---dark__match-10: oklch(0% 0 0 / .1);
---dark__match-20: oklch(0% 0 0 / .2);
---dark__match-30: oklch(0% 0 0 / .3);
---dark__match-40: oklch(0% 0 0 / .4);
---dark__match-50: oklch(0% 0 0 / .5);
---dark__match-60: oklch(0% 0 0 / .6);
---dark__match-70: oklch(0% 0 0 / .7);
---dark__match-80: oklch(0% 0 0 / .8);
---dark__match-90: oklch(0% 0 0 / .9);
---dark__match: oklch(0% 0 0);
---hc-dark__match-10: oklch(0% 0 0 / .1);
---hc-dark__match-20: oklch(0% 0 0 / .2);
---hc-dark__match-30: oklch(0% 0 0 / .3);
---hc-dark__match-40: oklch(0% 0 0 / .4);
---hc-dark__match-50: oklch(0% 0 0 / .5);
---hc-dark__match-60: oklch(0% 0 0 / .6);
---hc-dark__match-70: oklch(0% 0 0 / .7);
---hc-dark__match-80: oklch(0% 0 0 / .8);
---hc-dark__match-90: oklch(0% 0 0 / .9);
---hc-dark__match: oklch(0% 0 0);
---light__reverse-10: oklch(0% 0 0 / .1);
---light__reverse-20: oklch(0% 0 0 / .2);
---light__reverse-30: oklch(0% 0 0 / .3);
---light__reverse-40: oklch(0% 0 0 / .4);
---light__reverse-50: oklch(0% 0 0 / .5);
---light__reverse-60: oklch(0% 0 0 / .6);
---light__reverse-70: oklch(0% 0 0 / .7);
---light__reverse-80: oklch(0% 0 0 / .8);
---light__reverse-90: oklch(0% 0 0 / .9);
---light__reverse: oklch(0% 0 0);
---hc-light__reverse-10: oklch(0% 0 0 / .1);
---hc-light__reverse-20: oklch(0% 0 0 / .2);
---hc-light__reverse-30: oklch(0% 0 0 / .3);
---hc-light__reverse-40: oklch(0% 0 0 / .4);
---hc-light__reverse-50: oklch(0% 0 0 / .5);
---hc-light__reverse-60: oklch(0% 0 0 / .6);
---hc-light__reverse-70: oklch(0% 0 0 / .7);
---hc-light__reverse-80: oklch(0% 0 0 / .8);
---hc-light__reverse-90: oklch(0% 0 0 / .9);
---hc-light__reverse: oklch(0% 0 0);
---dark__reverse-10: oklch(100% 0 0 / .1);
---dark__reverse-20: oklch(100% 0 0 / .2);
---dark__reverse-30: oklch(100% 0 0 / .3);
---dark__reverse-40: oklch(100% 0 0 / .4);
---dark__reverse-50: oklch(100% 0 0 / .5);
---dark__reverse-60: oklch(100% 0 0 / .6);
---dark__reverse-70: oklch(100% 0 0 / .7);
---dark__reverse-80: oklch(100% 0 0 / .8);
---dark__reverse-90: oklch(100% 0 0 / .9);
---dark__reverse: oklch(100% 0 0);
---hc-dark__reverse-10: oklch(100% 0 0 / .1);
---hc-dark__reverse-20: oklch(100% 0 0 / .2);
---hc-dark__reverse-30: oklch(100% 0 0 / .3);
---hc-dark__reverse-40: oklch(100% 0 0 / .4);
---hc-dark__reverse-50: oklch(100% 0 0 / .5);
---hc-dark__reverse-60: oklch(100% 0 0 / .6);
---hc-dark__reverse-70: oklch(100% 0 0 / .7);
---hc-dark__reverse-80: oklch(100% 0 0 / .8);
---hc-dark__reverse-90: oklch(100% 0 0 / .9);
---hc-dark__reverse: oklch(100% 0 0);
---match-10: var(--light__match-10);
---match-20: var(--light__match-20);
---match-30: var(--light__match-30);
---match-40: var(--light__match-40);
---match-50: var(--light__match-50);
---match-60: var(--light__match-60);
---match-70: var(--light__match-70);
---match-80: var(--light__match-80);
---match-90: var(--light__match-90);
---match: var(--light__match);
---reverse-10: var(--light__reverse-10);
---reverse-20: var(--light__reverse-20);
---reverse-30: var(--light__reverse-30);
---reverse-40: var(--light__reverse-40);
---reverse-50: var(--light__reverse-50);
---reverse-60: var(--light__reverse-60);
---reverse-70: var(--light__reverse-70);
---reverse-80: var(--light__reverse-80);
---reverse-90: var(--light__reverse-90);
---reverse: var(--light__reverse);
-}
+      :root {
+        --light__match: oklch(100% 0 0);
+        --light__match-10: oklch(100% 0 0 / 0.1);
+        --light__match-20: oklch(100% 0 0 / 0.2);
+        --light__match-30: oklch(100% 0 0 / 0.3);
+        --light__match-40: oklch(100% 0 0 / 0.4);
+        --light__match-50: oklch(100% 0 0 / 0.5);
+        --light__match-60: oklch(100% 0 0 / 0.6);
+        --light__match-70: oklch(100% 0 0 / 0.7);
+        --light__match-80: oklch(100% 0 0 / 0.8);
+        --light__match-90: oklch(100% 0 0 / 0.9);
+        --light__reverse: oklch(0% 0 0);
+        --light__reverse-10: oklch(0% 0 0 / 0.1);
+        --light__reverse-20: oklch(0% 0 0 / 0.2);
+        --light__reverse-30: oklch(0% 0 0 / 0.3);
+        --light__reverse-40: oklch(0% 0 0 / 0.4);
+        --light__reverse-50: oklch(0% 0 0 / 0.5);
+        --light__reverse-60: oklch(0% 0 0 / 0.6);
+        --light__reverse-70: oklch(0% 0 0 / 0.7);
+        --light__reverse-80: oklch(0% 0 0 / 0.8);
+        --light__reverse-90: oklch(0% 0 0 / 0.9);
+        --hc-light__match: oklch(100% 0 0);
+        --hc-light__match-10: oklch(100% 0 0 / 0.1);
+        --hc-light__match-20: oklch(100% 0 0 / 0.2);
+        --hc-light__match-30: oklch(100% 0 0 / 0.3);
+        --hc-light__match-40: oklch(100% 0 0 / 0.4);
+        --hc-light__match-50: oklch(100% 0 0 / 0.5);
+        --hc-light__match-60: oklch(100% 0 0 / 0.6);
+        --hc-light__match-70: oklch(100% 0 0 / 0.7);
+        --hc-light__match-80: oklch(100% 0 0 / 0.8);
+        --hc-light__match-90: oklch(100% 0 0 / 0.9);
+        --hc-light__reverse: oklch(0% 0 0);
+        --hc-light__reverse-10: oklch(0% 0 0 / 0.1);
+        --hc-light__reverse-20: oklch(0% 0 0 / 0.2);
+        --hc-light__reverse-30: oklch(0% 0 0 / 0.3);
+        --hc-light__reverse-40: oklch(0% 0 0 / 0.4);
+        --hc-light__reverse-50: oklch(0% 0 0 / 0.5);
+        --hc-light__reverse-60: oklch(0% 0 0 / 0.6);
+        --hc-light__reverse-70: oklch(0% 0 0 / 0.7);
+        --hc-light__reverse-80: oklch(0% 0 0 / 0.8);
+        --hc-light__reverse-90: oklch(0% 0 0 / 0.9);
+        --dark__match: oklch(0% 0 0);
+        --dark__match-10: oklch(0% 0 0 / 0.1);
+        --dark__match-20: oklch(0% 0 0 / 0.2);
+        --dark__match-30: oklch(0% 0 0 / 0.3);
+        --dark__match-40: oklch(0% 0 0 / 0.4);
+        --dark__match-50: oklch(0% 0 0 / 0.5);
+        --dark__match-60: oklch(0% 0 0 / 0.6);
+        --dark__match-70: oklch(0% 0 0 / 0.7);
+        --dark__match-80: oklch(0% 0 0 / 0.8);
+        --dark__match-90: oklch(0% 0 0 / 0.9);
+        --dark__reverse: oklch(100% 0 0);
+        --dark__reverse-10: oklch(100% 0 0 / 0.1);
+        --dark__reverse-20: oklch(100% 0 0 / 0.2);
+        --dark__reverse-30: oklch(100% 0 0 / 0.3);
+        --dark__reverse-40: oklch(100% 0 0 / 0.4);
+        --dark__reverse-50: oklch(100% 0 0 / 0.5);
+        --dark__reverse-60: oklch(100% 0 0 / 0.6);
+        --dark__reverse-70: oklch(100% 0 0 / 0.7);
+        --dark__reverse-80: oklch(100% 0 0 / 0.8);
+        --dark__reverse-90: oklch(100% 0 0 / 0.9);
+        --hc-dark__match: oklch(0% 0 0);
+        --hc-dark__match-10: oklch(0% 0 0 / 0.1);
+        --hc-dark__match-20: oklch(0% 0 0 / 0.2);
+        --hc-dark__match-30: oklch(0% 0 0 / 0.3);
+        --hc-dark__match-40: oklch(0% 0 0 / 0.4);
+        --hc-dark__match-50: oklch(0% 0 0 / 0.5);
+        --hc-dark__match-60: oklch(0% 0 0 / 0.6);
+        --hc-dark__match-70: oklch(0% 0 0 / 0.7);
+        --hc-dark__match-80: oklch(0% 0 0 / 0.8);
+        --hc-dark__match-90: oklch(0% 0 0 / 0.9);
+        --hc-dark__reverse: oklch(100% 0 0);
+        --hc-dark__reverse-10: oklch(100% 0 0 / 0.1);
+        --hc-dark__reverse-20: oklch(100% 0 0 / 0.2);
+        --hc-dark__reverse-30: oklch(100% 0 0 / 0.3);
+        --hc-dark__reverse-40: oklch(100% 0 0 / 0.4);
+        --hc-dark__reverse-50: oklch(100% 0 0 / 0.5);
+        --hc-dark__reverse-60: oklch(100% 0 0 / 0.6);
+        --hc-dark__reverse-70: oklch(100% 0 0 / 0.7);
+        --hc-dark__reverse-80: oklch(100% 0 0 / 0.8);
+        --hc-dark__reverse-90: oklch(100% 0 0 / 0.9);
+        --match: var(--light__match);
+        --match-10: var(--light__match-10);
+        --match-20: var(--light__match-20);
+        --match-30: var(--light__match-30);
+        --match-40: var(--light__match-40);
+        --match-50: var(--light__match-50);
+        --match-60: var(--light__match-60);
+        --match-70: var(--light__match-70);
+        --match-80: var(--light__match-80);
+        --match-90: var(--light__match-90);
+        --reverse: var(--light__reverse);
+        --reverse-10: var(--light__reverse-10);
+        --reverse-20: var(--light__reverse-20);
+        --reverse-30: var(--light__reverse-30);
+        --reverse-40: var(--light__reverse-40);
+        --reverse-50: var(--light__reverse-50);
+        --reverse-60: var(--light__reverse-60);
+        --reverse-70: var(--light__reverse-70);
+        --reverse-80: var(--light__reverse-80);
+        --reverse-90: var(--light__reverse-90);
+      }
     </style>
 
     <style class="black-and-white-color-utiliy-classes">
+      .match {
+        color: var(--match);
+      }
       .match-10 {
         color: var(--match-10);
       }
@@ -154,8 +169,8 @@
       .match-90 {
         color: var(--match-90);
       }
-      .match {
-        color: var(--match);
+      .reverse {
+        color: var(--reverse);
       }
       .reverse-10 {
         color: var(--reverse-10);
@@ -184,12 +199,12 @@
       .reverse-90 {
         color: var(--reverse-90);
       }
-      .reverse {
-        color: var(--reverse);
-      }
     </style>
 
     <style class="black-and-white-background-utility-classes">
+      .match-background {
+        background-color: var(--match);
+      }
       .match-10-background {
         background-color: var(--match-10);
       }
@@ -217,8 +232,8 @@
       .match-90-background {
         background-color: var(--match-90);
       }
-      .match-background {
-        background-color: var(--match);
+      .reverse-background {
+        background-color: var(--reverse);
       }
       .reverse-10-background {
         background-color: var(--reverse-10);
@@ -247,8 +262,428 @@
       .reverse-90-background {
         background-color: var(--reverse-90);
       }
-      .reverse-background {
-        background-color: var(--reverse);
+    </style>
+
+    <style class="black-and-white-border-utility-classes">
+      .match-full-border {
+        border: 1px solid var(--match);
+      }
+      .match-left-border {
+        border-left: 1px solid var(--match);
+      }
+      .match-right-border {
+        border-right: 1px solid var(--match);
+      }
+      .match-top-border {
+        border-top: 1px solid var(--match);
+      }
+      .match-bottom-border {
+        border-bottom: 1px solid var(--match);
+      }
+      .match-inline-border {
+        border-inline: 1px solid var(--match);
+      }
+      .match-block-border {
+        border-block: 1px solid var(--match);
+      }
+      .match-10-full-border {
+        border: 1px solid var(--match-10);
+      }
+      .match-10-left-border {
+        border-left: 1px solid var(--match-10);
+      }
+      .match-10-right-border {
+        border-right: 1px solid var(--match-10);
+      }
+      .match-10-top-border {
+        border-top: 1px solid var(--match-10);
+      }
+      .match-10-bottom-border {
+        border-bottom: 1px solid var(--match-10);
+      }
+      .match-10-inline-border {
+        border-inline: 1px solid var(--match-10);
+      }
+      .match-10-block-border {
+        border-block: 1px solid var(--match-10);
+      }
+      .match-20-full-border {
+        border: 1px solid var(--match-20);
+      }
+      .match-20-left-border {
+        border-left: 1px solid var(--match-20);
+      }
+      .match-20-right-border {
+        border-right: 1px solid var(--match-20);
+      }
+      .match-20-top-border {
+        border-top: 1px solid var(--match-20);
+      }
+      .match-20-bottom-border {
+        border-bottom: 1px solid var(--match-20);
+      }
+      .match-20-inline-border {
+        border-inline: 1px solid var(--match-20);
+      }
+      .match-20-block-border {
+        border-block: 1px solid var(--match-20);
+      }
+      .match-30-full-border {
+        border: 1px solid var(--match-30);
+      }
+      .match-30-left-border {
+        border-left: 1px solid var(--match-30);
+      }
+      .match-30-right-border {
+        border-right: 1px solid var(--match-30);
+      }
+      .match-30-top-border {
+        border-top: 1px solid var(--match-30);
+      }
+      .match-30-bottom-border {
+        border-bottom: 1px solid var(--match-30);
+      }
+      .match-30-inline-border {
+        border-inline: 1px solid var(--match-30);
+      }
+      .match-30-block-border {
+        border-block: 1px solid var(--match-30);
+      }
+      .match-40-full-border {
+        border: 1px solid var(--match-40);
+      }
+      .match-40-left-border {
+        border-left: 1px solid var(--match-40);
+      }
+      .match-40-right-border {
+        border-right: 1px solid var(--match-40);
+      }
+      .match-40-top-border {
+        border-top: 1px solid var(--match-40);
+      }
+      .match-40-bottom-border {
+        border-bottom: 1px solid var(--match-40);
+      }
+      .match-40-inline-border {
+        border-inline: 1px solid var(--match-40);
+      }
+      .match-40-block-border {
+        border-block: 1px solid var(--match-40);
+      }
+      .match-50-full-border {
+        border: 1px solid var(--match-50);
+      }
+      .match-50-left-border {
+        border-left: 1px solid var(--match-50);
+      }
+      .match-50-right-border {
+        border-right: 1px solid var(--match-50);
+      }
+      .match-50-top-border {
+        border-top: 1px solid var(--match-50);
+      }
+      .match-50-bottom-border {
+        border-bottom: 1px solid var(--match-50);
+      }
+      .match-50-inline-border {
+        border-inline: 1px solid var(--match-50);
+      }
+      .match-50-block-border {
+        border-block: 1px solid var(--match-50);
+      }
+      .match-60-full-border {
+        border: 1px solid var(--match-60);
+      }
+      .match-60-left-border {
+        border-left: 1px solid var(--match-60);
+      }
+      .match-60-right-border {
+        border-right: 1px solid var(--match-60);
+      }
+      .match-60-top-border {
+        border-top: 1px solid var(--match-60);
+      }
+      .match-60-bottom-border {
+        border-bottom: 1px solid var(--match-60);
+      }
+      .match-60-inline-border {
+        border-inline: 1px solid var(--match-60);
+      }
+      .match-60-block-border {
+        border-block: 1px solid var(--match-60);
+      }
+      .match-70-full-border {
+        border: 1px solid var(--match-70);
+      }
+      .match-70-left-border {
+        border-left: 1px solid var(--match-70);
+      }
+      .match-70-right-border {
+        border-right: 1px solid var(--match-70);
+      }
+      .match-70-top-border {
+        border-top: 1px solid var(--match-70);
+      }
+      .match-70-bottom-border {
+        border-bottom: 1px solid var(--match-70);
+      }
+      .match-70-inline-border {
+        border-inline: 1px solid var(--match-70);
+      }
+      .match-70-block-border {
+        border-block: 1px solid var(--match-70);
+      }
+      .match-80-full-border {
+        border: 1px solid var(--match-80);
+      }
+      .match-80-left-border {
+        border-left: 1px solid var(--match-80);
+      }
+      .match-80-right-border {
+        border-right: 1px solid var(--match-80);
+      }
+      .match-80-top-border {
+        border-top: 1px solid var(--match-80);
+      }
+      .match-80-bottom-border {
+        border-bottom: 1px solid var(--match-80);
+      }
+      .match-80-inline-border {
+        border-inline: 1px solid var(--match-80);
+      }
+      .match-80-block-border {
+        border-block: 1px solid var(--match-80);
+      }
+      .match-90-full-border {
+        border: 1px solid var(--match-90);
+      }
+      .match-90-left-border {
+        border-left: 1px solid var(--match-90);
+      }
+      .match-90-right-border {
+        border-right: 1px solid var(--match-90);
+      }
+      .match-90-top-border {
+        border-top: 1px solid var(--match-90);
+      }
+      .match-90-bottom-border {
+        border-bottom: 1px solid var(--match-90);
+      }
+      .match-90-inline-border {
+        border-inline: 1px solid var(--match-90);
+      }
+      .match-90-block-border {
+        border-block: 1px solid var(--match-90);
+      }
+      .reverse-full-border {
+        border: 1px solid var(--reverse);
+      }
+      .reverse-left-border {
+        border-left: 1px solid var(--reverse);
+      }
+      .reverse-right-border {
+        border-right: 1px solid var(--reverse);
+      }
+      .reverse-top-border {
+        border-top: 1px solid var(--reverse);
+      }
+      .reverse-bottom-border {
+        border-bottom: 1px solid var(--reverse);
+      }
+      .reverse-inline-border {
+        border-inline: 1px solid var(--reverse);
+      }
+      .reverse-block-border {
+        border-block: 1px solid var(--reverse);
+      }
+      .reverse-10-full-border {
+        border: 1px solid var(--reverse-10);
+      }
+      .reverse-10-left-border {
+        border-left: 1px solid var(--reverse-10);
+      }
+      .reverse-10-right-border {
+        border-right: 1px solid var(--reverse-10);
+      }
+      .reverse-10-top-border {
+        border-top: 1px solid var(--reverse-10);
+      }
+      .reverse-10-bottom-border {
+        border-bottom: 1px solid var(--reverse-10);
+      }
+      .reverse-10-inline-border {
+        border-inline: 1px solid var(--reverse-10);
+      }
+      .reverse-10-block-border {
+        border-block: 1px solid var(--reverse-10);
+      }
+      .reverse-20-full-border {
+        border: 1px solid var(--reverse-20);
+      }
+      .reverse-20-left-border {
+        border-left: 1px solid var(--reverse-20);
+      }
+      .reverse-20-right-border {
+        border-right: 1px solid var(--reverse-20);
+      }
+      .reverse-20-top-border {
+        border-top: 1px solid var(--reverse-20);
+      }
+      .reverse-20-bottom-border {
+        border-bottom: 1px solid var(--reverse-20);
+      }
+      .reverse-20-inline-border {
+        border-inline: 1px solid var(--reverse-20);
+      }
+      .reverse-20-block-border {
+        border-block: 1px solid var(--reverse-20);
+      }
+      .reverse-30-full-border {
+        border: 1px solid var(--reverse-30);
+      }
+      .reverse-30-left-border {
+        border-left: 1px solid var(--reverse-30);
+      }
+      .reverse-30-right-border {
+        border-right: 1px solid var(--reverse-30);
+      }
+      .reverse-30-top-border {
+        border-top: 1px solid var(--reverse-30);
+      }
+      .reverse-30-bottom-border {
+        border-bottom: 1px solid var(--reverse-30);
+      }
+      .reverse-30-inline-border {
+        border-inline: 1px solid var(--reverse-30);
+      }
+      .reverse-30-block-border {
+        border-block: 1px solid var(--reverse-30);
+      }
+      .reverse-40-full-border {
+        border: 1px solid var(--reverse-40);
+      }
+      .reverse-40-left-border {
+        border-left: 1px solid var(--reverse-40);
+      }
+      .reverse-40-right-border {
+        border-right: 1px solid var(--reverse-40);
+      }
+      .reverse-40-top-border {
+        border-top: 1px solid var(--reverse-40);
+      }
+      .reverse-40-bottom-border {
+        border-bottom: 1px solid var(--reverse-40);
+      }
+      .reverse-40-inline-border {
+        border-inline: 1px solid var(--reverse-40);
+      }
+      .reverse-40-block-border {
+        border-block: 1px solid var(--reverse-40);
+      }
+      .reverse-50-full-border {
+        border: 1px solid var(--reverse-50);
+      }
+      .reverse-50-left-border {
+        border-left: 1px solid var(--reverse-50);
+      }
+      .reverse-50-right-border {
+        border-right: 1px solid var(--reverse-50);
+      }
+      .reverse-50-top-border {
+        border-top: 1px solid var(--reverse-50);
+      }
+      .reverse-50-bottom-border {
+        border-bottom: 1px solid var(--reverse-50);
+      }
+      .reverse-50-inline-border {
+        border-inline: 1px solid var(--reverse-50);
+      }
+      .reverse-50-block-border {
+        border-block: 1px solid var(--reverse-50);
+      }
+      .reverse-60-full-border {
+        border: 1px solid var(--reverse-60);
+      }
+      .reverse-60-left-border {
+        border-left: 1px solid var(--reverse-60);
+      }
+      .reverse-60-right-border {
+        border-right: 1px solid var(--reverse-60);
+      }
+      .reverse-60-top-border {
+        border-top: 1px solid var(--reverse-60);
+      }
+      .reverse-60-bottom-border {
+        border-bottom: 1px solid var(--reverse-60);
+      }
+      .reverse-60-inline-border {
+        border-inline: 1px solid var(--reverse-60);
+      }
+      .reverse-60-block-border {
+        border-block: 1px solid var(--reverse-60);
+      }
+      .reverse-70-full-border {
+        border: 1px solid var(--reverse-70);
+      }
+      .reverse-70-left-border {
+        border-left: 1px solid var(--reverse-70);
+      }
+      .reverse-70-right-border {
+        border-right: 1px solid var(--reverse-70);
+      }
+      .reverse-70-top-border {
+        border-top: 1px solid var(--reverse-70);
+      }
+      .reverse-70-bottom-border {
+        border-bottom: 1px solid var(--reverse-70);
+      }
+      .reverse-70-inline-border {
+        border-inline: 1px solid var(--reverse-70);
+      }
+      .reverse-70-block-border {
+        border-block: 1px solid var(--reverse-70);
+      }
+      .reverse-80-full-border {
+        border: 1px solid var(--reverse-80);
+      }
+      .reverse-80-left-border {
+        border-left: 1px solid var(--reverse-80);
+      }
+      .reverse-80-right-border {
+        border-right: 1px solid var(--reverse-80);
+      }
+      .reverse-80-top-border {
+        border-top: 1px solid var(--reverse-80);
+      }
+      .reverse-80-bottom-border {
+        border-bottom: 1px solid var(--reverse-80);
+      }
+      .reverse-80-inline-border {
+        border-inline: 1px solid var(--reverse-80);
+      }
+      .reverse-80-block-border {
+        border-block: 1px solid var(--reverse-80);
+      }
+      .reverse-90-full-border {
+        border: 1px solid var(--reverse-90);
+      }
+      .reverse-90-left-border {
+        border-left: 1px solid var(--reverse-90);
+      }
+      .reverse-90-right-border {
+        border-right: 1px solid var(--reverse-90);
+      }
+      .reverse-90-top-border {
+        border-top: 1px solid var(--reverse-90);
+      }
+      .reverse-90-bottom-border {
+        border-bottom: 1px solid var(--reverse-90);
+      }
+      .reverse-90-inline-border {
+        border-inline: 1px solid var(--reverse-90);
+      }
+      .reverse-90-block-border {
+        border-block: 1px solid var(--reverse-90);
       }
     </style>
 
@@ -334,12 +769,14 @@
         accent-color: var(--BWREVERSE-90);
         height: 1px;
       }
+      /*
       body {
         font-family: system-ui;
         background-color: var(--BASECOLOR);
         color: var(--COLOR1);
         line-height: 1.3;
       }
+*/
       .bold {
         font-weight: bold;
       }
@@ -497,7 +934,7 @@
           </div>
           <div role="tabpanel" hidden>
             <hgroup>
-              <h1>Alan's Color Picker</h1>
+              <h1 class="reverse-40-bottom-border">Alan's Color Picker</h1>
               <p>
                 made by <a href="https://www.alanwsmith.com/">alan w smith</a>
               </p>
@@ -505,6 +942,8 @@
             <h2>Examples</h2>
             <h3>Black And White Colors</h3>
             <div class="bw-color-examples-wrapper"></div>
+            <h3>Black And White Backgrounds</h3>
+            <div class="bw-background-examples-wrapper"></div>
           </div>
 
           <div role="tabpanel">
@@ -549,7 +988,7 @@ reading now.
     </p>
 
 <p>
-This space isn't completley wated though. We
+This space isn't completley wasted though. We
 can use it for some basic instructions. 
 </p>
 

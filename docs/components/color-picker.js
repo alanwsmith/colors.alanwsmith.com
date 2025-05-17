@@ -1055,6 +1055,23 @@ class Picker extends HTMLElement {
     })
   }
 
+  getActiveColorC(color) {
+    return this.getColorValueC(p.activeMode, color);
+  }
+
+  getActiveColorH(color) {
+    return this.getColorValueH(p.activeMode, color);
+  }
+
+  getActiveColorL(color) {
+    return this.getColorValueL(p.activeMode, color);
+  }
+
+  // getActiveColorValueL(color) {
+  //   const hueOffsetIndex = this.getHueOffsetIndex(color);
+  //   return p.modes[p.activeMode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+  // }
+
   getAspectMax(key) {
     return p.aspects[key].max;
   }
@@ -1063,14 +1080,14 @@ class Picker extends HTMLElement {
     return p.aspects[key].max / 10000;
   }
 
-  getColorC(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+  getColorValueC(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const c = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
     return c.toFixed(5);
   }
 
-  getColorH(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+  getColorValueH(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const h = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
     let value = this.getHueValues(hueOffsetIndex)[h] + p.modes[mode].base.h;
     if (value > 360) {
@@ -1079,8 +1096,8 @@ class Picker extends HTMLElement {
     return value.toFixed(5);
   }
 
-  getColorL(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+  getColorValueL(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
     return this.getLightLevelValues(mode, color)[l];
   }
@@ -1096,7 +1113,6 @@ class Picker extends HTMLElement {
     for (let level = minLightLevel; level <= p.maxLightValue; level += adder) {
       levels.push(level.toFixed(5));
     }
-    focus(levels);
     return levels;
   }
 
@@ -1109,6 +1125,10 @@ class Picker extends HTMLElement {
       values.push(value);
     }
     return values;
+  }
+
+  getHueOffsetIndex(mode, color) {
+    return p.modes[mode].colors[color].hueOffsetIndex;
   }
 
   getHueOffsetIndexes(mode, color) {
@@ -1195,7 +1215,6 @@ class Picker extends HTMLElement {
     } else {
       checkbox.checked = false;
     }
-    focus(checkbox);
   }
 
   initColors() {
@@ -1484,18 +1503,18 @@ ${sheets.join("\n")}
         let c = 0;
         let h = 0;
         if (p.isolatedColor === -2) {
-          l = this.getColorL(mode, index);
-          c = this.getColorC(mode, index);
-          h = this.getColorH(mode, index);
+          l = this.getColorValueL(mode, index);
+          c = this.getColorValueC(mode, index);
+          h = this.getColorValueH(mode, index);
         } else if (p.isolatedColor === -1){
           l = p.modes[p.activeMode].base.l;
           c = p.modes[p.activeMode].base.c;
           h = p.modes[p.activeMode].base.h;
         } else {
           if (p.isolatedColor === index) {
-            l = this.getColorL(mode, index);
-            c = this.getColorC(mode, index);
-            h = this.getColorH(mode, index);
+            l = this.getColorValueL(mode, index);
+            c = this.getColorValueC(mode, index);
+            h = this.getColorValueH(mode, index);
           } else {
             l = p.modes[p.activeMode].base.l;
             c = p.modes[p.activeMode].base.c;
@@ -1730,9 +1749,9 @@ ul > :where(:not(:first-child)) {
   reloadDynamicUiClasses() {
     const lines = [];
     for (let color = 0; color < p.numberOfColors; color ++) {
-      const lUi = this.getColorL(p.activeMode, color);
-      const cUi = this.getColorC(p.activeMode, color);
-      const hUi = this.getColorH(p.activeMode, color);
+      const lUi = this.getColorValueL(p.activeMode, color);
+      const cUi = this.getColorValueC(p.activeMode, color);
+      const hUi = this.getColorValueH(p.activeMode, color);
       const lineString = `.ui-${scrubStyle(p.colorNames[color])} { color: oklch(${lUi}% ${cUi} ${hUi}); }`;
       lines.push(lineString);
       for (let mode = 0; mode < p.modes.length; mode ++) {
@@ -1741,7 +1760,7 @@ ul > :where(:not(:first-child)) {
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
           this.getLightLevelValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
-            const c = this.getColorC(mode, color);
+            const c = this.getColorValueC(mode, color);
             const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
             const h = (hueMultiplier * hueIndex) + p.modes[mode].base.h ;
             const style = `oklch(${lightLevel}% ${c} ${h})`;
@@ -1794,7 +1813,6 @@ ul > :where(:not(:first-child)) {
       p.modes[p.activeMode].base[aspect] = gvf(event);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
-      focus(`legacy: ${p.previousIsolatedColor} | ${p.isolatedColor}`);
       if (event.target.checked === true) {
         p.previousIsolatedColor = p.isolatedColor;
         p.isolatedColor = gdi("color", event);
@@ -1805,7 +1823,6 @@ ul > :where(:not(:first-child)) {
           p.isolatedColor = -2;
         }
       }
-      focus(`new: ${p.previousIsolatedColor} | ${p.isolatedColor}`);
       this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-selector") {

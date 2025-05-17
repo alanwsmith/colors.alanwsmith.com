@@ -357,7 +357,7 @@ const colorElementInternalTemplate = `
 
 const defaultPalette = {
   "activeMode": 0,
-  "activeColor": 2,
+  "activeColor": 0,
   "aspectOrder": ["l", "c", "h"],
   "aspects": {
     "l": { "name": "lightness", "max": 100 },
@@ -1725,11 +1725,11 @@ ul > :where(:not(:first-child)) {
   font-weight: bold;
   border-top: 1px solid var(--BWREVERSE-20);
   border-right: 1px solid var(--BWREVERSE-20);
-  border-left: 1px solid var(--BWREVERSE-20);
   &[aria-selected='true'] {
-    border-top: 3px solid var(--ui-active-color);
-  border-left: 1px solid var(--ui-active-color);
-  border-right: 1px solid var(--ui-active-color);
+    background-color: var(--ui-active-color);
+    border-top: 1px solid var(--ui-active-color);
+    border-right: 1px solid var(--ui-active-color);
+    color: var(--base-color);
   }
 }
 [role="tablist"] {

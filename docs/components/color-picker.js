@@ -1838,10 +1838,6 @@ button{
   display: grid;
   justify-content: center;
 }
-/*
-.color-hue-set-line {
-  display: flex;
-}*/
 .color-isolate-checkbox-wrapper {
   display: flex;
   flex-wrap: wrap;

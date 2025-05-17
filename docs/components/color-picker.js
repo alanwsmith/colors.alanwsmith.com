@@ -180,9 +180,9 @@ const template = `
 -->
 <div class="nav-buttons">more stuff will go here</div>
 
-<div class="main-body">
+<div class="main-body two-columns">
 
-  <div class="flow">
+  <div class="content-area base-flow focus-toggle-watcher">
     <h1>Alan's (prototype) Color Picker</h1>
 
 <!--
@@ -256,8 +256,8 @@ to be found in it.
     </p>
   </div>
 
-  <div class="sidebar flow"> 
-    <div class="base-wrapper hide-during-focus">
+  <div class="sidebar base-flow"> 
+    <div class="base-wrapper">
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
       </div>
@@ -282,7 +282,7 @@ to be found in it.
       </div>
     </div>
 
-    <details class="advanced-settings-wrapper flow ui-font-size-small hide-during-focus">
+    <details class="advanced-settings-wrapper flow ui-font-size-small">
       <summary class="interface-text">Advanced Settings</summary>
       <div class="number-of-colors-wrapper ui-font-size-small">
         <label for="number-of-colors-selector-label" class="interface-text">
@@ -295,7 +295,7 @@ to be found in it.
         ></select>
       </div>
     </details>
-    <details class="todo-wrapper flow interface-text ui-font-size-small hide-during-focus">
+    <details class="todo-wrapper flow interface-text ui-font-size-small">
       <summary class="interface-text">TODO List</summary>
       <ul>
         <li><input type="checkbox" disabled /> Set min light level for each color</li>
@@ -330,8 +330,8 @@ to be found in it.
 `;
 
 const colorElementInternalTemplate = `
-<div class="color-name hide-during-focus"></div>
-<div class="hue-set-wrapper hide-during-focus">
+<div class="color-name"></div>
+<div class="hue-set-wrapper">
   <div>
     <div class="color-hue-set"></div>
   </div>
@@ -346,13 +346,6 @@ const colorElementInternalTemplate = `
       Isolate:
     </label>
     <input type="checkbox" class="color-isolate-checkbox">
-  </div>
-  <div class="color-focus-wrapper color-checkbox-wrapper">
-    <label for="color-focus-checkbox" 
-      class="interface-text ui-font-size-small">
-      Focus:
-    </label>
-    <input type="checkbox" class="color-focus-checkbox" name="color-focus-checkbox">
   </div>
 </div>
 <div class="color-hue-faded-wrapper"></div>
@@ -1057,6 +1050,9 @@ class Picker extends HTMLElement {
     this.addEventListener('input', (event) => {
       this.updateData.call(this, event);
     })
+    el('focus-toggle-watcher').addEventListener('click', (event) => {
+      this.setFocus();
+    });
   }
 
   getActiveBaseValueC() {
@@ -1251,6 +1247,7 @@ class Picker extends HTMLElement {
       ad("kind", "color-selector", tabButton);
       ad("color", color, tabButton);
       a(tabButton, tabList);
+      ac(`hide-during-focus`, tabButton);
     }
     a(tabList, tabGroup);
     // Loop through the colors
@@ -1317,15 +1314,9 @@ class Picker extends HTMLElement {
       }
     }
     a(tabGroup, wrapper);
-    this.initColorFocusCheckbox();
     this.initIsolateBackgroundCheckbox();
     this.hideUiIfNecessary();
     this.underlineActiveHueLightnessButton();
-  }
-
-  initColorFocusCheckbox() {
-    const checkbox = el('color-focus-checkbox');  
-    ad("kind", "focus-checkbox", checkbox);
   }
 
   initIsolateBackgroundCheckbox() {
@@ -1614,7 +1605,7 @@ class Picker extends HTMLElement {
     this.initModeButtons();
     this.initNumberOfColors();
     this.initColors();
-    this.updateModeButtonStyles()
+    this.updateModeButtonStyles();
   }
 
   initStaticBwClasses() {
@@ -1874,7 +1865,7 @@ button{
   padding-top: 0;
 }
 .colors-fieldset {
-  border: 1px solid var(--BWREVERSE-80);
+  border: 1px solid var(--ui-border);
   border-radius: 0.3rem;
   padding-inline: 0;
   padding-top: 0.1rem;
@@ -1913,11 +1904,6 @@ header {
 .interface-text {
   color: var(--BWREVERSE-70);
 }
-.main-body {
-  display: grid;
-  grid-template-columns: 1fr 12.8rem;
-  gap: 2rem;
-}
 .made-by {  
   text-align: right;
 }
@@ -1935,6 +1921,13 @@ header {
 }
 ol > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
+}
+.one-column {
+  display: grid;
+  grid-template-columns: 38rem;
+  gap: 2rem;
+  width: 34rem;
+  margin-inline: auto;
 }
 .padding-small {
   padding: 0.3rem;
@@ -1954,6 +1947,13 @@ pre{
   display: grid;
   grid-template-columns: 2.2ch 1fr;
   align-items: center;
+}
+.two-columns {
+  width: 51rem;
+  display: grid;
+  grid-template-columns: 38rem 12.8rem;
+  gap: 2rem;
+  margin-inline: auto;
 }
 .ui-font-size-small {
   font-size: 0.9rem;
@@ -1990,7 +1990,6 @@ ul > :where(:not(:first-child)) {
   margin: 0;
   padding-block: 0;
   padding-bottom: 0.5rem;
-  border-top: 1px solid var(--ui-active-color);
 }
 `;
     // TODO: may `--base-color` dynamic
@@ -2040,6 +2039,11 @@ ul > :where(:not(:first-child)) {
 
   reloadDynamicUiVars() {
     const lines = [];
+    if (p.focused === true) {
+      lines.push(`--ui-border: var(--base-color);`);
+    } else {
+      lines.push(`--ui-border: var(--reverse-bw-80);`);
+    }
     lines.push(`--ui-active-color: var(--${p.colorNames[p.activeColor]});`);
     const out = `:root {\n${lines.sort().join("\n")}\n}`;
     this.styleSheets['dynamicUiVars'].innerHTML = out;
@@ -2065,17 +2069,17 @@ ul > :where(:not(:first-child)) {
     this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
   }
 
-  setFocus(check) {
-    focus(check);
-    const els = this.querySelectorAll(".hide-during-focus");
-    if (check.checked === true) {
-      els.forEach((e) => {
-        e.style.visibility = "hidden";
-      });
-    } else  {
-      els.forEach((e) => {
-        e.style.visibility = "visible";
-      });
+  setFocus() {
+    if (p.focused === true) {
+      rc('one-column', el('main-body'));
+      ac('two-columns', el('main-body'));
+      el('sidebar').hidden = false;
+      p.focused = false;
+    } else {
+      el('sidebar').hidden = true;
+      ac('one-column', el('main-body'));
+      rc('two-columns', el('main-body'));
+      p.focused = true;
     }
   }
 
@@ -2084,9 +2088,6 @@ ul > :where(:not(:first-child)) {
     if (event.target.dataset.kind === "base") {
       const aspect = gds(event, 'aspect');
       p.modes[p.activeMode].base[aspect] = gvf(event);
-      triggerRefresh = true;
-    } else if (event.target.dataset.kind === "focus-checkbox" && event.type === "change") {
-      this.setFocus(event.target);
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "isolate-checkbox" && event.type === "change") {
       if (event.target.checked === true) {

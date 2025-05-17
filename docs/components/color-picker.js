@@ -1113,13 +1113,6 @@ class Picker extends HTMLElement {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const h = this.getColorH(mode, color);
     return this.getColorHueValues(mode, color)[h];
-
-    // const h = this.getColorH(mode, color);
-    // const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
-    // const values = [];
-    // for (let value = 0; value <= 360; value += hueOffsetAmount) {
-    //   values.push(value + p.modes[mode].base.h);
-    // }
     return values[h];
   }
 
@@ -1146,18 +1139,6 @@ class Picker extends HTMLElement {
   getHueOffsetIndex(mode, color) {
     return p.modes[mode].colors[color].hueOffsetIndex;
   }
-
-  // getHueOffsetIndexes(mode, color) {
-  //   const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
-  //   const hueOffsetValue = p.hueOffsets[hueOffsetIndex];
-  //   const indexes = [];
-  //   let counter = 0;
-  //   for (let value = 0; value < 360; value += hueOffsetValue) {
-  //     indexes.push(counter);
-  //     counter += 1;
-  //   }
-  //   return indexes;
-  // }
 
   getHueOffsetAmount(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);

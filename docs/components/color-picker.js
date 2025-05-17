@@ -261,31 +261,25 @@ to be found in it.
       <div class="view-light-dark-wrapper">
         <div class="view-mode-buttons"></div>
       </div>
-      <fieldset class="background-fieldset">
-        <legend class="interface-text">Background</legend>
-        <div class="base-sliders"></div>
+      <div class="background-fieldset ui-font-size-small flow">
+        <div class="interface-text ui-font-size-small reverse-bw-bottom-border-80 small-full-padding">Background</div>
+        <div class="base-sliders small-inline-padding base-flow"></div>
         <div class="background-checkboxes">
-          <div class="background-isolate-wrapper background-checkbox-wrapper">
+          <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
             <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
               Isolate:
             </label>
             <input type="checkbox" class="background-isolate-checkbox" name="background-isolate-checkbox">
           </div>
-          <div class="background-focus-wrapper background-checkbox-wrapper">
-            <label for="background-focus-checkbox" class="interface-text ui-font-size-small">
-              Focus:
-            </label>
-            <input type="checkbox" class="background-focus-checkbox" name="background-focus-checkbox">
-          </div>
         </div>
-      </fieldset>
+      </div>
     </div>
 
     <div class="colors-wrapper">
-      <fieldset class="colors-fieldset">
-        <legend class="interface-text">Colors</legend>
+      <div class="colors-fieldset">
+        <div class="interface-text small-full-padding">Colors</div>
         <div class="colors-content-wrapper flow"></div>
-      </fieldset>
+      </div>
     </div>
 
     <details class="advanced-settings-wrapper flow ui-font-size-small">
@@ -340,19 +334,28 @@ const colorElementInternalTemplate = `
 <div class="hue-set-wrapper">
   <div>
     <div class="color-hue-set"></div>
-    <div class="color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper">
-      <label class="color-hue-chroma-slider-label">c:</label>
-      <input type="range" class="color-hue-chroma-slider picker-slider" />
-    </div>
-    <div class="color-hue-buttons">
-      <div class="color-isolate-checkbox-wrapper">
-        <label class="interface-text ui-font-size-small">Isolate:</label>
-        <input type="checkbox" class="color-isolate-checkbox">
-      </div>
-    </div>
-    <div class="color-hue-faded-wrapper"></div>
   </div>
 </div>
+<div class="color-hue-chroma-slider-wrapper slider-wrapper chroma-slider-wrapper small-inline-padding">
+  <label class="color-hue-chroma-slider-label">c:</label>
+  <input type="range" class="color-hue-chroma-slider picker-slider" />
+</div>
+<div class="color-hue-buttons small-inline-padding">
+  <div class="color-isolate-checkbox-wrapper">
+    <label class="interface-text ui-font-size-small">
+      Isolate:
+    </label>
+    <input type="checkbox" class="color-isolate-checkbox">
+  </div>
+  <div class="background-focus-wrapper background-checkbox-wrapper">
+    <label for="background-focus-checkbox" 
+      class="interface-text ui-font-size-small">
+      Focus:
+    </label>
+    <input type="checkbox" class="background-focus-checkbox" name="background-focus-checkbox">
+  </div>
+</div>
+<div class="color-hue-faded-wrapper"></div>
 `;
 
 const defaultPalette = {
@@ -1254,6 +1257,7 @@ class Picker extends HTMLElement {
       const colorData = p.modes[p.activeMode].colors[color];
       sa(`role`, `tabpanel`, colorEl);
       ac(['color-wrapper', `color-wrapper-${color}`], colorEl);
+      // ac('small-inline-padding', slider);
       html(colorElementInternalTemplate, colorEl);
       a(colorEl, tabGroup);
       // Update the color name
@@ -1284,6 +1288,7 @@ class Picker extends HTMLElement {
       ]);
       for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
         const hueOffsetIndexWrapper = dc('div');
+        ac('color-hue-set-line', hueOffsetIndexWrapper);
         this.getLightLevelValues(p.activeMode, color).forEach((level, levelcolor) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
@@ -1340,10 +1345,228 @@ class Picker extends HTMLElement {
     }
   }
 
+  initStaticAlanClasses() {
+    this.styleSheets['staticAlanClasses'].innerHTML = `
+
+.xxxsmall-font-size { font-size: var(--xxxsmall-font-size); }
+.xxsmall-font-size { font-size: var(--xxsmall-font-size); }
+.xsmall-font-size { font-size: var(--xsmall-font-size); }
+.small-font-size { font-size: var(--small-font-size); }
+.base-font-size { font-size: var(--base-font-size); }
+.large-font-size { font-size: var(--large-font-size); }
+.xlarge-font-size { font-size: var(--xlarge-font-size); }
+.xxlarge-font-size { font-size: var(--xxlarge-font-size); }
+.xxxlarge-font-size { font-size: var(--xxxlarge-font-size); }
+.xxxsmall-border-radius { border-radius: var(--xxxsmall-border-radius); }
+.xxsmall-border-radius { border-radius: var(--xxsmall-border-radius); }
+.xsmall-border-radius { border-radius: var(--xsmall-border-radius); }
+.small-border-radius { border-radius: var(--small-border-radius); }
+.base-border-radius { border-radius: var(--base-border-radius); }
+.large-border-radius { border-radius: var(--large-border-radius); }
+.xlarge-border-radius { border-radius: var(--xlarge-border-radius); }
+.xxlarge-border-radius { border-radius: var(--xxlarge-border-radius); }
+.xxxlarge-border-radius { border-radius: var(--xxxlarge-border-radius); }
+.xxxsmall-width { width: var(--xxxsmall-width); }
+.xxsmall-width { width: var(--xxsmall-width); }
+.xsmall-width { width: var(--xsmall-width); }
+.small-width { width: var(--small-width); }
+.base-width { width: var(--base-width); }
+.large-width { width: var(--large-width); }
+.xlarge-width { width: var(--xlarge-width); }
+.xxlarge-width { width: var(--xxlarge-width); }
+.xxxlarge-width { width: var(--xxxlarge-width); }
+.xxxsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.1em);
+}
+.xxsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.3em);
+}
+.xsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.5em);
+}
+.small-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.7em);
+}
+.base-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1em);
+}
+.large-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.2em);
+}
+.xlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.4em);
+}
+.xxlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.8em);
+}
+.xxxlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 2.2em);
+}
+.xxxsmall-full-margin { margin: var(--xxxsmall-margin); }
+.xxxsmall-full-padding { padding: var(--xxxsmall-padding); }
+.xxxsmall-left-margin { margin-left: var(--xxxsmall-margin); }
+.xxxsmall-left-padding { padding-left: var(--xxxsmall-padding); }
+.xxxsmall-right-margin { margin-right: var(--xxxsmall-margin); }
+.xxxsmall-right-padding { padding-right: var(--xxxsmall-padding); }
+.xxxsmall-top-margin { margin-top: var(--xxxsmall-margin); }
+.xxxsmall-top-padding { padding-top: var(--xxxsmall-padding); }
+.xxxsmall-bottom-margin { margin-bottom: var(--xxxsmall-margin); }
+.xxxsmall-bottom-padding { padding-bottom: var(--xxxsmall-padding); }
+.xxxsmall-inline-margin { margin-inline: var(--xxxsmall-margin); }
+.xxxsmall-inline-padding { padding-inline: var(--xxxsmall-padding); }
+.xxxsmall-block-margin { margin-block: var(--xxxsmall-margin); }
+.xxxsmall-block-padding { padding-block: var(--xxxsmall-padding); }
+.xxsmall-full-margin { margin: var(--xxsmall-margin); }
+.xxsmall-full-padding { padding: var(--xxsmall-padding); }
+.xxsmall-left-margin { margin-left: var(--xxsmall-margin); }
+.xxsmall-left-padding { padding-left: var(--xxsmall-padding); }
+.xxsmall-right-margin { margin-right: var(--xxsmall-margin); }
+.xxsmall-right-padding { padding-right: var(--xxsmall-padding); }
+.xxsmall-top-margin { margin-top: var(--xxsmall-margin); }
+.xxsmall-top-padding { padding-top: var(--xxsmall-padding); }
+.xxsmall-bottom-margin { margin-bottom: var(--xxsmall-margin); }
+.xxsmall-bottom-padding { padding-bottom: var(--xxsmall-padding); }
+.xxsmall-inline-margin { margin-inline: var(--xxsmall-margin); }
+.xxsmall-inline-padding { padding-inline: var(--xxsmall-padding); }
+.xxsmall-block-margin { margin-block: var(--xxsmall-margin); }
+.xxsmall-block-padding { padding-block: var(--xxsmall-padding); }
+.xsmall-full-margin { margin: var(--xsmall-margin); }
+.xsmall-full-padding { padding: var(--xsmall-padding); }
+.xsmall-left-margin { margin-left: var(--xsmall-margin); }
+.xsmall-left-padding { padding-left: var(--xsmall-padding); }
+.xsmall-right-margin { margin-right: var(--xsmall-margin); }
+.xsmall-right-padding { padding-right: var(--xsmall-padding); }
+.xsmall-top-margin { margin-top: var(--xsmall-margin); }
+.xsmall-top-padding { padding-top: var(--xsmall-padding); }
+.xsmall-bottom-margin { margin-bottom: var(--xsmall-margin); }
+.xsmall-bottom-padding { padding-bottom: var(--xsmall-padding); }
+.xsmall-inline-margin { margin-inline: var(--xsmall-margin); }
+.xsmall-inline-padding { padding-inline: var(--xsmall-padding); }
+.xsmall-block-margin { margin-block: var(--xsmall-margin); }
+.xsmall-block-padding { padding-block: var(--xsmall-padding); }
+.small-full-margin { margin: var(--small-margin); }
+.small-full-padding { padding: var(--small-padding); }
+.small-left-margin { margin-left: var(--small-margin); }
+.small-left-padding { padding-left: var(--small-padding); }
+.small-right-margin { margin-right: var(--small-margin); }
+.small-right-padding { padding-right: var(--small-padding); }
+.small-top-margin { margin-top: var(--small-margin); }
+.small-top-padding { padding-top: var(--small-padding); }
+.small-bottom-margin { margin-bottom: var(--small-margin); }
+.small-bottom-padding { padding-bottom: var(--small-padding); }
+.small-inline-margin { margin-inline: var(--small-margin); }
+.small-inline-padding { padding-inline: var(--small-padding); }
+.small-block-margin { margin-block: var(--small-margin); }
+.small-block-padding { padding-block: var(--small-padding); }
+.base-full-margin { margin: var(--base-margin); }
+.base-full-padding { padding: var(--base-padding); }
+.base-left-margin { margin-left: var(--base-margin); }
+.base-left-padding { padding-left: var(--base-padding); }
+.base-right-margin { margin-right: var(--base-margin); }
+.base-right-padding { padding-right: var(--base-padding); }
+.base-top-margin { margin-top: var(--base-margin); }
+.base-top-padding { padding-top: var(--base-padding); }
+.base-bottom-margin { margin-bottom: var(--base-margin); }
+.base-bottom-padding { padding-bottom: var(--base-padding); }
+.base-inline-margin { margin-inline: var(--base-margin); }
+.base-inline-padding { padding-inline: var(--base-padding); }
+.base-block-margin { margin-block: var(--base-margin); }
+.base-block-padding { padding-block: var(--base-padding); }
+.large-full-margin { margin: var(--large-margin); }
+.large-full-padding { padding: var(--large-padding); }
+.large-left-margin { margin-left: var(--large-margin); }
+.large-left-padding { padding-left: var(--large-padding); }
+.large-right-margin { margin-right: var(--large-margin); }
+.large-right-padding { padding-right: var(--large-padding); }
+.large-top-margin { margin-top: var(--large-margin); }
+.large-top-padding { padding-top: var(--large-padding); }
+.large-bottom-margin { margin-bottom: var(--large-margin); }
+.large-bottom-padding { padding-bottom: var(--large-padding); }
+.large-inline-margin { margin-inline: var(--large-margin); }
+.large-inline-padding { padding-inline: var(--large-padding); }
+.large-block-margin { margin-block: var(--large-margin); }
+.large-block-padding { padding-block: var(--large-padding); }
+.xlarge-full-margin { margin: var(--xlarge-margin); }
+.xlarge-full-padding { padding: var(--xlarge-padding); }
+.xlarge-left-margin { margin-left: var(--xlarge-margin); }
+.xlarge-left-padding { padding-left: var(--xlarge-padding); }
+.xlarge-right-margin { margin-right: var(--xlarge-margin); }
+.xlarge-right-padding { padding-right: var(--xlarge-padding); }
+.xlarge-top-margin { margin-top: var(--xlarge-margin); }
+.xlarge-top-padding { padding-top: var(--xlarge-padding); }
+.xlarge-bottom-margin { margin-bottom: var(--xlarge-margin); }
+.xlarge-bottom-padding { padding-bottom: var(--xlarge-padding); }
+.xlarge-inline-margin { margin-inline: var(--xlarge-margin); }
+.xlarge-inline-padding { padding-inline: var(--xlarge-padding); }
+.xlarge-block-margin { margin-block: var(--xlarge-margin); }
+.xlarge-block-padding { padding-block: var(--xlarge-padding); }
+.xxlarge-full-margin { margin: var(--xxlarge-margin); }
+.xxlarge-full-padding { padding: var(--xxlarge-padding); }
+.xxlarge-left-margin { margin-left: var(--xxlarge-margin); }
+.xxlarge-left-padding { padding-left: var(--xxlarge-padding); }
+.xxlarge-right-margin { margin-right: var(--xxlarge-margin); }
+.xxlarge-right-padding { padding-right: var(--xxlarge-padding); }
+.xxlarge-top-margin { margin-top: var(--xxlarge-margin); }
+.xxlarge-top-padding { padding-top: var(--xxlarge-padding); }
+.xxlarge-bottom-margin { margin-bottom: var(--xxlarge-margin); }
+.xxlarge-bottom-padding { padding-bottom: var(--xxlarge-padding); }
+.xxlarge-inline-margin { margin-inline: var(--xxlarge-margin); }
+.xxlarge-inline-padding { padding-inline: var(--xxlarge-padding); }
+.xxlarge-block-margin { margin-block: var(--xxlarge-margin); }
+.xxlarge-block-padding { padding-block: var(--xxlarge-padding); }
+.xxxlarge-full-margin { margin: var(--xxxlarge-margin); }
+.xxxlarge-full-padding { padding: var(--xxxlarge-padding); }
+.xxxlarge-left-margin { margin-left: var(--xxxlarge-margin); }
+.xxxlarge-left-padding { padding-left: var(--xxxlarge-padding); }
+.xxxlarge-right-margin { margin-right: var(--xxxlarge-margin); }
+.xxxlarge-right-padding { padding-right: var(--xxxlarge-padding); }
+.xxxlarge-top-margin { margin-top: var(--xxxlarge-margin); }
+.xxxlarge-top-padding { padding-top: var(--xxxlarge-padding); }
+.xxxlarge-bottom-margin { margin-bottom: var(--xxxlarge-margin); }
+.xxxlarge-bottom-padding { padding-bottom: var(--xxxlarge-padding); }
+.xxxlarge-inline-margin { margin-inline: var(--xxxlarge-margin); }
+.xxxlarge-inline-padding { padding-inline: var(--xxxlarge-padding); }
+.xxxlarge-block-margin { margin-block: var(--xxxlarge-margin); }
+.xxxlarge-block-padding { padding-block: var(--xxxlarge-padding); }
+
+`;
+
+  }
+
+  initStaticAlanVars() {
+  this.styleSheets['staticAlanVars'].innerHTML = `
+
+:root {
+--xxxsmall-padding: 0.1rem;
+--xxxsmall-margin: 0.1rem;
+--xxsmall-padding: 0.2rem;
+--xxsmall-margin: 0.2rem;
+--xsmall-padding: 0.3rem;
+--xsmall-margin: 0.3rem;
+--small-padding: 0.4rem;
+--small-margin: 0.4rem;
+--base-padding: 0.5rem;
+--base-margin: 0.5rem;
+--large-padding: 0.8rem;
+--large-margin: 0.8rem;
+--xlarge-padding: 1.3rem;
+--xlarge-margin: 1.3rem;
+--xxlarge-padding: 1.9rem;
+--xxlarge-margin: 1.9rem;
+--xxxlarge-padding: 2.4rem;
+--xxxlarge-margin: 2.4rem;
+}
+
+`;
+
+  }
+
   initStyleSheets() {
     const sheetNames = [
       'staticBwVars',
       'staticBwUtilityClasses',
+      'staticAlanClasses',
+      'staticAlanVars',
       'dynamicBwVars',
       'dynamicColorSwitches',
       'dynamicColorVars',
@@ -1356,6 +1579,8 @@ class Picker extends HTMLElement {
       this.styleSheets[name] = document.createElement('style');
       document.body.appendChild(this.styleSheets[name]);
     });
+    this.initStaticAlanVars();
+    this.initStaticAlanClasses();
     this.initStaticBwVars();
     this.initStaticBwClasses();
   }
@@ -1569,6 +1794,7 @@ a {
   padding-top: 0.7rem;
 }
 .background-fieldset {
+  background-color: var(--BWMATCH-20);
   border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-bottom: 0.8rem;
@@ -1598,25 +1824,33 @@ button{
   padding: 0;
 }
 .chroma-slider-wrapper {
-  padding-top: 0.5rem;
-  margin-top: 0.8rem;
-  border-top : 1px solid var(--BWREVERSE-30);
+  padding-top: 0.6rem;
+  border-top : 5px solid var(--ui-active-color);
 }
 .color-hue-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   padding-top: 0.5rem;
   margin-top: 0.5rem;
   border-top : 1px solid var(--BWREVERSE-30);
 }
+.color-hue-set {
+  display: grid;
+  justify-content: center;
+}
+/*
+.color-hue-set-line {
+  display: flex;
+}*/
 .color-isolate-checkbox-wrapper {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
-  padding-top: 0.3rem;
 }
 .color-light-level {
-  font-size: 0.9rem;
-  padding: 0.14rem;
+  font-size: 1rem;
+  padding: 0.2rem;
 }
 .color-name {
   color: var(--base-color);
@@ -1625,6 +1859,7 @@ button{
   padding-top: 0;
 }
 .colors-fieldset {
+  background-color: var(--BWMATCH-20);
   border: 1px solid var(--BWREVERSE-80);
   border-radius: 0.3rem;
   padding-inline: 0;
@@ -1653,7 +1888,9 @@ header {
   margin-top: 1.3rem;
 }
 .hue-set-wrapper {
-  padding: 0.3rem;
+  background-color: var(--BACKGROUND);
+  padding-bottom: 0.7rem;
+  padding-top: 0.4rem;
 }
 .inactive-mode-button {
   outline: 1px solid var(--BWREVERSE-40);
@@ -1685,6 +1922,9 @@ header {
 ol > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
 }
+.padding-small {
+  padding: 0.3rem;
+}
 pre{
   font-size: 0.7rem;
   white-space: pre-wrap; 
@@ -1700,6 +1940,9 @@ pre{
   display: grid;
   grid-template-columns: 2.2ch 1fr;
   align-items: center;
+}
+.small-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.2em);
 }
 .ui-font-size-small {
   font-size: 0.9rem;
@@ -1739,6 +1982,8 @@ ul > :where(:not(:first-child)) {
   border-top: 1px solid var(--ui-active-color);
 }
 `;
+    // TODO: may `--base-color` dynamic
+    out = out.replaceAll("BACKGROUND", `base-color`);
     out = out.replaceAll("MODE", scrubStyle(p.modes[p.activeMode].name));
     out = out.replaceAll("BWMATCH", scrubStyle(p.bwNames[0]));
     out = out.replaceAll("BWREVERSE", scrubStyle(p.bwNames[1]));

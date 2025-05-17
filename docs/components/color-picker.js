@@ -1709,6 +1709,9 @@ pre{
 ul > :where(:not(:first-child)) {
   margin-top: var(--flow-space, 1em);
 }
+.underline {
+  text-decoration: underline;
+}
 .view-mode-buttons{
   margin-bottom: 0.8rem;
 }
@@ -1723,7 +1726,6 @@ ul > :where(:not(:first-child)) {
   border-top: 1px solid var(--BWREVERSE-20);
   border-right: 1px solid var(--BWREVERSE-20);
   border-left: 1px solid var(--BWREVERSE-20);
-
   &[aria-selected='true'] {
     border-top: 3px solid var(--ui-active-color);
   border-left: 1px solid var(--ui-active-color);
@@ -1839,6 +1841,7 @@ ul > :where(:not(:first-child)) {
       if (p.isolatedColor >= 0) {
         p.isolatedColor = color;
       } 
+      this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-hue-set-selector" 
         && event.type === "change") {
@@ -1869,6 +1872,7 @@ ul > :where(:not(:first-child)) {
       const lightnessIndex = gdi("lightness", event);
       p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h = offsetIndex ;
       p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l = lightnessIndex;
+      this.initColors();
       triggerRefresh = true;
     } else if (event.target.dataset.kind === "color-chroma-slider") {
       const mode = gdi("mode", event);
@@ -1883,30 +1887,8 @@ ul > :where(:not(:first-child)) {
   }
 
   underlineActiveHueLightnessButton() {
-
-    focus(this.getActiveColorH());
-
-   // this.getColorHueValues(p.activeMode, p.activeColor).forEach((data, h) => {
-    //  focus(h);
-    //});
-
-    //this.getHueOffsetIndexes(p.activeMode, p.activeColor).forEach((hue) => {
-    //  this.getLightLevelValues(p.activeMode, p.activeColor).forEach((data, lightness) => {
-    //    //focus(lightness);
-    //  });
-    //});
-
-
-    //const hueCount = Math.round(360 / p.hueOffsets [
-    //  colorData.hueOffsetIndex
-    //]);
-    //  for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
-    //    const hueOffsetIndexWrapper = dc('div');
-    //    this.getLightLevelValues(p.activeMode, color).forEach((level, levelcolor) => {
-    //      //if (colorData.hueOffsetValues[colorData.hueOffsetIndex].h === hueOffsetIndexcolor) {
-    //        //ac(`active-hue-lightness-button`, button);
-    //      //}
-
+    const button = el(`color-lightness-hue-selector--mode-${p.activeMode}--color-${p.activeColor}--lightness-${this.getActiveColorL()}--hue-${this.getActiveColorH()}`);
+    ac("underline", button);
   }
 
   updateBaseSliders() {
@@ -1940,9 +1922,6 @@ ul > :where(:not(:first-child)) {
   }
 
 }
-
-customElements.define('color-picker', Picker);
-
 
 class TabGroup extends HTMLElement {
   get tabs() {
@@ -2006,6 +1985,6 @@ class TabGroup extends HTMLElement {
   }
 }
 
-
 customElements.define('tab-group', TabGroup);
+customElements.define('color-picker', Picker);
 

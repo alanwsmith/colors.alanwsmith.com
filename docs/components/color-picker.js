@@ -1090,6 +1090,16 @@ class Picker extends HTMLElement {
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
   }
 
+  getColorHueValues(mode, color) {
+    const values = [];
+    const h = this.getColorH(mode, color);
+    const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
+    for (let value = 0; value <= 360; value += hueOffsetAmount) {
+      values.push(value + p.modes[mode].base.h);
+    }
+    return values;
+  }
+
   getColorL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
@@ -1099,14 +1109,17 @@ class Picker extends HTMLElement {
     return this.getColorC(mode, color).toFixed(5);
   }
 
-
   getColorValueH(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const h = this.getColorH(mode, color);
-    const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
-    const values = [];
-    for (let value = 0; value <= 360; value += hueOffsetAmount) {
-      values.push(value + p.modes[mode].base.h);
-    }
+    return this.getColorHueValues(mode, color)[h];
+
+    // const h = this.getColorH(mode, color);
+    // const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
+    // const values = [];
+    // for (let value = 0; value <= 360; value += hueOffsetAmount) {
+    //   values.push(value + p.modes[mode].base.h);
+    // }
     return values[h];
   }
 
@@ -1134,17 +1147,17 @@ class Picker extends HTMLElement {
     return p.modes[mode].colors[color].hueOffsetIndex;
   }
 
-  getHueOffsetIndexes(mode, color) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
-    const hueOffsetValue = p.hueOffsets[hueOffsetIndex];
-    const indexes = [];
-    let counter = 0;
-    for (let value = 0; value < 360; value += hueOffsetValue) {
-      indexes.push(counter);
-      counter += 1;
-    }
-    return indexes;
-  }
+  // getHueOffsetIndexes(mode, color) {
+  //   const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+  //   const hueOffsetValue = p.hueOffsets[hueOffsetIndex];
+  //   const indexes = [];
+  //   let counter = 0;
+  //   for (let value = 0; value < 360; value += hueOffsetValue) {
+  //     indexes.push(counter);
+  //     counter += 1;
+  //   }
+  //   return indexes;
+  // }
 
   getHueOffsetAmount(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
@@ -1883,11 +1896,12 @@ ul > :where(:not(:first-child)) {
   }
 
   underlineActiveHueLightnessButton() {
-    this.getHueOffsetIndexes(p.activeMode, p.activeColor).forEach((hue) => {
-      this.getLightLevelValues(p.activeMode, p.activeColor).forEach((data, lightness) => {
-        //focus(lightness);
-      });
-    });
+
+    //this.getHueOffsetIndexes(p.activeMode, p.activeColor).forEach((hue) => {
+    //  this.getLightLevelValues(p.activeMode, p.activeColor).forEach((data, lightness) => {
+    //    //focus(lightness);
+    //  });
+    //});
 
 
     //const hueCount = Math.round(360 / p.hueOffsets [

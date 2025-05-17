@@ -1099,14 +1099,15 @@ class Picker extends HTMLElement {
     return this.getColorC(mode, color).toFixed(5);
   }
 
+
   getColorValueH(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    const h = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
-    let value = this.getHueValues(hueOffsetIndex)[h] + p.modes[mode].base.h;
-    if (value > 360) {
-      value -= 360;
+    const h = this.getColorH(mode, color);
+    const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
+    const values = [];
+    for (let value = 0; value <= 360; value += hueOffsetAmount) {
+      values.push(value + p.modes[mode].base.h);
     }
-    return value.toFixed(5);
+    return values[h];
   }
 
   getColorValueL(mode, color) {
@@ -1129,17 +1130,6 @@ class Picker extends HTMLElement {
     return levels;
   }
 
-  // TODO: set this up to take mode, color
-  // TODO: rename to getHueOffsetIndexes. 
-  getHueValues(hueOffsetIndex) {
-    const values = [];
-    const adder = p.hueOffsets[hueOffsetIndex];
-    for (let value = 0; value <= 360; value += adder) {
-      values.push(value);
-    }
-    return values;
-  }
-
   getHueOffsetIndex(mode, color) {
     return p.modes[mode].colors[color].hueOffsetIndex;
   }
@@ -1154,6 +1144,11 @@ class Picker extends HTMLElement {
       counter += 1;
     }
     return indexes;
+  }
+
+  getHueOffsetAmount(mode, color) {
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+    return p.hueOffsets[hueOffsetIndex];
   }
 
   hideUiIfNecessary() {
@@ -1890,7 +1885,7 @@ ul > :where(:not(:first-child)) {
   underlineActiveHueLightnessButton() {
     this.getHueOffsetIndexes(p.activeMode, p.activeColor).forEach((hue) => {
       this.getLightLevelValues(p.activeMode, p.activeColor).forEach((data, lightness) => {
-        focus(lightness);
+        //focus(lightness);
       });
     });
 

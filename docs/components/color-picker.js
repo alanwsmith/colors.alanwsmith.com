@@ -1012,6 +1012,7 @@ class Picker extends HTMLElement {
     this.renderPage();
 
     // TODO: Refactor to put everything below here
+    this.addBorderRadiusExamples();
     this.addBwBackgroundExamples();
     this.addBwBorderExamples();
     this.addBwColorExamples();
@@ -1022,6 +1023,22 @@ class Picker extends HTMLElement {
     this.addSpacingWidthExamples();
     this.addSpacingWrapperExamples();
   }
+
+  addBorderRadiusExamples() {
+    const wrapper = el('border-radius-examples-wrapper');
+    this.getSizes().forEach((size) => {
+      const example = dc('div');
+      const token = `${size}-radius`;
+      ac(`match-text`, example);
+      ac(`reverse-background`, example);
+      ac(`xlarge-full-padding`, example);
+      ac(`large-inline-margin`, example);
+      ac(token, example);
+      html(`.${token}`, example)
+      a(example, wrapper);
+    });
+  }
+
 
   addBwBackgroundExamples() {
     const wrapper = el('bw-background-examples-wrapper');
@@ -1104,7 +1121,7 @@ class Picker extends HTMLElement {
   }
 
   addSpacingAlignmentExamples() {
-    const wrapper = el('spacing-alignment-examples-wrapper');
+    const wrapper = el('alignment-examples-wrapper');
     this.getAlignments().forEach((alignment) => {
       const example = dc('div');
       ac(`large-inline-margin`, example);
@@ -1119,7 +1136,7 @@ class Picker extends HTMLElement {
   }
 
   addSpacingFlowExamples() {
-    const wrapper = el('spacing-flow-examples-wrapper');
+    const wrapper = el('flow-examples-wrapper');
     this.getSizes().forEach((size) => {
       const example = dc('div');
       ac(`match-text`, example);
@@ -1140,7 +1157,7 @@ class Picker extends HTMLElement {
   }
 
   addSpacingMarginExamples() {
-    const wrapper = el('spacing-margin-examples-wrapper');
+    const wrapper = el('margin-examples-wrapper');
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-margin`;
@@ -1174,7 +1191,7 @@ class Picker extends HTMLElement {
   }
 
   addSpacingPaddingExamples() {
-    const wrapper = el('spacing-padding-examples-wrapper');
+    const wrapper = el('padding-examples-wrapper');
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-padding`;
@@ -1192,7 +1209,7 @@ class Picker extends HTMLElement {
   }
 
   addSpacingWidthExamples() {
-    const wrapper = el('spacing-width-examples-wrapper');
+    const wrapper = el('width-examples-wrapper');
     this.getSizesWithFull().forEach((size) => {
       const token = `${size}-width`;
       const example = dc('div');
@@ -1212,7 +1229,7 @@ class Picker extends HTMLElement {
   }
 
   addSpacingWrapperExamples() {
-    const wrapper = el('spacing-wrapper-examples-wrapper');
+    const wrapper = el('wrapper-examples-wrapper');
     this.getSizesWithFull().forEach((size) => {
       const token = `${size}-wrapper`;
       const example = dc('div');

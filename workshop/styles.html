@@ -382,15 +382,15 @@
 </style>
 
 <style class="width-classes" data-name="Width Classes">
-.xxxsmall-width { width: min(100vw - 1.4rem, 3rem); }
-.xxsmall-width { width: min(100vw - 1.4rem, 8rem); }
-.xsmall-width { width: min(100vw - 1.4rem, 20rem); }
-.small-width { width: min(100vw - 1.4rem, 35rem); }
-.default-width { width: min(100vw - 1.4rem, 52rem); }
-.large-width { width: min(100vw - 1.4rem, 56rem); }
-.xlarge-width { width: min(100vw - 1.4rem, 58rem); }
-.xxlarge-width { width: min(100vw - 1.4rem, 62rem); }
-.xxxlarge-width { width: min(100vw - 1.4rem, 68rem); }
+.xxxsmall-width { width: var(--xxxsmall-width); }
+.xxsmall-width { width: var(--xxsmall-width); }
+.xsmall-width { width: var(--xsmall-width); }
+.small-width { width: var(--small-width); }
+.default-width { width: var(--default-width); }
+.large-width { width: var(--large-width); }
+.xlarge-width { width: var(--xlarge-width); }
+.xxlarge-width { width: var(--xxlarge-width); }
+.xxxlarge-width { width: var(--xxxlarge-width); }
 .full-width { width: calc(100vw - 1.4rem); }
 </style>
 
@@ -405,5 +405,31 @@
 .xxlarge-wrapper { width: var(--xxlarge-width); margin-inline: auto; }
 .xxxlarge-wrapper { width: var(--xxxlarge-width); margin-inline: auto; }
 .full-width { width: calc(100vw - 1.4rem); }
+</style>
+
+<style class="border-radius-vars" data-name="Border Radius Variables">
+:root {
+--xxxsmall-radius: 0.1rem;
+--xxsmall-radius: 0.2rem;
+--xsmall-radius: 0.3rem;
+--small-radius: 0.4rem;
+--default-radius: 0.5rem;
+--large-radius: 0.6rem;
+--xlarge-radius: 0.8rem;
+--xxlarge-radius: 1rem;
+--xxxlarge-radius: 1.2rem;
+}
+</style>
+
+<style class="width-classes" data-name="Width Classes">
+.xxxsmall-radius { border-radius: var(--xxxsmall-radius); }
+.xxsmall-radius { border-radius: var(--xxsmall-radius); }
+.xsmall-radius { border-radius: var(--xsmall-radius); }
+.small-radius { border-radius: var(--small-radius); }
+.default-radius { border-radius: var(--default-radius); }
+.large-radius { border-radius: var(--large-radius); }
+.xlarge-radius { border-radius: var(--xlarge-radius); }
+.xxlarge-radius { border-radius: var(--xxlarge-radius); }
+.xxxlarge-radius { border-radius: var(--xxxlarge-radius); }
 </style>
 

@@ -292,29 +292,6 @@ to be found in it.
     </details>
     <details class="todo-wrapper flow interface-text ui-font-size-small">
       <summary class="interface-text">TODO List</summary>
-      <ul>
-        <li><input type="checkbox" disabled /> Set min light level for each color</li>
-        <li><input type="checkbox" disabled /> Contrast calculations</li>
-        <li><input type="checkbox" disabled /> Undo/Redo</li>
-        <li><input type="checkbox" disabled /> Faded alternatives</li>
-        <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
-        <li><input type="checkbox" disabled /> Optional utility classes</li>
-        <li><input type="checkbox" disabled /> Change CSS variable names</li>
-        <li><input type="checkbox" disabled /> Chnage mode names</li>
-        <li><input type="checkbox" disabled /> Copy button for CSS</li>
-        <li><input type="checkbox" disabled /> Edit CSS</li>
-        <li><input type="checkbox" disabled /> Edit HTML</li>
-        <li><input type="checkbox" disabled /> Save/Load</li>
-        <li><input type="checkbox" disabled /> Shareable URLs</li>
-        <li><input type="checkbox" disabled /> Implementation example</li>
-        <li><input type="checkbox" disabled /> Web component for mode switching</li>
-        <li><input type="checkbox" disabled /> Randomizer</li>
-        <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
-        <li><input type="checkbox" disabled /> Add/subtract modes</li>
-        <li><input type="checkbox" disabled cheked /> Show/Hide content to focus on base color</li>
-        <li><input type="checkbox" disabled checked /> Issoldated color view to look at them one at a time</li>
-        <li><input type="checkbox" disabled checked /> Use min light level from each color</li>
-      </ul>
     </details>
 </div>
 
@@ -1043,20 +1020,17 @@ class Picker extends HTMLElement {
   addBwBackgroundExamples() {
     const wrapper = el('bw-background-examples-wrapper');
     const kinds = ['match', 'reverse'];
-    kinds.forEach((kind, kindIndex) => {
+    this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
       this.getBwValues().forEach((value) => {
-        const token = `${kind}${value}-background`;
+        const token = `${kind[0]}${value}-background`;
+        const color = `${kind[1]}-color`;
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
         ac(`${token}`, exampleEl);
         ac(`small-full-padding`, exampleEl);
         ac(`small-full-margin`, exampleEl);
-        if (kindIndex === 0) {
-          ac(`${kinds[1]}`, exampleEl);
-        } else {
-          ac(`${kinds[0]}`, exampleEl);
-        }
+        ac(color, exampleEl);
         a(exampleEl, kindEl);
       });
       a(kindEl, wrapper);
@@ -1097,14 +1071,16 @@ class Picker extends HTMLElement {
 
   addBwColorExamples() {
     const wrapper = el('bw-color-examples-wrapper');
-    const kinds = ['match', 'reverse'];
-    kinds.forEach((kind, kindIndex) => {
+    this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
       this.getBwValues().forEach((bwValue) => {
-        const token = `${kind}${bwValue}`;
+        const token = `${kind[0]}${bwValue}-color`;
+        const background = `${kind[1]}-background`;
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
         ac(`${token}`, exampleEl);
+        ac(`${background}`, exampleEl);
+        ac(`small-full-padding`, exampleEl);
         ac(`small-full-margin`, exampleEl);
         a(exampleEl, kindEl);
       });
@@ -1171,10 +1147,18 @@ class Picker extends HTMLElement {
     return p.aspects[key].max / 10000;
   }
 
+  getBwKinds() {
+    return [
+      ['black', 'white'],
+      ['white', 'black'],
+      ['match', 'reverse'],
+      ['reverse', 'match']
+    ]
+  }
+
   getBwValues() {
     return [
-      '', '-90', '-80', '-70', '-60',
-      '-50', '-40', '-30', '-20', '-10'
+      '', '-faded', '-faded-2'
     ]
   }
 

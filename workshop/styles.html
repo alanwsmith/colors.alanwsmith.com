@@ -366,3 +366,44 @@
 .align-justify { text-align: justify; }
 </style>
 
+<style class="width-vars" data-name="Width Variables">
+:root {
+--xxxsmall-width: min(100vw - 1.4rem, 3rem);
+--xxsmall-width: min(100vw - 1.4rem, 8rem);
+--xsmall-width: min(100vw - 1.4rem, 20rem);
+--small-width: min(100vw - 1.4rem, 35rem);
+--default-width: min(100vw - 1.4rem, 52rem);
+--large-width: min(100vw - 1.4rem, 56rem);
+--xlarge-width: min(100vw - 1.4rem, 58rem);
+--xxlarge-width: min(100vw - 1.4rem, 62rem);
+--xxxlarge-width: min(100vw - 1.4rem, 68rem);
+--full-width: calc(100vw - 1.4rem);
+}
+</style>
+
+<style class="width-classes" data-name="Width Classes">
+.xxxsmall-width { width: min(100vw - 1.4rem, 3rem); }
+.xxsmall-width { width: min(100vw - 1.4rem, 8rem); }
+.xsmall-width { width: min(100vw - 1.4rem, 20rem); }
+.small-width { width: min(100vw - 1.4rem, 35rem); }
+.default-width { width: min(100vw - 1.4rem, 52rem); }
+.large-width { width: min(100vw - 1.4rem, 56rem); }
+.xlarge-width { width: min(100vw - 1.4rem, 58rem); }
+.xxlarge-width { width: min(100vw - 1.4rem, 62rem); }
+.xxxlarge-width { width: min(100vw - 1.4rem, 68rem); }
+.full-width { width: calc(100vw - 1.4rem); }
+</style>
+
+<style class="wrapper-classes" data-name="Wrapper Classes">
+.xxxsmall-wrapper { width: var(--xxxsmall-width); margin-inline: auto; }
+.xxsmall-wrapper { width: var(--xxsmall-width); margin-inline: auto; }
+.xsmall-wrapper { width: var(--xsmall-width); margin-inline: auto; }
+.small-wrapper { width: var(--small-width); margin-inline: auto; }
+.default-wrapper { width: var(--default-width); margin-inline: auto; }
+.large-wrapper { width: var(--large-width); margin-inline: auto; }
+.xlarge-wrapper { width: var(--xlarge-width); margin-inline: auto; }
+.xxlarge-wrapper { width: var(--xxlarge-width); margin-inline: auto; }
+.xxxlarge-wrapper { width: var(--xxxlarge-width); margin-inline: auto; }
+.full-width { width: calc(100vw - 1.4rem); }
+</style>
+

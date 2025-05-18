@@ -1019,6 +1019,8 @@ class Picker extends HTMLElement {
     this.addSpacingFlowExamples();
     this.addSpacingMarginExamples();
     this.addSpacingPaddingExamples();
+    this.addSpacingWidthExamples();
+    this.addSpacingWrapperExamples();
   }
 
   addBwBackgroundExamples() {
@@ -1114,7 +1116,6 @@ class Picker extends HTMLElement {
       ac(token, example);
       a(example, wrapper);
     });
-
   }
 
   addSpacingFlowExamples() {
@@ -1142,7 +1143,7 @@ class Picker extends HTMLElement {
     const wrapper = el('spacing-margin-examples-wrapper');
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
-        let token = `${size}-${dir[0]}-margin`;
+        const token = `${size}-${dir[0]}-margin`;
         const example = dc('div');
         ac('reverse-faded-background', example);
         ac('large-inline-margin', example);
@@ -1176,7 +1177,7 @@ class Picker extends HTMLElement {
     const wrapper = el('spacing-padding-examples-wrapper');
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
-        let token = `${size}-${dir[0]}-padding`;
+        const token = `${size}-${dir[0]}-padding`;
         const example = dc('div');
         ac('reverse-background', example);
         ac('large-inline-margin', example);
@@ -1189,6 +1190,47 @@ class Picker extends HTMLElement {
       });
     });
   }
+
+  addSpacingWidthExamples() {
+    const wrapper = el('spacing-width-examples-wrapper');
+    this.getSizesWithFull().forEach((size) => {
+      const token = `${size}-width`;
+      const example = dc('div');
+      const name = dc('div');
+      html(`.${token}`, name);
+      a(name, example);
+      ac('reverse-background', example);
+      ac('match-text', example);
+      ac('large-inline-margin', example);
+      const item = dc('div');
+      ac('match-background', item);
+      ac(token, item);
+      html(`&nbsp;`, item);
+      a(item, example);
+      a(example, wrapper);
+    });
+  }
+
+  addSpacingWrapperExamples() {
+    const wrapper = el('spacing-wrapper-examples-wrapper');
+    this.getSizesWithFull().forEach((size) => {
+      const token = `${size}-wrapper`;
+      const example = dc('div');
+      const name = dc('div');
+      html(`.${token}`, name);
+      a(name, example);
+      ac('reverse-background', example);
+      ac('match-text', example);
+      ac('large-inline-margin', example);
+      const item = dc('div');
+      ac('match-background', item);
+      ac(token, item);
+      html(`&nbsp;`, item);
+      a(item, example);
+      a(example, wrapper);
+    });
+  }
+
 
   getActiveBaseValueC() {
     return p.modes[p.activeMode].base.c;
@@ -1341,6 +1383,10 @@ class Picker extends HTMLElement {
       'xxsmall',
       'xxxsmall', 
     ]
+  }
+
+  getSizesWithFull() {
+    return ['full', ...this.getSizes()];
   }
 
   hideUiIfNecessary() {

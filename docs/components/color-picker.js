@@ -257,7 +257,7 @@ to be found in it.
         <div class="view-mode-buttons"></div>
       </div>
       <div class="background-fieldset ui-font-size-small base-flow">
-        <div class="interface-text ui-font-size-small reverse-bw-bottom-border-80 small-full-padding">Background</div>
+        <div class="interface-text ui-font-size-small reversed-bw-bottom-border-80 small-full-padding">Background</div>
         <div class="base-sliders small-inline-padding xxsmall-flow"></div>
         <div class="background-checkboxes">
           <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
@@ -344,7 +344,7 @@ const defaultPalette = {
     ["inline", true],
     ["block", true],
   ],
-  "bwNames": ["match-bw", "reverse-bw"],
+  "bwNames": ["matched-bw", "reversed-bw"],
   "colorNames": [
     "text",
     "links",
@@ -1022,6 +1022,7 @@ class Picker extends HTMLElement {
     this.addSpacingPaddingExamples();
     this.addSpacingWidthExamples();
     this.addSpacingWrapperExamples();
+    this.addFontSizeExamples();
   }
 
   addBorderRadiusExamples() {
@@ -1029,8 +1030,8 @@ class Picker extends HTMLElement {
     this.getSizes().forEach((size) => {
       const example = dc('div');
       const token = `${size}-radius`;
-      ac(`match-text`, example);
-      ac(`reverse-background`, example);
+      ac(`matched-text`, example);
+      ac(`reversed-background`, example);
       ac(`xlarge-full-padding`, example);
       ac(`large-inline-margin`, example);
       ac(token, example);
@@ -1105,6 +1106,22 @@ class Picker extends HTMLElement {
     });
   }
 
+  addFontSizeExamples() {
+    const wrapper = el('font-size-examples-wrapper');
+    this.getSizes().forEach((size) => {
+      const token = `${size}-font`;
+      const example = dc('div');
+      ac(`reversed-background`, example);
+      ac(`matched-text`, example);
+      ac(`large-inline-margin`, example);
+      ac(`default-inline-padding`, example);
+      ac(token, example);
+      html(`.${token}`, example);
+      a(example, wrapper);
+    });
+  }
+
+
   addListeners() {
     this.addEventListener('change', (event) => {
       this.updateData.call(this, event);
@@ -1125,8 +1142,8 @@ class Picker extends HTMLElement {
     this.getAlignments().forEach((alignment) => {
       const example = dc('div');
       ac(`large-inline-margin`, example);
-      ac(`reverse-background`, example);
-      ac(`match-text`, example);
+      ac(`reversed-background`, example);
+      ac(`matched-text`, example);
       ac(`default-full-padding`, example);
       const token = `align-${alignment}`;
       html(`this is an example of text that will be positioned based on how they line up via .${token}`, example);
@@ -1139,8 +1156,8 @@ class Picker extends HTMLElement {
     const wrapper = el('flow-examples-wrapper');
     this.getSizes().forEach((size) => {
       const example = dc('div');
-      ac(`match-text`, example);
-      ac(`reverse-background`, example);
+      ac(`matched-text`, example);
+      ac(`reversed-background`, example);
       ac(`large-full-margin`, example);
       const token = `${size}-flow`;
       ac(token, example);
@@ -1162,27 +1179,27 @@ class Picker extends HTMLElement {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-margin`;
         const example = dc('div');
-        ac('reverse-faded-background', example);
+        ac('reversed-faded-background', example);
         ac('large-inline-margin', example);
         const name = dc('div');
-        ac(`match-text`, name);
+        ac(`matched-text`, name);
         ac(`small-full-padding`, name);
         html(`.${token}`, name);
         a(name, example);
         const line1 = dc('div');
-        ac('match-text', line1);
-        ac('reverse-background', line1);
+        ac('matched-text', line1);
+        ac('reversed-background', line1);
         html("&nbsp;", line1);
         a(line1, example);
         const line2 = dc('div');
-        ac('match-background', line2);
-        ac('reverse-text', line2);
+        ac('matched-background', line2);
+        ac('reversed-text', line2);
         ac(token, line2);
         html("&nbsp;", line2);
         a(line2, example);
         const line3 = dc('div');
-        ac('match-text', line3);
-        ac('reverse-background', line3);
+        ac('matched-text', line3);
+        ac('reversed-background', line3);
         html("&nbsp;", line3);
         a(line3, example);
         a(example, wrapper);
@@ -1196,11 +1213,11 @@ class Picker extends HTMLElement {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-padding`;
         const example = dc('div');
-        ac('reverse-background', example);
+        ac('reversed-background', example);
         ac('large-inline-margin', example);
         ac(token, example);
         const inside = dc('div');
-        ac('match-background', inside);
+        ac('matched-background', inside);
         html(`.${token}`, inside);
         a(inside, example);
         a(example, wrapper);
@@ -1216,11 +1233,11 @@ class Picker extends HTMLElement {
       const name = dc('div');
       html(`.${token}`, name);
       a(name, example);
-      ac('reverse-background', example);
-      ac('match-text', example);
+      ac('reversed-background', example);
+      ac('matched-text', example);
       ac('large-inline-margin', example);
       const item = dc('div');
-      ac('match-background', item);
+      ac('matched-background', item);
       ac(token, item);
       html(`&nbsp;`, item);
       a(item, example);
@@ -1236,11 +1253,11 @@ class Picker extends HTMLElement {
       const name = dc('div');
       html(`.${token}`, name);
       a(name, example);
-      ac('reverse-background', example);
-      ac('match-text', example);
+      ac('reversed-background', example);
+      ac('matched-text', example);
       ac('large-inline-margin', example);
       const item = dc('div');
-      ac('match-background', item);
+      ac('matched-background', item);
       ac(token, item);
       html(`&nbsp;`, item);
       a(item, example);
@@ -1861,7 +1878,7 @@ ${sheets.join("\n")}
     if (p.focused === true) {
       lines.push(`--ui-border: var(--base-color);`);
     } else {
-      lines.push(`--ui-border: var(--reverse-bw-80);`);
+      lines.push(`--ui-border: var(--reversed-bw-80);`);
     }
     lines.push(`--ui-active-color: var(--${p.colorNames[p.activeColor]});`);
     const out = `:root {\n${lines.sort().join("\n")}\n}`;

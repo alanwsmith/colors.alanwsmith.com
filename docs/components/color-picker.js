@@ -2307,6 +2307,7 @@ ${sheets.join("\n")}
     p.activeColor = color;
   }
 
+  // V2
   updateBackgroundColor(obj) {
     const mode = p.activeMode;
     const color = gdiV2("color", obj);
@@ -2314,7 +2315,6 @@ ${sheets.join("\n")}
     p.modes[mode].base[aspect] = gvfV2(obj);
     this.finishUpdate();
   }
-
 
   // TODO: Deprecate or Redo
   updateBaseSliders() {
@@ -2397,8 +2397,6 @@ ${sheets.join("\n")}
       }
     });
   }
-
-
 
   // V2 
   // TODO? 
@@ -2529,7 +2527,9 @@ ${sheets.join("\n")}
         }
         //fx(event.target);
       } else if (event.type === "input") {
-        // fx(event.target);
+        if (kind === "background-box-slider") {
+          this.updateBackgroundColor(event.target);
+        }
       }
     }
   }

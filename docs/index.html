@@ -738,31 +738,45 @@
   </head>
 
   <body>
+
     <template id="picker-controls-template">
       <div class="mode-buttons"></div>
       <div class="background-box">
         <div class="background-box-name">Background</div>
-      </div>
-      <!--
-  <div class="sidebar base-flow"> 
-    <div class="base-wrapper">
-      <div class="view-light-dark-wrapper">
-        <div class="view-mode-buttons"></div>
-      </div>
-      <div class="background-fieldset ui-font-size-small base-flow">
-        <div class="interface-text ui-font-size-small reversed-bw-bottom-border-80 small-full-padding">Background</div>
-        <div class="base-sliders small-inline-padding xxsmall-flow"></div>
-        <div class="background-checkboxes">
-          <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
-            <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
-              Isolate:
-            </label>
-            <input type="checkbox" class="background-isolate-checkbox" name="background-isolate-checkbox">
+        <div class="background-sliders">
+          <div class="background-slider-wrapper" data-aspect="l">
+            <label></label>
+            <input 
+              type="range"
+              data-kind=""
+              data-aspect=""
+              data-tab=""
+            >
+          </div>
+          <div class="background-slider-wrapper" data-aspect="c">
+            <label></label>
+            <input 
+              type="range"
+              data-kind=""
+              data-aspect=""
+              data-tab=""
+            >
+          </div>
+          <div class="background-slider-wrapper" data-aspect="h">
+            <label></label>
+            <input 
+              type="range"
+              data-kind=""
+              data-aspect=""
+              data-tab=""
+            >
           </div>
         </div>
+        <div class="background-isolate-wrapper">
+          <label>Isolate:</label>
+          <input type="checkbox">
+        </div>
       </div>
-    </div>
--->
     </template>
 
     <color-picker class="flow">
@@ -789,10 +803,11 @@ reverse-faded-bottom-border base-full-padding base-full-margin"
           </div>
 
           <div role="tabpanel" hidden>
-            <div class="content-wrapper">
+            <div class="content-wrapper two-column">
               <div class="picker-content default-flow">
                 <h2>Picker</h2>
               </div>
+              <div class="sidebar-controls" data-tab="picker">picker controls</div>
             </div>
           </div>
 
@@ -881,7 +896,7 @@ reverse-faded-bottom-border base-full-padding base-full-margin"
                 <h2>TODO: Custom HTML</h2>
                 <h2>TODO: Custom CSS</h2>
               </div>
-              <div class="picker-controls">picker controls</div>
+              <div class="sidebar-controls" data-tab="insturctions">picker controls</div>
             </div>
           </div>
 

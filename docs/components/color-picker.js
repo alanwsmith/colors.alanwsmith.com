@@ -88,9 +88,22 @@ function dc(name) {
   return document.createElement(name);
 }
 
+// TODO: Deprecate in favor of el2
 // Get Element By Class Name
 function el(className) {
   return document.querySelector(`.${className}`);
+}
+
+// TODO: Rename to `el()` when transition
+// is complete. 
+// Get Element By Selector
+function el2(selector) {
+  return document.querySelector(selector);
+}
+
+// Get Elements By Class Name
+function els(selector) {
+  return document.querySelectorAll(selector);
 }
 
 // Focus (print to console regardless of debug 
@@ -1023,6 +1036,7 @@ class Picker extends HTMLElement {
     this.addSpacingWidthExamples();
     this.addSpacingWrapperExamples();
     this.addFontSizeExamples();
+    this.initControls();
   }
 
   addBorderRadiusExamples() {
@@ -1039,7 +1053,6 @@ class Picker extends HTMLElement {
       a(example, wrapper);
     });
   }
-
 
   addBwBackgroundExamples() {
     const wrapper = el('bw-background-examples-wrapper');
@@ -1121,6 +1134,7 @@ class Picker extends HTMLElement {
     });
   }
 
+  // TODO: Update
   addListeners() {
     this.addEventListener('change', (event) => {
       this.updateData.call(this, event);
@@ -1263,7 +1277,6 @@ class Picker extends HTMLElement {
       a(example, wrapper);
     });
   }
-
 
   getActiveBaseValueC() {
     return p.modes[p.activeMode].base.c;
@@ -1576,6 +1589,15 @@ class Picker extends HTMLElement {
     this.initIsolateBackgroundCheckbox();
     this.hideUiIfNecessary();
     this.underlineActiveHueLightnessButton();
+  }
+
+  initControls() {
+    const sidebars = els('.sidebar-controls');
+    const template = el2("#picker-controls-template");
+    sidebars.forEach((sidebar) => {
+      const clone = template.content.cloneNode(true);
+      a(clone, sidebar);
+    });
   }
 
   initIsolateBackgroundCheckbox() {

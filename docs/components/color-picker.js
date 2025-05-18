@@ -1052,16 +1052,16 @@ class Picker extends HTMLElement {
     this.initControls();
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
-    this.updateProdVarsStyelShett();
+    this.updateProdVarsStyleSheet();
     this.requestUpdate = this.updateUiView.bind(this);
-
-    // TODO: Deprecate or Redo
-    this.requestRender = this.renderPage.bind(this);
-    this.styleSheets = {};
-    this.initStyleSheets();
-    this.initTemplate();
     this.addListeners();
-    this.renderPage();
+
+    // // TODO: Deprecate or Redo
+    // this.requestRender = this.renderPage.bind(this);
+    // this.styleSheets = {};
+    // this.initStyleSheets();
+    // this.initTemplate();
+    // this.renderPage();
 
     // TODO: Refactor to put everything below here
   }
@@ -1313,7 +1313,8 @@ class Picker extends HTMLElement {
 
   finishUpdate() {
     this.updateUiVarsStyleSheet();
-    this.updateProdVarsStyelShett();
+    this.updateProdVarsStyleSheet();
+    this.updateUiClassesStyleSheet();
   }
 
   getActiveBackgroundValueAspect(aspect) {
@@ -2189,7 +2190,10 @@ ${sheets.join("\n")}
     }
   }
 
-
+  setColorAspect(mode, color, aspect, value) {
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
+    p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value;
+  }
 
   // TODO: Deprecate or Redo
   updateData(event) {
@@ -2268,6 +2272,7 @@ ${sheets.join("\n")}
     ac("underline", button);
   }
 
+
   // TODO: Deprecate or Redo
   updateBaseSliders() {
     for (let key in p.aspects) {
@@ -2277,7 +2282,18 @@ ${sheets.join("\n")}
   }
 
   // V2
-  updateProdVarsStyelShett() {
+  updateLightnessHue(obj) {
+    const mode = gdiV2("mode", obj);
+    const color = gdiV2("color", obj);
+    const lightness = gdiV2("lightness", obj);
+    const hue = gdiV2("hue", obj);
+    this.setColorAspect(mode, color, "l", lightness);
+    this.setColorAspect(mode, color, "h", hue);
+    this.finishUpdate();
+  }
+
+  // V2
+  updateProdVarsStyleSheet() {
     if (this.colorVarsStyleSheet === undefined) {
       this.colorVarsStyleSheet = dc('style');
       document.head.appendChild(this.colorVarsStyleSheet);
@@ -2312,7 +2328,6 @@ ${sheets.join("\n")}
     });
     lines.push(`}`);
     const out = lines.join("\n");
-    fx(out);
     this.colorVarsStyleSheet.innerHTML = out;
   }
 
@@ -2411,7 +2426,7 @@ ${sheets.join("\n")}
     const lines = [`:root {`];
     // Background
     lines.push(`--background: var(--${this.getActiveModeScrubbedName()}__${p.backgroundColorName});`);
-
+    //
     this.getActiveColors().forEach((colorName, colorIndex) => {
       const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
       lines.push(`--${colorName}: var(--${value});`);
@@ -2421,6 +2436,7 @@ ${sheets.join("\n")}
         lines.push(`--${name}: var(--${fadedValue});`);
       });
     });
+    //
     this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
       this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
         const cValue = this.getColorValueC(p.activeMode, p.activeColor);
@@ -2429,6 +2445,7 @@ ${sheets.join("\n")}
         lines.push(`${name}: ${value};`);
       });
     });
+    //
     p.modes.forEach((modeData, modeIndex) => {
       if (modeIndex === p.activeMode) {
         let name = `--ui__mode-${modeIndex}__text`;
@@ -2452,10 +2469,13 @@ ${sheets.join("\n")}
   }
 
   updateUiView(event) {
+    fx(event.target);
     if (event.type === "click") { 
       const kind = event.target.dataset.kind;
       if (kind === "mode-button") {
         this.updateMode(event.target);
+      } else if (kind === "color-box-set-button") {
+        this.updateLightnessHue(event.target)
       }
     }
   }

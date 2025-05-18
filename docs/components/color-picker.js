@@ -1138,6 +1138,47 @@ class Picker extends HTMLElement {
   }
 
   addSpacingPaddingExamples() {
+    const wrapper = el('spacing-padding-examples-wrapper');
+    this.getSizes().forEach((size) => {
+      this.getDirections().forEach((dir) => {
+        let token = `${size}-${dir[0]}-padding`;
+        const example = dc('div');
+        ac('reverse-background', example);
+        ac('large-inline-margin', example);
+        ac(token, example);
+        const inside = dc('div');
+        ac('match-background', inside);
+        html(`.${token}`, inside);
+        a(inside, example);
+        a(example, wrapper);
+
+
+        // ac('reverse-faded-background', example);
+        // ac('large-inline-margin', example);
+        // const name = dc('div');
+        // ac(`match-color`, name);
+        // ac(`small-full-padding`, name);
+        // html(`.${token}`, name);
+        // a(name, example);
+        // const line1 = dc('div');
+        // ac('match-color', line1);
+        // ac('reverse-background', line1);
+        // html("&nbsp;", line1);
+        // a(line1, example);
+        // const line2 = dc('div');
+        // ac('match-background', line2);
+        // ac('reverse-color', line2);
+        // ac(token, line2);
+        // html("&nbsp;", line2);
+        // a(line2, example);
+        // const line3 = dc('div');
+        // ac('match-color', line3);
+        // ac('reverse-background', line3);
+        // html("&nbsp;", line3);
+        // a(line3, example);
+
+      });
+    });
   }
 
   getActiveBaseValueC() {

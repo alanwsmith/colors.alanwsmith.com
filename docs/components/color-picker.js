@@ -1780,7 +1780,8 @@ class Picker extends HTMLElement {
       p.modes.forEach((modeData, modeIndex) => {
         const button = dc('button');
         html(modeData.name, button);
-        ac(`ui__mode-button__mode-${modeIndex}`, button);
+        ac(`ui__mode-${modeIndex}__text`, button);
+        ac(`ui__mode-${modeIndex}__background`, button);
         ad("tab", tab, button);
         ad("mode", modeIndex, button);
         a(button, wrapper);
@@ -2311,6 +2312,14 @@ ${sheets.join("\n")}
         lines.push(`${name} { color: ${value}; }`);
       });
     });
+    p.modes.forEach((modeData, modeIndex) => {
+      const name = `.ui__mode-${modeIndex}__text`;
+      const value = `var(--ui__mode-${modeIndex}__text)`;
+      lines.push(`${name} { color: ${value}; }`);
+      const backgroundName = `.ui__mode-${modeIndex}__background`;
+      const backgroundValue = `var(--ui__mode-${modeIndex}__background)`;
+      lines.push(`${backgroundName} { background-color: ${backgroundValue}; }`);
+    });
     const out = lines.sort().join("\n");
     this.uiClassesStyleSheet.innerHTML = out;
   }
@@ -2328,7 +2337,6 @@ ${sheets.join("\n")}
       document.head.appendChild(this.uiColorVarsStyleSheet);
     }
     const lines = [`:root {`];
-
     this.getActiveColors().forEach((colorName, colorIndex) => {
       const value = `${this.getActiveModeStyleName()}__${colorName}`;
       lines.push(`--${colorName}: var(--${value});`);
@@ -2345,6 +2353,23 @@ ${sheets.join("\n")}
         const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
         lines.push(`${name}: ${value};`);
       });
+    });
+    p.modes.forEach((modeData, modeIndex) => {
+      if (modeIndex === p.activeMode) {
+        let name = `--ui__mode-${modeIndex}__text`;
+        let value = "red";
+        lines.push(`${name}: ${value};`);
+        name = `--ui__mode-${modeIndex}__background`;
+        value = "yellow";
+        lines.push(`${name}: ${value};`);
+      } else {
+        let name = `--ui__mode-${modeIndex}__text`;
+        let value = "green";
+        lines.push(`${name}: ${value};`);
+        name = `--ui__mode-${modeIndex}__background`;
+        value = "blue";
+        lines.push(`${name}: ${value};`);
+      }
     });
     lines.push(`}`);
     const out = lines.join("\n");

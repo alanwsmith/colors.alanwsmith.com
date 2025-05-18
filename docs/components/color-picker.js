@@ -1757,14 +1757,32 @@ class Picker extends HTMLElement {
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
         const tab = dc('div');
         sa("role", "tabpanel", tab);
-        html(p.colorNames[nameIndex], tab);
+        const tabName = dc('div');
+        html(p.colorNames[nameIndex], tabName);
+        a(tabName, tab);
+        const tabGrid = dc('div');
+        this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
+          const row = dc('div');
+          this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
+            const button = dc('button');
+            html("set", button);
+            ad("kind", "color-box-set-button", button);
+            ad("mode", p.activeMode, button);
+            ad("color", nameIndex, button);
+            ad("lightness", lightness, button);
+            ad("hue", hue, button);
+            ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
+            a(button, row);
+          });
+          a(row, tabGrid);
+        });
+        a(tabGrid, tab);
         a(tab, tabGroup);
       }
       a(tabGroup, wrapper);
     })
 
   }
-
 
 
   // V2
@@ -1780,8 +1798,8 @@ class Picker extends HTMLElement {
     this.initBackgroundSliders();
     this.initBackgroundCheckboxes();
     this.initColorTabs();
-    this.refreshColorGrid()
-    this.initColorsChromaSliders();
+    // this.refreshColorGrid()
+    // this.initColorsChromaSliders();
   }
 
   // TODO: Deprecate or Redo
@@ -2337,6 +2355,7 @@ ${sheets.join("\n")}
     if (newMode !== p.activeMode) {
       p.activeMode = newMode;
     }
+    this.initColorTabs();
     this.finishUpdate();
   }
 

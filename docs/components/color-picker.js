@@ -2261,6 +2261,11 @@ ${sheets.join("\n")}
       const textVarName = `--${colorName}-text`;
       const textValue = `var(--${this.getActiveModeStyleName()}__${colorName}-text)`;
       lines.push(`${textVarName}: ${textValue};`);
+      p.fadedNames.forEach((fadedName) => {
+        const fadedVarName = `--${colorName}-${fadedName}-text`;
+        const fadedValue = `var(--${this.getActiveModeStyleName()}__${colorName}-${fadedName}-text)`;
+        lines.push(`${fadedVarName}: ${fadedValue};`);
+      });
     });
     lines.push(`}`);
     const out = lines.join("\n");

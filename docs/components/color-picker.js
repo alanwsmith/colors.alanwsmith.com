@@ -1299,6 +1299,16 @@ class Picker extends HTMLElement {
     });
   }
 
+  getActiveBackgroundValueAspect(aspect) {
+    if (aspect === "l") {
+      return this.getActiveBackgroundValueL() 
+    } else if (aspect === "c") {
+      return this.getActiveBackgroundValueC() 
+    } else if (aspect === "h") {
+      return this.getActiveBackgroundValueH() 
+    }
+  }
+
   getActiveBackgroundValueC() {
     return p.modes[p.activeMode].base.c;
   }
@@ -1542,6 +1552,28 @@ class Picker extends HTMLElement {
     this.styleSheets['staticBwVars'].innerHTML = out;
   }
 
+  initBackgroundBoxes() {
+    const sidebars = els('.sidebar-controls');
+    sidebars.forEach((sidebar, sidebarIndex) => {
+      const tab = gdsV2("tab", sidebar);
+      const wrappers = getEls('.background-box-slider-wrapper', sidebar);
+      wrappers.forEach((wrapper) => {
+        const aspect = gdsV2("aspect", wrapper);
+        const connector = `background-box-slider-${tab}-${aspect}`;
+        const label = getEl("label", wrapper);
+        label.innerHTML = `${aspect}:`;
+        sa("for", connector, label);
+        const slider = getEl("input", wrapper);
+        sa("name", connector, slider);
+        sa("min", "0", slider);
+        sa("max", this.getAspectMax(aspect), slider);
+        sa("step", this.getAspectStep(aspect), slider);
+        ad("aspect", aspect, slider);
+        ad("tab", tab, slider);
+      });
+      this.updateUiBackgroundSliders(tab);
+    });
+  }
 
   // TODO: Deprecate or Redo
   initColors() {
@@ -1688,6 +1720,7 @@ class Picker extends HTMLElement {
       a(clone, sidebar);
     });
     this.initModeButtonsV2();
+    this.initBackgroundBoxes();
     this.initColorTabs();
     this.refreshColorGrid()
   }
@@ -1726,6 +1759,7 @@ class Picker extends HTMLElement {
     sidebars.forEach((sidebar) => {
       const tab = gdsV2("tab", sidebar);
       const wrapper = getEl('.mode-buttons-wrapper', sidebar);
+      ad("tab", tab, wrapper);
       html("", wrapper);
       p.modes.forEach((mode) => {
         const button = dc('button');
@@ -1736,7 +1770,6 @@ class Picker extends HTMLElement {
       });
     });
   }
-
 
   // TODO: Deprecate or Redo
   initNumberOfColors() {
@@ -2197,12 +2230,12 @@ ${sheets.join("\n")}
         const l = this.getColorValueL(modeIndex, colorIndex);
         const c = this.getColorValueC(modeIndex, colorIndex);
         const h = this.getColorValueH(modeIndex, colorIndex);
-        const textName = `--${modeName}__${colorName}-text`;
+        const textName = `--${modeName}__${colorName}`;
         const textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(`${textName}: ${textValue};`);
         p.fadedNames.forEach((fadedName, fadedIndex) => {
           const fade = .5;
-          const fadedClassName = `--${modeName}__${colorName}-${fadedName}-text`;
+          const fadedClassName = `--${modeName}__${colorName}-${fadedName}`;
           const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
           lines.push(`${fadedClassName}: ${fadedValue};`);
         });
@@ -2246,6 +2279,17 @@ ${sheets.join("\n")}
     this.uiStyleSheet.innerHTML = out;
   }
 
+  // V2 
+  updateUiBackgroundSliders(tab) {
+    const sliders = els(`input[data-tab=${tab}]`);
+    sliders.forEach((slider) => {
+      const aspect = gdsV2("aspect", slider);
+      fx(this.getActiveBackgroundValueAspect(aspect))
+      slider.value = this.getActiveBackgroundValueAspect(aspect);
+    });
+  }
+
+
   // V2
   // REMINDER: This is the internal one that 
   // matches the active mode. The one that's 
@@ -2259,18 +2303,17 @@ ${sheets.join("\n")}
     }
     const lines = [`:root {`];
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      const textVarName = `--${colorName}-text`;
-      const textValue = `var(--${this.getActiveModeStyleName()}__${colorName}-text)`;
+      const textVarName = `--${colorName}`;
+      const textValue = `var(--${this.getActiveModeStyleName()}__${colorName})`;
       lines.push(`${textVarName}: ${textValue};`);
       p.fadedNames.forEach((fadedName) => {
-        const fadedVarName = `--${colorName}-${fadedName}-text`;
-        const fadedValue = `var(--${this.getActiveModeStyleName()}__${colorName}-${fadedName}-text)`;
+        const fadedVarName = `--${colorName}-${fadedName}`;
+        const fadedValue = `var(--${this.getActiveModeStyleName()}__${colorName}-${fadedName})`;
         lines.push(`${fadedVarName}: ${fadedValue};`);
       });
     });
     lines.push(`}`);
     const out = lines.join("\n");
-      fx(out);
     this.uiColorVarsStyleSheet.innerHTML = out;
   }
 

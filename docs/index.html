@@ -26,19 +26,22 @@
     </style>
 
     <style class="picker-styles" data-name="Picker Styles">
+a {
+  color: var(--link);
+}
 body {
-  color: var(--content-text);
+  color: var(--content);
     line-height: 1.25;
 }
 h1 {
-  color: var(--title-text);
+  color: var(--title);
 }
 h2, h3, h4, h5, h6 {
-  color: var(--heading-text);
+  color: var(--heading);
 }
 .two-column {
   display: grid;
-  grid-template-columns: 1fr 12rem;
+  grid-template-columns: 1fr 13rem;
 }
     </style>
 
@@ -827,7 +830,7 @@ data-deployable="yes"
       <div class="background-box-wrapper">
         <div class="background-box-name">Background</div>
         <div class="background-sliders">
-          <div class="background-slider-wrapper" data-aspect="l">
+          <div class="background-box-slider-wrapper" data-aspect="l">
             <label></label>
             <input 
               type="range"
@@ -836,7 +839,7 @@ data-deployable="yes"
               data-tab=""
             >
           </div>
-          <div class="background-slider-wrapper" data-aspect="c">
+          <div class="background-box-slider-wrapper" data-aspect="c">
             <label></label>
             <input 
               type="range"
@@ -845,7 +848,7 @@ data-deployable="yes"
               data-tab=""
             >
           </div>
-          <div class="background-slider-wrapper" data-aspect="h">
+          <div class="background-box-slider-wrapper" data-aspect="h">
             <label></label>
             <input 
               type="range"
@@ -855,7 +858,7 @@ data-deployable="yes"
             >
           </div>
         </div>
-        <div class="background-isolate-wrapper">
+        <div class="background-box-isolate-wrapper">
           <label>Isolate:</label>
           <input type="checkbox">
         </div>
@@ -1001,7 +1004,7 @@ reverse-faded-bottom-border base-full-padding base-full-margin"
                 <h2>TODO: Custom HTML</h2>
                 <h2>TODO: Custom CSS</h2>
               </div>
-              <div class="sidebar-controls default-flow" data-tab="insturctions">picker controls</div>
+              <div class="sidebar-controls default-flow" data-tab="instructions">picker controls</div>
             </div>
           </div>
 

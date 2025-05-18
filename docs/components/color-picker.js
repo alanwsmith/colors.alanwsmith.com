@@ -1059,7 +1059,7 @@ class Picker extends HTMLElement {
     const kinds = ['match', 'reverse'];
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
-      this.getBwValues().forEach((value) => {
+      this.getFadedValues().forEach((value) => {
         const token = `${kind[0]}${value}-background`;
         const color = `${kind[1]}-text`;
         const exampleEl = dc('div');
@@ -1080,7 +1080,7 @@ class Picker extends HTMLElement {
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
       this.getDirections().forEach((data) => {
-        this.getBwValues().forEach((bwValue) => {
+        this.getFadedValues().forEach((bwValue) => {
           const className = `${kind[0]}${bwValue}-${data[0]}-border`;
           const background = `${kind[1]}-background`;
           const color = `${kind[0]}-text`;
@@ -1105,7 +1105,7 @@ class Picker extends HTMLElement {
     const wrapper = el('bw-color-examples-wrapper');
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
-      this.getBwValues().forEach((bwValue) => {
+      this.getFadedValues().forEach((bwValue) => {
         const token = `${kind[0]}${bwValue}-text`;
         const background = `${kind[1]}-background`;
         const exampleEl = dc('div');
@@ -1318,12 +1318,12 @@ class Picker extends HTMLElement {
     return ['start', 'center', 'end', 'justify']
   }
 
-  getAspectMax(key) {
-    return p.aspects[key].max;
+  getAspectMax(aspect) {
+    return p.aspects[aspect].max;
   }
 
-  getAspectStep(key) {
-    return p.aspects[key].max / 10000;
+  getAspectStep(aspect) {
+    return p.aspects[aspect].max / 10000;
   }
 
   getBwKinds() {
@@ -1335,7 +1335,7 @@ class Picker extends HTMLElement {
     ]
   }
 
-  getBwValues() {
+  getFadedValues() {
     return [
       '', '-faded', '-faded2'
     ]

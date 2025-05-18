@@ -1435,6 +1435,7 @@ class Picker extends HTMLElement {
     return ['full', ...this.getSizes()];
   }
 
+  // TODO: Update
   hideUiIfNecessary() {
     if (p.isolatedColor === -1) {
       el('colors-wrapper').hidden = true;
@@ -1447,6 +1448,7 @@ class Picker extends HTMLElement {
     }
   }
 
+  // TODO: Deprecate or Redo
   initBaseSliders() {
     for (let key in p.aspects) {
       const token = `base-slider`;
@@ -1484,6 +1486,7 @@ class Picker extends HTMLElement {
     }
   }
 
+  // TODO: Deprecate or Redo
   initStaticBwVars() {
     const lines = [];
     p.modes.forEach((data, mode) => {
@@ -1499,6 +1502,7 @@ class Picker extends HTMLElement {
   }
 
 
+  // TODO: Deprecate or Redo
   initColors() {
     // Grab the wrapper
     const wrapper = el('colors-content-wrapper');  
@@ -1591,6 +1595,7 @@ class Picker extends HTMLElement {
     this.underlineActiveHueLightnessButton();
   }
 
+  // V2
   initControls() {
     const sidebars = els('.sidebar-controls');
     const template = el2("#picker-controls-template");
@@ -1600,6 +1605,7 @@ class Picker extends HTMLElement {
     });
   }
 
+  // TODO: Deprecate or Redo
   initIsolateBackgroundCheckbox() {
     const checkbox = el('background-isolate-checkbox');  
     ad("kind", "isolate-checkbox", checkbox);
@@ -1611,6 +1617,7 @@ class Picker extends HTMLElement {
     }
   }
 
+  // TODO: Deprecate or Redo
   initModeButtons() {
     // TODO: Figure out what the proper
     // aria label is to add to indicate 
@@ -1626,6 +1633,7 @@ class Picker extends HTMLElement {
     })
   }
 
+  // TODO: Deprecate or Redo
   initNumberOfColors() {
     for (let index = 0; index < p.maxNumberOfColors; index ++) {
      const opt = dc('option');
@@ -1638,15 +1646,18 @@ class Picker extends HTMLElement {
   }
 
 
+  // TODO: Deprecate
   initStaticAlanClasses() {
     this.styleSheets['staticAlanClasses'].innerHTML = ``;
   }
 
+  // TODO: Deprecate
   initStaticAlanVars() {
   this.styleSheets['staticAlanVars'].innerHTML = ``;
 
   }
 
+  // TODO: Deprecate or Redo
   initStyleSheets() {
     const sheetNames = [
       'staticBwVars',
@@ -1671,6 +1682,7 @@ class Picker extends HTMLElement {
     this.initStaticBwClasses();
   }
 
+  // TODO: Deprecate
   initTemplate() {
     const templateEl = this.ownerDocument.createElement('template')
     templateEl.innerHTML = template;
@@ -1683,6 +1695,7 @@ class Picker extends HTMLElement {
     this.updateModeButtonStyles();
   }
 
+  // TODO: Deprecate or Redo
   initStaticBwClasses() {
     const lines = [];
     for (let amount = 0; amount < 100; amount += 10) {
@@ -1708,6 +1721,7 @@ class Picker extends HTMLElement {
     this.styleSheets['staticBwUtilityClasses'].innerHTML = out;
   }
 
+  // TODO: Verify
   loadData() {
     const checkData = localStorage.getItem(
       config.storageName
@@ -1721,6 +1735,7 @@ class Picker extends HTMLElement {
     p = data.palettes[0];
   }
 
+  // TODO: Verify
   loadDefaults() {
     data = {
       "palettes": [defaultPalette],
@@ -1729,6 +1744,7 @@ class Picker extends HTMLElement {
     dbg("Loaded default colors");
   }
 
+  // TODO: Deprecate or Redo
   renderDebuggingInfo() {
     if (debug === true) {
       const colorStyles = [];
@@ -1772,16 +1788,19 @@ ${sheets.join("\n")}
     }
   }
 
+  // TODO: Deprecate or Redo
   renderPage() {
     this.reloadStyleSheets();
     this.renderPaletteName();
     this.renderDebuggingInfo();
   }
 
+  // TODO: Deprecate or Redo
   renderPaletteName() {
     //el('palette-name').innerHTML = p.name;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicBwVars() {
     const lines = [];
     const data = p.modes[p.activeMode];
@@ -1795,6 +1814,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicBwVars'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicColorSwitches() {
     const lines = [];
     const activeModeKey = scrubStyle(p.modes[p.activeMode].name);
@@ -1807,6 +1827,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicColorSwitches'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicColorVars() {
     const lines = [];
     p.modes.forEach((data, mode) => {
@@ -1847,6 +1868,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicColorVars'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicPickerStyles() {
     let out = ``;
     // TODO: may `--base-color` dynamic
@@ -1865,6 +1887,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicPickerStyles'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicUiClasses() {
     const lines = [];
     for (let color = 0; color < p.numberOfColors; color ++) {
@@ -1894,6 +1917,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicUiClasses'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicUiVars() {
     const lines = [];
     if (p.focused === true) {
@@ -1906,6 +1930,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicUiVars'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   reloadDynamicUtilityClasses() {
     const lines = [];
     lines.push(`.${p.baseColorName} { color: var(--${p.baseColorName}); }`);
@@ -1926,6 +1951,7 @@ ${sheets.join("\n")}
     this.styleSheets['dynamicUtilityClasses'].innerHTML = out;
   }
 
+  // TODO: Deprecate or Redo
   setFocus() {
     if (p.focused === true) {
       rc('one-column', el('main-body'));
@@ -1940,6 +1966,7 @@ ${sheets.join("\n")}
     }
   }
 
+  // TODO: Deprecate or Redo
   updateData(event) {
     let triggerRefresh = false;
     if (event.target.dataset.kind === "base") {
@@ -2010,11 +2037,13 @@ ${sheets.join("\n")}
     }
   }
 
+  // TODO: Deprecate or Redo
   underlineActiveHueLightnessButton() {
     const button = el(`color-lightness-hue-selector--mode-${p.activeMode}--color-${p.activeColor}--lightness-${this.getActiveColorIndexL()}--hue-${this.getActiveColorIndexH()}`);
     ac("underline", button);
   }
 
+  // TODO: Deprecate or Redo
   updateBaseSliders() {
     for (let key in p.aspects) {
       const slider = el(`base-slider-${key}`);
@@ -2022,6 +2051,7 @@ ${sheets.join("\n")}
     }
   }
 
+  // TODO: Deprecate or Redo
   updateModeButtonStyles() {
     p.modes.forEach((data, index) => {
       const button = el(`mode-button-${index}`);
@@ -2035,6 +2065,7 @@ ${sheets.join("\n")}
     });
   }
 
+  // TODO: Deprecate or Redo
   reloadStyleSheets() {
     this.reloadDynamicUiVars();
     this.reloadDynamicUiClasses();

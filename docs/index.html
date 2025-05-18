@@ -740,15 +740,15 @@
   <body>
 
     <template id="picker-controls-template">
-      <div class="mode-buttons"></div>
-      <div class="background-box">
+      <div class="mode-buttons-wrapper"></div>
+      <div class="background-box-wrapper">
         <div class="background-box-name">Background</div>
         <div class="background-sliders">
           <div class="background-slider-wrapper" data-aspect="l">
             <label></label>
             <input 
               type="range"
-              data-kind=""
+              data-kind="background-box-slider"
               data-aspect=""
               data-tab=""
             >
@@ -757,7 +757,7 @@
             <label></label>
             <input 
               type="range"
-              data-kind=""
+              data-kind="background-box-slider"
               data-aspect=""
               data-tab=""
             >
@@ -766,7 +766,7 @@
             <label></label>
             <input 
               type="range"
-              data-kind=""
+              data-kind="background-box-slider"
               data-aspect=""
               data-tab=""
             >
@@ -775,6 +775,28 @@
         <div class="background-isolate-wrapper">
           <label>Isolate:</label>
           <input type="checkbox">
+        </div>
+      </div>
+      <div class="colors-box-wrapper">
+        <div class="colors-box-name">Colors</div>
+        <div class="colors-box-tab-group-wrapper">tabs</div>
+        <div class="colors-box-set-grid-wrapper">grid</div>
+        <div class="colors-box-chroma-slider-wrapper">
+          <label>c:</label>
+          <input 
+            type="range"
+            data-kind="colors-box-chroma-slider"
+            data-aspect="c"
+            data-tab=""
+          >
+        </div>
+        <div class="colors-box-isloate-wrapper">
+          <label>Isolate:</label>
+          <input 
+            type="checkbox"
+            data-kind="colors-box-isolate-checkbox"
+            data-tab=""
+          >
         </div>
       </div>
     </template>
@@ -807,7 +829,7 @@ reverse-faded-bottom-border base-full-padding base-full-margin"
               <div class="picker-content default-flow">
                 <h2>Picker</h2>
               </div>
-              <div class="sidebar-controls" data-tab="picker">picker controls</div>
+              <div class="sidebar-controls default-flow" data-tab="picker">picker controls</div>
             </div>
           </div>
 
@@ -896,7 +918,7 @@ reverse-faded-bottom-border base-full-padding base-full-margin"
                 <h2>TODO: Custom HTML</h2>
                 <h2>TODO: Custom CSS</h2>
               </div>
-              <div class="sidebar-controls" data-tab="insturctions">picker controls</div>
+              <div class="sidebar-controls default-flow" data-tab="insturctions">picker controls</div>
             </div>
           </div>
 

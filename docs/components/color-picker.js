@@ -107,7 +107,7 @@ function els(selector) {
 }
 
 // Focus (print to console regardless of debug 
-function focus(value) {
+function f(value) {
   console.log(value);
 }
 
@@ -122,11 +122,27 @@ function gdi(key, event) {
   return parseInt(event.target.dataset[key], 10)
 }
 
+// TODO: Deprecate in favor of V2
 // Get String from DataSet Key From Event
 // TODO: put event last
 function gds(event, key) {
   return event.target.dataset[key]
 }
+
+function gdsV2(key, obj) {
+  return obj.dataset[key];
+}
+
+// Get an element from an object
+function getEl(selector, obj) {
+  return obj.querySelector(selector);
+}
+
+// Get elements from an object
+function getEls(selector, obj) {
+  return obj.querySelectorAll(selector);
+}
+
 
 // Get Float Value from an Event
 function gvf(event) {
@@ -1017,14 +1033,6 @@ class Picker extends HTMLElement {
 
   connectedCallback() {
     this.loadData();
-    this.requestRender = this.renderPage.bind(this);
-    this.styleSheets = {};
-    this.initStyleSheets();
-    this.initTemplate();
-    this.addListeners();
-    this.renderPage();
-
-    // TODO: Refactor to put everything below here
     this.addBorderRadiusExamples();
     this.addBwBackgroundExamples();
     this.addBwBorderExamples();
@@ -1037,6 +1045,16 @@ class Picker extends HTMLElement {
     this.addSpacingWrapperExamples();
     this.addFontSizeExamples();
     this.initControls();
+
+    // TODO: Deprecate or Redo
+    this.requestRender = this.renderPage.bind(this);
+    this.styleSheets = {};
+    this.initStyleSheets();
+    this.initTemplate();
+    this.addListeners();
+    this.renderPage();
+
+    // TODO: Refactor to put everything below here
   }
 
   addBorderRadiusExamples() {
@@ -1600,9 +1618,11 @@ class Picker extends HTMLElement {
     const sidebars = els('.sidebar-controls');
     const template = el2("#picker-controls-template");
     sidebars.forEach((sidebar) => {
+      html("", sidebar);
       const clone = template.content.cloneNode(true);
       a(clone, sidebar);
     });
+    this.initModeButtonsV2();
   }
 
   // TODO: Deprecate or Redo
@@ -1617,7 +1637,7 @@ class Picker extends HTMLElement {
     }
   }
 
-  // TODO: Deprecate or Redo
+  // TODO: Deprecate in favor of V2
   initModeButtons() {
     // TODO: Figure out what the proper
     // aria label is to add to indicate 
@@ -1632,6 +1652,23 @@ class Picker extends HTMLElement {
       a(button, el('view-mode-buttons'));
     })
   }
+
+  // V2
+  initModeButtonsV2() {
+    const sidebars = els('.sidebar-controls');
+    sidebars.forEach((sidebar) => {
+      const tab = gdsV2("tab", sidebar);
+      const wrapper = getEl('.mode-buttons-wrapper', sidebar);
+      p.modes.forEach((mode) => {
+        const button = dc('button');
+        html(mode.name, button);
+        ac("mode-button", button);
+        ad("tab", tab, button);
+        a(button, wrapper);
+      });
+    });
+  }
+
 
   // TODO: Deprecate or Redo
   initNumberOfColors() {

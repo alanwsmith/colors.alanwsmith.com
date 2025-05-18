@@ -148,10 +148,13 @@ function getEls(selector, obj) {
   return obj.querySelectorAll(selector);
 }
 
-
+// TODO: Deprecate in favor of V2
 // Get Float Value from an Event
 function gvf(event) {
   return parseFloat(event.target.value)
+}
+function gvfV2(obj) {
+  return parseFloat(obj.value)
 }
 
 // Get Integer Value from an Event
@@ -1165,7 +1168,13 @@ class Picker extends HTMLElement {
   addListeners() {
     this.addEventListener('click', (event) => {
       this.requestUpdate.call(this, event);
-     })
+    })
+    this.addEventListener('change', (event) => {
+      this.requestUpdate.call(this, event);
+    })
+    this.addEventListener('input', (event) => {
+      this.requestUpdate.call(this, event);
+    })
 
     // DEPRECATED
     // this.addEventListener('change', (event) => {
@@ -2292,10 +2301,20 @@ ${sheets.join("\n")}
     ac("underline", button);
   }
 
+  // V2
   updateActiveColor(obj) {
     const color = gdiV2("color", obj);
     p.activeColor = color;
   }
+
+  updateBackgroundColor(obj) {
+    const mode = p.activeMode;
+    const color = gdiV2("color", obj);
+    const aspect = gdsV2("aspect", obj);
+    p.modes[mode].base[aspect] = gvfV2(obj);
+    this.finishUpdate();
+  }
+
 
   // TODO: Deprecate or Redo
   updateBaseSliders() {
@@ -2494,15 +2513,23 @@ ${sheets.join("\n")}
   }
 
   updateUiView(event) {
-    fx(event.target);
-    if (event.type === "click") { 
+    if (event.target.dataset) {
       const kind = event.target.dataset.kind;
-      if (kind === "mode-button") {
-        this.updateMode(event.target);
-      } else if (kind === "color-box-set-button") {
-        this.updateLightnessHue(event.target)
-      } else if (kind === "color-selector-button") {
-        this.updateActiveColor(event.target)
+      if (event.type === "click") { 
+        if (kind === "mode-button") {
+          this.updateMode(event.target);
+        } else if (kind === "color-box-set-button") {
+          this.updateLightnessHue(event.target)
+        } else if (kind === "color-selector-button") {
+          this.updateActiveColor(event.target)
+        }
+      } else if (event.type === "change") {
+        if (kind === "background-box-slider") {
+          this.updateBackgroundColor(event.target);
+        }
+        //fx(event.target);
+      } else if (event.type === "input") {
+        // fx(event.target);
       }
     }
   }

@@ -36,13 +36,17 @@
       }
       h1 {
         color: var(--title);
+        border-bottom: 1px solid var(--accents);
       }
       h2,
       h3,
       h4,
       h5,
       h6 {
-        color: var(--heading);
+        color: var(--headings);
+      }
+      h2 {
+        border-bottom: 1px solid var(--accents);
       }
       .two-column {
         display: grid;
@@ -1174,10 +1178,7 @@
     </style>
 
     <style class="picker-styles" data-name="Picker Styles">
-      h1,
-      h2 {
-        border-bottom: 1px solid red;
-      }
+
     </style>
 
     <!--
@@ -1412,7 +1413,7 @@
       <main class="xlarge-wrapper">
         <hgroup class="large-bottom-margin">
           <h1
-            class="xlarge-top-margin reversed-bottom-border reverse-faded-bottom-border base-full-padding base-full-margin"
+            class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
           >
             Alan's Color Picker
           </h1>

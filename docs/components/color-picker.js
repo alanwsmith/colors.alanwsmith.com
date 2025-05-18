@@ -1045,9 +1045,9 @@ class Picker extends HTMLElement {
     this.addSpacingWrapperExamples();
     this.addFontSizeExamples();
     this.initControls();
-    this.updateUiStyles();
-    this.updateColorVars();
     this.updateUiVarsStyleSheet();
+    this.updateUiClassesStyleSheet();
+    this.updateColorVars();
 
     // TODO: Deprecate or Redo
     this.requestRender = this.renderPage.bind(this);
@@ -2297,29 +2297,23 @@ ${sheets.join("\n")}
   }
 
   // V2
-  updateUiVarsStyel() {
-  }
-
-  // V2
-  // TODO: Rename to updateUiClassesStyleSheet
-  updateUiStyles() {
-    if (this.uiStyleSheet === undefined) {
-      this.uiStyleSheet = dc('style');
-      document.head.appendChild(this.uiStyleSheet);
+  updateUiClassesStyleSheet() {
+    if (this.uiClassesStyleSheet === undefined) {
+      this.uiClassesStyleSheet = dc('style');
+      document.head.appendChild(this.uiClassesStyleSheet);
     }
     const lines = [];
     this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
       this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
         const cValue = this.getColorValueC(p.activeMode, p.activeColor);
         const name = `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}`;
-        const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
+        const value = `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex})`;
         lines.push(`${name} { color: ${value}; }`);
       });
     });
     const out = lines.sort().join("\n");
-    this.uiStyleSheet.innerHTML = out;
+    this.uiClassesStyleSheet.innerHTML = out;
   }
-
 
 
   // V2

@@ -10,92 +10,181 @@
 :root {
 --light__black: oklch(0% 0 0);
 --light__black-faded: oklch(0% 0 0 / .3);
---light__black-faded-2: oklch(0% 0 0 / .1);
+--light__black-faded2: oklch(0% 0 0 / .1);
 --light__white: oklch(100% 0 0);
 --light__white-faded: oklch(100% 0 0 / .3);
---light__white-faded-2: oklch(100% 0 0 / .1);
+--light__white-faded2: oklch(100% 0 0 / .1);
 --light__match: oklch(100% 0 0);
 --light__match-faded: oklch(100% 0 0 / .3);
---light__match-faded-2: oklch(100% 0 0 / .1);
+--light__match-faded2: oklch(100% 0 0 / .1);
 --light__reverse: oklch(0% 0 0);
 --light__reverse-faded: oklch(0% 0 0 / .3);
---light__reverse-faded-2: oklch(0% 0 0 / .1);
+--light__reverse-faded2: oklch(0% 0 0 / .1);
 --hc-light__black: oklch(0% 0 0);
 --hc-light__black-faded: oklch(0% 0 0 / .3);
---hc-light__black-faded-2: oklch(0% 0 0 / .1);
+--hc-light__black-faded2: oklch(0% 0 0 / .1);
 --hc-light__white: oklch(100% 0 0);
 --hc-light__white-faded: oklch(100% 0 0 / .3);
---hc-light__white-faded-2: oklch(100% 0 0 / .1);
+--hc-light__white-faded2: oklch(100% 0 0 / .1);
 --hc-light__match: oklch(100% 0 0);
 --hc-light__match-faded: oklch(100% 0 0 / .3);
---hc-light__match-faded-2: oklch(100% 0 0 / .1);
+--hc-light__match-faded2: oklch(100% 0 0 / .1);
 --hc-light__reverse: oklch(0% 0 0);
 --hc-light__reverse-faded: oklch(0% 0 0 / .3);
---hc-light__reverse-faded-2: oklch(0% 0 0 / .1);
+--hc-light__reverse-faded2: oklch(0% 0 0 / .1);
 --dark__black: oklch(0% 0 0);
 --dark__black-faded: oklch(0% 0 0 / .3);
---dark__black-faded-2: oklch(0% 0 0 / .1);
+--dark__black-faded2: oklch(0% 0 0 / .1);
 --dark__white: oklch(100% 0 0);
 --dark__white-faded: oklch(100% 0 0 / .3);
---dark__white-faded-2: oklch(100% 0 0 / .1);
+--dark__white-faded2: oklch(100% 0 0 / .1);
 --dark__match: oklch(0% 0 0);
 --dark__match-faded: oklch(0% 0 0 / .3);
---dark__match-faded-2: oklch(0% 0 0 / .1);
+--dark__match-faded2: oklch(0% 0 0 / .1);
 --dark__reverse: oklch(100% 0 0);
 --dark__reverse-faded: oklch(100% 0 0 / .3);
---dark__reverse-faded-2: oklch(100% 0 0 / .1);
+--dark__reverse-faded2: oklch(100% 0 0 / .1);
 --hc-dark__black: oklch(0% 0 0);
 --hc-dark__black-faded: oklch(0% 0 0 / .3);
---hc-dark__black-faded-2: oklch(0% 0 0 / .1);
+--hc-dark__black-faded2: oklch(0% 0 0 / .1);
 --hc-dark__white: oklch(100% 0 0);
 --hc-dark__white-faded: oklch(100% 0 0 / .3);
---hc-dark__white-faded-2: oklch(100% 0 0 / .1);
+--hc-dark__white-faded2: oklch(100% 0 0 / .1);
 --hc-dark__match: oklch(0% 0 0);
 --hc-dark__match-faded: oklch(0% 0 0 / .3);
---hc-dark__match-faded-2: oklch(0% 0 0 / .1);
+--hc-dark__match-faded2: oklch(0% 0 0 / .1);
 --hc-dark__reverse: oklch(100% 0 0);
 --hc-dark__reverse-faded: oklch(100% 0 0 / .3);
---hc-dark__reverse-faded-2: oklch(100% 0 0 / .1);
+--hc-dark__reverse-faded2: oklch(100% 0 0 / .1);
 --black: var(--light__black);
 --black-faded: var(--light__black-faded);
---black-faded-2: var(--light__black-faded-2);
+--black-faded2: var(--light__black-faded2);
 --white: var(--light__white);
 --white-faded: var(--light__white-faded);
---white-faded-2: var(--light__white-faded-2);
+--white-faded2: var(--light__white-faded2);
 --match: var(--light__match);
 --match-faded: var(--light__match-faded);
---match-faded-2: var(--light__match-faded-2);
+--match-faded2: var(--light__match-faded2);
 --reverse: var(--light__reverse);
 --reverse-faded: var(--light__reverse-faded);
---reverse-faded-2: var(--light__reverse-faded-2);
+--reverse-faded2: var(--light__reverse-faded2);
 }
 </style>
-<style class="black-and-white-utility-classes">
+
+<style class="black-and-white-color-and-background-utility-classes">
 .black-color { color: var(--black); }
-.black-faded-color { color: var(--black-faded); }
-.black-faded-2-color { color: var(--black-faded-2); }
-.white-color { color: var(--white); }
-.white-faded-color { color: var(--white-faded); }
-.white-faded-2-color { color: var(--white-faded-2); }
-.match-color { color: var(--match); }
-.match-faded-color { color: var(--match-faded); }
-.match-faded-2-color { color: var(--match-faded-2); }
-.reverse-color { color: var(--reverse); }
-.reverse-faded-color { color: var(--reverse-faded); }
-.reverse-faded-2-color { color: var(--reverse-faded-2); }
 .black-background { background-color: var(--black); }
+.black-faded-color { color: var(--black-faded); }
 .black-faded-background { background-color: var(--black-faded); }
-.black-faded-2-background { background-color: var(--black-faded-2); }
+.black-faded2-color { color: var(--black-faded2); }
+.black-faded2-background { background-color: var(--black-faded2); }
+.white-color { color: var(--white); }
 .white-background { background-color: var(--white); }
+.white-faded-color { color: var(--white-faded); }
 .white-faded-background { background-color: var(--white-faded); }
-.white-faded-2-background { background-color: var(--white-faded-2); }
+.white-faded2-color { color: var(--white-faded2); }
+.white-faded2-background { background-color: var(--white-faded2); }
+.match-color { color: var(--match); }
 .match-background { background-color: var(--match); }
+.match-faded-color { color: var(--match-faded); }
 .match-faded-background { background-color: var(--match-faded); }
-.match-faded-2-background { background-color: var(--match-faded-2); }
+.match-faded2-color { color: var(--match-faded2); }
+.match-faded2-background { background-color: var(--match-faded2); }
+.reverse-color { color: var(--reverse); }
 .reverse-background { background-color: var(--reverse); }
+.reverse-faded-color { color: var(--reverse-faded); }
 .reverse-faded-background { background-color: var(--reverse-faded); }
-.reverse-faded-2-background { background-color: var(--reverse-faded-2); }
+.reverse-faded2-color { color: var(--reverse-faded2); }
+.reverse-faded2-background { background-color: var(--reverse-faded2); }
 </style>
+
+<style class="black-and-white-border-utility-classes">
+.black-full-border { border: 1px solid var(--black); }
+.black-left-border { border-left: 1px solid var(--black); }
+.black-right-border { border-right: 1px solid var(--black); }
+.black-top-border { border-top: 1px solid var(--black); }
+.black-bottom-border { border-bottom: 1px solid var(--black); }
+.black-inline-border { border-inline: 1px solid var(--black); }
+.black-block-border { border-block: 1px solid var(--black); }
+.black-faded-full-border { border: 1px solid var(--black-faded); }
+.black-faded-left-border { border-left: 1px solid var(--black-faded); }
+.black-faded-right-border { border-right: 1px solid var(--black-faded); }
+.black-faded-top-border { border-top: 1px solid var(--black-faded); }
+.black-faded-bottom-border { border-bottom: 1px solid var(--black-faded); }
+.black-faded-inline-border { border-inline: 1px solid var(--black-faded); }
+.black-faded-block-border { border-block: 1px solid var(--black-faded); }
+.black-faded2-full-border { border: 1px solid var(--black-faded2); }
+.black-faded2-left-border { border-left: 1px solid var(--black-faded2); }
+.black-faded2-right-border { border-right: 1px solid var(--black-faded2); }
+.black-faded2-top-border { border-top: 1px solid var(--black-faded2); }
+.black-faded2-bottom-border { border-bottom: 1px solid var(--black-faded2); }
+.black-faded2-inline-border { border-inline: 1px solid var(--black-faded2); }
+.black-faded2-block-border { border-block: 1px solid var(--black-faded2); }
+.white-full-border { border: 1px solid var(--white); }
+.white-left-border { border-left: 1px solid var(--white); }
+.white-right-border { border-right: 1px solid var(--white); }
+.white-top-border { border-top: 1px solid var(--white); }
+.white-bottom-border { border-bottom: 1px solid var(--white); }
+.white-inline-border { border-inline: 1px solid var(--white); }
+.white-block-border { border-block: 1px solid var(--white); }
+.white-faded-full-border { border: 1px solid var(--white-faded); }
+.white-faded-left-border { border-left: 1px solid var(--white-faded); }
+.white-faded-right-border { border-right: 1px solid var(--white-faded); }
+.white-faded-top-border { border-top: 1px solid var(--white-faded); }
+.white-faded-bottom-border { border-bottom: 1px solid var(--white-faded); }
+.white-faded-inline-border { border-inline: 1px solid var(--white-faded); }
+.white-faded-block-border { border-block: 1px solid var(--white-faded); }
+.white-faded2-full-border { border: 1px solid var(--white-faded2); }
+.white-faded2-left-border { border-left: 1px solid var(--white-faded2); }
+.white-faded2-right-border { border-right: 1px solid var(--white-faded2); }
+.white-faded2-top-border { border-top: 1px solid var(--white-faded2); }
+.white-faded2-bottom-border { border-bottom: 1px solid var(--white-faded2); }
+.white-faded2-inline-border { border-inline: 1px solid var(--white-faded2); }
+.white-faded2-block-border { border-block: 1px solid var(--white-faded2); }
+.match-full-border { border: 1px solid var(--match); }
+.match-left-border { border-left: 1px solid var(--match); }
+.match-right-border { border-right: 1px solid var(--match); }
+.match-top-border { border-top: 1px solid var(--match); }
+.match-bottom-border { border-bottom: 1px solid var(--match); }
+.match-inline-border { border-inline: 1px solid var(--match); }
+.match-block-border { border-block: 1px solid var(--match); }
+.match-faded-full-border { border: 1px solid var(--match-faded); }
+.match-faded-left-border { border-left: 1px solid var(--match-faded); }
+.match-faded-right-border { border-right: 1px solid var(--match-faded); }
+.match-faded-top-border { border-top: 1px solid var(--match-faded); }
+.match-faded-bottom-border { border-bottom: 1px solid var(--match-faded); }
+.match-faded-inline-border { border-inline: 1px solid var(--match-faded); }
+.match-faded-block-border { border-block: 1px solid var(--match-faded); }
+.match-faded2-full-border { border: 1px solid var(--match-faded2); }
+.match-faded2-left-border { border-left: 1px solid var(--match-faded2); }
+.match-faded2-right-border { border-right: 1px solid var(--match-faded2); }
+.match-faded2-top-border { border-top: 1px solid var(--match-faded2); }
+.match-faded2-bottom-border { border-bottom: 1px solid var(--match-faded2); }
+.match-faded2-inline-border { border-inline: 1px solid var(--match-faded2); }
+.match-faded2-block-border { border-block: 1px solid var(--match-faded2); }
+.reverse-full-border { border: 1px solid var(--reverse); }
+.reverse-left-border { border-left: 1px solid var(--reverse); }
+.reverse-right-border { border-right: 1px solid var(--reverse); }
+.reverse-top-border { border-top: 1px solid var(--reverse); }
+.reverse-bottom-border { border-bottom: 1px solid var(--reverse); }
+.reverse-inline-border { border-inline: 1px solid var(--reverse); }
+.reverse-block-border { border-block: 1px solid var(--reverse); }
+.reverse-faded-full-border { border: 1px solid var(--reverse-faded); }
+.reverse-faded-left-border { border-left: 1px solid var(--reverse-faded); }
+.reverse-faded-right-border { border-right: 1px solid var(--reverse-faded); }
+.reverse-faded-top-border { border-top: 1px solid var(--reverse-faded); }
+.reverse-faded-bottom-border { border-bottom: 1px solid var(--reverse-faded); }
+.reverse-faded-inline-border { border-inline: 1px solid var(--reverse-faded); }
+.reverse-faded-block-border { border-block: 1px solid var(--reverse-faded); }
+.reverse-faded2-full-border { border: 1px solid var(--reverse-faded2); }
+.reverse-faded2-left-border { border-left: 1px solid var(--reverse-faded2); }
+.reverse-faded2-right-border { border-right: 1px solid var(--reverse-faded2); }
+.reverse-faded2-top-border { border-top: 1px solid var(--reverse-faded2); }
+.reverse-faded2-bottom-border { border-bottom: 1px solid var(--reverse-faded2); }
+.reverse-faded2-inline-border { border-inline: 1px solid var(--reverse-faded2); }
+.reverse-faded2-block-border { border-block: 1px solid var(--reverse-faded2); }
+</style>
+
 
 
 

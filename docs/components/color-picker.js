@@ -1040,27 +1040,23 @@ class Picker extends HTMLElement {
   addBwBorderExamples() {
     const wrapper = el('bw-border-examples-wrapper');
     const kinds = ['match', 'reverse'];
-    kinds.forEach((kind, kindIndex) => {
+    this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
       this.getDirections().forEach((data) => {
         this.getBwValues().forEach((bwValue) => {
+          const className = `${kind[0]}${bwValue}-${data[0]}-border`;
+          const background = `${kind[1]}-background`;
+          const color = `${kind[0]}-color`;
           const cell = dc('div');
           ac('base-inline-padding', cell);
-          ac('xlarge-block-padding', cell);
+          ac('large-block-padding', cell);
           ac('base-full-margin', cell);
-          if (kindIndex === 0) {
-            ac(`${kinds[1]}-background`, cell);
-            ac(`${kinds[0]}`, cell);
-          } else {
-            ac(`${kinds[0]}-background`, cell);
-            ac(`${kinds[1]}`, cell);
-          }
+          ac(background, cell);
+          ac(color, cell);
           const span = dc('span');
-          const className = `${kind}${bwValue}-${data[0]}-border`;
           html(`.${className}`, span);
           ac(className, span);
           ac(`xxsmall-full-padding`, span);
-          ac(`base-full-margin`, span);
           a(span, cell);
           a(cell, kindEl);
         })
@@ -1158,7 +1154,7 @@ class Picker extends HTMLElement {
 
   getBwValues() {
     return [
-      '', '-faded', '-faded-2'
+      '', '-faded', '-faded2'
     ]
   }
 

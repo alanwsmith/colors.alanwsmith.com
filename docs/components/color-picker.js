@@ -1121,7 +1121,6 @@ class Picker extends HTMLElement {
     });
   }
 
-
   addListeners() {
     this.addEventListener('change', (event) => {
       this.updateData.call(this, event);

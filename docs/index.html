@@ -3,8 +3,42 @@
   <head>
     <title>Alan's Color Picker</title>
 
-    <!-- START: Generated Styles -->
+    <style class="reset-styles" data-name="Reset Styles">
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      * {
+        margin: 0;
+      }
+      dt,
+      dl,
+      dd,
+      li,
+      ol,
+      ul > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 1em);
+      }
+      body {
+        font-family: system-ui;
+      }
+    </style>
 
+    <style class="picker-styles" data-name="Picker Styles">
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 12rem;
+      }
+    </style>
+
+    <style class="layout-styles" data-name="Layout Styles">
+      body {
+        line-height: 1.25;
+      }
+    </style>
+
+    <!-- START: Generated Styles -->
 
 <style class="bw-vars" data-name="Black and White Variables">
 :root {
@@ -377,14 +411,14 @@
 <style class="width-vars" data-name="Width Variables">
 :root {
 --xxxsmall-width: min(100vw - 1.4rem, 3rem);
---xxsmall-width: min(100vw - 1.4rem, 8rem);
---xsmall-width: min(100vw - 1.4rem, 20rem);
---small-width: min(100vw - 1.4rem, 35rem);
---default-width: min(100vw - 1.4rem, 52rem);
---large-width: min(100vw - 1.4rem, 56rem);
---xlarge-width: min(100vw - 1.4rem, 58rem);
---xxlarge-width: min(100vw - 1.4rem, 62rem);
---xxxlarge-width: min(100vw - 1.4rem, 68rem);
+--xxsmall-width: min(100vw - 1.4rem, 7rem);
+--xsmall-width: min(100vw - 1.4rem, 16rem);
+--small-width: min(100vw - 1.4rem, 33rem);
+--default-width: min(100vw - 1.4rem, 36rem);
+--large-width: min(100vw - 1.4rem, 42rem);
+--xlarge-width: min(100vw - 1.4rem, 48rem);
+--xxlarge-width: min(100vw - 1.4rem, 56rem);
+--xxxlarge-width: min(100vw - 1.4rem, 64rem);
 --full-width: calc(100vw - 1.4rem);
 }
 </style>
@@ -469,12 +503,7 @@
 
 
 
-
-
-
-
-
-    <!-- END: Generated Style -->
+    <!-- END: Generated Styles -->
 
     <style class="tmp-dev-stuff">
       :root {
@@ -484,28 +513,6 @@
       body {
         background-color: var(--tmp-background-color);
         color: var(--tmp-color);
-      }
-    </style>
-    <style class="reset-styles">
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-      * {
-        margin: 0;
-      }
-      dt,
-      dl,
-      dd,
-      li,
-      ol,
-      ul > :where(:not(:first-child)) {
-        margin-top: var(--flow-space, 1em);
-      }
-      body {
-        font-family: system-ui;
-        line-height: 1.3;
       }
     </style>
 
@@ -535,6 +542,13 @@
         padding-bottom: 0.5rem;
       }
     </style>
+
+    <style class="picker-styles" data-name="Picker Styles">
+    h1, h2 {
+      border-bottom: 1px solid red;
+    }
+    </style>
+
 
     <style>
       a {
@@ -722,25 +736,149 @@
       }
     </style>
   </head>
+
   <body>
+    <template id="picker-controls-template">
+      <div class="mode-buttons"></div>
+      <div class="background-box">
+        <div class="background-box-name">Background</div>
+      </div>
+      <!--
+  <div class="sidebar base-flow"> 
+    <div class="base-wrapper">
+      <div class="view-light-dark-wrapper">
+        <div class="view-mode-buttons"></div>
+      </div>
+      <div class="background-fieldset ui-font-size-small base-flow">
+        <div class="interface-text ui-font-size-small reversed-bw-bottom-border-80 small-full-padding">Background</div>
+        <div class="base-sliders small-inline-padding xxsmall-flow"></div>
+        <div class="background-checkboxes">
+          <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
+            <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
+              Isolate:
+            </label>
+            <input type="checkbox" class="background-isolate-checkbox" name="background-isolate-checkbox">
+          </div>
+        </div>
+      </div>
+    </div>
+-->
+    </template>
+
     <color-picker class="flow">
-      <main>
+      <main class="xlarge-wrapper">
         <hgroup class="large-bottom-margin">
           <h1
-            class="reverse-faded-bottom-border base-full-padding base-full-margin"
+            class="
+          xlarge-top-margin
+            reversed-bottom-border
+reverse-faded-bottom-border base-full-padding base-full-margin"
           >
             Alan's Color Picker
           </h1>
-          <p>made by <a href="https://www.alanwsmith.com/">alan w smith</a></p>
         </hgroup>
         <tab-group>
-          <div role="tablist">
-            <button role="tab" aria-selected="true">In Progress</button>
+          <div role="tablist" class="reversed-faded-bottom-border large-bottom-margin">
+            <button role="tab">Picker</button>
+            <button role="tab">Export Colors</button>
+            <button role="tab" aria-selected="true">Instructions</button>
             <button role="tab">B&amp;W</button>
-            <button role="tab">2</button>
-            <button role="tab">3</button>
-            <button role="tab">4</button>
+            <button role="tab">Utilities</button>
             <button role="tab">TODO</button>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <div class="picker-content default-flow">
+              <h2>Picker</h2>
+            </div>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <div>
+              <h2>Export Colors</h2>
+            </div>
+          </div>
+
+          <div role="tabpanel">
+            <div class="content-wrapper">
+              <div class="picker-content default-flow">
+                <h2>Quick-Start</h2>
+                <ol>
+                  <li>
+                    Move the &quot;l&quot;, &quot;c&quot;, and &quot;h&quot;
+                    sliders in the &quot;Background&quot; box around
+                    to find a background color you like
+                  </li>
+                  <li>
+                    Click/Tap some of the &quot;set&quot; buttons in the
+                    &quot;Colors&quot; box to choose a text color
+                  </li>
+                  <li>
+                    Move the &quot;c&quot; slider around in the &quot;Colors&quot;
+                    box around to change the intensity of the color
+                  </li>
+                  <li>
+                    Check out the other features below to learn 
+                    more about how things work
+                  </li>
+                  <li>
+                    Click/Tap the &quot;Export Colors&quot; tab
+                    above to get your colors
+                  </li>
+                </ol>
+                <h2>Previewing</h2>
+                <p>
+                  Click/Tap any of the content in the
+                  main part of the page to hide the color picker controls. 
+                  This is designed to make it easier to evaluate palettes without
+                  the other options influencing the way things look. 
+                </p>
+                <h2>Other Colors</h2>
+                <p>
+                  Click the single letter tabs at the top of the &quot;Colors&quot;
+                  box to change which text the &quot;set&quot; colors 
+                  effect (e.g.
+                  the main content, the title, links, etc.). 
+                </p>
+                <h2>Isolating Colors</h2>
+                <p>
+                  The &quot;Isolate&quot; button at the bottom of the &quot;Color&quot;
+                  box hides all the content except for what the selected
+                  color applies to. 
+                  I added it to make it easier to find links and accents 
+                  which might only appear on a page a few times. 
+                </p>
+                <h2>Isolating The Background</h2>
+                <p>
+                  The &quot;Background&quot; box also has an &quot;Isolate&quot;
+                  checkbox. Ticking it hides all the content so you can pick
+                  the background without existing text colors influencing it. 
+                </p>
+                <h2>Light/Dark Modes</h2>
+                <p>
+                  The buttons above the &quot;Background&quot; box choose between
+                  on of four different color modes: &quot;Light&quot; 
+                  &quot;High-Contrast Light&quot;, &quot;Dark&quot;, and 
+                  &quot;High-Contrast Dark&quot;. Each one is independent, but
+                  operates the same way.
+                </p>
+                <h2>TODO: CSS Export</h2>
+                <h2>TODO: Custom HTML</h2>
+                <h2>TODO: Custom CSS</h2>
+              </div>
+              <div class="picker-controls">picker controls</div>
+            </div>
+          </div>
+
+
+          <div class="default-flow" role="tabpanel" hidden>
+            <h2>Black And White Examples</h2>
+            <h3>Black And White Colors</h3>
+            <div class="bw-color-examples-wrapper"></div>
+            <h3>Black And White Backgrounds</h3>
+            <div class="bw-background-examples-wrapper"></div>
+            <h3>Black And White Borders</h3>
+            <div class="bw-border-examples-wrapper"></div>
           </div>
 
           <div class="default-flow" role="tabpanel" hidden>
@@ -763,31 +901,12 @@
             <div class="border-radius-examples-wrapper large-flow"></div>
           </div>
 
-          <div class="default-flow" role="tabpanel" hidden>
-            <h2>Black And White Examples</h2>
-            <h3>Black And White Colors</h3>
-            <div class="bw-color-examples-wrapper"></div>
-            <h3>Black And White Backgrounds</h3>
-            <div class="bw-background-examples-wrapper"></div>
-            <h3>Black And White Borders</h3>
-            <div class="bw-border-examples-wrapper"></div>
-          </div>
-
-          <div role="tabpanel">
-            <h2>Utility Variables And Classes</h2>
-            <div class="utility-examples"></div>
-          </div>
-
-          <div role="tabpanel">
-            <p>ping</p>
-          </div>
-          <div role="tabpanel" hidden>
-            <p>here</p>
-          </div>
-
           <div role="tabpanel" hidden>
             <h2>TODO</h2>
             <ul>
+              <li><input type="checkbox" disabled /> Color picker on both Instructions and Picker tabs</li>
+              <li><input type="checkbox" disabled /> Only show instructions the first time you load the page.</li>
+              <li><input type="checkbox" disabled /> Stay on the same tab after page refresh</li>
               <li>
                 <input type="checkbox" disabled /> Set min light level for each
                 color
@@ -828,7 +947,7 @@
                 degrees
               </li>
               <li>
-                <input type="checkbox" disabled cheked /> Show/Hide content to
+                <input type="checkbox" disabled checked /> Show/Hide content to
                 focus on base color
               </li>
               <li>

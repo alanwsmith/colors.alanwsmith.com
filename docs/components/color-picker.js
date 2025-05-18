@@ -1278,15 +1278,15 @@ class Picker extends HTMLElement {
     });
   }
 
-  getActiveBaseValueC() {
+  getActiveBackgroundValueC() {
     return p.modes[p.activeMode].base.c;
   }
 
-  getActiveBaseValueH() {
+  getActiveBackgroundValueH() {
     return p.modes[p.activeMode].base.h;
   }
 
-  getActiveBaseValueL() {
+  getActiveBackgroundValueL() {
     return p.modes[p.activeMode].base.l;
   }
 

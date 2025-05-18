@@ -117,9 +117,14 @@ function gdf(event, key) {
   return parseFloat(event.target.dataset[key])
 }
 
+// DEPRECATE in favor ov gdiV2
 // Get Int from DataSet Key From Event
 function gdi(key, event) {
   return parseInt(event.target.dataset[key], 10)
+}
+
+function gdiV2(key, obj) {
+  return parseInt(obj.dataset[key], 10)
 }
 
 // TODO: Deprecate in favor of V2
@@ -361,7 +366,7 @@ const defaultPalette = {
     "c": { "name": "chroma", "max": 0.3 },
     "h": { "name": "hue", "max": 360 }
   },
-  "backgroundStyleName": "background",
+  "backgroundColorName": "background",
   "baseColorName": "base-color",
   "borderStylePrefix": "border",
   "borderTypes": [
@@ -1048,6 +1053,7 @@ class Picker extends HTMLElement {
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
     this.updateProdVarsStyelShett();
+    this.requestUpdate = this.updateUiView.bind(this);
 
     // TODO: Deprecate or Redo
     this.requestRender = this.renderPage.bind(this);
@@ -1155,20 +1161,26 @@ class Picker extends HTMLElement {
     });
   }
 
-  // TODO: Update
+  // TODO: Update to V2
   addListeners() {
-    this.addEventListener('change', (event) => {
-      this.updateData.call(this, event);
-     })
     this.addEventListener('click', (event) => {
-      this.updateData.call(this, event);
+      this.requestUpdate.call(this, event);
      })
-    this.addEventListener('input', (event) => {
-      this.updateData.call(this, event);
-    })
-    el('focus-toggle-watcher').addEventListener('click', (event) => {
-      this.setFocus();
-    });
+
+    // DEPRECATED
+    // this.addEventListener('change', (event) => {
+    //   this.updateData.call(this, event);
+    //  })
+    // this.addEventListener('click', (event) => {
+    //   this.updateData.call(this, event);
+    //  })
+    // this.addEventListener('input', (event) => {
+    //   this.updateData.call(this, event);
+    // })
+    // el('focus-toggle-watcher').addEventListener('click', (event) => {
+    //   this.setFocus();
+    // });
+
   }
 
   addSpacingAlignmentExamples() {
@@ -1299,6 +1311,11 @@ class Picker extends HTMLElement {
     });
   }
 
+  finishUpdate() {
+    this.updateUiVarsStyleSheet();
+    this.updateProdVarsStyelShett();
+  }
+
   getActiveBackgroundValueAspect(aspect) {
     if (aspect === "l") {
       return this.getActiveBackgroundValueL() 
@@ -1351,11 +1368,12 @@ class Picker extends HTMLElement {
     return this.getColorValueL(p.activeMode, p.activeColor);
   }
 
-  getActiveModeStyleName() {
+  getActiveModeScrubbedName() {
     return scrubStyle(
       p.modes[p.activeMode].name
     );
   }
+
   
   getAlignments() {
     return ['start', 'center', 'end', 'justify']
@@ -1370,18 +1388,24 @@ class Picker extends HTMLElement {
     return value.toFixed(7);
   }
 
+  getBackgroundValueC(mode) {
+    return p.modes[mode].base.c
+  }
+
+  getBackgroundValueH(mode) {
+    return p.modes[mode].base.h
+  }
+
+  getBackgroundValueL(mode) {
+    return p.modes[mode].base.l
+  }
+
   getBwKinds() {
     return [
       ['black', 'white'],
       ['white', 'black'],
       ['match', 'reverse'],
       ['reverse', 'match']
-    ]
-  }
-
-  getFadedValues() {
-    return [
-      '', '-faded', '-faded2'
     ]
   }
 
@@ -1443,6 +1467,12 @@ class Picker extends HTMLElement {
       ["right", true],
       ["block", true],
       ["inline", true],
+    ]
+  }
+
+  getFadedValues() {
+    return [
+      '', '-faded', '-faded2'
     ]
   }
 
@@ -1796,6 +1826,7 @@ class Picker extends HTMLElement {
         ac(`ui__mode-${modeIndex}__background`, button);
         ad("tab", tab, button);
         ad("mode", modeIndex, button);
+        ad("kind", "mode-button", button);
         a(button, wrapper);
       });
     });
@@ -1873,8 +1904,8 @@ class Picker extends HTMLElement {
       } 
       lines.push(`.${p.bwNames[0]}${amountString} { color: var(--${p.bwNames[0]}${amountString}); }`);
       lines.push(`.${p.bwNames[1]}${amountString} { color: var(--${p.bwNames[1]}${amountString}); }`);
-      lines.push(`.${p.bwNames[0]}-${p.backgroundStyleName}${amountString} { background-color: var(--${p.bwNames[0]}${amountString}); }`);
-      lines.push(`.${p.bwNames[1]}-${p.backgroundStyleName}${amountString} { background-color: var(--${p.bwNames[1]}${amountString}); }`);
+      lines.push(`.${p.bwNames[0]}-${p.backgroundColorName}${amountString} { background-color: var(--${p.bwNames[0]}${amountString}); }`);
+      lines.push(`.${p.bwNames[1]}-${p.backgroundColorName}${amountString} { background-color: var(--${p.bwNames[1]}${amountString}); }`);
       p.borderTypes.forEach((data) => {
         if (data[1] === true) {
           lines.push(`.${p.bwNames[0]}-${data[0]}-${p.borderStylePrefix}${amountString} { border-${data[0]}: 1px solid var(--${p.bwNames[0]}${amountString}); }`);
@@ -2126,11 +2157,11 @@ ${sheets.join("\n")}
   reloadDynamicUtilityClasses() {
     const lines = [];
     lines.push(`.${p.baseColorName} { color: var(--${p.baseColorName}); }`);
-    lines.push(`.${p.baseColorName}-${p.backgroundStyleName} { background-color: var(--${p.baseColorName}); }`);
+    lines.push(`.${p.baseColorName}-${p.backgroundColorName} { background-color: var(--${p.baseColorName}); }`);
     for (let index = 0; index < p.numberOfColors; index ++) {
       const colorName = p.colorNames[index];
       lines.push(`.${colorName} { color: var(--${colorName}); }`);
-      lines.push(`.${colorName}-${p.backgroundStyleName} { background-color: var(--${colorName}); }`);
+      lines.push(`.${colorName}-${p.backgroundColorName} { background-color: var(--${colorName}); }`);
       p.borderTypes.forEach((data) => {
         if (data[1] === true) {
           lines.push(`.${colorName}-${p.borderStylePrefix}-${data[0]} { border-${data[0]}: 1px solid var(--${colorName}); }`);
@@ -2258,6 +2289,12 @@ ${sheets.join("\n")}
     const lines = [`:root {`];
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
+      const backgroundL = this.getBackgroundValueL(modeIndex);
+      const backgroundC = this.getBackgroundValueC(modeIndex);
+      const backgroundH = this.getBackgroundValueH(modeIndex);
+      const backgroundName = `--${modeName}__${p.backgroundColorName}`
+      const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+      lines.push(`${backgroundName}: ${backgroundValue};`);
       this.getActiveColors().forEach((colorName, colorIndex) => {
         const l = this.getColorValueL(modeIndex, colorIndex);
         const c = this.getColorValueC(modeIndex, colorIndex);
@@ -2275,7 +2312,17 @@ ${sheets.join("\n")}
     });
     lines.push(`}`);
     const out = lines.join("\n");
+    fx(out);
     this.colorVarsStyleSheet.innerHTML = out;
+  }
+
+  // V2
+  updateMode(obj) {
+    const newMode = gdiV2("mode", obj);
+    if (newMode !== p.activeMode) {
+      p.activeMode = newMode;
+    }
+    this.finishUpdate();
   }
 
   // TODO: Deprecate or Redo
@@ -2292,21 +2339,23 @@ ${sheets.join("\n")}
     });
   }
 
+
+
   // V2 
   // TODO? 
   updateUiBackgroundCheckbox(tab) {
     // const sliders = els(`input[data-tab=${tab}]`);
     // sliders.forEach((slider) => {
     //   const aspect = gdsV2("aspect", slider);
-    //   fx(this.getActiveBackgroundValueAspect(aspect))
     //   slider.value = this.getActiveBackgroundValueAspect(aspect);
     // });
   }
 
   // V2 
   updateUiBackgroundSliders(tab) {
-    // TODO: Make sure this doesn't hit the colors chroma slider
-    const sliders = els(`input[data-tab=${tab}]`);
+    const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
+    const wrapper = getEl(`.background-box-sliders`, sidebar);
+    const sliders = getEls(`input`, wrapper);
     sliders.forEach((slider) => {
       const aspect = gdsV2("aspect", slider);
       slider.value = this.getActiveBackgroundValueAspect(aspect);
@@ -2360,12 +2409,15 @@ ${sheets.join("\n")}
       document.head.appendChild(this.uiColorVarsStyleSheet);
     }
     const lines = [`:root {`];
+    // Background
+    lines.push(`--background: var(--${this.getActiveModeScrubbedName()}__${p.backgroundColorName});`);
+
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      const value = `${this.getActiveModeStyleName()}__${colorName}`;
+      const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
       lines.push(`--${colorName}: var(--${value});`);
       p.fadedNames.forEach((fadedName) => {
         const name = `${colorName}-${fadedName}`;
-        const fadedValue = `${this.getActiveModeStyleName()}__${name}`;
+        const fadedValue = `${this.getActiveModeScrubbedName()}__${name}`;
         lines.push(`--${name}: var(--${fadedValue});`);
       });
     });
@@ -2397,6 +2449,15 @@ ${sheets.join("\n")}
     lines.push(`}`);
     const out = lines.join("\n");
     this.uiColorVarsStyleSheet.innerHTML = out;
+  }
+
+  updateUiView(event) {
+    if (event.type === "click") { 
+      const kind = event.target.dataset.kind;
+      if (kind === "mode-button") {
+        this.updateMode(event.target);
+      }
+    }
   }
 
   // TODO: Deprecate or Redo

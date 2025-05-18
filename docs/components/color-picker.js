@@ -1047,7 +1047,7 @@ class Picker extends HTMLElement {
     this.initControls();
     this.updateUiStyles();
     this.updateColorVars();
-    this.updateUiColorVars();
+    this.updateUiVarsStyleSheet();
 
     // TODO: Deprecate or Redo
     this.requestRender = this.renderPage.bind(this);
@@ -1777,11 +1777,12 @@ class Picker extends HTMLElement {
       const wrapper = getEl('.mode-buttons-wrapper', sidebar);
       ad("tab", tab, wrapper);
       html("", wrapper);
-      p.modes.forEach((mode) => {
+      p.modes.forEach((modeData, modeIndex) => {
         const button = dc('button');
-        html(mode.name, button);
-        ac("mode-button", button);
+        html(modeData.name, button);
+        ac(`ui__mode-button__mode-${modeIndex}`, button);
         ad("tab", tab, button);
+        ad("mode", modeIndex, button);
         a(button, wrapper);
       });
     });
@@ -2296,6 +2297,11 @@ ${sheets.join("\n")}
   }
 
   // V2
+  updateUiVarsStyel() {
+  }
+
+  // V2
+  // TODO: Rename to updateUiClassesStyleSheet
   updateUiStyles() {
     if (this.uiStyleSheet === undefined) {
       this.uiStyleSheet = dc('style');
@@ -2322,24 +2328,33 @@ ${sheets.join("\n")}
   // exported is the responsibility of 
   // another function that lets you pick
   // the primary mode. 
-  updateUiColorVars() {
+  updateUiVarsStyleSheet() {
     if (this.uiColorVarsStyleSheet === undefined) {
       this.uiColorVarsStyleSheet = dc('style');
       document.head.appendChild(this.uiColorVarsStyleSheet);
     }
     const lines = [`:root {`];
+
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      const textVarName = `--${colorName}`;
-      const textValue = `var(--${this.getActiveModeStyleName()}__${colorName})`;
-      lines.push(`${textVarName}: ${textValue};`);
+      const value = `${this.getActiveModeStyleName()}__${colorName}`;
+      lines.push(`--${colorName}: var(--${value});`);
       p.fadedNames.forEach((fadedName) => {
-        const fadedVarName = `--${colorName}-${fadedName}`;
-        const fadedValue = `var(--${this.getActiveModeStyleName()}__${colorName}-${fadedName})`;
-        lines.push(`${fadedVarName}: ${fadedValue};`);
+        const name = `${colorName}-${fadedName}`;
+        const fadedValue = `${this.getActiveModeStyleName()}__${name}`;
+        lines.push(`--${name}: var(--${fadedValue});`);
+      });
+    });
+    this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
+      this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
+        const cValue = this.getColorValueC(p.activeMode, p.activeColor);
+        const name = `--ui__lightness-${lightnessIndex}__hue-${hueIndex}`;
+        const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
+        lines.push(`${name}: ${value};`);
       });
     });
     lines.push(`}`);
     const out = lines.join("\n");
+    fx(out);
     this.uiColorVarsStyleSheet.innerHTML = out;
   }
 

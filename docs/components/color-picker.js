@@ -2193,23 +2193,25 @@ ${sheets.join("\n")}
     const lines = [`:root {`];
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
-      for (let colorIndex = 0; colorIndex < p.numberOfColors; colorIndex ++) {
-        const textName = `--${modeName}__${p.colorNames[colorIndex]}-text`;
-        const textValue = `red`;
+      this.getActiveColors().forEach((colorName, colorIndex) => {
+        const l = this.getColorValueL(modeIndex, colorIndex);
+        const c = this.getColorValueC(modeIndex, colorIndex);
+        const h = this.getColorValueH(modeIndex, colorIndex);
+        const textName = `--${modeName}__${colorName}-text`;
+        const textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(`${textName}: ${textValue};`);
-        p.fadedNames.forEach((fadedName) => {
-          const fadedClassName = `--${modeName}__${p.colorNames[colorIndex]}-${fadedName}-text`;
-          const fadedValue = `green`;
+        p.fadedNames.forEach((fadedName, fadedIndex) => {
+          const fade = .5;
+          const fadedClassName = `--${modeName}__${colorName}-${fadedName}-text`;
+          const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
           lines.push(`${fadedClassName}: ${fadedValue};`);
         });
-      }
+      });
     });
     lines.push(`}`);
     const out = lines.join("\n");
     this.colorVarsStyleSheet.innerHTML = out;
   }
-
-
 
   // TODO: Deprecate or Redo
   updateModeButtonStyles() {
@@ -2232,7 +2234,6 @@ ${sheets.join("\n")}
       document.head.appendChild(this.uiStyleSheet);
     }
     const lines = [];
-  //  for (let hueIndex = 0; hueIndex < this.getHueRowCount(p.activeMode, p.activeColor); hueIndex ++) {
     this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
       this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
         const cValue = this.getColorValueC(p.activeMode, p.activeColor);

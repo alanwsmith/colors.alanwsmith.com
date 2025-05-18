@@ -1121,36 +1121,18 @@ class Picker extends HTMLElement {
         ac('reverse-background', line1);
         html("&nbsp;", line1);
         a(line1, example);
-
         const line2 = dc('div');
         ac('match-background', line2);
         ac('reverse-color', line2);
         ac(token, line2);
         html("&nbsp;", line2);
         a(line2, example);
-
         const line3 = dc('div');
         ac('match-color', line3);
         ac('reverse-background', line3);
         html("&nbsp;", line3);
         a(line3, example);
-
         a(example, wrapper);
-
-        // ac('reverse-background', line);
-        // const wrap = dc('span');
-        // ac('reverse-background', wrap);
-        // const example = dc('span');
-        // ac('match-background', example);
-        // ac('reverse-color', example);
-        // ac(token, example);
-        // html(`.${token}`, example);
-        // a(example, wrap);
-        // a(wrap, line);
-        // a(line, wrapper);
-
-
-
       });
     });
   }

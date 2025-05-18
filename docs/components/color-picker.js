@@ -1552,7 +1552,22 @@ class Picker extends HTMLElement {
     this.styleSheets['staticBwVars'].innerHTML = out;
   }
 
-  initBackgroundBoxes() {
+  initBackgroundCheckboxes() {
+    const sidebars = els('.sidebar-controls');
+    sidebars.forEach((sidebar, sidebarIndex) => {
+      const tab = gdsV2("tab", sidebar);
+      const wrapper = getEl('.background-box-isolate-wrapper', sidebar);
+      const connector = `background-box-isolate-checkbox-${tab}`;
+      const label = getEl('label', wrapper);
+      sa("for", connector, label);
+      const checkbox = getEl('input', wrapper);
+      sa("name", connector, checkbox);
+      ad("kind", "background-box-isolate-checkbox", checkbox);
+      ad("tab", tab, checkbox);
+    });
+  }
+
+  initBackgroundSliders() {
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar, sidebarIndex) => {
       const tab = gdsV2("tab", sidebar);
@@ -1720,7 +1735,8 @@ class Picker extends HTMLElement {
       a(clone, sidebar);
     });
     this.initModeButtonsV2();
-    this.initBackgroundBoxes();
+    this.initBackgroundSliders();
+    this.initBackgroundCheckboxes();
     this.initColorTabs();
     this.refreshColorGrid()
   }
@@ -2260,6 +2276,25 @@ ${sheets.join("\n")}
     });
   }
 
+  // V2 
+  updateUiBackgroundCheckbox(tab) {
+    // const sliders = els(`input[data-tab=${tab}]`);
+    // sliders.forEach((slider) => {
+    //   const aspect = gdsV2("aspect", slider);
+    //   fx(this.getActiveBackgroundValueAspect(aspect))
+    //   slider.value = this.getActiveBackgroundValueAspect(aspect);
+    // });
+  }
+
+  // V2 
+  updateUiBackgroundSliders(tab) {
+    const sliders = els(`input[data-tab=${tab}]`);
+    sliders.forEach((slider) => {
+      const aspect = gdsV2("aspect", slider);
+      slider.value = this.getActiveBackgroundValueAspect(aspect);
+    });
+  }
+
   // V2
   updateUiStyles() {
     if (this.uiStyleSheet === undefined) {
@@ -2279,15 +2314,6 @@ ${sheets.join("\n")}
     this.uiStyleSheet.innerHTML = out;
   }
 
-  // V2 
-  updateUiBackgroundSliders(tab) {
-    const sliders = els(`input[data-tab=${tab}]`);
-    sliders.forEach((slider) => {
-      const aspect = gdsV2("aspect", slider);
-      fx(this.getActiveBackgroundValueAspect(aspect))
-      slider.value = this.getActiveBackgroundValueAspect(aspect);
-    });
-  }
 
 
   // V2

@@ -1627,7 +1627,7 @@ class Picker extends HTMLElement {
         ad("aspect", aspect, slider);
         ad("tab", tab, slider);
       });
-      this.updateUiBackgroundSliders(tab);
+      this.updateBackgroundSliders(tab);
     });
   }
 
@@ -2381,6 +2381,8 @@ ${sheets.join("\n")}
       p.activeMode = newMode;
     }
     this.initColorTabs();
+    this.updateBackgroundSliders('instructions');
+    this.updateBackgroundSliders('picker');
     this.finishUpdate();
   }
 
@@ -2400,7 +2402,7 @@ ${sheets.join("\n")}
 
   // V2 
   // TODO? 
-  updateUiBackgroundCheckbox(tab) {
+  updateBackgroundCheckbox(tab) {
     // const sliders = els(`input[data-tab=${tab}]`);
     // sliders.forEach((slider) => {
     //   const aspect = gdsV2("aspect", slider);
@@ -2409,7 +2411,7 @@ ${sheets.join("\n")}
   }
 
   // V2 
-  updateUiBackgroundSliders(tab) {
+  updateBackgroundSliders(tab) {
     const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
     const wrapper = getEl(`.background-box-sliders`, sidebar);
     const sliders = getEls(`input`, wrapper);
@@ -2525,7 +2527,6 @@ ${sheets.join("\n")}
         if (kind === "background-box-slider") {
           this.updateBackgroundColor(event.target);
         }
-        //fx(event.target);
       } else if (event.type === "input") {
         if (kind === "background-box-slider") {
           this.updateBackgroundColor(event.target);

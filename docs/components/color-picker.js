@@ -1765,6 +1765,7 @@ class Picker extends HTMLElement {
         a(tabButton, tabList);
       }
       a(tabList, tabGroup);
+
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
         const tab = dc('div');
         sa("role", "tabpanel", tab);
@@ -1788,6 +1789,22 @@ class Picker extends HTMLElement {
           a(row, tabGrid);
         });
         a(tabGrid, tab);
+        const chromaWrapper = dc('div');
+        const connector  = `colors-box-chroma-slider-${tabKey}`;
+        const label = dc('label');
+        sa("for", connector, label);
+        html('c:', label);
+        a(label, chromaWrapper);
+        const slider = dc('input');
+        sa("type", "range", slider);
+        sa("name", connector, slider);
+        sa("min", "0", slider);
+        sa("max", this.getAspectMax('c'), slider);
+        sa("step", this.getAspectStep('c'), slider);
+        ad("tab", tab, slider);
+        // this.updateUiColorsChromaSlider(tabKey);
+        a(slider, chromaWrapper);
+        a(chromaWrapper, tab);
         a(tab, tabGroup);
       }
       a(tabGroup, wrapper);
@@ -2454,6 +2471,7 @@ ${sheets.join("\n")}
     const wrapper = getEl(`.colors-box-chroma-slider-wrapper`, sidebar);
     const slider = getEl(`input[type="range"]`, wrapper);
     slider.value = this.getActiveColorValueC();
+    fx(slider.value);
   }
 
   // V2
@@ -2512,6 +2530,7 @@ ${sheets.join("\n")}
     this.uiColorVarsStyleSheet.innerHTML = out;
   }
 
+  // V2
   updateUiView(event) {
     if (event.target.dataset) {
       const kind = event.target.dataset.kind;

@@ -88,7 +88,7 @@ function dc(name) {
   return document.createElement(name);
 }
 
-// TODO: Deprecate in favor of el2
+// TODO: Deprecate in favor of elV2
 // Get Element By Class Name
 function el(className) {
   return document.querySelector(`.${className}`);
@@ -97,7 +97,7 @@ function el(className) {
 // TODO: Rename to `el()` when transition
 // is complete. 
 // Get Element By Selector
-function el2(selector) {
+function elV2(selector) {
   return document.querySelector(selector);
 }
 
@@ -1047,7 +1047,7 @@ class Picker extends HTMLElement {
     this.initControls();
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
-    this.updateColorVars();
+    this.updateProdVarsStyelShett();
 
     // TODO: Deprecate or Redo
     this.requestRender = this.renderPage.bind(this);
@@ -1366,7 +1366,8 @@ class Picker extends HTMLElement {
   }
 
   getAspectStep(aspect) {
-    return p.aspects[aspect].max / 10000;
+    const value = p.aspects[aspect].max / 10000;
+    return value.toFixed(7);
   }
 
   getBwKinds() {
@@ -1527,7 +1528,7 @@ class Picker extends HTMLElement {
       sa('type', 'range', slider);
       sa('min', 0, slider);
       sa('max', this.getAspectMax(key), slider);
-      sa('step', this.getAspectStep(key).toFixed(5), slider);
+      sa('step', this.getAspectStep(key), slider);
       slider.value = p.modes[p.activeMode].base[key]
       ad('kind', 'base', slider);
       ad('aspect', key, slider);
@@ -1636,7 +1637,7 @@ class Picker extends HTMLElement {
       sa('type', 'range', slider);
       sa('min', 0, slider);
       sa('max', this.getAspectMax('c'), slider);
-      sa('step', this.getAspectStep('c').toFixed(5), slider);
+      sa('step', this.getAspectStep('c'), slider);
       slider.value = colorData.hueOffsetValues[colorData.hueOffsetIndex].c;
       ad('kind', 'color-chroma-slider', slider);
       ad('mode', p.activeMode, slider);
@@ -1683,6 +1684,24 @@ class Picker extends HTMLElement {
     this.underlineActiveHueLightnessButton();
   }
 
+  // V2
+  initColorsChromaSliders() {
+    const sidebars = els('.sidebar-controls');
+    sidebars.forEach((sidebar) => {
+      const tab = gdsV2("tab", sidebar);
+      const connector  = `colors-box-chroma-slider-${tab}`;
+      const wrapper = getEl('.colors-box-chroma-slider-wrapper', sidebar);
+      const label = getEl('label', wrapper);
+      sa("for", connector, label);
+      const slider = getEl('input', wrapper);
+      sa("name", connector, slider);
+      sa("min", "0", slider);
+      sa("max", this.getAspectMax('c'), slider);
+      sa("step", this.getAspectStep('c'), slider);
+      ad("tab", tab, slider);
+      this.updateUiColorsChromaSlider(tab);
+    });
+  }
 
   // V2
   initColorTabs() {
@@ -1715,20 +1734,12 @@ class Picker extends HTMLElement {
 
   }
 
-  // <div role="tabpanel">
-  //   Shut the hatch before the waves push it in
-  // </div>
 
-  // <div role="tablist">
-  //   <button role="tab" aria-selected="true">Tab 1</button>
-  //   <button role="tab">Tab 2</button>
-  //   <button role="tab">Tab 3</button>
-  // </div>
 
   // V2
   initControls() {
     const sidebars = els('.sidebar-controls');
-    const template = el2("#picker-controls-template");
+    const template = elV2("#picker-controls-template");
     sidebars.forEach((sidebar) => {
       html("", sidebar);
       const clone = template.content.cloneNode(true);
@@ -1739,6 +1750,7 @@ class Picker extends HTMLElement {
     this.initBackgroundCheckboxes();
     this.initColorTabs();
     this.refreshColorGrid()
+    this.initColorsChromaSliders();
   }
 
   // TODO: Deprecate or Redo
@@ -2146,6 +2158,8 @@ ${sheets.join("\n")}
     }
   }
 
+
+
   // TODO: Deprecate or Redo
   updateData(event) {
     let triggerRefresh = false;
@@ -2232,7 +2246,7 @@ ${sheets.join("\n")}
   }
 
   // V2
-  updateColorVars() {
+  updateProdVarsStyelShett() {
     if (this.colorVarsStyleSheet === undefined) {
       this.colorVarsStyleSheet = dc('style');
       document.head.appendChild(this.colorVarsStyleSheet);
@@ -2279,6 +2293,7 @@ ${sheets.join("\n")}
   }
 
   // V2 
+  // TODO? 
   updateUiBackgroundCheckbox(tab) {
     // const sliders = els(`input[data-tab=${tab}]`);
     // sliders.forEach((slider) => {
@@ -2290,6 +2305,7 @@ ${sheets.join("\n")}
 
   // V2 
   updateUiBackgroundSliders(tab) {
+    // TODO: Make sure this doesn't hit the colors chroma slider
     const sliders = els(`input[data-tab=${tab}]`);
     sliders.forEach((slider) => {
       const aspect = gdsV2("aspect", slider);
@@ -2324,6 +2340,13 @@ ${sheets.join("\n")}
     this.uiClassesStyleSheet.innerHTML = out;
   }
 
+  // V2
+  updateUiColorsChromaSlider(tab) {
+    const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
+    const wrapper = getEl(`.colors-box-chroma-slider-wrapper`, sidebar);
+    const slider = getEl(`input[type="range"]`, wrapper);
+    slider.value = this.getActiveColorValueC();
+  }
 
   // V2
   // REMINDER: This is the internal one that 
@@ -2373,7 +2396,6 @@ ${sheets.join("\n")}
     });
     lines.push(`}`);
     const out = lines.join("\n");
-    fx(out);
     this.uiColorVarsStyleSheet.innerHTML = out;
   }
 

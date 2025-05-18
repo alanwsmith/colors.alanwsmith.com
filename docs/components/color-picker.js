@@ -107,7 +107,7 @@ function els(selector) {
 }
 
 // Focus (print to console regardless of debug 
-function f(value) {
+function fx(value) {
   console.log(value);
 }
 
@@ -384,7 +384,7 @@ const defaultPalette = {
     "info",
     "extra"
   ],
-  "fadedNames": ["faded", "faded-2"],
+  "fadedNames": ["faded", "faded2"],
   // i've got back and forth between 
   // 45 and 60 here. going with 45 for
   // now since it offers more colors. The
@@ -1046,6 +1046,8 @@ class Picker extends HTMLElement {
     this.addFontSizeExamples();
     this.initControls();
     this.updateUiStyles();
+    this.updateColorVars();
+    this.updateUiColorVars();
 
     // TODO: Deprecate or Redo
     this.requestRender = this.renderPage.bind(this);
@@ -1321,6 +1323,12 @@ class Picker extends HTMLElement {
     return this.getColorIndexL(p.activeMode, p.activeColor);
   }
 
+  getActiveColors() {
+    return p.colorNames.filter((name, index) => {
+      return index < p.numberOfColors;
+    })
+  }
+
   getActiveColorValueC() {
     return this.getColorValueC(p.activeMode, p.activeColor);
   }
@@ -1331,6 +1339,12 @@ class Picker extends HTMLElement {
 
   getActiveColorValueL() {
     return this.getColorValueL(p.activeMode, p.activeColor);
+  }
+
+  getActiveModeStyleName() {
+    return scrubStyle(
+      p.modes[p.activeMode].name
+    );
   }
   
   getAlignments() {
@@ -2166,6 +2180,37 @@ ${sheets.join("\n")}
     }
   }
 
+  // V2
+  updateColorVars() {
+    if (this.colorVarsStyleSheet === undefined) {
+      this.colorVarsStyleSheet = dc('style');
+      document.head.appendChild(this.colorVarsStyleSheet);
+      ad("editable", "no", this.colorVarsStyleSheet);
+      ad("deployable", "yes", this.colorVarsStyleSheet);
+      ad("key", "color-variables", this.colorVarsStyleSheet);
+      ad("name", "Color Variables", this.colorVarsStyleSheet);
+    }
+    const lines = [`:root {`];
+    p.modes.forEach((modeData, modeIndex) => {
+      const modeName = scrubStyle(modeData.name);
+      for (let colorIndex = 0; colorIndex < p.numberOfColors; colorIndex ++) {
+        const textName = `--${modeName}__${p.colorNames[colorIndex]}-text`;
+        const textValue = `red`;
+        lines.push(`${textName}: ${textValue};`);
+        p.fadedNames.forEach((fadedName) => {
+          const fadedClassName = `--${modeName}__${p.colorNames[colorIndex]}-${fadedName}-text`;
+          const fadedValue = `green`;
+          lines.push(`${fadedClassName}: ${fadedValue};`);
+        });
+      }
+    });
+    lines.push(`}`);
+    const out = lines.join("\n");
+    this.colorVarsStyleSheet.innerHTML = out;
+  }
+
+
+
   // TODO: Deprecate or Redo
   updateModeButtonStyles() {
     p.modes.forEach((data, index) => {
@@ -2180,6 +2225,7 @@ ${sheets.join("\n")}
     });
   }
 
+  // V2
   updateUiStyles() {
     if (this.uiStyleSheet === undefined) {
       this.uiStyleSheet = dc('style');
@@ -2197,6 +2243,29 @@ ${sheets.join("\n")}
     });
     const out = lines.sort().join("\n");
     this.uiStyleSheet.innerHTML = out;
+  }
+
+  // V2
+  // REMINDER: This is the internal one that 
+  // matches the active mode. The one that's 
+  // exported is the responsibility of 
+  // another function that lets you pick
+  // the primary mode. 
+  updateUiColorVars() {
+    if (this.uiColorVarsStyleSheet === undefined) {
+      this.uiColorVarsStyleSheet = dc('style');
+      document.head.appendChild(this.uiColorVarsStyleSheet);
+    }
+    const lines = [`:root {`];
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      const textVarName = `--${colorName}-text`;
+      const textValue = `var(--${this.getActiveModeStyleName()}__${colorName}-text)`;
+      lines.push(`${textVarName}: ${textValue};`);
+    });
+    lines.push(`}`);
+    const out = lines.join("\n");
+      fx(out);
+    this.uiColorVarsStyleSheet.innerHTML = out;
   }
 
   // TODO: Deprecate or Redo

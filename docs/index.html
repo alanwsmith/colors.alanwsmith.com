@@ -337,6 +337,38 @@
 .xxxlarge-block-margin { margin-block: var(--xxxlarge-margin); }
 </style>
 
+<style class="flow-classes" data-name="Flow Classes">
+.xxxsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.1em);
+}
+.xxsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.3em);
+}
+.xsmall-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.5em);
+}
+.small-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 0.7em);
+}
+.default-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1em);
+}
+.large-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.2em);
+}
+.xlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.4em);
+}
+.xxlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 1.8em);
+}
+.xxxlarge-flow > :where(:not(:first-child)) {
+  margin-top: var(--flow-space, 2.2em);
+}
+</style>
+
+
+
 
 
 
@@ -366,12 +398,14 @@
       dt,
       dl,
       dd,
+      li,
       ol,
       ul > :where(:not(:first-child)) {
         margin-top: var(--flow-space, 1em);
       }
       body {
         font-family: system-ui;
+        line-height: 1.3;
       }
     </style>
 
@@ -591,7 +625,7 @@
   <body>
     <color-picker class="flow">
       <main>
-        <hgroup>
+        <hgroup class="large-bottom-margin">
           <h1
             class="reverse-faded-bottom-border base-full-padding base-full-margin"
           >
@@ -602,13 +636,24 @@
         <tab-group>
           <div role="tablist">
             <button role="tab" aria-selected="true">In Progress</button>
+            <button role="tab">B&amp;W</button>
             <button role="tab">2</button>
             <button role="tab">3</button>
             <button role="tab">4</button>
             <button role="tab">TODO</button>
           </div>
 
-          <div role="tabpanel" hidden>
+          <div class="default-flow" role="tabpanel" hidden>
+            <h2>Spacing</h2>
+            <h3>Margins</h3>
+            <div class="spacing-margin-examples-wrapper large-flow"></div>
+            <h3>Padding</h3>
+            <div class="spacing-padding-examples-wrapper"></div>
+            <h3>Flows</h3>
+            <div class="spacing-padding-examples-wrapper"></div>
+          </div>
+
+          <div class="default-flow" role="tabpanel" hidden>
             <h2>Black And White Examples</h2>
             <h3>Black And White Colors</h3>
             <div class="bw-color-examples-wrapper"></div>
@@ -637,7 +682,7 @@
                 <input type="checkbox" disabled /> Set min light level for each
                 color
               </li>
-              <li><input type="checkbox" disabled /> Example style settings</li>
+              <li><input type="checkbox" disabled /> Example palettes</li>
               <li><input type="checkbox" disabled /> Contrast calculations</li>
               <li>
                 <input type="checkbox" disabled /> Add defaulf faded
@@ -646,7 +691,7 @@
               <li><input type="checkbox" disabled /> Undo/Redo</li>
               <li><input type="checkbox" disabled /> Set faded alt values</li>
               <li>
-                <input type="checkbox" disabled /> Include/Remove black an white
+                <input type="checkbox" disabled /> Include/Remove black and white
                 variables
               </li>
               <li>
@@ -655,7 +700,8 @@
               <li>
                 <input type="checkbox" disabled /> Change CSS variable names
               </li>
-              <li><input type="checkbox" disabled /> Chnage mode names</li>
+              <li><input type="checkbox" disabled /> Change mode names</li>
+              <li><input type="checkbox" disabled /> Add/subtract modes</li>
               <li><input type="checkbox" disabled /> Copy button for CSS</li>
               <li><input type="checkbox" disabled /> Edit CSS</li>
               <li><input type="checkbox" disabled /> Edit HTML</li>
@@ -671,7 +717,6 @@
                 <input type="checkbox" disabled /> Switch between 45 and 60
                 degrees
               </li>
-              <li><input type="checkbox" disabled /> Add/subtract modes</li>
               <li>
                 <input type="checkbox" disabled cheked /> Show/Hide content to
                 focus on base color

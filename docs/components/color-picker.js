@@ -1012,9 +1012,12 @@ class Picker extends HTMLElement {
     this.renderPage();
 
     // TODO: Refactor to put everything below here
-    this.addBwColorExamples();
     this.addBwBackgroundExamples();
     this.addBwBorderExamples();
+    this.addBwColorExamples();
+    this.addSpacingFlowExamples();
+    this.addSpacingMarginExamples();
+    this.addSpacingPaddingExamples();
   }
 
   addBwBackgroundExamples() {
@@ -1095,6 +1098,64 @@ class Picker extends HTMLElement {
     el('focus-toggle-watcher').addEventListener('click', (event) => {
       this.setFocus();
     });
+  }
+
+  addSpacingFlowExamples() {
+  }
+
+  addSpacingMarginExamples() {
+    const wrapper = el('spacing-margin-examples-wrapper');
+    this.getSizes().forEach((size) => {
+      this.getDirections().forEach((dir) => {
+        let token = `${size}-${dir[0]}-margin`;
+        const example = dc('div');
+        ac('reverse-faded-background', example);
+        ac('large-inline-margin', example);
+        const name = dc('div');
+        ac(`match-color`, name);
+        ac(`small-full-padding`, name);
+        html(`.${token}`, name);
+        a(name, example);
+        const line1 = dc('div');
+        ac('match-color', line1);
+        ac('reverse-background', line1);
+        html("&nbsp;", line1);
+        a(line1, example);
+
+        const line2 = dc('div');
+        ac('match-background', line2);
+        ac('reverse-color', line2);
+        ac(token, line2);
+        html("&nbsp;", line2);
+        a(line2, example);
+
+        const line3 = dc('div');
+        ac('match-color', line3);
+        ac('reverse-background', line3);
+        html("&nbsp;", line3);
+        a(line3, example);
+
+        a(example, wrapper);
+
+        // ac('reverse-background', line);
+        // const wrap = dc('span');
+        // ac('reverse-background', wrap);
+        // const example = dc('span');
+        // ac('match-background', example);
+        // ac('reverse-color', example);
+        // ac(token, example);
+        // html(`.${token}`, example);
+        // a(example, wrap);
+        // a(wrap, line);
+        // a(line, wrapper);
+
+
+
+      });
+    });
+  }
+
+  addSpacingPaddingExamples() {
   }
 
   getActiveBaseValueC() {
@@ -1230,6 +1291,20 @@ class Picker extends HTMLElement {
   getHueOffsetAmount(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.hueOffsets[hueOffsetIndex];
+  }
+
+  getSizes() {
+    return [
+      'xxxlarge',
+      'xxlarge',
+      'xlarge',
+      'large',
+      'default',
+      'small',
+      'xsmall',
+      'xxsmall',
+      'xxxsmall', 
+    ]
   }
 
   hideUiIfNecessary() {

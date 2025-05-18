@@ -1291,15 +1291,15 @@ class Picker extends HTMLElement {
   }
 
   getActiveColorIndexC() {
-    return this.getColorC(p.activeMode, p.activeColor);
+    return this.getColorIndexC(p.activeMode, p.activeColor);
   }
 
   getActiveColorIndexH() {
-    return this.getColorH(p.activeMode, p.activeColor);
+    return this.getColorIndexH(p.activeMode, p.activeColor);
   }
 
   getActiveColorIndexL() {
-    return this.getColorL(p.activeMode, p.activeColor);
+    return this.getColorIndexL(p.activeMode, p.activeColor);
   }
 
   getActiveColorValueC() {
@@ -1341,19 +1341,19 @@ class Picker extends HTMLElement {
     ]
   }
 
-  getColorC(mode, color) {
+  getColorIndexC(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
   }
 
-  getColorH(mode, color) {
+  getColorIndexH(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
   }
 
   getColorHueValues(mode, color) {
     const values = [];
-    const h = this.getColorH(mode, color);
+    const h = this.getColorIndexH(mode, color);
     const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
     for (let value = 0; value <= 360; value += hueOffsetAmount) {
       values.push(value + p.modes[mode].base.h);
@@ -1361,18 +1361,18 @@ class Picker extends HTMLElement {
     return values;
   }
 
-  getColorL(mode, color) {
+  getColorIndexL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
   }
 
   getColorValueC(mode, color) {
-    return this.getColorC(mode, color).toFixed(5);
+    return this.getColorIndexC(mode, color).toFixed(5);
   }
 
   getColorValueH(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    const h = this.getColorH(mode, color);
+    const h = this.getColorIndexH(mode, color);
     return this.getColorHueValues(mode, color)[h];
   }
 
@@ -1382,7 +1382,7 @@ class Picker extends HTMLElement {
     return this.getLightLevelValues(mode, color)[l];
   }
 
-  getColorMinLightLevel(mode, color) {
+  getColorMinLightValue(mode, color) {
     return p.modes[mode].colors[color].minLightLevel;
   }
 
@@ -1400,7 +1400,7 @@ class Picker extends HTMLElement {
 
   getLightLevelValues(mode, color) {
     const levels = [];
-    const minLightLevel = this.getColorMinLightLevel(mode, color);
+    const minLightLevel = this.getColorMinLightValue(mode, color);
     const adder = ((p.maxLightValue - minLightLevel) / (p.lightLevels - 1));
     for (let level = minLightLevel; level <= p.maxLightValue; level += adder) {
       levels.push(level.toFixed(5));

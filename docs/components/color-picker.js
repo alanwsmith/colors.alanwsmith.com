@@ -375,10 +375,10 @@ const defaultPalette = {
   ],
   "bwNames": ["matched-bw", "reversed-bw"],
   "colorNames": [
-    "text",
+    "content",
     "links",
-    "headline",
-    "sub-headings",
+    "title",
+    "headings",
     "accents",
     "warning",
     "info",
@@ -1373,7 +1373,7 @@ class Picker extends HTMLElement {
     const values = [];
     const h = this.getColorIndexH(mode, color);
     const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
-    for (let value = 0; value <= 360; value += hueOffsetAmount) {
+    for (let value = 0; value < 360; value += hueOffsetAmount) {
       values.push(value + p.modes[mode].base.h);
     }
     return values;
@@ -1397,7 +1397,7 @@ class Picker extends HTMLElement {
   getColorValueL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
-    return this.getLightLevelValues(mode, color)[l];
+    return this.getLigthnessValues(mode, color)[l];
   }
 
   getColorMinLightValue(mode, color) {
@@ -1416,7 +1416,7 @@ class Picker extends HTMLElement {
     ]
   }
 
-  getLightLevelValues(mode, color) {
+  getLigthnessValues(mode, color) {
     const levels = [];
     const minLightLevel = this.getColorMinLightValue(mode, color);
     const adder = ((p.maxLightValue - minLightLevel) / (p.lightLevels - 1));
@@ -1434,6 +1434,10 @@ class Picker extends HTMLElement {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.hueOffsets[hueOffsetIndex];
   }
+
+  getHueRowCount(mode, color) {
+    return Math.round(360 / this.getHueOffsetAmount(mode, color));
+  } 
 
   getSizes() {
     return [
@@ -1583,7 +1587,7 @@ class Picker extends HTMLElement {
       for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
         const hueOffsetIndexWrapper = dc('div');
         ac('color-hue-set-line', hueOffsetIndexWrapper);
-        this.getLightLevelValues(p.activeMode, color).forEach((level, levelcolor) => {
+        this.getLigthnessValues(p.activeMode, color).forEach((level, levelcolor) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
           ad('mode', p.activeMode, button);
@@ -1613,6 +1617,48 @@ class Picker extends HTMLElement {
     this.underlineActiveHueLightnessButton();
   }
 
+
+  // V2
+  initColorTabs() {
+    const sidebars = els('.sidebar-controls');
+    sidebars.forEach((sidebar) => {
+      const tabKey = gdsV2("tab", sidebar);
+      const wrapper = getEl('.colors-box-tabs-wrapper', sidebar);
+      html("", wrapper);
+      const tabGroup = dc('tab-group');
+      const tabList = dc('div');
+      sa("role", "tablist", tabList);
+      for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
+        const tabButton = dc('button');
+        sa("role", "tab", tabButton);
+        if (nameIndex === 0) {
+          sa("aria-selected", "true", tabButton);
+        }
+        html(Array.from(p.colorNames[nameIndex])[0], tabButton);
+        a(tabButton, tabList);
+      }
+      a(tabList, tabGroup);
+      for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
+        const tab = dc('div');
+        sa("role", "tabpanel", tab);
+        html(p.colorNames[nameIndex], tab);
+        a(tab, tabGroup);
+      }
+      a(tabGroup, wrapper);
+    })
+
+  }
+
+  // <div role="tabpanel">
+  //   Shut the hatch before the waves push it in
+  // </div>
+
+  // <div role="tablist">
+  //   <button role="tab" aria-selected="true">Tab 1</button>
+  //   <button role="tab">Tab 2</button>
+  //   <button role="tab">Tab 3</button>
+  // </div>
+
   // V2
   initControls() {
     const sidebars = els('.sidebar-controls');
@@ -1623,6 +1669,8 @@ class Picker extends HTMLElement {
       a(clone, sidebar);
     });
     this.initModeButtonsV2();
+    this.initColorTabs();
+    this.refreshColorGrid()
   }
 
   // TODO: Deprecate or Redo
@@ -1659,6 +1707,7 @@ class Picker extends HTMLElement {
     sidebars.forEach((sidebar) => {
       const tab = gdsV2("tab", sidebar);
       const wrapper = getEl('.mode-buttons-wrapper', sidebar);
+      html("", wrapper);
       p.modes.forEach((mode) => {
         const button = dc('button');
         html(mode.name, button);
@@ -1779,6 +1828,30 @@ class Picker extends HTMLElement {
       "schemaVersion": [1,0,0]
     };
     dbg("Loaded default colors");
+  }
+
+  // V2
+  refreshColorGrid() {
+    const sidebars = els('.sidebar-controls');
+    sidebars.forEach((sidebar) => {
+      const tabKey = gdsV2("tab", sidebar);
+      const wrapper = getEl('.colors-box-grid-wrapper', sidebar);
+      this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
+        const row = dc('div');
+        this.getLigthnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
+          const button = dc('button');
+          html("set", button);
+          ad("kind", "color-box-set-button", button);
+          ad("mode", p.activeMode, button);
+          ad("color", p.activeColor, button);
+          ad("lightness", lightness, button);
+          ad("hue", hue, button);
+          ac(`ui__mode-${p.activeMode}__color-${p.activeColor}__lightness-${lightness}__hue-${hue}`, button);
+          a(button, row);
+        });
+        a(row, wrapper);
+      });
+    });
   }
 
   // TODO: Deprecate or Redo
@@ -1937,7 +2010,7 @@ ${sheets.join("\n")}
         const colorData = p.modes[mode].colors[color];
         const hueCount = Math.round(360 / p.hueOffsets[colorData.hueOffsetIndex]);
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
-          this.getLightLevelValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
+          this.getLigthnessValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
             const c = this.getColorValueC(mode, color);
             const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];

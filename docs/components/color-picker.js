@@ -1015,6 +1015,7 @@ class Picker extends HTMLElement {
     this.addBwBackgroundExamples();
     this.addBwBorderExamples();
     this.addBwColorExamples();
+    this.addSpacingAlignmentExamples();
     this.addSpacingFlowExamples();
     this.addSpacingMarginExamples();
     this.addSpacingPaddingExamples();
@@ -1027,7 +1028,7 @@ class Picker extends HTMLElement {
       const kindEl = dc('div');
       this.getBwValues().forEach((value) => {
         const token = `${kind[0]}${value}-background`;
-        const color = `${kind[1]}-color`;
+        const color = `${kind[1]}-text`;
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
         ac(`${token}`, exampleEl);
@@ -1049,7 +1050,7 @@ class Picker extends HTMLElement {
         this.getBwValues().forEach((bwValue) => {
           const className = `${kind[0]}${bwValue}-${data[0]}-border`;
           const background = `${kind[1]}-background`;
-          const color = `${kind[0]}-color`;
+          const color = `${kind[0]}-text`;
           const cell = dc('div');
           ac('default-inline-padding', cell);
           ac('large-block-padding', cell);
@@ -1072,7 +1073,7 @@ class Picker extends HTMLElement {
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div');
       this.getBwValues().forEach((bwValue) => {
-        const token = `${kind[0]}${bwValue}-color`;
+        const token = `${kind[0]}${bwValue}-text`;
         const background = `${kind[1]}-background`;
         const exampleEl = dc('div');
         html(`.${token}`, exampleEl);
@@ -1100,11 +1101,26 @@ class Picker extends HTMLElement {
     });
   }
 
+  addSpacingAlignmentExamples() {
+    const wrapper = el('spacing-alignment-examples-wrapper');
+    this.getAlignments().forEach((alignment) => {
+      const example = dc('div');
+      ac(`large-inline-margin`, example);
+      ac(`reverse-background`, example);
+      ac(`match-text`, example);
+      const token = `align-${alignment}`;
+      html(`.${token}`, example);
+      ac(token, example);
+      a(example, wrapper);
+    });
+
+  }
+
   addSpacingFlowExamples() {
     const wrapper = el('spacing-flow-examples-wrapper');
     this.getSizes().forEach((size) => {
       const example = dc('div');
-      ac(`match-color`, example);
+      ac(`match-text`, example);
       ac(`reverse-background`, example);
       ac(`large-full-margin`, example);
       const token = `${size}-flow`;
@@ -1118,8 +1134,7 @@ class Picker extends HTMLElement {
         a(p, example);
       }
       a(example, wrapper);
-    })
-
+    });
   }
 
   addSpacingMarginExamples() {
@@ -1131,23 +1146,23 @@ class Picker extends HTMLElement {
         ac('reverse-faded-background', example);
         ac('large-inline-margin', example);
         const name = dc('div');
-        ac(`match-color`, name);
+        ac(`match-text`, name);
         ac(`small-full-padding`, name);
         html(`.${token}`, name);
         a(name, example);
         const line1 = dc('div');
-        ac('match-color', line1);
+        ac('match-text', line1);
         ac('reverse-background', line1);
         html("&nbsp;", line1);
         a(line1, example);
         const line2 = dc('div');
         ac('match-background', line2);
-        ac('reverse-color', line2);
+        ac('reverse-text', line2);
         ac(token, line2);
         html("&nbsp;", line2);
         a(line2, example);
         const line3 = dc('div');
-        ac('match-color', line3);
+        ac('match-text', line3);
         ac('reverse-background', line3);
         html("&nbsp;", line3);
         a(line3, example);
@@ -1208,6 +1223,10 @@ class Picker extends HTMLElement {
 
   getActiveColorValueL() {
     return this.getColorValueL(p.activeMode, p.activeColor);
+  }
+  
+  getAlignments() {
+    return ['start', 'center', 'end', 'justify']
   }
 
   getAspectMax(key) {
@@ -1518,64 +1537,11 @@ class Picker extends HTMLElement {
 
 
   initStaticAlanClasses() {
-    this.styleSheets['staticAlanClasses'].innerHTML = `
-
-.xxxsmall-font-size { font-size: var(--xxxsmall-font-size); }
-.xxsmall-font-size { font-size: var(--xxsmall-font-size); }
-.xsmall-font-size { font-size: var(--xsmall-font-size); }
-.small-font-size { font-size: var(--small-font-size); }
-.base-font-size { font-size: var(--base-font-size); }
-.large-font-size { font-size: var(--large-font-size); }
-.xlarge-font-size { font-size: var(--xlarge-font-size); }
-.xxlarge-font-size { font-size: var(--xxlarge-font-size); }
-.xxxlarge-font-size { font-size: var(--xxxlarge-font-size); }
-.xxxsmall-border-radius { border-radius: var(--xxxsmall-border-radius); }
-.xxsmall-border-radius { border-radius: var(--xxsmall-border-radius); }
-.xsmall-border-radius { border-radius: var(--xsmall-border-radius); }
-.small-border-radius { border-radius: var(--small-border-radius); }
-.base-border-radius { border-radius: var(--base-border-radius); }
-.large-border-radius { border-radius: var(--large-border-radius); }
-.xlarge-border-radius { border-radius: var(--xlarge-border-radius); }
-.xxlarge-border-radius { border-radius: var(--xxlarge-border-radius); }
-.xxxlarge-border-radius { border-radius: var(--xxxlarge-border-radius); }
-.xxxsmall-width { width: var(--xxxsmall-width); }
-.xxsmall-width { width: var(--xxsmall-width); }
-.xsmall-width { width: var(--xsmall-width); }
-.small-width { width: var(--small-width); }
-.base-width { width: var(--base-width); }
-.large-width { width: var(--large-width); }
-.xlarge-width { width: var(--xlarge-width); }
-.xxlarge-width { width: var(--xxlarge-width); }
-.xxxlarge-width { width: var(--xxxlarge-width); }
-
-`;
+    this.styleSheets['staticAlanClasses'].innerHTML = ``;
   }
 
   initStaticAlanVars() {
-  this.styleSheets['staticAlanVars'].innerHTML = `
-
-:root {
---xxxsmall-padding: 0.1rem;
---xxxsmall-margin: 0.1rem;
---xxsmall-padding: 0.2rem;
---xxsmall-margin: 0.2rem;
---xsmall-padding: 0.3rem;
---xsmall-margin: 0.3rem;
---small-padding: 0.4rem;
---small-margin: 0.4rem;
---base-padding: 0.5rem;
---base-margin: 0.5rem;
---large-padding: 0.8rem;
---large-margin: 0.8rem;
---xlarge-padding: 1.3rem;
---xlarge-margin: 1.3rem;
---xxlarge-padding: 1.9rem;
---xxlarge-margin: 1.9rem;
---xxxlarge-padding: 2.4rem;
---xxxlarge-margin: 2.4rem;
-}
-
-`;
+  this.styleSheets['staticAlanVars'].innerHTML = ``;
 
   }
 

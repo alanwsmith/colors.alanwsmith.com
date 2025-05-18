@@ -1101,6 +1101,25 @@ class Picker extends HTMLElement {
   }
 
   addSpacingFlowExamples() {
+    const wrapper = el('spacing-flow-examples-wrapper');
+    this.getSizes().forEach((size) => {
+      const example = dc('div');
+      ac(`match-color`, example);
+      ac(`reverse-background`, example);
+      ac(`large-full-margin`, example);
+      const token = `${size}-flow`;
+      ac(token, example);
+      const name = dc(`div`);
+      html(`.${token}`, name);
+      a(name, example);
+      for (let p = 0; p < 4; p ++) {
+        const p = dc('p');
+        html("item", p)
+        a(p, example);
+      }
+      a(example, wrapper);
+    })
+
   }
 
   addSpacingMarginExamples() {
@@ -1528,33 +1547,6 @@ class Picker extends HTMLElement {
 .xlarge-width { width: var(--xlarge-width); }
 .xxlarge-width { width: var(--xxlarge-width); }
 .xxxlarge-width { width: var(--xxxlarge-width); }
-.xxxsmall-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.1em);
-}
-.xxsmall-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.3em);
-}
-.xsmall-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.5em);
-}
-.small-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.7em);
-}
-.base-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1em);
-}
-.large-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1.2em);
-}
-.xlarge-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1.4em);
-}
-.xxlarge-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1.8em);
-}
-.xxxlarge-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 2.2em);
-}
 
 `;
   }

@@ -1290,15 +1290,15 @@ class Picker extends HTMLElement {
     return p.modes[p.activeMode].base.l;
   }
 
-  getActiveColorC() {
+  getActiveColorIndexC() {
     return this.getColorC(p.activeMode, p.activeColor);
   }
 
-  getActiveColorH() {
+  getActiveColorIndexH() {
     return this.getColorH(p.activeMode, p.activeColor);
   }
 
-  getActiveColorL() {
+  getActiveColorIndexL() {
     return this.getColorL(p.activeMode, p.activeColor);
   }
 
@@ -2011,7 +2011,7 @@ ${sheets.join("\n")}
   }
 
   underlineActiveHueLightnessButton() {
-    const button = el(`color-lightness-hue-selector--mode-${p.activeMode}--color-${p.activeColor}--lightness-${this.getActiveColorL()}--hue-${this.getActiveColorH()}`);
+    const button = el(`color-lightness-hue-selector--mode-${p.activeMode}--color-${p.activeColor}--lightness-${this.getActiveColorIndexL()}--hue-${this.getActiveColorIndexH()}`);
     ac("underline", button);
   }
 

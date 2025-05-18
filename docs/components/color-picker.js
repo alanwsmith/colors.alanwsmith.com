@@ -1108,8 +1108,9 @@ class Picker extends HTMLElement {
       ac(`large-inline-margin`, example);
       ac(`reverse-background`, example);
       ac(`match-text`, example);
+      ac(`default-full-padding`, example);
       const token = `align-${alignment}`;
-      html(`.${token}`, example);
+      html(`this is an example of text that will be positioned based on how they line up via .${token}`, example);
       ac(token, example);
       a(example, wrapper);
     });

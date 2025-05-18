@@ -1045,6 +1045,7 @@ class Picker extends HTMLElement {
     this.addSpacingWrapperExamples();
     this.addFontSizeExamples();
     this.initControls();
+    this.updateUiStyles();
 
     // TODO: Deprecate or Redo
     this.requestRender = this.renderPage.bind(this);
@@ -1379,6 +1380,10 @@ class Picker extends HTMLElement {
     return values;
   }
 
+  getColorHueRowValues(mode, color) {
+    return [23, 34, 45, 234, 23, 12, 32, 51];
+  }
+
   getColorIndexL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
@@ -1397,7 +1402,7 @@ class Picker extends HTMLElement {
   getColorValueL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
-    return this.getLigthnessValues(mode, color)[l];
+    return this.getLightnessValues(mode, color)[l];
   }
 
   getColorMinLightValue(mode, color) {
@@ -1416,7 +1421,7 @@ class Picker extends HTMLElement {
     ]
   }
 
-  getLigthnessValues(mode, color) {
+  getLightnessValues(mode, color) {
     const levels = [];
     const minLightLevel = this.getColorMinLightValue(mode, color);
     const adder = ((p.maxLightValue - minLightLevel) / (p.lightLevels - 1));
@@ -1587,7 +1592,7 @@ class Picker extends HTMLElement {
       for (let hueOffsetIndexcolor = 0; hueOffsetIndexcolor < hueCount; hueOffsetIndexcolor ++ ) {
         const hueOffsetIndexWrapper = dc('div');
         ac('color-hue-set-line', hueOffsetIndexWrapper);
-        this.getLigthnessValues(p.activeMode, color).forEach((level, levelcolor) => {
+        this.getLightnessValues(p.activeMode, color).forEach((level, levelcolor) => {
           const button = dc('button'); 
           ad('kind', 'color-hue-lightness-button', button);
           ad('mode', p.activeMode, button);
@@ -1838,7 +1843,7 @@ class Picker extends HTMLElement {
       const wrapper = getEl('.colors-box-grid-wrapper', sidebar);
       this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
         const row = dc('div');
-        this.getLigthnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
+        this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
           const button = dc('button');
           html("set", button);
           ad("kind", "color-box-set-button", button);
@@ -1846,7 +1851,7 @@ class Picker extends HTMLElement {
           ad("color", p.activeColor, button);
           ad("lightness", lightness, button);
           ad("hue", hue, button);
-          ac(`ui__mode-${p.activeMode}__color-${p.activeColor}__lightness-${lightness}__hue-${hue}`, button);
+          ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
           a(button, row);
         });
         a(row, wrapper);
@@ -2010,7 +2015,7 @@ ${sheets.join("\n")}
         const colorData = p.modes[mode].colors[color];
         const hueCount = Math.round(360 / p.hueOffsets[colorData.hueOffsetIndex]);
         for (let hueIndex = 0; hueIndex < hueCount; hueIndex ++) {
-          this.getLigthnessValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
+          this.getLightnessValues(p.activeMode, color).forEach((lightLevel, lightIndex) => {
             const className = `.color-lightness-hue-selector--mode-${mode}--color-${color}--lightness-${lightIndex}--hue-${hueIndex}`;
             const c = this.getColorValueC(mode, color);
             const hueMultiplier = p.hueOffsets[colorData.hueOffsetIndex];
@@ -2173,6 +2178,25 @@ ${sheets.join("\n")}
         ac('inactive-mode-button', button);
       }
     });
+  }
+
+  updateUiStyles() {
+    if (this.uiStyleSheet === undefined) {
+      this.uiStyleSheet = dc('style');
+      document.head.appendChild(this.uiStyleSheet);
+    }
+    const lines = [];
+  //  for (let hueIndex = 0; hueIndex < this.getHueRowCount(p.activeMode, p.activeColor); hueIndex ++) {
+    this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
+      this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
+        const cValue = this.getColorValueC(p.activeMode, p.activeColor);
+        const name = `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}`;
+        const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
+        lines.push(`${name} { color: ${value}; }`);
+      });
+    });
+    const out = lines.sort().join("\n");
+    this.uiStyleSheet.innerHTML = out;
   }
 
   // TODO: Deprecate or Redo

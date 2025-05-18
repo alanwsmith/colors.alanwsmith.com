@@ -1747,10 +1747,12 @@ class Picker extends HTMLElement {
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
         const tabButton = dc('button');
         sa("role", "tab", tabButton);
-        if (nameIndex === 0) {
+        if (nameIndex === p.activeColor) {
           sa("aria-selected", "true", tabButton);
         }
         html(Array.from(p.colorNames[nameIndex])[0], tabButton);
+        ad("kind", "color-selector-button", tabButton);
+        ad("color", nameIndex, tabButton);
         a(tabButton, tabList);
       }
       a(tabList, tabGroup);
@@ -2290,6 +2292,10 @@ ${sheets.join("\n")}
     ac("underline", button);
   }
 
+  updateActiveColor(obj) {
+    const color = gdiV2("color", obj);
+    p.activeColor = color;
+  }
 
   // TODO: Deprecate or Redo
   updateBaseSliders() {
@@ -2495,6 +2501,8 @@ ${sheets.join("\n")}
         this.updateMode(event.target);
       } else if (kind === "color-box-set-button") {
         this.updateLightnessHue(event.target)
+      } else if (kind === "color-selector-button") {
+        this.updateActiveColor(event.target)
       }
     }
   }

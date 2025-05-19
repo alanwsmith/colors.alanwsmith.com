@@ -280,9 +280,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 1,
+              l: 0,
               c: 0.2034,
-              h: 7,
+              h: 5,
             },
             {
               l: 1,
@@ -317,7 +317,7 @@ const defaultPalette = {
           hueOffsetValues: [
             {
               l: 3,
-              c: 0.1023,
+              c: 0.19512,
               h: 2,
             },
             {
@@ -334,8 +334,8 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
-              c: 0.118,
+              l: 2,
+              c: 0.11697,
               h: 0,
             },
             {
@@ -352,9 +352,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
-              c: 0.1023,
-              h: 2,
+              l: 2,
+              c: 0.07101,
+              h: 0,
             },
             {
               l: 4,
@@ -423,7 +423,7 @@ const defaultPalette = {
     },
 
     {
-      base: { l: 100, c: 0.0492, h: 101.484 },
+      base: { l: 94.92, c: 0.06066, h: 270},
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100, 100, 0],
       colors: [
@@ -433,9 +433,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
+              l: 0,
               c: 0.118,
-              h: 2,
+              h: 5,
             },
             {
               l: 4,
@@ -451,9 +451,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
-              c: 0.118,
-              h: 2,
+              l: 2,
+              c: 0.24567,
+              h: 7,
             },
             {
               l: 4,
@@ -469,9 +469,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
+              l: 1,
               c: 0.118,
-              h: 2,
+              h: 3,
             },
             {
               l: 4,
@@ -487,9 +487,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
-              c: 0.118,
-              h: 2,
+              l: 1,
+              c: 0.03885,
+              h: 6,
             },
             {
               l: 4,
@@ -505,9 +505,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 3,
-              c: 0.118,
-              h: 2,
+              l: 1,
+              c: 0.06066,
+              h: 4,
             },
             {
               l: 4,
@@ -2205,8 +2205,24 @@ class Picker extends HTMLElement {
 
   updateDebuggingTab() {
     const outputEl = elV2('.debugging-content')
+    p["_debugging"] = {
+      currentColor: {
+        modeIndex: p.activeMode,
+        colorIndex: p.activeColor,
+        l: this.getActiveColorIndexL(),
+        c: this.getActiveColorIndexC(),
+        h: this.getActiveColorIndexH(),
+      }, 
+      currentBackground: {
+        modeIndex: p.activeMode, 
+        l: this.getBackgroundValueL(p.activeMode),
+        c: this.getBackgroundValueC(p.activeMode),
+        h: this.getBackgroundValueH(p.activeMode),
+      }
+    }
     outputEl.innerHTML = JSON.stringify(p, null, 2)
   }
+
 
   updateExportPage() {
     const outputEl = elV2('.export-content')

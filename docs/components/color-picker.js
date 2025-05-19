@@ -1231,7 +1231,7 @@ class Picker extends HTMLElement {
 
   generateUtilityBlackAndWhiteVars() {
     const lines = [];
-    lines.push(`  /* Black And White Variables */`);
+    lines.push(`  /* Black And White Mode Variables */`);
     this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
         const lightnessValue = this.getBlackAndWhiteModeValue(modeIndex, bwIndex);
@@ -1335,27 +1335,28 @@ class Picker extends HTMLElement {
       ad("editable", "no", this.colorVarsStyleSheet);
       ad("deployable", "yes", this.colorVarsStyleSheet);
       ad("key", "color-variables", this.colorVarsStyleSheet);
-      ad("name", "Color Variables", this.colorVarsStyleSheet);
+      ad("name", "Color Mode Variables", this.colorVarsStyleSheet);
     }
     const lines = [`:root {`];
+    lines.push(`  /* Color Mode Variables */`);
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
       const backgroundL = this.getBackgroundValueL(modeIndex);
       const backgroundC = this.getBackgroundValueC(modeIndex);
       const backgroundH = this.getBackgroundValueH(modeIndex);
-      const backgroundName = `--${modeName}__${p.backgroundColorName}`
+      const backgroundName = `  --${modeName}__${p.backgroundColorName}`
       const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
       lines.push(`${backgroundName}: ${backgroundValue};`);
       this.getActiveColors().forEach((colorName, colorIndex) => {
         const l = this.getColorValueL(modeIndex, colorIndex);
         const c = this.getColorValueC(modeIndex, colorIndex);
         const h = this.getColorValueH(modeIndex, colorIndex);
-        const textName = `--${modeName}__${colorName}`;
+        const textName = `  --${modeName}__${colorName}`;
         const textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(`${textName}: ${textValue};`);
         p.fadedNames.forEach((fadedName, fadedIndex) => {
           const fade = .5;
-          const fadedClassName = `--${modeName}__${colorName}-${fadedName}`;
+          const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
           const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
           lines.push(`${fadedClassName}: ${fadedValue};`);
         });
@@ -1551,6 +1552,10 @@ class Picker extends HTMLElement {
       ["block", true],
       ["inline", true],
     ]
+  }
+
+  getScrubbedActiveModeName() {
+    return scrubStyle(p.modes[p.activeMode].name);
   }
 
   getScrubbedFadedNames() {
@@ -1975,27 +1980,61 @@ class Picker extends HTMLElement {
       ad("name", "Active Variables", this.activeVarsStyleSheet);
     }
     const lines = [];
-    lines.push(`/* Active Variables */`);
+    lines.push(this.updateActiveColorVars().join("\n"));
+    lines.push("");
+    lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
+    this.activeVarsStyleSheet.innerHTML = lines.join("\n");
+  }
+
+  updateActiveBlackAndWhiteVars() {
+    const lines = [];
+    lines.push(`/* Active Black and White Variables */`);
+    const modeName = this.getScrubbedActiveModeName();
+    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+      lines.push(
+        makeVar(
+          `  --${bwName}`,
+          `var(--${modeName}__${bwName})`
+        )
+      );
+      this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+        lines.push(
+          makeVar(
+            `  --${bwName}-${fadedName}`,
+            `var(--${modeName}__${bwName}-${fadedName})`
+          )
+        );
+      });
+    });
+    return lines;
+  }
+
+
+
+  updateActiveColorVars() {
+    const lines = [];
+    lines.push(`/* Active Color Variables */`);
     this.getActiveScrubbedColorNames().forEach((colorName, colorIndex) => {
       const modeName = this.getActiveModeScrubbedName(p.activeMode);
       lines.push(
         makeVar(
-          `--${colorName}`,
+          `  --${colorName}`,
           `var(--${modeName}__${colorName})`
         )
       );
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeVar(
-            `--${colorName}-${fadedName}`,
+            `  --${colorName}-${fadedName}`,
             `var(--${modeName}__${colorName}-${fadedName})`
           )
         );
       });
     });
-    lines.push("");
-    this.activeVarsStyleSheet.innerHTML = lines.join("\n");
+    return lines;
   }
+
+
   
   updateBackgroundColor(obj) {
     const mode = p.activeMode;

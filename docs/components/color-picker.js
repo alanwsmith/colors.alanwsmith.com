@@ -231,6 +231,9 @@ const defaultPalette = {
   },
   "backgroundColorName": "background",
   "baseColorName": "base-color",
+  "blackAndWhiteNames": [
+    "black", "white", "matched", "reversed"
+  ],
   "borderStylePrefix": "border",
   "borderTypes": [
     ["full", false],
@@ -241,7 +244,6 @@ const defaultPalette = {
     ["inline", true],
     ["block", true],
   ],
-  "bwNames": ["matched-bw", "reversed-bw"],
   "colorNames": [
     "content",
     "links",
@@ -272,7 +274,8 @@ const defaultPalette = {
 
     {
       "base": { "l": 85.74, "c": 0.07833, "h": 269.46},
-      "bwValues": [100, 0],
+      "blackAndWhiteFaded": [0.4, 0.1],
+      "blackAndWhiteValues": [0, 100, 100, 0],
       "category": 3,
       "colors": [
         // 0-0
@@ -425,7 +428,8 @@ const defaultPalette = {
 
     {
       "base": { "l": 100, "c": 0.0492, "h": 101.484 },
-      "bwValues": [100, 0],
+      "blackAndWhiteFaded": [0.4, 0.1],
+      "blackAndWhiteValues": [0, 100, 100, 0],
       "category": 2,
       "colors": [
         // 1-0
@@ -578,7 +582,8 @@ const defaultPalette = {
 
     { 
       "base": { "l": 25.71, "c": 0.07395, "h": 58.896 },
-      "bwValues": [0, 100],
+      "blackAndWhiteFaded": [0.4, 0.1],
+      "blackAndWhiteValues": [0, 100, 0, 100],
       "category": 0,
       "colors": [
         // 2-0
@@ -731,7 +736,8 @@ const defaultPalette = {
 
     { 
       "base": { "l": 5.21, "c": 0.28248, "h": 74.808 },
-      "bwValues": [0, 100],
+      "blackAndWhiteFaded": [0.4, 0.1],
+      "blackAndWhiteValues": [0, 100, 0, 100],
       "category": 1,
       "colors": [
         // 3-0
@@ -914,6 +920,7 @@ class Picker extends HTMLElement {
     this.addFontSizeExamples();
     this.initControls();
     this.populateUtilityClasses();
+    this.populateUtilityVars();
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
     this.updateProdVarsStyleSheet();
@@ -1175,14 +1182,32 @@ class Picker extends HTMLElement {
     ad("name", "Utility Classes", this.utilityClassesStyleSheet);
     const lines =[];
     lines.push("");
-    lines.push(...[this.generateUtilityTextClasses()]);
+    lines.push(this.generateUtilityTextClasses().join("\n"));
     lines.push("");
-    lines.push(...[this.generateUtilityBackgroundClasses()]);
+    lines.push(this.generateUtilityBackgroundClasses().join("\n"));
     lines.push("");
-    lines.push(...[this.generateUtilityBorderClasses()]);
+    lines.push(this.generateUtilityBorderClasses().join("\n"));
+    lines.push("");
+    lines.push(this.generateUtilityFontSizeClasses().join("\n"));
     lines.push("");
     const out = `:root { ${lines.join("\n")} }`;
     this.utilityClassesStyleSheet.innerHTML = out;
+  }
+
+  populateUtilityVars() {
+    this.utilityVarsStyleSheet = dc('style');
+    document.head.appendChild(this.utilityVarsStyleSheet);
+    ad("editable", "no", this.utilityVarsStyleSheet);
+    ad("deployable", "yes", this.utilityVarsStyleSheet);
+    ad("name", "Utility Variables", this.utilityVarsStyleSheet);
+    const lines =[];
+    lines.push("");
+    lines.push(this.generateUtilityFontSizeVars().join("\n"));
+    lines.push("");
+    lines.push(this.generateUtilityBlackAndWhiteVars().join("\n"));
+    lines.push("");
+    const out = `:root { ${lines.join("\n")} }`;
+    this.utilityVarsStyleSheet.innerHTML = out;
   }
 
   generateUtilityBackgroundClasses() {
@@ -1199,7 +1224,33 @@ class Picker extends HTMLElement {
           );
       });
     });
-    return lines.join("\n");
+    return lines;
+  }
+
+  generateUtilityBlackAndWhiteVars() {
+    const lines = [];
+    lines.push(`  /* Black And White Variables */`);
+    this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+      this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+        const lightnessValue = this.getBlackAndWhiteModeValue(modeIndex, bwIndex);
+        lines.push(
+          makeVar(
+            `  --${modeName}__${bwName}`,
+            `oklch(${lightnessValue}% 0 0)`
+          )
+        );
+        this.getFadedNames().forEach((fadedName, fadedIndex) => {
+        const fadedValue = this.getBlackAndWhiteModeFadedValue(modeIndex, fadedIndex);
+          lines.push(
+            makeVar(
+              `  --${modeName}__${bwName}-${fadedName}`,
+              `oklch(${lightnessValue}% 0 0 / ${fadedValue})`
+            )
+          );
+        });
+      });
+    });
+    return lines;
   }
 
   generateUtilityBorderClasses() {
@@ -1222,8 +1273,41 @@ class Picker extends HTMLElement {
         });
       });
     });
-    return lines.join("\n");
+    return lines;
   }
+
+  generateUtilityFontSizeClasses() {
+    const lines = [];
+    lines.push(`  /* Font Size Classes */`);
+    const hardCoded = `  .xxxsmall-font-size {font-size: var(--xxxsmall-font-size); }
+  .xxsmall-font-size { font-size: var(--xxsmall-font-size); }
+  .xsmall-font-size { font-size: var(--xsmall-font-size); }
+  .small-font-size { font-size: var(--small-font-size); }
+  .default-font-size { font-size: var(--default-font-size); }
+  .large-font-size { font-size: var(--large-font-size); }
+  .xlarge-font-size { font-size: var(--xlarge-font-size); }
+  .xxlarge-font-size { font-size: var(--xxlarge-font-size); }
+  .xxxlarge-font-size { font-size: var(--xxxlarge-font-size); }`
+    lines.push(...hardCoded.split("\n"));
+    return lines;
+  }
+
+  generateUtilityFontSizeVars() {
+    const lines = [];
+    lines.push(`  /* Font Size Variables */`);
+    const hardCoded = `  --xxxsmall-font-size: clamp(0.58rem, calc(0.57rem + 0.03vw), 0.6rem);
+  --xxsmall-font-size: clamp(0.68rem, calc(0.67rem + 0.03vw), 0.7rem);
+  --xsmall-font-size: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
+  --small-font-size: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
+  --default-font-size: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
+  --large-font-size: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
+  --xlarge-font-size: clamp(1.62rem, calc(1.5rem + 0.58vw), 1.95rem);
+  --xxlarge-font-size: clamp(1.94rem, calc(1.77rem + 0.87vw), 2.44rem);
+  --xxxlarge-font-size: clamp(2.03rem, calc(2rem + 1.25vw), 2.7rem);`
+    lines.push(...hardCoded.split("\n"));
+    return lines;
+  }
+
 
   generateUtilityTextClasses() {
     const lines =[];
@@ -1239,7 +1323,7 @@ class Picker extends HTMLElement {
           );
       });
     });
-    return lines.join("\n");
+    return lines;
   }
 
   updateProdVarsStyleSheet() {
@@ -1377,7 +1461,20 @@ class Picker extends HTMLElement {
   getBackgroundValueL(mode) {
     return p.modes[mode].base.l
   }
+
+  getBlackAndWhiteModeValue(mode, index) {
+    return p.modes[mode].blackAndWhiteValues[index];
+  }
+
+  getBlackAndWhiteModeFadedValue(mode, index) {
+    return p.modes[mode].blackAndWhiteFaded[index];
+  }
+
+  getBlackAndWhiteNames() {
+    return p.blackAndWhiteNames;
+  }
   
+  // TODO: Deprecate this to getBlackAndWhiteNames
   getBwKinds() {
     return [
       ['black', 'white'],
@@ -1436,6 +1533,7 @@ class Picker extends HTMLElement {
     return p.modes[mode].colors[color].minLightLevel;
   }
   
+  // TODO: Deprecate and put in data object
   getDirections() {
     return [
       ["full", false],
@@ -1447,7 +1545,12 @@ class Picker extends HTMLElement {
       ["inline", true],
     ]
   }
+
+  getFadedNames() {
+    return p.fadedNames;
+  }
   
+  // TODO: Deprecate and put in data object
   getFadedValues() {
     return [
       '', '-faded', '-faded2'
@@ -1476,7 +1579,16 @@ class Picker extends HTMLElement {
   getHueRowCount(mode, color) {
     return Math.round(360 / this.getHueOffsetAmount(mode, color));
   } 
-  
+
+  getModeNames() {
+    return p.modes.map((mode) => { return mode.name});
+  }
+
+  getModeScrubbedNames() {
+    return p.modes.map((mode) => { return scrubStyle(mode.name)});
+  }
+
+  // TODO: Deprecate and put in data object
   getSizes() {
     return [
       'xxxlarge',
@@ -1896,7 +2008,8 @@ class Picker extends HTMLElement {
     outputEl.innerHTML = payloads.map((item) => {
         let open = "";
         if (
-          item.name === "Color Variables"
+          // item.name === "Color Variables"
+        item.name === "Utility Variables"
         || item.name === "Utility Classes"
             // || item.name === "Picker Styles"
             // || item.name === "UI Classes"

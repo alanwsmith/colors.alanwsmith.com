@@ -921,11 +921,9 @@ class Picker extends HTMLElement {
     this.addFontSizeExamples();
     this.initControls();
     this.populateUtilityClasses();
-    this.populateUtilityVars();
+    this.populateVarsStyleSheet();
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
-    this.updateProdVarsStyleSheet();
-    this.updateActiveVarsStyleSheet();
     this.requestUpdate = this.updateUiView.bind(this);
     this.addListeners();
     this.updateExportPage();
@@ -1168,9 +1166,11 @@ class Picker extends HTMLElement {
   }
   
   finishUpdate() {
-    this.updateActiveVarsStyleSheet();
+    this.populateVarsStyleSheet();
+    // this.updateActiveVarsStyleSheet();
     this.updateUiVarsStyleSheet();
-    this.updateProdVarsStyleSheet();
+    // TODO: move the classes things so it only has
+    // to fire once
     this.updateUiClassesStyleSheet();
     this.updateExportPage();
     this.updateDebuggingTab();
@@ -1203,20 +1203,27 @@ class Picker extends HTMLElement {
     this.utilityClassesStyleSheet.innerHTML = out;
   }
 
-  populateUtilityVars() {
-    this.utilityVarsStyleSheet = dc('style');
-    document.head.appendChild(this.utilityVarsStyleSheet);
-    ad("editable", "no", this.utilityVarsStyleSheet);
-    ad("deployable", "yes", this.utilityVarsStyleSheet);
-    ad("name", "Utility Variables", this.utilityVarsStyleSheet);
+  populateVarsStyleSheet() {
+    if (this.varsStyleSheet === undefined) {
+      this.varsStyleSheet = dc('style');
+      document.head.appendChild(this.varsStyleSheet);
+      ad("editable", "no", this.varsStyleSheet);
+      ad("deployable", "yes", this.varsStyleSheet);
+      ad("name", "Variables", this.varsStyleSheet);
+    }
     const lines =[];
     lines.push("");
     lines.push(this.generateUtilityFontSizeVars().join("\n"));
     lines.push("");
+    lines.push(this.getColorModeVars().join("\n"));
+    lines.push("");
     lines.push(this.generateUtilityBlackAndWhiteVars().join("\n"));
     lines.push("");
+    lines.push(this.updateActiveColorVars().join("\n"));
+    lines.push("");
+    lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
     const out = `:root { ${lines.join("\n")} }`;
-    this.utilityVarsStyleSheet.innerHTML = out;
+    this.varsStyleSheet.innerHTML = out;
   }
 
   generateUtilityColorBackgroundClasses() {
@@ -1262,7 +1269,6 @@ class Picker extends HTMLElement {
 
   generateUtilityBlackAndWhiteBorderClasses() {
     const lines = [];
-    lines.push(`  /* Black And White Border Classes */`);
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getDirections().forEach((direction) => {
         lines.push(
@@ -1410,17 +1416,9 @@ class Picker extends HTMLElement {
     return [`  /* Text Colors */`, ...lines];
   }
 
-  updateProdVarsStyleSheet() {
-    if (this.colorVarsStyleSheet === undefined) {
-      this.colorVarsStyleSheet = dc('style');
-      document.head.appendChild(this.colorVarsStyleSheet);
-      ad("editable", "no", this.colorVarsStyleSheet);
-      ad("deployable", "yes", this.colorVarsStyleSheet);
-      ad("key", "color-variables", this.colorVarsStyleSheet);
-      ad("name", "Color Mode Variables", this.colorVarsStyleSheet);
-    }
-    const lines = [`:root {`];
-    lines.push(`  /* Color Mode Variables */`);
+
+  getColorModeVars() {
+    const lines = [];
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
       const backgroundL = this.getBackgroundValueL(modeIndex);
@@ -1444,11 +1442,49 @@ class Picker extends HTMLElement {
         });
       });
     });
-    lines.push(`}`);
-    const out = lines.join("\n");
-    this.colorVarsStyleSheet.innerHTML = out;
+    return [`  /* Color Mode Variables */`, ...lines];
   }
-  
+
+
+  // updateProdVarsStyleSheet() {
+  //   if (this.colorVarsStyleSheet === undefined) {
+  //     this.colorVarsStyleSheet = dc('style');
+  //     document.head.appendChild(this.colorVarsStyleSheet);
+  //     ad("editable", "no", this.colorVarsStyleSheet);
+  //     ad("deployable", "yes", this.colorVarsStyleSheet);
+  //     ad("key", "color-variables", this.colorVarsStyleSheet);
+  //     ad("name", "Color Mode Variables", this.colorVarsStyleSheet);
+  //   }
+  //   const lines = [`:root {`];
+  //   lines.push(`  /* Color Mode Variables */`);
+  //   p.modes.forEach((modeData, modeIndex) => {
+  //     const modeName = scrubStyle(modeData.name);
+  //     const backgroundL = this.getBackgroundValueL(modeIndex);
+  //     const backgroundC = this.getBackgroundValueC(modeIndex);
+  //     const backgroundH = this.getBackgroundValueH(modeIndex);
+  //     const backgroundName = `  --${modeName}__${p.backgroundColorName}`
+  //     const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+  //     lines.push(`${backgroundName}: ${backgroundValue};`);
+  //     this.getActiveColors().forEach((colorName, colorIndex) => {
+  //       const l = this.getColorValueL(modeIndex, colorIndex);
+  //       const c = this.getColorValueC(modeIndex, colorIndex);
+  //       const h = this.getColorValueH(modeIndex, colorIndex);
+  //       const textName = `  --${modeName}__${colorName}`;
+  //       const textValue = `oklch(${l}% ${c} ${h})`;
+  //       lines.push(`${textName}: ${textValue};`);
+  //       p.fadedNames.forEach((fadedName, fadedIndex) => {
+  //         const fade = .5;
+  //         const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
+  //         const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+  //         lines.push(`${fadedClassName}: ${fadedValue};`);
+  //       });
+  //     });
+  //   });
+  //   lines.push(`}`);
+  //   const out = lines.join("\n");
+  //   this.colorVarsStyleSheet.innerHTML = out;
+  // }
+
   updateMode(obj) {
     const newMode = gdiV2("mode", obj);
     if (newMode !== p.activeMode) {
@@ -2052,22 +2088,22 @@ class Picker extends HTMLElement {
     this.finishUpdate();
   }
 
-  updateActiveVarsStyleSheet() {
-    if (this.activeVarsStyleSheet === undefined) {
-      this.activeVarsStyleSheet = dc('style');
-      document.head.appendChild(this.activeVarsStyleSheet);
-      ad("editable", "no", this.activeVarsStyleSheet);
-      ad("deployable", "yes", this.activeVarsStyleSheet);
-      ad("name", "Active Variables", this.activeVarsStyleSheet);
-    }
-    const lines = [];
-    lines.push(`:root {`);
-    lines.push(this.updateActiveColorVars().join("\n"));
-    lines.push("");
-    lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
-    lines.push(`}`);
-    this.activeVarsStyleSheet.innerHTML = lines.join("\n");
-  }
+  // updateActiveVarsStyleSheet() {
+  //   if (this.activeVarsStyleSheet === undefined) {
+  //     this.activeVarsStyleSheet = dc('style');
+  //     document.head.appendChild(this.activeVarsStyleSheet);
+  //     ad("editable", "no", this.activeVarsStyleSheet);
+  //     ad("deployable", "yes", this.activeVarsStyleSheet);
+  //     ad("name", "Active Variables", this.activeVarsStyleSheet);
+  //   }
+  //   const lines = [];
+  //   lines.push(`:root {`);
+  //   lines.push(this.updateActiveColorVars().join("\n"));
+  //   lines.push("");
+  //   lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
+  //   lines.push(`}`);
+  //   this.activeVarsStyleSheet.innerHTML = lines.join("\n");
+  // }
 
   updateActiveBlackAndWhiteVars() {
     const lines = [];
@@ -2173,7 +2209,7 @@ class Picker extends HTMLElement {
         let open = "";
         if (
           // item.name === "Color Variables"
-        item.name === "Utility Variables"
+        item.name === "Variables"
         || item.name === "Utility Classes"
         || item.name === "Active Variables"
             // || item.name === "Picker Styles"

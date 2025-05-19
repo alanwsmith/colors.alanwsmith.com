@@ -1683,6 +1683,15 @@ class Picker extends HTMLElement {
           });
         }
       });
+      els('.mode-buttons-wrapper').forEach((wrapper) => {
+        wrapper.classList.remove('invisible');
+      })
+      els('.nav-tab-list').forEach((wrapper) => {
+        wrapper.classList.remove('invisible');
+      })
+      els('.colors-box-wrapper').forEach((wrapper) => {
+        wrapper.classList.remove('invisible');
+      })
     } else {
       els('.mode-buttons-wrapper').forEach((wrapper) => {
         wrapper.classList.remove('invisible');

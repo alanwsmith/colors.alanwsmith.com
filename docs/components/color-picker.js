@@ -1750,17 +1750,6 @@ class Picker extends HTMLElement {
     this.finishUpdate();
   }
 
-   
-  // TODO? 
-  updateBackgroundCheckbox(tab) {
-    // const sliders = els(`input[data-tab=${tab}]`);
-    // sliders.forEach((slider) => {
-    //   const aspect = gdsV2("aspect", slider);
-    //   slider.value = this.getActiveBackgroundValueAspect(aspect);
-    // });
-  }
-
-   
   updateBackgroundSliders(tab) {
     const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
     const wrapper = getEl(`.background-box-sliders`, sidebar);
@@ -1898,7 +1887,6 @@ class Picker extends HTMLElement {
     this.uiColorVarsStyleSheet.innerHTML = out;
   }
 
-  
   updateUiView(event) {
     if (event.target.dataset) {
       const kind = event.target.dataset.kind;

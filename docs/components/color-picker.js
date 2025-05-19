@@ -912,7 +912,7 @@ class Picker extends HTMLElement {
     this.updateDebuggingTab();
   }
 
-  // V2
+  
   addBorderRadiusExamples() {
     const wrapper = el('border-radius-examples-wrapper');
     this.getSizes().forEach((size) => {
@@ -1021,7 +1021,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  // V2
+  
   addSpacingAlignmentExamples() {
     const wrapper = el('alignment-examples-wrapper');
     this.getAlignments().forEach((alignment) => {
@@ -1037,7 +1037,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   addSpacingFlowExamples() {
     const wrapper = el('flow-examples-wrapper');
     this.getSizes().forEach((size) => {
@@ -1059,7 +1059,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   addSpacingMarginExamples() {
     const wrapper = el('margin-examples-wrapper');
     this.getSizes().forEach((size) => {
@@ -1094,7 +1094,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   addSpacingPaddingExamples() {
     const wrapper = el('padding-examples-wrapper');
     this.getSizes().forEach((size) => {
@@ -1113,7 +1113,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   addSpacingWidthExamples() {
     const wrapper = el('width-examples-wrapper');
     this.getSizesWithFull().forEach((size) => {
@@ -1134,7 +1134,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   addSpacingWrapperExamples() {
     const wrapper = el('wrapper-examples-wrapper');
     this.getSizesWithFull().forEach((size) => {
@@ -1155,7 +1155,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   finishUpdate() {
     this.updateUiVarsStyleSheet();
     this.updateProdVarsStyleSheet();
@@ -1165,7 +1165,7 @@ class Picker extends HTMLElement {
     this.toggleIsolation();
   }
 
-  // V2
+  
   getActiveBackgroundValueAspect(aspect) {
     if (aspect === "l") {
       return this.getActiveBackgroundValueL() 
@@ -1176,97 +1176,97 @@ class Picker extends HTMLElement {
     }
   }
 
-  // V2
+  
   getActiveBackgroundValueC() {
     return p.modes[p.activeMode].base.c;
   }
 
-  // V2
+  
   getActiveBackgroundValueH() {
     return p.modes[p.activeMode].base.h;
   }
 
-  // V2
+  
   getActiveBackgroundValueL() {
     return p.modes[p.activeMode].base.l;
   }
 
-  // V2
+  
   getActiveColorIndexC() {
     return this.getColorIndexC(p.activeMode, p.activeColor);
   }
 
-  // V2
+  
   getActiveColorIndexH() {
     return this.getColorIndexH(p.activeMode, p.activeColor);
   }
 
-  // V2
+  
   getActiveColorIndexL() {
     return this.getColorIndexL(p.activeMode, p.activeColor);
   }
 
-  // V2
+  
   getActiveColors() {
     return p.colorNames.filter((name, index) => {
       return index < p.numberOfColors;
     })
   }
 
-  // V2
+  
   getActiveColorValueC() {
     return this.getColorValueC(p.activeMode, p.activeColor);
   }
 
-  // V2
+  
   getActiveColorValueH() {
     return this.getColorValueH(p.activeMode, p.activeColor);
   }
 
-  // V2
+  
   getActiveColorValueL() {
     return this.getColorValueL(p.activeMode, p.activeColor);
   }
 
-  // V2
+  
   getActiveModeScrubbedName() {
     return scrubStyle(
       p.modes[p.activeMode].name
     );
   }
  
-  // V2
+  
   getAlignments() {
     return ['start', 'center', 'end', 'justify']
   }
 
-  // V2
+  
   getAspectMax(aspect) {
     return p.aspects[aspect].max;
   }
 
-  // V2
+  
   getAspectStep(aspect) {
     const value = p.aspects[aspect].max / 10000;
     return value.toFixed(7);
   }
 
-  // V2
+  
   getBackgroundValueC(mode) {
     return p.modes[mode].base.c
   }
 
-  // V2
+  
   getBackgroundValueH(mode) {
     return p.modes[mode].base.h
   }
 
-  // V2
+  
   getBackgroundValueL(mode) {
     return p.modes[mode].base.l
   }
 
-  // V2
+  
   getBwKinds() {
     return [
       ['black', 'white'],
@@ -1276,19 +1276,19 @@ class Picker extends HTMLElement {
     ]
   }
 
-  // V2
+  
   getColorIndexC(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
   }
 
-  // V2
+  
   getColorIndexH(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
   }
 
-  // V2
+  
   getColorHueValues(mode, color) {
     const values = [];
     const h = this.getColorIndexH(mode, color);
@@ -1299,42 +1299,42 @@ class Picker extends HTMLElement {
     return values;
   }
 
-  // V2
+  
   getColorHueRowValues(mode, color) {
     return [23, 34, 45, 234, 23, 12, 32, 51];
   }
 
-  // V2
+  
   getColorIndexL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
   }
 
-  // V2
+  
   getColorValueC(mode, color) {
     return this.getColorIndexC(mode, color).toFixed(5);
   }
 
-  // V2
+  
   getColorValueH(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const h = this.getColorIndexH(mode, color);
     return this.getColorHueValues(mode, color)[h];
   }
 
-  // V2
+  
   getColorValueL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
     return this.getLightnessValues(mode, color)[l];
   }
 
-  // V2
+  
   getColorMinLightValue(mode, color) {
     return p.modes[mode].colors[color].minLightLevel;
   }
 
-  // V2
+  
   getDirections() {
     return [
       ["full", false],
@@ -1347,14 +1347,14 @@ class Picker extends HTMLElement {
     ]
   }
 
-  // V2
+  
   getFadedValues() {
     return [
       '', '-faded', '-faded2'
     ]
   }
 
-  // V2
+  
   getLightnessValues(mode, color) {
     const levels = [];
     const minLightLevel = this.getColorMinLightValue(mode, color);
@@ -1365,23 +1365,23 @@ class Picker extends HTMLElement {
     return levels;
   }
 
-  // V2
+  
   getHueOffsetIndex(mode, color) {
     return p.modes[mode].colors[color].hueOffsetIndex;
   }
 
-  // V2
+  
   getHueOffsetAmount(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.hueOffsets[hueOffsetIndex];
   }
 
-  // V2
+  
   getHueRowCount(mode, color) {
     return Math.round(360 / this.getHueOffsetAmount(mode, color));
   } 
 
-  // V2
+  
   getSizes() {
     return [
       'xxxlarge',
@@ -1396,13 +1396,13 @@ class Picker extends HTMLElement {
     ]
   }
 
-  // V2
+  
   getSizesWithFull() {
     return ['full', ...this.getSizes()];
   }
 
 
-  // V2
+  
   initBackgroundCheckboxes() {
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar, sidebarIndex) => {
@@ -1419,7 +1419,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   initBackgroundSliders() {
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar, sidebarIndex) => {
@@ -1444,7 +1444,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   initColorTabs() {
     dbg("initColorTabs");
     const sidebars = els('.sidebar-controls');
@@ -1518,7 +1518,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  // V2
+  
   initControls() {
     const sidebars = els('.sidebar-controls');
     const template = elV2("#picker-controls-template");
@@ -1533,7 +1533,7 @@ class Picker extends HTMLElement {
     this.initColorTabs();
   }
 
-  // V2
+  
   initModeButtonsV2() {
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar) => {
@@ -1577,7 +1577,7 @@ class Picker extends HTMLElement {
     dbg("Loaded default colors");
   }
 
-  // V2
+  
   refreshColorGrid() {
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar) => {
@@ -1601,13 +1601,13 @@ class Picker extends HTMLElement {
     });
   }
 
-  // V2
+  
   setColorAspect(mode, color, aspect, value) {
     const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
     p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value;
   }
 
-  // V2
+  
   switchTopLevelTabs() {
     this.initColorTabs();
     this.initBackgroundSliders();
@@ -1666,13 +1666,13 @@ class Picker extends HTMLElement {
     this.uiIsolationStyleSheet.innerHTML = out;
   }
 
-  // V2
+  
   updateActiveColor(obj) {
     const color = gdiV2("color", obj);
     p.activeColor = color;
   }
 
-  // V2
+  
   updateBackgroundColor(obj) {
     const mode = p.activeMode;
     const color = gdiV2("color", obj);
@@ -1681,14 +1681,14 @@ class Picker extends HTMLElement {
     this.finishUpdate();
   }
 
-  // V2
+  
   updateColorChroma(obj) {
     const value = gvfV2(obj);
     this.setColorAspect(p.activeMode, p.activeColor, "c", value);
     this.finishUpdate();
   }
 
-  // V2
+  
   updateLightnessHue(obj) {
     const mode = gdiV2("mode", obj);
     const color = gdiV2("color", obj);
@@ -1699,7 +1699,7 @@ class Picker extends HTMLElement {
     this.finishUpdate();
   }
 
-  // V2
+  
   updateProdVarsStyleSheet() {
     if (this.colorVarsStyleSheet === undefined) {
       this.colorVarsStyleSheet = dc('style');
@@ -1738,7 +1738,7 @@ class Picker extends HTMLElement {
     this.colorVarsStyleSheet.innerHTML = out;
   }
 
-  // V2
+  
   updateMode(obj) {
     const newMode = gdiV2("mode", obj);
     if (newMode !== p.activeMode) {
@@ -1750,7 +1750,7 @@ class Picker extends HTMLElement {
     this.finishUpdate();
   }
 
-  // V2 
+   
   // TODO? 
   updateBackgroundCheckbox(tab) {
     // const sliders = els(`input[data-tab=${tab}]`);
@@ -1760,7 +1760,7 @@ class Picker extends HTMLElement {
     // });
   }
 
-  // V2 
+   
   updateBackgroundSliders(tab) {
     const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
     const wrapper = getEl(`.background-box-sliders`, sidebar);
@@ -1776,7 +1776,7 @@ class Picker extends HTMLElement {
     outputEl.innerHTML = JSON.stringify(p, null, 2);
   }
 
-  // V2
+  
   updateExportPage(){
     const outputEl = elV2('.export-content');
     const sheets = els('style[data-name]');
@@ -1806,7 +1806,7 @@ class Picker extends HTMLElement {
       }).join("\n\n");
   } 
 
-  // V2
+  
   updateUiClassesStyleSheet() {
     if (this.uiClassesStyleSheet === undefined) {
       this.uiClassesStyleSheet = dc('style');
@@ -1836,7 +1836,7 @@ class Picker extends HTMLElement {
     this.uiClassesStyleSheet.innerHTML = out;
   }
 
-  // V2
+  
   // REMINDER: This is the internal one that 
   // matches the active mode. The one that's 
   // exported is the responsibility of 
@@ -1898,7 +1898,7 @@ class Picker extends HTMLElement {
     this.uiColorVarsStyleSheet.innerHTML = out;
   }
 
-  // V2
+  
   updateUiView(event) {
     if (event.target.dataset) {
       const kind = event.target.dataset.kind;

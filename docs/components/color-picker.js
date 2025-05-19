@@ -911,7 +911,6 @@ class Picker extends HTMLElement {
     this.updateExportPage();
     this.updateDebuggingTab();
   }
-
   
   addBorderRadiusExamples() {
     const wrapper = el('border-radius-examples-wrapper');
@@ -1008,7 +1007,6 @@ class Picker extends HTMLElement {
     });
   }
 
-  // TODO: Update to V2
   addListeners() {
     this.addEventListener('click', (event) => {
       this.requestUpdate.call(this, event);
@@ -1021,7 +1019,6 @@ class Picker extends HTMLElement {
     })
   }
 
-  
   addSpacingAlignmentExamples() {
     const wrapper = el('alignment-examples-wrapper');
     this.getAlignments().forEach((alignment) => {
@@ -1036,7 +1033,6 @@ class Picker extends HTMLElement {
       a(example, wrapper);
     });
   }
-
   
   addSpacingFlowExamples() {
     const wrapper = el('flow-examples-wrapper');
@@ -1058,7 +1054,6 @@ class Picker extends HTMLElement {
       a(example, wrapper);
     });
   }
-
   
   addSpacingMarginExamples() {
     const wrapper = el('margin-examples-wrapper');
@@ -1093,7 +1088,6 @@ class Picker extends HTMLElement {
       });
     });
   }
-
   
   addSpacingPaddingExamples() {
     const wrapper = el('padding-examples-wrapper');
@@ -1112,7 +1106,6 @@ class Picker extends HTMLElement {
       });
     });
   }
-
   
   addSpacingWidthExamples() {
     const wrapper = el('width-examples-wrapper');
@@ -1133,7 +1126,6 @@ class Picker extends HTMLElement {
       a(example, wrapper);
     });
   }
-
   
   addSpacingWrapperExamples() {
     const wrapper = el('wrapper-examples-wrapper');
@@ -1154,7 +1146,6 @@ class Picker extends HTMLElement {
       a(example, wrapper);
     });
   }
-
   
   finishUpdate() {
     this.updateUiVarsStyleSheet();
@@ -1164,7 +1155,6 @@ class Picker extends HTMLElement {
     this.updateDebuggingTab();
     this.toggleIsolation();
   }
-
   
   getActiveBackgroundValueAspect(aspect) {
     if (aspect === "l") {
@@ -1175,97 +1165,79 @@ class Picker extends HTMLElement {
       return this.getActiveBackgroundValueH() 
     }
   }
-
   
   getActiveBackgroundValueC() {
     return p.modes[p.activeMode].base.c;
   }
-
   
   getActiveBackgroundValueH() {
     return p.modes[p.activeMode].base.h;
   }
-
   
   getActiveBackgroundValueL() {
     return p.modes[p.activeMode].base.l;
   }
-
   
   getActiveColorIndexC() {
     return this.getColorIndexC(p.activeMode, p.activeColor);
   }
-
   
   getActiveColorIndexH() {
     return this.getColorIndexH(p.activeMode, p.activeColor);
   }
-
   
   getActiveColorIndexL() {
     return this.getColorIndexL(p.activeMode, p.activeColor);
   }
-
   
   getActiveColors() {
     return p.colorNames.filter((name, index) => {
       return index < p.numberOfColors;
     })
   }
-
   
   getActiveColorValueC() {
     return this.getColorValueC(p.activeMode, p.activeColor);
   }
-
   
   getActiveColorValueH() {
     return this.getColorValueH(p.activeMode, p.activeColor);
   }
-
   
   getActiveColorValueL() {
     return this.getColorValueL(p.activeMode, p.activeColor);
   }
-
   
   getActiveModeScrubbedName() {
     return scrubStyle(
       p.modes[p.activeMode].name
     );
   }
- 
   
   getAlignments() {
     return ['start', 'center', 'end', 'justify']
   }
-
   
   getAspectMax(aspect) {
     return p.aspects[aspect].max;
   }
-
   
   getAspectStep(aspect) {
     const value = p.aspects[aspect].max / 10000;
     return value.toFixed(7);
   }
-
   
   getBackgroundValueC(mode) {
     return p.modes[mode].base.c
   }
-
   
   getBackgroundValueH(mode) {
     return p.modes[mode].base.h
   }
-
   
   getBackgroundValueL(mode) {
     return p.modes[mode].base.l
   }
-
   
   getBwKinds() {
     return [
@@ -1275,19 +1247,16 @@ class Picker extends HTMLElement {
       ['reverse', 'match']
     ]
   }
-
   
   getColorIndexC(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
   }
-
   
   getColorIndexH(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
   }
-
   
   getColorHueValues(mode, color) {
     const values = [];
@@ -1298,42 +1267,35 @@ class Picker extends HTMLElement {
     }
     return values;
   }
-
   
   getColorHueRowValues(mode, color) {
     return [23, 34, 45, 234, 23, 12, 32, 51];
   }
-
   
   getColorIndexL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
   }
-
   
   getColorValueC(mode, color) {
     return this.getColorIndexC(mode, color).toFixed(5);
   }
-
   
   getColorValueH(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const h = this.getColorIndexH(mode, color);
-    return this.getColorHueValues(mode, color)[h];
+    return this.getColorHueValues(mode, color)[h].toFixed(5);
   }
-
   
   getColorValueL(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
     return this.getLightnessValues(mode, color)[l];
   }
-
   
   getColorMinLightValue(mode, color) {
     return p.modes[mode].colors[color].minLightLevel;
   }
-
   
   getDirections() {
     return [
@@ -1346,14 +1308,12 @@ class Picker extends HTMLElement {
       ["inline", true],
     ]
   }
-
   
   getFadedValues() {
     return [
       '', '-faded', '-faded2'
     ]
   }
-
   
   getLightnessValues(mode, color) {
     const levels = [];
@@ -1364,18 +1324,15 @@ class Picker extends HTMLElement {
     }
     return levels;
   }
-
   
   getHueOffsetIndex(mode, color) {
     return p.modes[mode].colors[color].hueOffsetIndex;
   }
-
   
   getHueOffsetAmount(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
     return p.hueOffsets[hueOffsetIndex];
   }
-
   
   getHueRowCount(mode, color) {
     return Math.round(360 / this.getHueOffsetAmount(mode, color));
@@ -1394,7 +1351,7 @@ class Picker extends HTMLElement {
       'xxxsmall', 
     ]
   }
-  
+
   getSizesWithFull() {
     return ['full', ...this.getSizes()];
   }
@@ -1415,7 +1372,7 @@ class Picker extends HTMLElement {
       ad("tab", tab, checkbox);
     });
   }
-  
+
   initBackgroundSliders() {
     dbg('initBackgroundSlider()');
     const sidebars = els('.sidebar-controls');
@@ -1440,7 +1397,7 @@ class Picker extends HTMLElement {
       this.updateBackgroundSliders(tab);
     });
   }
-  
+
   initColorTabs() {
     dbg("initColorTabs");
     const sidebars = els('.sidebar-controls');
@@ -1456,6 +1413,11 @@ class Picker extends HTMLElement {
         sa("role", "tab", tabButton);
         if (nameIndex === p.activeColor) {
           sa("aria-selected", "true", tabButton);
+          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
+          ac(`ui__background-text`, tabButton);
+        } else {
+          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
+          // ac(`ui__background-text`, tabButton);
         }
         html(Array.from(p.colorNames[nameIndex])[0], tabButton);
         ad("kind", "color-selector-button", tabButton);
@@ -1471,6 +1433,7 @@ class Picker extends HTMLElement {
         }
         const tabName = dc('div');
         html(p.colorNames[nameIndex], tabName);
+        // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabName);
         a(tabName, panel);
         const tabGrid = dc('div');
         this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
@@ -1859,6 +1822,42 @@ class Picker extends HTMLElement {
       const backgroundName = `.ui__mode-${modeIndex}__background`;
       const backgroundValue = `var(--ui__mode-${modeIndex}__background)`;
       lines.push(`${backgroundName} { background-color: ${backgroundValue}; }`);
+      this.getActiveColors().forEach((colorName, colorIndex) => {
+        const l = this.getColorValueL(modeIndex, colorIndex);
+        const c = this.getColorValueC(modeIndex, colorIndex);
+        const h = this.getColorValueH(modeIndex, colorIndex);
+        let textName = `.ui__mode-${modeIndex}__color-${colorIndex}-text`;
+        let textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`;
+        lines.push(`${textName} { color: ${textValue} ; }`);
+        textName = `.ui__mode-${modeIndex}__color-${colorIndex}-background`;
+        textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`;
+        lines.push(`${textName} { background-color: ${textValue} ;} `);
+        p.fadedNames.forEach((fadedName, fadedIndex) => {
+          let fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`;
+          let fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`;
+          lines.push(`${fadedClassName} { color: ${fadedValue};}`);
+          fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`;
+          fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`;
+          lines.push(`${fadedClassName} { background-color: ${fadedValue};}`);
+        });
+      });
+    });
+    const modeIndex = p.activeMode;
+    const backgroundName = `.ui__${p.backgroundColorName}`
+    const backgroundValue = `var(--ui__${p.backgroundColorName})`;
+    lines.push(`${backgroundName}-text { color: ${backgroundValue}; }`);
+    lines.push(`${backgroundName}-background { background-color: ${backgroundValue}; }`);
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      let textName = `.ui__${colorName}`;
+      let textValue = `var(--ui__${colorName})`;
+      lines.push(`${textName}-text { color: ${textValue}; }`);
+      lines.push(`${textName}-background { background-color: ${textValue}; }`);
+      p.fadedNames.forEach((fadedName, fadedIndex) => {
+        const textName = `.ui__${colorName}-${fadedName}`;
+        const textValue = `var(--ui__${colorName}-${fadedName})`;
+        lines.push(`${textName}-text { color: ${textValue}; }`);
+        lines.push(`${textName}-background { background-color: ${textValue}; }`);
+      });
     });
     const out = lines.sort().join("\n");
     this.uiClassesStyleSheet.innerHTML = out;
@@ -1884,7 +1883,59 @@ class Picker extends HTMLElement {
     } else {
       lines.push(`--ui__picker: oklch(100% 0 0 / .5);`);
     }
-    //
+    p.modes.forEach((modeData, modeIndex) => {
+      const modeName = scrubStyle(modeData.name);
+      const backgroundL = this.getBackgroundValueL(modeIndex);
+      const backgroundC = this.getBackgroundValueC(modeIndex);
+      const backgroundH = this.getBackgroundValueH(modeIndex);
+      let backgroundName = `--ui__${modeName}__${p.backgroundColorName}`
+      let backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+      lines.push(`${backgroundName}: ${backgroundValue};`);
+      backgroundName = `--ui__mode-${modeIndex}__background`;
+      backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+      lines.push(`${backgroundName}: ${backgroundValue};`);
+      this.getActiveColors().forEach((colorName, colorIndex) => {
+        const l = this.getColorValueL(modeIndex, colorIndex);
+        const c = this.getColorValueC(modeIndex, colorIndex);
+        const h = this.getColorValueH(modeIndex, colorIndex);
+        let textName = `--ui__${modeName}__${colorName}`;
+        let textValue = `oklch(${l}% ${c} ${h})`;
+        lines.push(`${textName}: ${textValue};`);
+        textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
+        textValue = `oklch(${l}% ${c} ${h})`;
+        lines.push(`${textName}: ${textValue};`);
+        p.fadedNames.forEach((fadedName, fadedIndex) => {
+          const fade = .5;
+          let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`;
+          let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+          lines.push(`${fadedClassName}: ${fadedValue};`);
+          fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`;
+          fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+          lines.push(`${fadedClassName}: ${fadedValue};`);
+        });
+      });
+    });
+    const modeIndex = p.activeMode;
+    const backgroundL = this.getBackgroundValueL(modeIndex);
+    const backgroundC = this.getBackgroundValueC(modeIndex);
+    const backgroundH = this.getBackgroundValueH(modeIndex);
+    const backgroundName = `--ui__${p.backgroundColorName}`
+    const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+    lines.push(`${backgroundName}: ${backgroundValue};`);
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      const l = this.getColorValueL(modeIndex, colorIndex);
+      const c = this.getColorValueC(modeIndex, colorIndex);
+      const h = this.getColorValueH(modeIndex, colorIndex);
+      const textName = `--ui__${colorName}`;
+      const textValue = `oklch(${l}% ${c} ${h})`;
+      lines.push(`${textName}: ${textValue};`);
+      p.fadedNames.forEach((fadedName, fadedIndex) => {
+        const fade = .5;
+        const fadedClassName = `--ui__${colorName}-${fadedName}`;
+        const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+        lines.push(`${fadedClassName}: ${fadedValue};`);
+      });
+    });
     this.getActiveColors().forEach((colorName, colorIndex) => {
       const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
       lines.push(`--${colorName}: var(--${value});`);

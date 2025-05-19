@@ -23,7 +23,7 @@
 
     <style data-name="Interface Styles">
       .background-box-name {
-        padding-block: var(--small-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
@@ -33,7 +33,7 @@
         padding-inline: var(--default-padding);
       }
       .background-box-sliders {
-        padding-block: var(--large-padding);
+        padding-block: var(--default-padding);
         padding-inline: var(--default-padding);
       }
       .background-box-wrapper {
@@ -46,7 +46,7 @@
         padding-top: var(--default-padding);
       }
       .colors-box-name {
-        padding-block: var(--small-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
       }
       .color-box-set-button {
@@ -93,15 +93,21 @@
       .invisible {
         visibility: hidden;
       }
+      .mode-buttons {
+        padding: var(--default-padding);
+      }
       .mode-buttons-name {
         border-bottom: 1px solid var(--ui__picker);
         color: var(--ui__picker);
-        padding-block: var(--small-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
       }
       .mode-buttons-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
+      }
+      .sidebar-controls {
+        padding-top: var(--large-padding);
       }
       .ui-two-column {
         display: grid;
@@ -130,7 +136,7 @@
         color: var(--content);
       }
       a {
-        color: var(--links);
+        color: var(--link);
         text-decoration: none;
       }
       a:hover,
@@ -238,42 +244,39 @@
       }
       h1 {
         color: var(--title);
-        border-bottom: 1px solid var(--accents);
+        border-bottom: 2px solid var(--accent);
         font-size: var(--xxxlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
       }
       h2 {
-        color: var(--headings);
-        border-bottom: 1px solid var(--accents);
+        color: var(--heading);
+        border-bottom: 2px solid var(--accent);
         font-size: var(--xxlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
       }
       h3 {
-        color: var(--headings);
-        border-bottom: 1px solid var(--accents);
+        color: var(--heading);
         font-size: var(--xlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
+        text-decoration: underline 1px;
       }
       h4 {
-        color: var(--headings);
-        border-bottom: 1px solid var(--accents);
+        color: var(--heading);
         font-size: var(--large-font-size);
         font-weight: 900;
         text-wrap: balance;
       }
       h5 {
-        color: var(--headings);
-        border-bottom: 1px solid var(--accents);
+        color: var(--heading);
         font-size: var(--large-font-size);
         font-weight: 400;
         text-wrap: balance;
       }
       h6 {
-        color: var(--headings);
-        border-bottom: 1px solid var(--accents);
+        color: var(--heading);
         font-size: var(--large-font-size);
         font-style: italic;
         font-weight: 400;
@@ -1485,8 +1488,8 @@
           >
             <button role="tab" data-kind="top-nav-button">Samples</button>
             <button role="tab" data-kind="top-nav-button">Customize</button>
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">Export</button>
-            <button role="tab" data-kind="top-nav-button">
+            <button role="tab" data-kind="top-nav-button">Export</button>
+            <button role="tab" data-kind="top-nav-button" aria-selected="true">
               Instructions
             </button>
             <button role="tab" data-kind="top-nav-button">B&amp;W</button>
@@ -1499,9 +1502,7 @@
             <div class="content-wrapper ui-two-column">
               <div class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
-                  <h1
-                    class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
-                  >
+                  <h1>
                     Alan's Color Picker
                   </h1>
                   <p class="align-end">
@@ -1842,9 +1843,7 @@ It was a dark and stormy night...
 
           <div role="tabpanel" hidden>
             <hgroup class="large-bottom-margin">
-              <h1
-                class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
-              >
+              <h1>
                 Alan's Color Picker
               </h1>
               <p class="align-end">
@@ -1858,9 +1857,7 @@ It was a dark and stormy night...
 
           <div role="tabpanel" hidden>
             <hgroup class="large-bottom-margin">
-              <h1
-                class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
-              >
+              <h1>
                 Alan's Color Picker
               </h1>
               <p class="align-end">
@@ -1877,9 +1874,7 @@ It was a dark and stormy night...
             <div class="content-wrapper ui-two-column">
               <div class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
-                  <h1
-                    class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
-                  >
+                  <h1>
                     Alan's Color Picker
                   </h1>
                   <p class="align-end">
@@ -1887,7 +1882,8 @@ It was a dark and stormy night...
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>
                 </hgroup>
-                <h2>TL;DR</h2>
+                <div class="xlarge-inline-margin large-inline-padding xlarge-block-padding content-full-border default-radius default-flow ">
+                <h4 class="heading-bottom-border">TL;DR</h4>
                 <p>
                   Play around with the controls in the <em>Modes</em>,
                   <em>Background</em>, and <em>Colors</em> boxes to change
@@ -1897,7 +1893,7 @@ It was a dark and stormy night...
                   Use the <em>Export</em> tab to get a stylesheet when you've
                   got a palette you like.
                 </p>
-
+                </div>
                 <h2>The Basics</h2>
                 <h3>Color Modes</h3>
                 <p>
@@ -1919,8 +1915,8 @@ It was a dark and stormy night...
 
                 <h3>The Colors</h3>
                 <p>
-                  The picker provides five colors by default*: content, links,
-                  title, headings, and accents.
+                  The picker provides five colors by default*: content, link,
+                  title, heading, and accent.
                 </p>
 
                 <ol>

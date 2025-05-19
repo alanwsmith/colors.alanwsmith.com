@@ -221,6 +221,7 @@ function scrubStyle(input) {
 }
 
 const defaultPalette = {
+  "_debugging": {},
   "activeMode": 0,
   "activeColor": 0,
   "aspectOrder": ["l", "c", "h"],
@@ -246,10 +247,10 @@ const defaultPalette = {
   ],
   "colorNames": [
     "content",
-    "links",
+    "link",
     "title",
-    "headings",
-    "accents",
+    "heading",
+    "accent",
     "warning",
     "info",
     "extra"
@@ -1194,6 +1195,8 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.generateUtilityBlackAndWhiteTextClasses().join("\n"));
     lines.push("");
+    lines.push(this.generateUtilityBlackAndWhiteBackgroundClasses().join("\n"));
+    lines.push("");
     const out = `:root { ${lines.join("\n")} }`;
     this.utilityClassesStyleSheet.innerHTML = out;
   }
@@ -1226,6 +1229,32 @@ class Picker extends HTMLElement {
               `var(--${colorName}${fade})`
             )
           );
+      });
+    });
+    return lines;
+  }
+
+  generateUtilityBlackAndWhiteBackgroundClasses() {
+    const lines = [];
+    lines.push(`  /* Black And White Text Classes */`);
+    this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+      this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+        lines.push(
+          makeClass(
+            `  .${bwName}-background`,
+            `background-color`,
+            `var(--${bwName})`
+          )
+        );
+        this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+          lines.push(
+            makeClass(
+            `  .${bwName}-${fadedName}-background`,
+            `background-color`,
+            `var(--${bwName}-${fadedName})`
+            )
+          );
+        });
       });
     });
     return lines;
@@ -1830,9 +1859,7 @@ class Picker extends HTMLElement {
       p.modes.forEach((modeData, modeIndex) => {
         const button = dc('button');
         html(modeData.name, button);
-        if (modeIndex === p.activeMode) {
-          ac(`reversed-text`, button);
-        }
+        ac(`mode-${modeIndex}-selector-button`, button);
         ad("tab", tab, button);
         ad("mode", modeIndex, button);
         ad("kind", "mode-button", button);
@@ -2019,7 +2046,7 @@ class Picker extends HTMLElement {
 
   updateActiveBlackAndWhiteVars() {
     const lines = [];
-    lines.push(`/* Active Black and White Variables */`);
+    lines.push(`  /* Active Black and White Variables */`);
     const modeName = this.getScrubbedActiveModeName();
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       lines.push(
@@ -2164,6 +2191,30 @@ class Picker extends HTMLElement {
         );
       });
     });
+    // Mode buttons
+    p.modes.forEach((modeData, modeIndex) => {
+      lines.push(
+        makeClass(
+          `.mode-${modeIndex}-selector-button`, 
+          `color`,
+          `var(--mode-${modeIndex}-selector-button-color)`,
+        )
+      );
+      lines.push(
+        makeClass(
+          `.mode-${modeIndex}-selector-button`, 
+          `background-color`,
+          `var(--mode-${modeIndex}-selector-button-background-color)`,
+        )
+      );
+      lines.push(
+        makeClass(
+          `.mode-${modeIndex}-selector-button`, 
+          `border`,
+          `1px solid var(--mode-${modeIndex}-selector-button-color)`,
+        )
+      );
+    });
     p.modes.forEach((modeData, modeIndex) => {
       const name = `.ui__mode-${modeIndex}__text`;
       const value = `var(--ui__mode-${modeIndex}__text)`;
@@ -2249,6 +2300,37 @@ class Picker extends HTMLElement {
         }
       });
     });
+
+    // color mode selector buttons
+    p.modes.forEach((modeData, modeIndex) => {
+      if (modeIndex === p.activeMode) {
+        lines.push(
+          makeVar(
+            `  --mode-${modeIndex}-selector-button-color`,
+            `var(--content)`
+          )
+        );
+        lines.push(
+          makeVar(
+            `  --mode-${modeIndex}-selector-button-background-color`,
+            `var(--white)`
+          )
+        );
+      } else {
+        lines.push(
+          makeVar(
+            `  --mode-${modeIndex}-selector-button-color`,
+            `var(--black)`
+          )
+        );
+        lines.push(
+          makeVar(
+            `  --mode-${modeIndex}-selector-button-background-color`,
+            `var(--white-faded)`
+          )
+        );
+      }
+    })
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
       const backgroundL = this.getBackgroundValueL(modeIndex);

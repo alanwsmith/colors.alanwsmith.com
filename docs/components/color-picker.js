@@ -1725,26 +1725,8 @@ class Picker extends HTMLElement {
   }
 
   // V2
-  initColorsChromaSliders() {
-    const sidebars = els('.sidebar-controls');
-    sidebars.forEach((sidebar) => {
-      const tab = gdsV2("tab", sidebar);
-      const connector  = `colors-box-chroma-slider-${tab}`;
-      const wrapper = getEl('.colors-box-chroma-slider-wrapper', sidebar);
-      const label = getEl('label', wrapper);
-      sa("for", connector, label);
-      const slider = getEl('input', wrapper);
-      sa("name", connector, slider);
-      sa("min", "0", slider);
-      sa("max", this.getAspectMax('c'), slider);
-      sa("step", this.getAspectStep('c'), slider);
-      ad("tab", tab, slider);
-      this.updateUiColorsChromaSlider(tab);
-    });
-  }
-
-  // V2
   initColorTabs() {
+    dbg("initColorTabs");
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar) => {
       const tabKey = gdsV2("tab", sidebar);
@@ -1765,13 +1747,15 @@ class Picker extends HTMLElement {
         a(tabButton, tabList);
       }
       a(tabList, tabGroup);
-
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
-        const tab = dc('div');
-        sa("role", "tabpanel", tab);
+        const panel = dc('div');
+        sa("role", "tabpanel", panel);
+        if (nameIndex !== p.activeColor) {
+          panel.hidden = true;
+        }
         const tabName = dc('div');
         html(p.colorNames[nameIndex], tabName);
-        a(tabName, tab);
+        a(tabName, panel);
         const tabGrid = dc('div');
         this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
           const row = dc('div');
@@ -1788,8 +1772,9 @@ class Picker extends HTMLElement {
           });
           a(row, tabGrid);
         });
-        a(tabGrid, tab);
+        a(tabGrid, panel);
         const chromaWrapper = dc('div');
+        ac('colors-box-chroma-slider-wrapper', chromaWrapper);
         const connector  = `colors-box-chroma-slider-${tabKey}`;
         const label = dc('label');
         sa("for", connector, label);
@@ -1801,17 +1786,16 @@ class Picker extends HTMLElement {
         sa("min", "0", slider);
         sa("max", this.getAspectMax('c'), slider);
         sa("step", this.getAspectStep('c'), slider);
-        ad("tab", tab, slider);
-        // this.updateUiColorsChromaSlider(tabKey);
+        ad("kind", "color-chroma-slider", slider);
+        ad("color", nameIndex, slider);
+        slider.value = this.getColorValueC(p.activeMode, nameIndex);
         a(slider, chromaWrapper);
-        a(chromaWrapper, tab);
-        a(tab, tabGroup);
+        a(chromaWrapper, panel);
+        a(panel, tabGroup);
       }
       a(tabGroup, wrapper);
     })
-
   }
-
 
   // V2
   initControls() {
@@ -1826,8 +1810,6 @@ class Picker extends HTMLElement {
     this.initBackgroundSliders();
     this.initBackgroundCheckboxes();
     this.initColorTabs();
-    // this.refreshColorGrid()
-    // this.initColorsChromaSliders();
   }
 
   // TODO: Deprecate or Redo
@@ -2241,6 +2223,12 @@ ${sheets.join("\n")}
     p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value;
   }
 
+  // V2
+  switchTopLevelTabs() {
+    this.initColorTabs();
+    this.finishUpdate();
+  }
+
   // TODO: Deprecate or Redo
   updateData(event) {
     let triggerRefresh = false;
@@ -2339,6 +2327,13 @@ ${sheets.join("\n")}
       const slider = el(`base-slider-${key}`);
       slider.value = p.modes[p.activeMode].base[key];
     }
+  }
+
+  // V2
+  updateColorChroma(obj) {
+    const value = gvfV2(obj);
+    this.setColorAspect(p.activeMode, p.activeColor, "c", value);
+    this.finishUpdate();
   }
 
   // V2
@@ -2465,14 +2460,15 @@ ${sheets.join("\n")}
     this.uiClassesStyleSheet.innerHTML = out;
   }
 
-  // V2
-  updateUiColorsChromaSlider(tab) {
-    const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
-    const wrapper = getEl(`.colors-box-chroma-slider-wrapper`, sidebar);
-    const slider = getEl(`input[type="range"]`, wrapper);
-    slider.value = this.getActiveColorValueC();
-    fx(slider.value);
-  }
+  // // V2
+  // // NOTE: not sure if this covers the different colors
+  // // or not or if that'll be a problem. 
+  // updateColorsChromaSlider(tab) {
+  //   const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
+  //   const wrapper = getEl(`.colors-box-chroma-slider-wrapper`, sidebar);
+  //   const slider = getEl(`input[type="range"]`, wrapper);
+  //   slider.value = this.getActiveColorValueC();
+  // }
 
   // V2
   // REMINDER: This is the internal one that 
@@ -2541,6 +2537,8 @@ ${sheets.join("\n")}
           this.updateLightnessHue(event.target)
         } else if (kind === "color-selector-button") {
           this.updateActiveColor(event.target)
+        } else if (kind === "top-nav-button") {
+          this.switchTopLevelTabs();
         }
       } else if (event.type === "change") {
         if (kind === "background-box-slider") {
@@ -2549,6 +2547,8 @@ ${sheets.join("\n")}
       } else if (event.type === "input") {
         if (kind === "background-box-slider") {
           this.updateBackgroundColor(event.target);
+        } else if (kind === "color-chroma-slider") {
+          this.updateColorChroma(event.target);
         }
       }
     }
@@ -2569,15 +2569,15 @@ ${sheets.join("\n")}
 
 class TabGroup extends HTMLElement {
   get tabs() {
-    return [...this.querySelectorAll('[role=tab]')];
+    return [...this.querySelectorAll(':scope > div > [role=tab]')];
   }
 
   get panels() {
-    return [...this.querySelectorAll('[role=tabpanel]')];
+    return [...this.querySelectorAll(':scope > [role=tabpanel]')];
   }
 
   get selected() {
-    return this.querySelector('[role=tab][aria-selected=true]');
+    return this.querySelector(':scope > div > [role=tab][aria-selected=true]');
   }
 
   set selected(element) {

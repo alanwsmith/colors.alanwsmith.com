@@ -2,113 +2,113 @@
  *
  * MIT License (with Alan's Note)
  * https://www.alanwsmith.com/
- * 
+ *
  * Copyright (c) 2025 Alan W. Smith
- * 
+ *
  * Hello! Welcome to Color Picker. This code is
- * licensed with the MIT License (details below). 
- * There's no requirement that you keep the link 
- * to my site at the bottom of the component. 
- * But, I worked really hard on this and would 
+ * licensed with the MIT License (details below).
+ * There's no requirement that you keep the link
+ * to my site at the bottom of the component.
+ * But, I worked really hard on this and would
  * appreciate it if you did.
- * 
+ *
  * Thanks, and enjoy your colors!
- * 
+ *
  * -a
- * 
- * Permission is hereby granted, free of charge, to 
- * any person obtaining a copy of this software and 
- * associated documentation files (the "Software"), 
- * to deal in the Software without restriction, 
- * including without limitation the rights to use, 
- * copy, modify, merge, publish, distribute, 
- * sublicense, and/or sell copies of the Software, 
- * and to permit persons to whom the Software is 
- * furnished to do so, subject to the following 
+ *
+ * Permission is hereby granted, free of charge, to
+ * any person obtaining a copy of this software and
+ * associated documentation files (the "Software"),
+ * to deal in the Software without restriction,
+ * including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software,
+ * and to permit persons to whom the Software is
+ * furnished to do so, subject to the following
  * conditions:
- * 
- * The above copyright notice and this permission 
- * notice shall be included in all copies or 
+ *
+ * The above copyright notice and this permission
+ * notice shall be included in all copies or
  * substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY 
- * OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT 
- * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS 
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
- * ARISING FROM, OUT OF OR IN CONNECTION WITH THE 
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY
+ * OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * ****************************************************/
 
-let data = {};
+let data = {}
 
-let debug = true;
+let debug = true
 
-let p = {};
+let p = {}
 
 // Append Object To Target
 function a(child, parent) {
-  if (typeof parent === "string") {
+  if (typeof parent === 'string') {
     const el = document.querySelector(`.${parent}`)
-    el.appendChild(child);
+    el.appendChild(child)
   } else {
-    parent.appendChild(child);
+    parent.appendChild(child)
   }
 }
 
 // Add classes to Object
 function ac(data, obj) {
-  if (typeof data === "string") {
-    obj.classList.add(data);
+  if (typeof data === 'string') {
+    obj.classList.add(data)
   } else {
     data.forEach((c) => {
-      obj.classList.add(c);
-    });
+      obj.classList.add(c)
+    })
   }
 }
 
 // Add Key Value Data To Dataset
 function ad(key, value, obj) {
-  obj.dataset[key] = value;
+  obj.dataset[key] = value
 }
 
 // Debug
 function dbg(value) {
   if (debug === true) {
-    console.log(value);
+    console.log(value)
   }
 }
 
 // Document Create
 function dc(name) {
-  return document.createElement(name);
+  return document.createElement(name)
 }
 
 // TODO: Deprecate in favor of elV2
 // Get Element By Class Name
 function el(className) {
-  return document.querySelector(`.${className}`);
+  return document.querySelector(`.${className}`)
 }
 
 // TODO: Rename to `el()` when transition
-// is complete. 
+// is complete.
 // Get Element By Selector
 function elV2(selector) {
-  return document.querySelector(selector);
+  return document.querySelector(selector)
 }
 
 // Get Elements By Class Name
 function els(selector) {
-  return document.querySelectorAll(selector);
+  return document.querySelectorAll(selector)
 }
 
-// Focus (print to console regardless of debug 
+// Focus (print to console regardless of debug
 function fx(value) {
-  console.log(value);
+  console.log(value)
 }
 
 // Get Float from DataSet Key From Event
@@ -135,17 +135,17 @@ function gds(event, key) {
 }
 
 function gdsV2(key, obj) {
-  return obj.dataset[key];
+  return obj.dataset[key]
 }
 
 // Get an element from an object
 function getEl(selector, obj) {
-  return obj.querySelector(selector);
+  return obj.querySelector(selector)
 }
 
 // Get elements from an object
 function getEls(selector, obj) {
-  return obj.querySelectorAll(selector);
+  return obj.querySelectorAll(selector)
 }
 
 // TODO: Deprecate in favor of V2
@@ -169,740 +169,738 @@ function gvs(event) {
 
 // Set InnerHTML
 function html(str, obj) {
-  obj.innerHTML = str;
+  obj.innerHTML = str
 }
 
 // Returns a CSS class
 function makeClass(name, key, value) {
-  return `${name} { ${key}: ${value}; }`;
+  return `${name} { ${key}: ${value}; }`
 }
 
 // Returns a CSS variable string
 function makeVar(name, value) {
-  return `${name}: ${value};`;
+  return `${name}: ${value};`
 }
 
 // Remove classes from Object
 function rc(data, obj) {
-  if (typeof data === "string") {
-    obj.classList.remove(data);
+  if (typeof data === 'string') {
+    obj.classList.remove(data)
   } else {
     data.forEach((c) => {
-      obj.classList.remove(c);
-    });
+      obj.classList.remove(c)
+    })
   }
 }
 
 // Set Attribute
 function sa(key, value, obj) {
-  obj.setAttribute(key, value);
+  obj.setAttribute(key, value)
 }
 
-// Set Value 
+// Set Value
 function sv(value, obj) {
-  obj.value = value;
+  obj.value = value
 }
 
 // Make CSS strings lower case for consistency
 // and scrub them some. Note that this
-// won't catch everything. A full 
+// won't catch everything. A full
 // CSS parser is outside the scope of
-// this tool. 
+// this tool.
 function scrubStyle(input) {
   return input
-    .replace(" ", "-")
-    .replace(":", "-")
-    .replace("{", "-")
-    .replace("}", "-")
-    .replace(";", "-")
-    .replace("(", "-")
-    .replace(")", "-")
+    .replace(' ', '-')
+    .replace(':', '-')
+    .replace('{', '-')
+    .replace('}', '-')
+    .replace(';', '-')
+    .replace('(', '-')
+    .replace(')', '-')
     .toLowerCase()
 }
 
 const defaultPalette = {
-  "_debugging": {},
-  "activeMode": 0,
-  "activeColor": 0,
-  "aspectOrder": ["l", "c", "h"],
-  "aspects": {
-    "l": { "name": "lightness", "max": 100 },
-    "c": { "name": "chroma", "max": 0.3 },
-    "h": { "name": "hue", "max": 360 }
+  _debugging: {},
+  activeMode: 0,
+  activeColor: 0,
+  aspectOrder: ['l', 'c', 'h'],
+  aspects: {
+    l: { name: 'lightness', max: 100 },
+    c: { name: 'chroma', max: 0.3 },
+    h: { name: 'hue', max: 360 },
   },
-  "backgroundColorName": "background",
-  "blackAndWhiteNames": [
-    "black", "white", "matched", "reversed"
+  backgroundColorName: 'background',
+  blackAndWhiteNames: ['black', 'white', 'matched', 'reversed'],
+  borderStylePrefix: 'border',
+  borderTypes: [
+    ['full', false],
+    ['top', true],
+    ['bottom', true],
+    ['left', true],
+    ['right', true],
+    ['inline', true],
+    ['block', true],
   ],
-  "borderStylePrefix": "border",
-  "borderTypes": [
-    ["full", false],
-    ["top", true],
-    ["bottom", true],
-    ["left", true],
-    ["right", true],
-    ["inline", true],
-    ["block", true],
+  colorNames: [
+    'content',
+    'link',
+    'title',
+    'heading',
+    'accent',
+    'warning',
+    'info',
+    'extra',
   ],
-  "colorNames": [
-    "content",
-    "link",
-    "title",
-    "heading",
-    "accent",
-    "warning",
-    "info",
-    "extra"
-  ],
-  "fadedNames": ["faded", "faded2"],
-  // i've got back and forth between 
+  fadedNames: ['faded', 'faded2'],
+  // i've got back and forth between
   // 45 and 60 here. going with 45 for
   // now since it offers more colors. The
   // way to switch between them is
   // no in production. I removed it
   // because it felt like it was adding
   // significant complexity without much
-  // utility. 
-  "focused": false,
-  "hueOffsets": [45, 60],
-  "isolatedColor": -2,
-  "lightLevels": 6,
-  "maxNumberOfColors": 8,
-  "maxNumberOfFaded": 2,
-  "maxLightValue": 100,
-  "modes": [
-
+  // utility.
+  focused: false,
+  hueOffsets: [45, 60],
+  isolatedColor: -2,
+  lightLevels: 6,
+  maxNumberOfColors: 8,
+  maxNumberOfFaded: 2,
+  maxLightValue: 100,
+  modes: [
     {
-      "base": { "l": 85.74, "c": 0.07833, "h": 269.46},
-      "blackAndWhiteFaded": [0.4, 0.1],
-      "blackAndWhiteValues": [0, 100, 100, 0],
-      "colors": [
+      base: { l: 85.74, c: 0.07833, h: 269.46 },
+      blackAndWhiteFaded: [0.4, 0.1],
+      blackAndWhiteValues: [0, 100, 100, 0],
+      colors: [
         // 0-0
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 1,
-              "c": 0.2034,
-              "h": 7
+              l: 1,
+              c: 0.2034,
+              h: 7,
             },
             {
-              "l": 1,
-              "c": 0.15879,
-              "h": 1
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 1,
+              c: 0.15879,
+              h: 1,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-1
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 2,
-              "c": 0.05352,
-              "h": 4
+              l: 2,
+              c: 0.05352,
+              h: 4,
             },
             {
-              "l": 0,
-              "c": 0.3,
-              "h": 7
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 0,
+              c: 0.3,
+              h: 7,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-2
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.1023,
-              "h": 2
+              l: 3,
+              c: 0.1023,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-3
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 0
+              l: 3,
+              c: 0.118,
+              h: 0,
             },
             {
-              "l": 2,
-              "c": 0.118,
-              "h": 0
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 2,
+              c: 0.118,
+              h: 0,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-4
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.1023,
-              "h": 2
+              l: 3,
+              c: 0.1023,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-5
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-6
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 0-7
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
       ],
-      "name": "Light",
+      name: 'Light',
     },
 
     {
-      "base": { "l": 100, "c": 0.0492, "h": 101.484 },
-      "blackAndWhiteFaded": [0.4, 0.1],
-      "blackAndWhiteValues": [0, 100, 100, 0],
-      "colors": [
+      base: { l: 100, c: 0.0492, h: 101.484 },
+      blackAndWhiteFaded: [0.4, 0.1],
+      blackAndWhiteValues: [0, 100, 100, 0],
+      colors: [
         // 1-0
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-1
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-2
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-3
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-4
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-5
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-6
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 1-7
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
       ],
-      "name": "High-Contrast Light",
+      name: 'High-Contrast Light',
     },
 
-    { 
-      "base": { "l": 25.71, "c": 0.07395, "h": 58.896 },
-      "blackAndWhiteFaded": [0.4, 0.1],
-      "blackAndWhiteValues": [0, 100, 0, 100],
-      "colors": [
+    {
+      base: { l: 25.71, c: 0.07395, h: 58.896 },
+      blackAndWhiteFaded: [0.4, 0.1],
+      blackAndWhiteValues: [0, 100, 0, 100],
+      colors: [
         // 2-0
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-1
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-2
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-3
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-4
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-5
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-6
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 2-7
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
       ],
-      "name": "Dark",
+      name: 'Dark',
     },
 
-    { 
-      "base": { "l": 5.21, "c": 0.28248, "h": 74.808 },
-      "blackAndWhiteFaded": [0.4, 0.1],
-      "blackAndWhiteValues": [0, 100, 0, 100],
-      "colors": [
+    {
+      base: { l: 5.21, c: 0.28248, h: 74.808 },
+      blackAndWhiteFaded: [0.4, 0.1],
+      blackAndWhiteValues: [0, 100, 0, 100],
+      colors: [
         // 3-0
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-1
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-2
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-3
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-4
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-5
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-6
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
         // 3-7
         {
-          "fadedValues": [40, 80],
-          "hueOffsetIndex": 0,
-          "hueOffsetValues": [
+          fadedValues: [40, 80],
+          hueOffsetIndex: 0,
+          hueOffsetValues: [
             {
-              "l": 3,
-              "c": 0.118,
-              "h": 2
+              l: 3,
+              c: 0.118,
+              h: 2,
             },
             {
-              "l": 4,
-              "c": 0.2,
-              "h": 3
-            }
-          ], 
-          "minLightLevel": 20,
+              l: 4,
+              c: 0.2,
+              h: 3,
+            },
+          ],
+          minLightLevel: 20,
         },
       ],
-      "name": "High-Contrast Dark",
-    }
+      name: 'High-Contrast Dark',
+    },
   ],
-  "name": "Color Palette",
-  "numberOfColors": 5,
-  "numberOfFaded": 1,
-  "preferredMode": 0,
-  "previousIsolatedColor": -2,
+  name: 'Color Palette',
+  numberOfColors: 5,
+  numberOfFaded: 1,
+  preferredMode: 0,
+  previousIsolatedColor: -2,
 }
 
 const config = {
-  "validSchemeVersions": [[1,0,0]],
-  "storageName": "colorPickerData"
+  validSchemeVersions: [[1, 0, 0]],
+  storageName: 'colorPickerData',
 }
 
 class Picker extends HTMLElement {
   constructor() {
-    super();
+    super()
   }
 
   connectedCallback() {
-    this.loadData();
+    dbg('Connected Color Picker')
+    this.loadData()
 
     /*
     this.addBorderRadiusExamples();
@@ -918,332 +916,338 @@ class Picker extends HTMLElement {
     this.addFontSizeExamples();
     */
 
-    this.initControls();
-    this.populateUtilityClasses();
-    this.populateVarsStyleSheet();
-    this.updateUiVarsStyleSheet();
-    this.updateUiClassesStyleSheet();
-    this.requestUpdate = this.updateUiView.bind(this);
-    this.addListeners();
-    this.updateExportPage();
-    this.updateDebuggingTab();
+    this.initControls()
+    this.populateUtilityClasses()
+    this.populateVarsStyleSheet()
+    this.updateUiVarsStyleSheet()
+    this.updateUiClassesStyleSheet()
+    this.requestUpdate = this.updateUiView.bind(this)
+    this.addListeners()
+    this.updateExportPage()
+    this.updateDebuggingTab()
   }
-  
+
   addBorderRadiusExamples() {
-    const wrapper = el('border-radius-examples-wrapper');
+    dbg('addBorderRadiusExamples')
+    const wrapper = el('border-radius-examples-wrapper')
     this.getSizes().forEach((size) => {
-      const example = dc('div');
-      const token = `${size}-radius`;
-      ac(`matched-text`, example);
-      ac(`reversed-background`, example);
-      ac(`xlarge-full-padding`, example);
-      ac(`large-inline-margin`, example);
-      ac(token, example);
+      const example = dc('div')
+      const token = `${size}-radius`
+      ac(`matched-text`, example)
+      ac(`reversed-background`, example)
+      ac(`xlarge-full-padding`, example)
+      ac(`large-inline-margin`, example)
+      ac(token, example)
       html(`.${token}`, example)
-      a(example, wrapper);
-    });
+      a(example, wrapper)
+    })
   }
 
   addBwBackgroundExamples() {
-    const wrapper = el('bw-background-examples-wrapper');
-    const kinds = ['match', 'reverse'];
+    const wrapper = el('bw-background-examples-wrapper')
+    const kinds = ['match', 'reverse']
     this.getBwKinds().forEach((kind) => {
-      const kindEl = dc('div');
+      const kindEl = dc('div')
       this.getFadedValues().forEach((value) => {
-        const token = `${kind[0]}${value}-background`;
-        const color = `${kind[1]}-text`;
-        const exampleEl = dc('div');
-        html(`.${token}`, exampleEl);
-        ac(`${token}`, exampleEl);
-        ac(`small-full-padding`, exampleEl);
-        ac(`small-full-margin`, exampleEl);
-        ac(color, exampleEl);
-        a(exampleEl, kindEl);
-      });
-      a(kindEl, wrapper);
-    });
+        const token = `${kind[0]}${value}-background`
+        const color = `${kind[1]}-text`
+        const exampleEl = dc('div')
+        html(`.${token}`, exampleEl)
+        ac(`${token}`, exampleEl)
+        ac(`small-full-padding`, exampleEl)
+        ac(`small-full-margin`, exampleEl)
+        ac(color, exampleEl)
+        a(exampleEl, kindEl)
+      })
+      a(kindEl, wrapper)
+    })
   }
 
   addBwBorderExamples() {
-    const wrapper = el('bw-border-examples-wrapper');
-    const kinds = ['match', 'reverse'];
+    const wrapper = el('bw-border-examples-wrapper')
+    const kinds = ['match', 'reverse']
     this.getBwKinds().forEach((kind) => {
-      const kindEl = dc('div');
+      const kindEl = dc('div')
       this.getDirections().forEach((data) => {
         this.getFadedValues().forEach((bwValue) => {
-          const className = `${kind[0]}${bwValue}-${data[0]}-border`;
-          const background = `${kind[1]}-background`;
-          const color = `${kind[0]}-text`;
-          const cell = dc('div');
-          ac('default-inline-padding', cell);
-          ac('large-block-padding', cell);
-          ac(background, cell);
-          ac(color, cell);
-          const span = dc('span');
-          html(`.${className}`, span);
-          ac(className, span);
-          ac(`xxsmall-full-padding`, span);
-          a(span, cell);
-          a(cell, kindEl);
+          const className = `${kind[0]}${bwValue}-${data[0]}-border`
+          const background = `${kind[1]}-background`
+          const color = `${kind[0]}-text`
+          const cell = dc('div')
+          ac('default-inline-padding', cell)
+          ac('large-block-padding', cell)
+          ac(background, cell)
+          ac(color, cell)
+          const span = dc('span')
+          html(`.${className}`, span)
+          ac(className, span)
+          ac(`xxsmall-full-padding`, span)
+          a(span, cell)
+          a(cell, kindEl)
         })
       })
-      a(kindEl, wrapper);
+      a(kindEl, wrapper)
     })
   }
 
   addBwColorExamples() {
-    const wrapper = el('bw-color-examples-wrapper');
+    const wrapper = el('bw-color-examples-wrapper')
     this.getBwKinds().forEach((kind) => {
-      const kindEl = dc('div');
+      const kindEl = dc('div')
       this.getFadedValues().forEach((bwValue) => {
-        const token = `${kind[0]}${bwValue}-text`;
-        const background = `${kind[1]}-background`;
-        const exampleEl = dc('div');
-        html(`.${token}`, exampleEl);
-        ac(`${token}`, exampleEl);
-        ac(`${background}`, exampleEl);
-        ac(`small-full-padding`, exampleEl);
-        a(exampleEl, kindEl);
-      });
-      a(kindEl, wrapper);
-    });
+        const token = `${kind[0]}${bwValue}-text`
+        const background = `${kind[1]}-background`
+        const exampleEl = dc('div')
+        html(`.${token}`, exampleEl)
+        ac(`${token}`, exampleEl)
+        ac(`${background}`, exampleEl)
+        ac(`small-full-padding`, exampleEl)
+        a(exampleEl, kindEl)
+      })
+      a(kindEl, wrapper)
+    })
   }
 
   addFontSizeExamples() {
-    const wrapper = el('font-size-examples-wrapper');
+    const wrapper = el('font-size-examples-wrapper')
     this.getSizes().forEach((size) => {
-      const token = `${size}-font`;
-      const example = dc('div');
-      ac(`reversed-background`, example);
-      ac(`matched-text`, example);
-      ac(`large-inline-margin`, example);
-      ac(`default-inline-padding`, example);
-      ac(token, example);
-      html(`.${token}`, example);
-      a(example, wrapper);
-    });
+      const token = `${size}-font`
+      const example = dc('div')
+      ac(`reversed-background`, example)
+      ac(`matched-text`, example)
+      ac(`large-inline-margin`, example)
+      ac(`default-inline-padding`, example)
+      ac(token, example)
+      html(`.${token}`, example)
+      a(example, wrapper)
+    })
   }
 
   addListeners() {
+    dbg('addListeners')
     this.addEventListener('click', (event) => {
-      this.requestUpdate.call(this, event);
+      this.requestUpdate.call(this, event)
     })
     this.addEventListener('change', (event) => {
-      this.requestUpdate.call(this, event);
+      this.requestUpdate.call(this, event)
     })
     this.addEventListener('input', (event) => {
-      this.requestUpdate.call(this, event);
+      this.requestUpdate.call(this, event)
     })
   }
 
   addSpacingAlignmentExamples() {
-    const wrapper = el('alignment-examples-wrapper');
+    const wrapper = el('alignment-examples-wrapper')
     this.getAlignments().forEach((alignment) => {
-      const example = dc('div');
-      ac(`large-inline-margin`, example);
-      ac(`reversed-background`, example);
-      ac(`matched-text`, example);
-      ac(`default-full-padding`, example);
-      const token = `align-${alignment}`;
-      html(`this is an example of text that will be positioned based on how they line up via .${token}`, example);
-      ac(token, example);
-      a(example, wrapper);
-    });
+      const example = dc('div')
+      ac(`large-inline-margin`, example)
+      ac(`reversed-background`, example)
+      ac(`matched-text`, example)
+      ac(`default-full-padding`, example)
+      const token = `align-${alignment}`
+      html(
+        `this is an example of text that will be positioned based on how they line up via .${token}`,
+        example
+      )
+      ac(token, example)
+      a(example, wrapper)
+    })
   }
-  
+
   addSpacingFlowExamples() {
-    const wrapper = el('flow-examples-wrapper');
+    const wrapper = el('flow-examples-wrapper')
     this.getSizes().forEach((size) => {
-      const example = dc('div');
-      ac(`matched-text`, example);
-      ac(`reversed-background`, example);
-      ac(`large-full-margin`, example);
-      const token = `${size}-flow`;
-      ac(token, example);
-      const name = dc(`div`);
-      html(`.${token}`, name);
-      a(name, example);
-      for (let p = 0; p < 4; p ++) {
-        const p = dc('p');
-        html("item", p)
-        a(p, example);
+      const example = dc('div')
+      ac(`matched-text`, example)
+      ac(`reversed-background`, example)
+      ac(`large-full-margin`, example)
+      const token = `${size}-flow`
+      ac(token, example)
+      const name = dc(`div`)
+      html(`.${token}`, name)
+      a(name, example)
+      for (let p = 0; p < 4; p++) {
+        const p = dc('p')
+        html('item', p)
+        a(p, example)
       }
-      a(example, wrapper);
-    });
+      a(example, wrapper)
+    })
   }
-  
+
   addSpacingMarginExamples() {
-    const wrapper = el('margin-examples-wrapper');
+    const wrapper = el('margin-examples-wrapper')
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
-        const token = `${size}-${dir[0]}-margin`;
-        const example = dc('div');
-        ac('reversed-faded-background', example);
-        ac('large-inline-margin', example);
-        const name = dc('div');
-        ac(`matched-text`, name);
-        ac(`small-full-padding`, name);
-        html(`.${token}`, name);
-        a(name, example);
-        const line1 = dc('div');
-        ac('matched-text', line1);
-        ac('reversed-background', line1);
-        html("&nbsp;", line1);
-        a(line1, example);
-        const line2 = dc('div');
-        ac('matched-background', line2);
-        ac('reversed-text', line2);
-        ac(token, line2);
-        html("&nbsp;", line2);
-        a(line2, example);
-        const line3 = dc('div');
-        ac('matched-text', line3);
-        ac('reversed-background', line3);
-        html("&nbsp;", line3);
-        a(line3, example);
-        a(example, wrapper);
-      });
-    });
+        const token = `${size}-${dir[0]}-margin`
+        const example = dc('div')
+        ac('reversed-faded-background', example)
+        ac('large-inline-margin', example)
+        const name = dc('div')
+        ac(`matched-text`, name)
+        ac(`small-full-padding`, name)
+        html(`.${token}`, name)
+        a(name, example)
+        const line1 = dc('div')
+        ac('matched-text', line1)
+        ac('reversed-background', line1)
+        html('&nbsp;', line1)
+        a(line1, example)
+        const line2 = dc('div')
+        ac('matched-background', line2)
+        ac('reversed-text', line2)
+        ac(token, line2)
+        html('&nbsp;', line2)
+        a(line2, example)
+        const line3 = dc('div')
+        ac('matched-text', line3)
+        ac('reversed-background', line3)
+        html('&nbsp;', line3)
+        a(line3, example)
+        a(example, wrapper)
+      })
+    })
   }
-  
+
   addSpacingPaddingExamples() {
-    const wrapper = el('padding-examples-wrapper');
+    const wrapper = el('padding-examples-wrapper')
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
-        const token = `${size}-${dir[0]}-padding`;
-        const example = dc('div');
-        ac('reversed-background', example);
-        ac('large-inline-margin', example);
-        ac(token, example);
-        const inside = dc('div');
-        ac('matched-background', inside);
-        html(`.${token}`, inside);
-        a(inside, example);
-        a(example, wrapper);
-      });
-    });
+        const token = `${size}-${dir[0]}-padding`
+        const example = dc('div')
+        ac('reversed-background', example)
+        ac('large-inline-margin', example)
+        ac(token, example)
+        const inside = dc('div')
+        ac('matched-background', inside)
+        html(`.${token}`, inside)
+        a(inside, example)
+        a(example, wrapper)
+      })
+    })
   }
-  
+
   addSpacingWidthExamples() {
-    const wrapper = el('width-examples-wrapper');
+    const wrapper = el('width-examples-wrapper')
     this.getSizesWithFull().forEach((size) => {
-      const token = `${size}-width`;
-      const example = dc('div');
-      const name = dc('div');
-      html(`.${token}`, name);
-      a(name, example);
-      ac('reversed-background', example);
-      ac('matched-text', example);
-      ac('large-inline-margin', example);
-      const item = dc('div');
-      ac('matched-background', item);
-      ac(token, item);
-      html(`&nbsp;`, item);
-      a(item, example);
-      a(example, wrapper);
-    });
+      const token = `${size}-width`
+      const example = dc('div')
+      const name = dc('div')
+      html(`.${token}`, name)
+      a(name, example)
+      ac('reversed-background', example)
+      ac('matched-text', example)
+      ac('large-inline-margin', example)
+      const item = dc('div')
+      ac('matched-background', item)
+      ac(token, item)
+      html(`&nbsp;`, item)
+      a(item, example)
+      a(example, wrapper)
+    })
   }
-  
+
   addSpacingWrapperExamples() {
-    const wrapper = el('wrapper-examples-wrapper');
+    const wrapper = el('wrapper-examples-wrapper')
     this.getSizesWithFull().forEach((size) => {
-      const token = `${size}-wrapper`;
-      const example = dc('div');
-      const name = dc('div');
-      html(`.${token}`, name);
-      a(name, example);
-      ac('reversed-background', example);
-      ac('matched-text', example);
-      ac('large-inline-margin', example);
-      const item = dc('div');
-      ac('matched-background', item);
-      ac(token, item);
-      html(`&nbsp;`, item);
-      a(item, example);
-      a(example, wrapper);
-    });
+      const token = `${size}-wrapper`
+      const example = dc('div')
+      const name = dc('div')
+      html(`.${token}`, name)
+      a(name, example)
+      ac('reversed-background', example)
+      ac('matched-text', example)
+      ac('large-inline-margin', example)
+      const item = dc('div')
+      ac('matched-background', item)
+      ac(token, item)
+      html(`&nbsp;`, item)
+      a(item, example)
+      a(example, wrapper)
+    })
   }
-  
+
   finishUpdate() {
-    this.populateVarsStyleSheet();
+    dbg("finishUpdate");
+    this.populateVarsStyleSheet()
     // this.updateActiveVarsStyleSheet();
-    this.updateUiVarsStyleSheet();
+    this.updateUiVarsStyleSheet()
     // TODO: move the classes things so it only has
     // to fire once
-    this.updateUiClassesStyleSheet();
-    this.updateExportPage();
-    this.updateDebuggingTab();
-    this.toggleIsolation();
+    this.updateUiClassesStyleSheet()
+    this.updateExportPage()
+    this.updateDebuggingTab()
+    this.toggleIsolation()
   }
 
   populateUtilityClasses() {
-    this.utilityClassesStyleSheet = dc('style');
-    document.head.appendChild(this.utilityClassesStyleSheet);
-    ad("editable", "no", this.utilityClassesStyleSheet);
-    ad("deployable", "yes", this.utilityClassesStyleSheet);
-    ad("name", "Utility Classes", this.utilityClassesStyleSheet);
-    const lines =[];
-    lines.push("");
-    lines.push(this.generateUtilityColorTextClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityColorBackgroundClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityColorBorderClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityBlackAndWhiteTextClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityBlackAndWhiteBackgroundClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityBlackAndWhiteBorderClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityFontSizeClasses().join("\n"));
-    const out = `:root { ${lines.join("\n")} }`;
-    this.utilityClassesStyleSheet.innerHTML = out;
+    this.utilityClassesStyleSheet = dc('style')
+    document.head.appendChild(this.utilityClassesStyleSheet)
+    ad('editable', 'no', this.utilityClassesStyleSheet)
+    ad('deployable', 'yes', this.utilityClassesStyleSheet)
+    ad('name', 'Utility Classes', this.utilityClassesStyleSheet)
+    const lines = []
+    lines.push('')
+    lines.push(this.generateUtilityColorTextClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityColorBackgroundClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityColorBorderClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityBlackAndWhiteTextClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityBlackAndWhiteBackgroundClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityBlackAndWhiteBorderClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityFontSizeClasses().join('\n'))
+    const out = `:root { ${lines.join('\n')} }`
+    this.utilityClassesStyleSheet.innerHTML = out
   }
 
   populateVarsStyleSheet() {
     if (this.varsStyleSheet === undefined) {
-      this.varsStyleSheet = dc('style');
-      document.head.appendChild(this.varsStyleSheet);
-      ad("editable", "no", this.varsStyleSheet);
-      ad("deployable", "yes", this.varsStyleSheet);
-      ad("name", "Variables", this.varsStyleSheet);
+      this.varsStyleSheet = dc('style')
+      document.head.appendChild(this.varsStyleSheet)
+      ad('editable', 'no', this.varsStyleSheet)
+      ad('deployable', 'yes', this.varsStyleSheet)
+      ad('name', 'Variables', this.varsStyleSheet)
     }
-    const lines =[];
-    // TODO: Update names to generate. 
-    lines.push("");
-    lines.push(this.getColorModeVars().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityBlackAndWhiteVars().join("\n"));
-    lines.push("");
-    lines.push(this.updateActiveColorVars().join("\n"));
-    lines.push("");
-    lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
-    lines.push("");
-    lines.push(this.generateUtilityFontSizeVars().join("\n"));
-    const out = `:root { ${lines.join("\n")} }`;
-    this.varsStyleSheet.innerHTML = out;
+    const lines = []
+    // TODO: Update names to generate.
+    lines.push('')
+    lines.push(this.getColorModeVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityBlackAndWhiteVars().join('\n'))
+    lines.push('')
+    lines.push(this.updateActiveColorVars().join('\n'))
+    lines.push('')
+    lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityFontSizeVars().join('\n'))
+    const out = `:root { ${lines.join('\n')} }`
+    this.varsStyleSheet.innerHTML = out
   }
 
   generateUtilityColorBackgroundClasses() {
-    const lines =[];
+    const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
-          lines.push(
-            makeClass(
-              `  .${colorName}-background${fade}`,
-              `background-color`,
-              `var(--${colorName}${fade})`
-            )
-          );
-      });
-    });
-    lines.sort();
-    return [`  /* Background Colors */`, ...lines];
+        lines.push(
+          makeClass(
+            `  .${colorName}-background${fade}`,
+            `background-color`,
+            `var(--${colorName}${fade})`
+          )
+        )
+      })
+    })
+    lines.sort()
+    return [`  /* Background Colors */`, ...lines]
   }
 
   generateUtilityBlackAndWhiteBackgroundClasses() {
-    const lines = [];
+    const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       lines.push(
         makeClass(
@@ -1251,28 +1255,28 @@ class Picker extends HTMLElement {
           `background-color`,
           `var(--${bwName})`
         )
-      );
+      )
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeClass(
-          `  .${bwName}-background-${fadedName}`,
-          `background-color`,
-          `var(--${bwName}-${fadedName})`
+            `  .${bwName}-background-${fadedName}`,
+            `background-color`,
+            `var(--${bwName}-${fadedName})`
           )
-        );
-      });
-    });
-    lines.sort();
-    return [`  /* Black And White Background Classes */`, ...lines];
+        )
+      })
+    })
+    lines.sort()
+    return [`  /* Black And White Background Classes */`, ...lines]
   }
 
   generateUtilityBlackAndWhiteBorderClasses() {
-    const lines = [];
+    const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getDirections().forEach((direction) => {
-        let dir = `-${direction[0]}`;
+        let dir = `-${direction[0]}`
         if (direction[1] === false) {
-          dir = ""
+          dir = ''
         }
         lines.push(
           makeClass(
@@ -1280,80 +1284,77 @@ class Picker extends HTMLElement {
             `border${dir}`,
             `1px solid var(--${bwName})`
           )
-        );
+        )
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
           lines.push(
             makeClass(
-            `  .${bwName}-${direction[0]}-border-${fadedName}`,
-            `border${dir}`,
-            `1px solid var(--${bwName}-${fadedName})`
+              `  .${bwName}-${direction[0]}-border-${fadedName}`,
+              `border${dir}`,
+              `1px solid var(--${bwName}-${fadedName})`
             )
-          );
-        });
-      });
-    });
-    lines.sort();
-    return [`  /* Black And White Border Classes */`, ...lines];
+          )
+        })
+      })
+    })
+    lines.sort()
+    return [`  /* Black And White Border Classes */`, ...lines]
   }
 
   generateUtilityBlackAndWhiteTextClasses() {
-    const lines = [];
+    const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-      lines.push(
-        makeClass(
-          `  .${bwName}-text`,
-          `color`,
-          `var(--${bwName})`
-        )
-      );
+      lines.push(makeClass(`  .${bwName}-text`, `color`, `var(--${bwName})`))
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeClass(
-          `  .${bwName}-text-${fadedName}`,
-          `color`,
-          `var(--${bwName}-${fadedName})`
+            `  .${bwName}-text-${fadedName}`,
+            `color`,
+            `var(--${bwName}-${fadedName})`
           )
-        );
-      });
-    });
-    lines.sort();
-    return [`  /* Black And White Text Classes */`, ...lines];
+        )
+      })
+    })
+    lines.sort()
+    return [`  /* Black And White Text Classes */`, ...lines]
   }
 
   generateUtilityBlackAndWhiteVars() {
-    const lines = [];
+    const lines = []
     this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-        const lightnessValue = this.getBlackAndWhiteModeValue(modeIndex, bwIndex);
+        const lightnessValue = this.getBlackAndWhiteModeValue(
+          modeIndex,
+          bwIndex
+        )
         lines.push(
-          makeVar(
-            `  --${modeName}__${bwName}`,
-            `oklch(${lightnessValue}% 0 0)`
-          )
-        );
+          makeVar(`  --${modeName}__${bwName}`, `oklch(${lightnessValue}% 0 0)`)
+        )
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-        const fadedValue = this.getBlackAndWhiteModeFadedValue(modeIndex, fadedIndex);
+          const fadedValue = this.getBlackAndWhiteModeFadedValue(
+            modeIndex,
+            fadedIndex
+          )
           lines.push(
             makeVar(
               `  --${modeName}__${bwName}-${fadedName}`,
               `oklch(${lightnessValue}% 0 0 / ${fadedValue})`
             )
-          );
-        });
-      });
-    });
-    lines.sort();
-    return [`  /* Black And White Mode Variables */`, ...lines];
+          )
+        })
+      })
+    })
+    lines.sort()
+    return [`  /* Black And White Mode Variables */`, ...lines]
   }
 
   generateUtilityColorBorderClasses() {
-    const lines =[];
+    const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
         this.getDirections().forEach((direction) => {
-          let dir = `-${direction[0]}`;
+          let dir = `-${direction[0]}`
           if (direction[1] === false) {
-            dir = ""
+            dir = ''
           }
           lines.push(
             makeClass(
@@ -1361,17 +1362,17 @@ class Picker extends HTMLElement {
               `border${dir}`,
               `1px solid var(--${colorName}${fade})`
             )
-          );
-        });
-      });
-    });
-    lines.sort();
-    return [`  /* Color Borders */`, ...lines];
+          )
+        })
+      })
+    })
+    lines.sort()
+    return [`  /* Color Borders */`, ...lines]
   }
 
   generateUtilityFontSizeClasses() {
-    const lines = [];
-    lines.push(`  /* Font Size Classes */`);
+    const lines = []
+    lines.push(`  /* Font Size Classes */`)
     const hardCoded = `  .xxxsmall-font-size {font-size: var(--xxxsmall-font-size); }
   .xxsmall-font-size { font-size: var(--xxsmall-font-size); }
   .xsmall-font-size { font-size: var(--xsmall-font-size); }
@@ -1381,13 +1382,13 @@ class Picker extends HTMLElement {
   .xlarge-font-size { font-size: var(--xlarge-font-size); }
   .xxlarge-font-size { font-size: var(--xxlarge-font-size); }
   .xxxlarge-font-size { font-size: var(--xxxlarge-font-size); }`
-    lines.push(...hardCoded.split("\n"));
-    return lines;
+    lines.push(...hardCoded.split('\n'))
+    return lines
   }
 
   generateUtilityFontSizeVars() {
-    const lines = [];
-    lines.push(`  /* Font Size Variables */`);
+    const lines = []
+    lines.push(`  /* Font Size Variables */`)
     const hardCoded = `  --xxxsmall-font-size: clamp(0.58rem, calc(0.57rem + 0.03vw), 0.6rem);
   --xxsmall-font-size: clamp(0.68rem, calc(0.67rem + 0.03vw), 0.7rem);
   --xsmall-font-size: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
@@ -1397,57 +1398,54 @@ class Picker extends HTMLElement {
   --xlarge-font-size: clamp(1.32rem, calc(1.5rem + 0.58vw), 1.65rem);
   --xxlarge-font-size: clamp(1.84rem, calc(1.77rem + 0.87vw), 2.14rem);
   --xxxlarge-font-size: clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem);`
-    lines.push(...hardCoded.split("\n"));
-    return lines;
+    lines.push(...hardCoded.split('\n'))
+    return lines
   }
-
 
   generateUtilityColorTextClasses() {
-    const lines =[];
+    const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
-          lines.push(
-            makeClass(
-              `  .${colorName}-text${fade}`,
-              `color`,
-              `var(--${colorName}${fade})`
-            )
-          );
-      });
-    });
-    lines.sort();
-    return [`  /* Text Colors */`, ...lines];
+        lines.push(
+          makeClass(
+            `  .${colorName}-text${fade}`,
+            `color`,
+            `var(--${colorName}${fade})`
+          )
+        )
+      })
+    })
+    lines.sort()
+    return [`  /* Text Colors */`, ...lines]
   }
-
 
   getColorModeVars() {
-    const lines = [];
+    const lines = []
     p.modes.forEach((modeData, modeIndex) => {
-      const modeName = scrubStyle(modeData.name);
-      const backgroundL = this.getBackgroundValueL(modeIndex);
-      const backgroundC = this.getBackgroundValueC(modeIndex);
-      const backgroundH = this.getBackgroundValueH(modeIndex);
+      const modeName = scrubStyle(modeData.name)
+      const backgroundL = this.getBackgroundValueL(modeIndex)
+      const backgroundC = this.getBackgroundValueC(modeIndex)
+      const backgroundH = this.getBackgroundValueH(modeIndex)
       const backgroundName = `  --${modeName}__${p.backgroundColorName}`
-      const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-      lines.push(`${backgroundName}: ${backgroundValue};`);
+      const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`
+      lines.push(`${backgroundName}: ${backgroundValue};`)
       this.getActiveColors().forEach((colorName, colorIndex) => {
-        const l = this.getColorValueL(modeIndex, colorIndex);
-        const c = this.getColorValueC(modeIndex, colorIndex);
-        const h = this.getColorValueH(modeIndex, colorIndex);
-        const textName = `  --${modeName}__${colorName}`;
-        const textValue = `oklch(${l}% ${c} ${h})`;
-        lines.push(`${textName}: ${textValue};`);
+        const l = this.getColorValueL(modeIndex, colorIndex)
+        const c = this.getColorValueC(modeIndex, colorIndex)
+        const h = this.getColorValueH(modeIndex, colorIndex)
+        const textName = `  --${modeName}__${colorName}`
+        const textValue = `oklch(${l}% ${c} ${h})`
+        lines.push(`${textName}: ${textValue};`)
         p.fadedNames.forEach((fadedName, fadedIndex) => {
-          const fade = .5;
-          const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
-          const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-          lines.push(`${fadedClassName}: ${fadedValue};`);
-        });
-      });
-    });
-    return [`  /* Color Mode Variables */`, ...lines];
+          const fade = 0.5
+          const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`
+          const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
+          lines.push(`${fadedClassName}: ${fadedValue};`)
+        })
+      })
+    })
+    return [`  /* Color Mode Variables */`, ...lines]
   }
-
 
   // updateProdVarsStyleSheet() {
   //   if (this.colorVarsStyleSheet === undefined) {
@@ -1489,242 +1487,243 @@ class Picker extends HTMLElement {
   // }
 
   updateMode(obj) {
-    const newMode = gdiV2("mode", obj);
+    const newMode = gdiV2('mode', obj)
     if (newMode !== p.activeMode) {
-      p.activeMode = newMode;
+      p.activeMode = newMode
     }
-    this.initColorTabs();
-    this.updateBackgroundSliders('instructions');
-    this.updateBackgroundSliders('picker');
-    this.finishUpdate();
+    this.initColorTabs()
+    this.updateBackgroundSliders('instructions')
+    // this.updateBackgroundSliders('picker');
+    this.finishUpdate()
   }
-  
+
   getActiveBackgroundValueAspect(aspect) {
-    if (aspect === "l") {
-      return this.getActiveBackgroundValueL() 
-    } else if (aspect === "c") {
-      return this.getActiveBackgroundValueC() 
-    } else if (aspect === "h") {
-      return this.getActiveBackgroundValueH() 
+    if (aspect === 'l') {
+      return this.getActiveBackgroundValueL()
+    } else if (aspect === 'c') {
+      return this.getActiveBackgroundValueC()
+    } else if (aspect === 'h') {
+      return this.getActiveBackgroundValueH()
     }
   }
-  
+
   getActiveBackgroundValueC() {
-    return p.modes[p.activeMode].base.c;
+    return p.modes[p.activeMode].base.c
   }
-  
+
   getActiveBackgroundValueH() {
-    return p.modes[p.activeMode].base.h;
+    return p.modes[p.activeMode].base.h
   }
-  
+
   getActiveBackgroundValueL() {
-    return p.modes[p.activeMode].base.l;
+    return p.modes[p.activeMode].base.l
   }
 
   getActiveColorIndexC() {
-    return this.getColorIndexC(p.activeMode, p.activeColor);
+    return this.getColorIndexC(p.activeMode, p.activeColor)
   }
 
   getActiveColorIndexH() {
-    return this.getColorIndexH(p.activeMode, p.activeColor);
+    return this.getColorIndexH(p.activeMode, p.activeColor)
   }
 
   getActiveColorIndexL() {
-    return this.getColorIndexL(p.activeMode, p.activeColor);
+    return this.getColorIndexL(p.activeMode, p.activeColor)
   }
 
   getActiveColorScrubbedName() {
-    return scrubStyle(p.colorNames[p.activeColor]);
+    return scrubStyle(p.colorNames[p.activeColor])
   }
 
   getActiveColors() {
     return p.colorNames.filter((name, index) => {
-      return index < p.numberOfColors;
+      return index < p.numberOfColors
     })
   }
-  
+
   getActiveColorValueC() {
-    return this.getColorValueC(p.activeMode, p.activeColor);
+    return this.getColorValueC(p.activeMode, p.activeColor)
   }
-  
+
   getActiveColorValueH() {
-    return this.getColorValueH(p.activeMode, p.activeColor);
+    return this.getColorValueH(p.activeMode, p.activeColor)
   }
-  
+
   getActiveColorValueL() {
-    return this.getColorValueL(p.activeMode, p.activeColor);
+    return this.getColorValueL(p.activeMode, p.activeColor)
   }
-  
+
   getActiveModeScrubbedName() {
-    return scrubStyle(
-      p.modes[p.activeMode].name
-    );
+    return scrubStyle(p.modes[p.activeMode].name)
   }
-  
+
   getAlignments() {
     return ['start', 'center', 'end', 'justify']
   }
-  
+
   getAspectMax(aspect) {
-    return p.aspects[aspect].max;
+    return p.aspects[aspect].max
   }
-  
+
   getAspectStep(aspect) {
-    const value = p.aspects[aspect].max / 10000;
-    return value.toFixed(7);
+    const value = p.aspects[aspect].max / 10000
+    return value.toFixed(7)
   }
-  
+
   getBackgroundValueC(mode) {
     return p.modes[mode].base.c
   }
-  
+
   getBackgroundValueH(mode) {
     return p.modes[mode].base.h
   }
-  
+
   getBackgroundValueL(mode) {
     return p.modes[mode].base.l
   }
 
   getBlackAndWhiteModeValue(mode, index) {
-    return p.modes[mode].blackAndWhiteValues[index];
+    return p.modes[mode].blackAndWhiteValues[index]
   }
 
   getBlackAndWhiteModeFadedValue(mode, index) {
-    return p.modes[mode].blackAndWhiteFaded[index];
+    return p.modes[mode].blackAndWhiteFaded[index]
   }
 
   getBlackAndWhiteNames() {
-    return p.blackAndWhiteNames;
+    return p.blackAndWhiteNames
   }
-  
+
   // TODO: Deprecate this to getBlackAndWhiteNames
   getBwKinds() {
     return [
       ['black', 'white'],
       ['white', 'black'],
       ['match', 'reverse'],
-      ['reverse', 'match']
+      ['reverse', 'match'],
     ]
   }
 
   getColorFadedValue(mode, color, index) {
-    return p.modes[mode].colors[color].fadedValues[index];
+    return p.modes[mode].colors[color].fadedValues[index]
   }
 
-  
   getColorIndexC(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c
   }
-  
+
   getColorIndexH(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h
   }
-  
+
   getColorHueValues(mode, color) {
-    const values = [];
-    const h = this.getColorIndexH(mode, color);
-    const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
+    const values = []
+    const h = this.getColorIndexH(mode, color)
+    const hueOffsetAmount = this.getHueOffsetAmount(mode, color)
     for (let value = 0; value < 360; value += hueOffsetAmount) {
-      values.push(value + p.modes[mode].base.h);
+      values.push(value + p.modes[mode].base.h)
     }
-    return values;
+    return values
   }
-  
+
   getColorHueRowValues(mode, color) {
-    return [23, 34, 45, 234, 23, 12, 32, 51];
+    return [23, 34, 45, 234, 23, 12, 32, 51]
   }
-  
+
   getColorIndexL(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
+    return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l
   }
-  
+
   getColorValueC(mode, color) {
-    return this.getColorIndexC(mode, color).toFixed(5);
+    return this.getColorIndexC(mode, color).toFixed(5)
   }
-  
+
   getColorValueH(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    const h = this.getColorIndexH(mode, color);
-    return this.getColorHueValues(mode, color)[h].toFixed(5);
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
+    const h = this.getColorIndexH(mode, color)
+    return this.getColorHueValues(mode, color)[h].toFixed(5)
   }
-  
+
   getColorValueL(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
-    return this.getLightnessValues(mode, color)[l];
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
+    const l = p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l
+    return this.getLightnessValues(mode, color)[l]
   }
-  
+
   getColorMinLightValue(mode, color) {
-    return p.modes[mode].colors[color].minLightLevel;
+    return p.modes[mode].colors[color].minLightLevel
   }
-  
+
   // TODO: Deprecate and put in data object
   getDirections() {
     return [
-      ["full", false],
-      ["top", true],
-      ["bottom", true],
-      ["left", true],
-      ["right", true],
-      ["block", true],
-      ["inline", true],
+      ['full', false],
+      ['top', true],
+      ['bottom', true],
+      ['left', true],
+      ['right', true],
+      ['block', true],
+      ['inline', true],
     ]
   }
 
   getScrubbedActiveModeName() {
-    return scrubStyle(p.modes[p.activeMode].name);
+    return scrubStyle(p.modes[p.activeMode].name)
   }
 
   getScrubbedFadedNames() {
-    return p.fadedNames.map((name) => { return scrubStyle(name); });
+    return p.fadedNames.map((name) => {
+      return scrubStyle(name)
+    })
   }
-  
+
   // TODO: Deprecate and put in data object
   getFadedValues() {
-    return [
-      '', '-faded', '-faded2'
-    ]
+    return ['', '-faded', '-faded2']
   }
-  
+
   getLightnessValues(mode, color) {
-    const levels = [];
-    const minLightLevel = this.getColorMinLightValue(mode, color);
-    const adder = ((p.maxLightValue - minLightLevel) / (p.lightLevels - 1));
+    const levels = []
+    const minLightLevel = this.getColorMinLightValue(mode, color)
+    const adder = (p.maxLightValue - minLightLevel) / (p.lightLevels - 1)
     for (let level = minLightLevel; level <= p.maxLightValue; level += adder) {
-      levels.push(level.toFixed(5));
+      levels.push(level.toFixed(5))
     }
-    return levels;
+    return levels
   }
-  
+
   getHueOffsetIndex(mode, color) {
-    return p.modes[mode].colors[color].hueOffsetIndex;
+    return p.modes[mode].colors[color].hueOffsetIndex
   }
-  
+
   getHueOffsetAmount(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-    return p.hueOffsets[hueOffsetIndex];
+    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
+    return p.hueOffsets[hueOffsetIndex]
   }
-  
+
   getHueRowCount(mode, color) {
-    return Math.round(360 / this.getHueOffsetAmount(mode, color));
-  } 
+    return Math.round(360 / this.getHueOffsetAmount(mode, color))
+  }
 
   getModeNames() {
-    return p.modes.map((mode) => { return mode.name});
+    return p.modes.map((mode) => {
+      return mode.name
+    })
   }
 
   getModeScrubbedNames() {
-    return p.modes.map((mode) => { return scrubStyle(mode.name)});
+    return p.modes.map((mode) => {
+      return scrubStyle(mode.name)
+    })
   }
 
   getActiveScrubbedColorNames() {
     return this.getActiveColors().map((colorName) => {
-      return scrubStyle(colorName);
-    });
+      return scrubStyle(colorName)
+    })
   }
 
   // TODO: Deprecate and put in data object
@@ -1738,363 +1737,381 @@ class Picker extends HTMLElement {
       'small',
       'xsmall',
       'xxsmall',
-      'xxxsmall', 
+      'xxxsmall',
     ]
   }
 
   getSizesWithFull() {
-    return ['full', ...this.getSizes()];
+    return ['full', ...this.getSizes()]
   }
 
   initBackgroundCheckboxes() {
-    dbg('initBackgroundCheckboxes()');
-    const sidebars = els('.sidebar-controls');
+    dbg('initBackgroundCheckboxes()')
+    const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar, sidebarIndex) => {
-      const tab = gdsV2("tab", sidebar);
-      const wrapper = getEl('.background-box-isolate-wrapper', sidebar);
-      const connector = `background-box-isolate-checkbox-${tab}`;
-      const label = getEl('label', wrapper);
-      sa("for", connector, label);
-      ac('picker-text', label);
-      const checkbox = getEl('input', wrapper);
-      sa("id", connector, checkbox);
-      sa("name", connector, checkbox);
-      ad("kind", "background-box-isolate-checkbox", checkbox);
-      ad("tab", tab, checkbox);
-    });
+      const tab = gdsV2('tab', sidebar)
+      const wrapper = getEl('.background-box-isolate-wrapper', sidebar)
+      const connector = `background-box-isolate-checkbox-${tab}`
+      const label = getEl('label', wrapper)
+      sa('for', connector, label)
+      ac('picker-text', label)
+      const checkbox = getEl('input', wrapper)
+      sa('id', connector, checkbox)
+      sa('name', connector, checkbox)
+      ad('kind', 'background-box-isolate-checkbox', checkbox)
+      ad('tab', tab, checkbox)
+    })
   }
 
   initBackgroundSliders() {
-    dbg('initBackgroundSlider()');
-    const sidebars = els('.sidebar-controls');
+    dbg('initBackgroundSlider()')
+    const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar, sidebarIndex) => {
-      const tab = gdsV2("tab", sidebar);
-      const wrappers = getEls('.background-box-slider-wrapper', sidebar);
+      const tab = gdsV2('tab', sidebar)
+      const wrappers = getEls('.background-box-slider-wrapper', sidebar)
       wrappers.forEach((wrapper) => {
-        const aspect = gdsV2("aspect", wrapper);
-        const connector = `background-box-slider-${tab}-${aspect}`;
-        const label = getEl("label", wrapper);
-        label.innerHTML = `${aspect}:`;
-        sa("for", connector, label);
-        ac('picker-text', label);
-        const slider = getEl("input", wrapper);
-        sa("name", connector, slider);
-        sa("min", "0", slider);
-        sa("max", this.getAspectMax(aspect), slider);
-        sa("step", this.getAspectStep(aspect), slider);
-        ad("aspect", aspect, slider);
-        ad("tab", tab, slider);
-      });
-      this.updateBackgroundSliders(tab);
-    });
+        const aspect = gdsV2('aspect', wrapper)
+        const connector = `background-box-slider-${tab}-${aspect}`
+        const label = getEl('label', wrapper)
+        label.innerHTML = `${aspect}:`
+        sa('for', connector, label)
+        ac('picker-text', label)
+        const slider = getEl('input', wrapper)
+        sa('name', connector, slider)
+        sa('min', '0', slider)
+        sa('max', this.getAspectMax(aspect), slider)
+        sa('step', this.getAspectStep(aspect), slider)
+        ad('aspect', aspect, slider)
+        ad('tab', tab, slider)
+      })
+      this.updateBackgroundSliders(tab)
+    })
   }
 
   initColorTabs() {
-    dbg("initColorTabs");
-    const sidebars = els('.sidebar-controls');
+    dbg('initColorTabs')
+    const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar) => {
-      const tabKey = gdsV2("tab", sidebar);
-      const wrapper = getEl('.colors-box-tabs-wrapper', sidebar);
-      html("", wrapper);
-      const tabGroup = dc('tab-group');
-      const tabList = dc('div');
-      sa("role", "tablist", tabList);
-      ac("colors-box-tab-list", tabList);
-      for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
-        const tabButton = dc('button');
-        sa("role", "tab", tabButton);
-        ac("color-selector-button", tabButton);
+      const tabKey = gdsV2('tab', sidebar)
+      const wrapper = getEl('.colors-box-tabs-wrapper', sidebar)
+      html('', wrapper)
+      const tabGroup = dc('tab-group')
+      const tabList = dc('div')
+      sa('role', 'tablist', tabList)
+      ac('colors-box-tab-list', tabList)
+      for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex++) {
+        const tabButton = dc('button')
+        sa('role', 'tab', tabButton)
+        ac('color-selector-button', tabButton)
         if (nameIndex === p.activeColor) {
-          sa("aria-selected", "true", tabButton);
-          ac(`ui__background-text`, tabButton);
+          sa('aria-selected', 'true', tabButton)
+          ac(`ui__background-text`, tabButton)
           // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
           // ac(`reversed`, tabButton);
-          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
-          ac(`${this.getActiveColorScrubbedName()}-bottom-border`, tabButton);
+          ac(
+            `ui__mode-${p.activeMode}__color-${nameIndex}-background`,
+            tabButton
+          )
+          ac(`${this.getActiveColorScrubbedName()}-bottom-border`, tabButton)
         } else {
-          ac(`reversed-bottom-border`, tabButton);
-          ac(`ui__background-text`, tabButton);
+          ac(`reversed-bottom-border`, tabButton)
+          ac(`ui__background-text`, tabButton)
           // ac(`background-text`, tabButton);
           //ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
           // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
-          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
+          ac(
+            `ui__mode-${p.activeMode}__color-${nameIndex}-background`,
+            tabButton
+          )
         }
-        html(Array.from(p.colorNames[nameIndex])[0], tabButton);
-        ad("kind", "color-selector-button", tabButton);
-        ad("color", nameIndex, tabButton);
+        html(Array.from(p.colorNames[nameIndex])[0], tabButton)
+        ad('kind', 'color-selector-button', tabButton)
+        ad('color', nameIndex, tabButton)
         if (nameIndex === p.numberOfColors - 1) {
-          ac(`round-upper-right-corner`, tabButton);
+          ac(`round-upper-right-corner`, tabButton)
         }
-        a(tabButton, tabList);
+        a(tabButton, tabList)
       }
-      a(tabList, tabGroup);
-      for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
-        const panel = dc('div');
-        sa("role", "tabpanel", panel);
-        ac(`color-tab-panel`, panel);
+      a(tabList, tabGroup)
+      for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex++) {
+        const panel = dc('div')
+        sa('role', 'tabpanel', panel)
+        ac(`color-tab-panel`, panel)
         if (nameIndex !== p.activeColor) {
-          panel.hidden = true;
+          panel.hidden = true
         }
-        const tabName = dc('div');
-        html(p.colorNames[nameIndex], tabName);
-        ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabName);
-        ac(`ui__background-text`, tabName);
-        ac(`color-selector-tab-name`, tabName);
-        a(tabName, panel);
-        const tabGrid = dc('div');
-        ac('color-grid-wrapper', tabGrid);
-        this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
-          const row = dc('div');
-          this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
-            const button = dc('button');
-            html("set", button);
-            ad("kind", "color-box-set-button", button);
-            ad("mode", p.activeMode, button);
-            ad("color", nameIndex, button);
-            ad("lightness", lightness, button);
-            ad("hue", hue, button);
-            ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
-            ac(`ui__set-grid__lightness-${lightness}__hue-${hue}__decoration`, button);
-            ac(`color-box-set-button`, button);
-            a(button, row);
-          });
-          a(row, tabGrid);
-        });
-        a(tabGrid, panel);
-        const chromaWrapper = dc('div');
-        ac('colors-box-chroma-slider-wrapper', chromaWrapper);
-        const connector  = `colors-box-chroma-slider-${tabKey}`;
-        const label = dc('label');
-        ac('colors-box-chroma-slider-label', label);
-        sa("for", connector, label);
-        html('c:', label);
-        a(label, chromaWrapper);
-        const slider = dc('input');
-        sa("type", "range", slider);
-        sa("name", connector, slider);
-        sa("min", "0", slider);
-        sa("max", this.getAspectMax('c'), slider);
-        sa("step", this.getAspectStep('c'), slider);
-        ad("kind", "color-chroma-slider", slider);
-        ad("color", nameIndex, slider);
-        slider.value = this.getColorValueC(p.activeMode, nameIndex);
-        a(slider, chromaWrapper);
-        a(chromaWrapper, panel);
-        const checkboxWrapper = dc('div');
-        ac('colors-box-chroma-checkbox-wrapper', checkboxWrapper);
-        const checkboxConnector  = `colors-box-chroma-checkbox-${tabKey}`;
-        const checkboxLabel = dc('label');
-        ac('colors-box-chroma-checkbox-label', checkboxLabel); 
-        sa("for", checkboxConnector, checkboxLabel);
-        html('Isolate: ', checkboxLabel);
-        const checkbox = dc('input');
-        sa("id", checkboxConnector, checkbox);
-        sa("name", checkboxConnector, checkbox);
-        sa("type", "checkbox", checkbox);
-        ad('kind', 'color-isolate-checkbox', checkbox);
-        ad('color', nameIndex, checkbox);
+        const tabName = dc('div')
+        html(p.colorNames[nameIndex], tabName)
+        ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabName)
+        ac(`ui__background-text`, tabName)
+        ac(`color-selector-tab-name`, tabName)
+        a(tabName, panel)
+        const tabGrid = dc('div')
+        ac('color-grid-wrapper', tabGrid)
+        this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+          (hueData, hue) => {
+            const row = dc('div')
+            this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+              (lightnessData, lightness) => {
+                const button = dc('button')
+                html('set', button)
+                ad('kind', 'color-box-set-button', button)
+                ad('mode', p.activeMode, button)
+                ad('color', nameIndex, button)
+                ad('lightness', lightness, button)
+                ad('hue', hue, button)
+                ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button)
+                ac(
+                  `ui__set-grid__lightness-${lightness}__hue-${hue}__decoration`,
+                  button
+                )
+                ac(`color-box-set-button`, button)
+                a(button, row)
+              }
+            )
+            a(row, tabGrid)
+          }
+        )
+        a(tabGrid, panel)
+        const chromaWrapper = dc('div')
+        ac('colors-box-chroma-slider-wrapper', chromaWrapper)
+        const connector = `colors-box-chroma-slider-${tabKey}`
+        const label = dc('label')
+        ac('colors-box-chroma-slider-label', label)
+        sa('for', connector, label)
+        html('c:', label)
+        a(label, chromaWrapper)
+        const slider = dc('input')
+        sa('type', 'range', slider)
+        sa('name', connector, slider)
+        sa('min', '0', slider)
+        sa('max', this.getAspectMax('c'), slider)
+        sa('step', this.getAspectStep('c'), slider)
+        ad('kind', 'color-chroma-slider', slider)
+        ad('color', nameIndex, slider)
+        slider.value = this.getColorValueC(p.activeMode, nameIndex)
+        a(slider, chromaWrapper)
+        a(chromaWrapper, panel)
+        const checkboxWrapper = dc('div')
+        ac('colors-box-chroma-checkbox-wrapper', checkboxWrapper)
+        const checkboxConnector = `colors-box-chroma-checkbox-${tabKey}`
+        const checkboxLabel = dc('label')
+        ac('colors-box-chroma-checkbox-label', checkboxLabel)
+        sa('for', checkboxConnector, checkboxLabel)
+        html('Isolate: ', checkboxLabel)
+        const checkbox = dc('input')
+        sa('id', checkboxConnector, checkbox)
+        sa('name', checkboxConnector, checkbox)
+        sa('type', 'checkbox', checkbox)
+        ad('kind', 'color-isolate-checkbox', checkbox)
+        ad('color', nameIndex, checkbox)
         if (p.isolatedColor >= 0) {
-          checkbox.checked = true;
+          checkbox.checked = true
         }
-        a(checkboxLabel, checkboxWrapper);
-        a(checkbox, checkboxWrapper);
-        a(checkboxWrapper, panel);
-        a(panel, tabGroup);
+        a(checkboxLabel, checkboxWrapper)
+        a(checkbox, checkboxWrapper)
+        a(checkboxWrapper, panel)
+        a(panel, tabGroup)
       }
-      a(tabGroup, wrapper);
+      a(tabGroup, wrapper)
     })
   }
-  
+
   initControls() {
-    const sidebars = els('.sidebar-controls');
-    const template = elV2("#picker-controls-template");
+    const sidebars = els('.sidebar-controls')
+    const template = elV2('#picker-controls-template')
     sidebars.forEach((sidebar) => {
-      html("", sidebar);
-      const clone = template.content.cloneNode(true);
-      a(clone, sidebar);
-    });
-    this.initModeButtonsV2();
-    this.initBackgroundSliders();
-    this.initBackgroundCheckboxes();
-    this.initColorTabs();
+      html('', sidebar)
+      const clone = template.content.cloneNode(true)
+      a(clone, sidebar)
+    })
+    this.initModeButtonsV2()
+    this.initBackgroundSliders()
+    this.initBackgroundCheckboxes()
+    this.initColorTabs()
   }
-  
+
   initModeButtonsV2() {
-    const sidebars = els('.sidebar-controls');
+    const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar) => {
-      const tab = gdsV2("tab", sidebar);
-      const wrapper = getEl('.mode-buttons', sidebar);
-      ad("tab", tab, wrapper);
-      html("", wrapper);
+      const tab = gdsV2('tab', sidebar)
+      const wrapper = getEl('.mode-buttons', sidebar)
+      ad('tab', tab, wrapper)
+      html('', wrapper)
       p.modes.forEach((modeData, modeIndex) => {
-        const button = dc('button');
-        html(modeData.name, button);
-        ac(`mode-${modeIndex}-selector-button`, button);
-        ad("tab", tab, button);
-        ad("mode", modeIndex, button);
-        ad("kind", "mode-button", button);
-        a(button, wrapper);
-      });
-    });
+        const button = dc('button')
+        html(modeData.name, button)
+        ac(`mode-${modeIndex}-selector-button`, button)
+        ad('tab', tab, button)
+        ad('mode', modeIndex, button)
+        ad('kind', 'mode-button', button)
+        a(button, wrapper)
+      })
+    })
   }
 
   // TODO: Verify
   loadData() {
-    const checkData = localStorage.getItem(
-      config.storageName
-    );
+    const checkData = localStorage.getItem(config.storageName)
     if (checkData && checkData.version[0] === 1) {
-      dbg(`Loaded colors from storage`);
-      p = checkData;
+      dbg(`Loaded colors from storage`)
+      p = checkData
     } else {
-      this.loadDefaults();
+      this.loadDefaults()
     }
-    p = data.palettes[0];
+    p = data.palettes[0]
   }
 
   // TODO: Verify
   loadDefaults() {
     data = {
-      "palettes": [defaultPalette],
-      "schemaVersion": [1,0,0]
-    };
-    dbg("Loaded default colors");
+      palettes: [defaultPalette],
+      schemaVersion: [1, 0, 0],
+    }
+    dbg('Loaded default colors')
   }
-  
+
   refreshColorGrid() {
-    const sidebars = els('.sidebar-controls');
+    const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar) => {
-      const tabKey = gdsV2("tab", sidebar);
-      const wrapper = getEl('.colors-box-grid-wrapper', sidebar);
-      this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
-        const row = dc('div');
-        this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
-          const button = dc('button');
-          html("set", button);
-          ad("kind", "color-box-set-button", button);
-          ad("mode", p.activeMode, button);
-          ad("color", p.activeColor, button);
-          ad("lightness", lightness, button);
-          ad("hue", hue, button);
-          ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
-          ac(`ui__set-grid__lightness-${lightness}__hue-${hue}__decoration`, button);
-          a(button, row);
-        });
-        a(row, wrapper);
-      });
-    });
+      const tabKey = gdsV2('tab', sidebar)
+      const wrapper = getEl('.colors-box-grid-wrapper', sidebar)
+      this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+        (hueData, hue) => {
+          const row = dc('div')
+          this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+            (lightnessData, lightness) => {
+              const button = dc('button')
+              html('set', button)
+              ad('kind', 'color-box-set-button', button)
+              ad('mode', p.activeMode, button)
+              ad('color', p.activeColor, button)
+              ad('lightness', lightness, button)
+              ad('hue', hue, button)
+              ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button)
+              ac(
+                `ui__set-grid__lightness-${lightness}__hue-${hue}__decoration`,
+                button
+              )
+              a(button, row)
+            }
+          )
+          a(row, wrapper)
+        }
+      )
+    })
   }
-  
+
   setColorAspect(mode, color, aspect, value) {
-    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
-    p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value;
+    const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex
+    p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value
   }
-  
+
   switchTopLevelTabs() {
-    this.initColorTabs();
-    this.initBackgroundSliders();
-    this.finishUpdate();
+    this.initColorTabs()
+    this.initBackgroundSliders()
+    this.finishUpdate()
   }
 
   toggleIsolateBackground(obj) {
     if (obj.checked === true) {
-      dbg('Isolating background');
-      p.previousIsolatedColor = p.isolatedColor;
+      dbg('Isolating background')
+      p.previousIsolatedColor = p.isolatedColor
       p.isolatedColor = -1
     } else {
-      dbg('Returning from isolated background');
-      p.isolatedColor = p.previousIsolatedColor;
+      dbg('Returning from isolated background')
+      p.isolatedColor = p.previousIsolatedColor
     }
-    this.finishUpdate();
+    this.finishUpdate()
   }
 
   toggleIsolateColor(obj) {
     if (obj.checked === true) {
-      const color = gdiV2("color", obj);
-      p.previousIsolatedColor = -2;
-      p.isolatedColor = color;
+      const color = gdiV2('color', obj)
+      p.previousIsolatedColor = -2
+      p.isolatedColor = color
     } else {
-      p.isolatedColor = -2;
+      p.isolatedColor = -2
     }
-    this.finishUpdate();
+    this.finishUpdate()
   }
 
   toggleIsolation() {
     if (this.uiIsolationStyleSheet === undefined) {
-      this.uiIsolationStyleSheet = dc('style');
-      ad("name", "Isolation Vars", this.uiIsolationStyleSheet);
-      document.head.appendChild(this.uiIsolationStyleSheet);
+      this.uiIsolationStyleSheet = dc('style')
+      ad('name', 'Isolation Vars', this.uiIsolationStyleSheet)
+      document.head.appendChild(this.uiIsolationStyleSheet)
     }
-    const lines = [];
+    const lines = []
     if (p.isolatedColor === -1) {
       this.getActiveColors().forEach((colorName, colorIndex) => {
-        lines.push(`--${colorName}: var(--background);`);
+        lines.push(`--${colorName}: var(--background);`)
         p.fadedNames.forEach((fadedName) => {
-          const name = `${colorName}-${fadedName}`;
-          lines.push(`--${name}: var(--background);`);
-        });
-      });
+          const name = `${colorName}-${fadedName}`
+          lines.push(`--${name}: var(--background);`)
+        })
+      })
       els('.mode-buttons-wrapper').forEach((wrapper) => {
-        wrapper.classList.add('invisible');
+        wrapper.classList.add('invisible')
       })
       els('.nav-tab-list').forEach((wrapper) => {
-        wrapper.classList.add('invisible');
+        wrapper.classList.add('invisible')
       })
       els('.colors-box-wrapper').forEach((wrapper) => {
-        wrapper.classList.add('invisible');
+        wrapper.classList.add('invisible')
       })
       els('.content-body').forEach((e) => {
-        e.classList.add("invisible");
-      });
+        e.classList.add('invisible')
+      })
     } else if (p.isolatedColor >= 0) {
       this.getActiveColors().forEach((colorName, colorIndex) => {
         if (colorIndex !== p.isolatedColor) {
-          lines.push(`--${colorName}: var(--background);`);
+          lines.push(`--${colorName}: var(--background);`)
           p.fadedNames.forEach((fadedName) => {
-            const name = `${colorName}-${fadedName}`;
-            lines.push(`--${name}: var(--background);`);
-          });
+            const name = `${colorName}-${fadedName}`
+            lines.push(`--${name}: var(--background);`)
+          })
         }
-      });
+      })
       els('.content-body').forEach((e) => {
-        e.classList.remove("invisible");
-      });
+        e.classList.remove('invisible')
+      })
       els('.mode-buttons-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible');
+        wrapper.classList.remove('invisible')
       })
       els('.nav-tab-list').forEach((wrapper) => {
-        wrapper.classList.add('invisible');
+        wrapper.classList.add('invisible')
       })
       els('.colors-box-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible');
+        wrapper.classList.remove('invisible')
       })
     } else {
       els('.content-body').forEach((e) => {
-        e.classList.remove("invisible");
-      });
+        e.classList.remove('invisible')
+      })
       els('.mode-buttons-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible');
+        wrapper.classList.remove('invisible')
       })
       els('.nav-tab-list').forEach((wrapper) => {
-        wrapper.classList.remove('invisible');
+        wrapper.classList.remove('invisible')
       })
       els('.colors-box-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible');
+        wrapper.classList.remove('invisible')
       })
     }
-    const out = `:root { ${lines.join("\n")} }`;
-    this.uiIsolationStyleSheet.innerHTML = out;
+    const out = `:root { ${lines.join('\n')} }`
+    this.uiIsolationStyleSheet.innerHTML = out
   }
-  
+
   updateActiveColor(obj) {
-    const color = gdiV2("color", obj);
-    dbg(`updateActiveColor: ${color}`);
-    p.activeColor = color;
+    const color = gdiV2('color', obj)
+    dbg(`updateActiveColor: ${color}`)
+    p.activeColor = color
     if (p.isolatedColor >= 0) {
-      p.isolatedColor = color;
+      p.isolatedColor = color
     }
-    this.initColorTabs();
-    this.finishUpdate();
+    this.initColorTabs()
+    this.finishUpdate()
   }
 
   // updateActiveVarsStyleSheet() {
@@ -2115,261 +2132,269 @@ class Picker extends HTMLElement {
   // }
 
   updateActiveBlackAndWhiteVars() {
-    const lines = [];
-    const modeName = this.getScrubbedActiveModeName();
+    const lines = []
+    const modeName = this.getScrubbedActiveModeName()
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-      lines.push(
-        makeVar(
-          `  --${bwName}`,
-          `var(--${modeName}__${bwName})`
-        )
-      );
+      lines.push(makeVar(`  --${bwName}`, `var(--${modeName}__${bwName})`))
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeVar(
             `  --${bwName}-${fadedName}`,
             `var(--${modeName}__${bwName}-${fadedName})`
           )
-        );
-      });
-    });
-    lines.sort();
-    return [`  /* Active Black and White Variables */`, ...lines];
+        )
+      })
+    })
+    lines.sort()
+    return [`  /* Active Black and White Variables */`, ...lines]
   }
 
   updateActiveColorVars() {
-    const lines = [];
+    const lines = []
     this.getActiveScrubbedColorNames().forEach((colorName, colorIndex) => {
-      const modeName = this.getActiveModeScrubbedName(p.activeMode);
+      const modeName = this.getActiveModeScrubbedName(p.activeMode)
       lines.push(
-        makeVar(
-          `  --${colorName}`,
-          `var(--${modeName}__${colorName})`
-        )
-      );
+        makeVar(`  --${colorName}`, `var(--${modeName}__${colorName})`)
+      )
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeVar(
             `  --${colorName}-${fadedName}`,
             `var(--${modeName}__${colorName}-${fadedName})`
           )
-        );
-      });
-    });
-    lines.sort();
-    return [`  /* Active Color Variables */`, ...lines];
+        )
+      })
+    })
+    lines.sort()
+    return [`  /* Active Color Variables */`, ...lines]
   }
 
-
-  
   updateColorBackground(obj) {
-    const mode = p.activeMode;
-    const color = gdiV2("color", obj);
-    const aspect = gdsV2("aspect", obj);
-    p.modes[mode].base[aspect] = gvfV2(obj);
-    this.finishUpdate();
-  }
-  
-  updateColorChroma(obj) {
-    const value = gvfV2(obj);
-    this.setColorAspect(p.activeMode, p.activeColor, "c", value);
-    this.finishUpdate();
-  }
-  
-  updateLightnessHue(obj) {
-    const mode = gdiV2("mode", obj);
-    const color = gdiV2("color", obj);
-    const lightness = gdiV2("lightness", obj);
-    const hue = gdiV2("hue", obj);
-    this.setColorAspect(mode, color, "l", lightness);
-    this.setColorAspect(mode, color, "h", hue);
-    this.finishUpdate();
+    const mode = p.activeMode
+    const color = gdiV2('color', obj)
+    const aspect = gdsV2('aspect', obj)
+    p.modes[mode].base[aspect] = gvfV2(obj)
+    this.finishUpdate()
   }
 
+  updateColorChroma(obj) {
+    const value = gvfV2(obj)
+    this.setColorAspect(p.activeMode, p.activeColor, 'c', value)
+    this.finishUpdate()
+  }
+
+  updateLightnessHue(obj) {
+    const mode = gdiV2('mode', obj)
+    const color = gdiV2('color', obj)
+    const lightness = gdiV2('lightness', obj)
+    const hue = gdiV2('hue', obj)
+    this.setColorAspect(mode, color, 'l', lightness)
+    this.setColorAspect(mode, color, 'h', hue)
+    this.finishUpdate()
+  }
 
   updateBackgroundSliders(tab) {
-    const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
-    const wrapper = getEl(`.background-box-sliders`, sidebar);
-    const sliders = getEls(`input`, wrapper);
+    const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`)
+    const wrapper = getEl(`.background-box-sliders`, sidebar)
+    const sliders = getEls(`input`, wrapper)
     sliders.forEach((slider) => {
-      const aspect = gdsV2("aspect", slider);
-      slider.value = this.getActiveBackgroundValueAspect(aspect);
-    });
+      const aspect = gdsV2('aspect', slider)
+      slider.value = this.getActiveBackgroundValueAspect(aspect)
+    })
   }
 
   updateDebuggingTab() {
-    const outputEl = elV2('.debugging-content');
-    outputEl.innerHTML = JSON.stringify(p, null, 2);
+    const outputEl = elV2('.debugging-content')
+    outputEl.innerHTML = JSON.stringify(p, null, 2)
   }
-  
-  updateExportPage(){
-    const outputEl = elV2('.export-content');
-    const sheets = els('style[data-name]');
-    let payloads = [
-    ];
+
+  updateExportPage() {
+    const outputEl = elV2('.export-content')
+    const sheets = els('style[data-name]')
+    let payloads = []
     sheets.forEach((sheet) => {
-      payloads.push(
-        { 
-          "name": sheet.dataset.name,
-          "content": sheet.innerHTML,
-        });
-    });
-    outputEl.innerHTML = payloads.map((item) => {
-        let open = "";
+      payloads.push({
+        name: sheet.dataset.name,
+        content: sheet.innerHTML,
+      })
+    })
+    outputEl.innerHTML = payloads
+      .map((item) => {
+        let open = ''
         if (
           // item.name === "Color Variables"
-        item.name === "Variables"
-        || item.name === "Utility Classes"
-        || item.name === "Active Variables"
-            // || item.name === "Picker Styles"
-            // || item.name === "UI Classes"
-            // || item.name === "UI Vars"
-        ) { open = " open"; }
+          item.name === 'Variables' ||
+          item.name === 'Utility Classes' ||
+          item.name === 'Active Variables'
+          // || item.name === "Picker Styles"
+          // || item.name === "UI Classes"
+          // || item.name === "UI Vars"
+        ) {
+          open = ' open'
+        }
         return `
 <details${open}>
 <summary>${item.name}</summary>
 <pre>${item.content}</pre>
 </details>
-`;
-      }).join("\n\n");
-  } 
+`
+      })
+      .join('\n\n')
+  }
 
   updateUiClassesStyleSheet() {
     if (this.uiClassesStyleSheet === undefined) {
-      this.uiClassesStyleSheet = dc('style');
-      ad("name", "UI Classes", this.uiClassesStyleSheet);
-      document.head.appendChild(this.uiClassesStyleSheet);
+      this.uiClassesStyleSheet = dc('style')
+      ad('name', 'UI Classes', this.uiClassesStyleSheet)
+      document.head.appendChild(this.uiClassesStyleSheet)
     }
-    const lines = [];
-    lines.push(`.picker-text { color: var(--ui__picker); }`);
-    lines.push(`.picker-text { color: var(--ui__picker); }`);
-    this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
-      this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
-        lines.push(
-          makeClass(
-            `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}`,
-            `color`,
-            `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex})`
-          )
-        );
-        lines.push(
-          makeClass(
-            `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
-            `text-decoration`,
-            `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration)`
-          )
-        );
-      });
-    });
+    const lines = []
+    lines.push(`.picker-text { color: var(--ui__picker); }`)
+    lines.push(`.picker-text { color: var(--ui__picker); }`)
+    this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+      (hueValue, hueIndex) => {
+        this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+          (lightnessValue, lightnessIndex) => {
+            lines.push(
+              makeClass(
+                `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}`,
+                `color`,
+                `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex})`
+              )
+            )
+            lines.push(
+              makeClass(
+                `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
+                `text-decoration`,
+                `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration)`
+              )
+            )
+          }
+        )
+      }
+    )
     // Mode buttons
     p.modes.forEach((modeData, modeIndex) => {
       lines.push(
         makeClass(
-          `.mode-${modeIndex}-selector-button`, 
+          `.mode-${modeIndex}-selector-button`,
           `color`,
-          `var(--mode-${modeIndex}-selector-button-color)`,
+          `var(--mode-${modeIndex}-selector-button-color)`
         )
-      );
+      )
       lines.push(
         makeClass(
-          `.mode-${modeIndex}-selector-button`, 
+          `.mode-${modeIndex}-selector-button`,
           `background-color`,
-          `var(--mode-${modeIndex}-selector-button-background-color)`,
+          `var(--mode-${modeIndex}-selector-button-background-color)`
         )
-      );
+      )
       lines.push(
         makeClass(
-          `.mode-${modeIndex}-selector-button`, 
+          `.mode-${modeIndex}-selector-button`,
           `border`,
-          `1px solid var(--mode-${modeIndex}-selector-button-color)`,
+          `1px solid var(--mode-${modeIndex}-selector-button-color)`
         )
-      );
-    });
+      )
+    })
     p.modes.forEach((modeData, modeIndex) => {
-      const name = `.ui__mode-${modeIndex}__text`;
-      const value = `var(--ui__mode-${modeIndex}__text)`;
-      lines.push(`${name} { color: ${value}; }`);
-      const backgroundName = `.ui__mode-${modeIndex}__background`;
-      const backgroundValue = `var(--ui__mode-${modeIndex}__background)`;
-      lines.push(`${backgroundName} { background-color: ${backgroundValue}; }`);
+      const name = `.ui__mode-${modeIndex}__text`
+      const value = `var(--ui__mode-${modeIndex}__text)`
+      lines.push(`${name} { color: ${value}; }`)
+      const backgroundName = `.ui__mode-${modeIndex}__background`
+      const backgroundValue = `var(--ui__mode-${modeIndex}__background)`
+      lines.push(`${backgroundName} { background-color: ${backgroundValue}; }`)
       this.getActiveColors().forEach((colorName, colorIndex) => {
-        const l = this.getColorValueL(modeIndex, colorIndex);
-        const c = this.getColorValueC(modeIndex, colorIndex);
-        const h = this.getColorValueH(modeIndex, colorIndex);
-        let textName = `.ui__mode-${modeIndex}__color-${colorIndex}-text`;
-        let textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`;
-        lines.push(`${textName} { color: ${textValue} ; }`);
-        textName = `.ui__mode-${modeIndex}__color-${colorIndex}-background`;
-        textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`;
-        lines.push(`${textName} { background-color: ${textValue} ;} `);
+        const l = this.getColorValueL(modeIndex, colorIndex)
+        const c = this.getColorValueC(modeIndex, colorIndex)
+        const h = this.getColorValueH(modeIndex, colorIndex)
+        let textName = `.ui__mode-${modeIndex}__color-${colorIndex}-text`
+        let textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`
+        lines.push(`${textName} { color: ${textValue} ; }`)
+        textName = `.ui__mode-${modeIndex}__color-${colorIndex}-background`
+        textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`
+        lines.push(`${textName} { background-color: ${textValue} ;} `)
         p.fadedNames.forEach((fadedName, fadedIndex) => {
-          let fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`;
-          let fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`;
-          lines.push(`${fadedClassName} { color: ${fadedValue};}`);
-          fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`;
-          fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`;
-          lines.push(`${fadedClassName} { background-color: ${fadedValue};}`);
-        });
-      });
-    });
-    const modeIndex = p.activeMode;
+          let fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`
+          let fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`
+          lines.push(`${fadedClassName} { color: ${fadedValue};}`)
+          fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`
+          fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`
+          lines.push(`${fadedClassName} { background-color: ${fadedValue};}`)
+        })
+      })
+    })
+    const modeIndex = p.activeMode
     const backgroundName = `.ui__${p.backgroundColorName}`
-    const backgroundValue = `var(--ui__${p.backgroundColorName})`;
-    lines.push(`${backgroundName}-text { color: ${backgroundValue}; }`);
-    lines.push(`${backgroundName}-background { background-color: ${backgroundValue}; }`);
+    const backgroundValue = `var(--ui__${p.backgroundColorName})`
+    lines.push(`${backgroundName}-text { color: ${backgroundValue}; }`)
+    lines.push(
+      `${backgroundName}-background { background-color: ${backgroundValue}; }`
+    )
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      let textName = `.ui__${colorName}`;
-      let textValue = `var(--ui__${colorName})`;
-      lines.push(`${textName}-text { color: ${textValue}; }`);
-      lines.push(`${textName}-background { background-color: ${textValue}; }`);
+      let textName = `.ui__${colorName}`
+      let textValue = `var(--ui__${colorName})`
+      lines.push(`${textName}-text { color: ${textValue}; }`)
+      lines.push(`${textName}-background { background-color: ${textValue}; }`)
       p.fadedNames.forEach((fadedName, fadedIndex) => {
-        const textName = `.ui__${colorName}-${fadedName}`;
-        const textValue = `var(--ui__${colorName}-${fadedName})`;
-        lines.push(`${textName}-text { color: ${textValue}; }`);
-        lines.push(`${textName}-background { background-color: ${textValue}; }`);
-      });
-    });
-    const out = lines.sort().join("\n");
-    this.uiClassesStyleSheet.innerHTML = out;
+        const textName = `.ui__${colorName}-${fadedName}`
+        const textValue = `var(--ui__${colorName}-${fadedName})`
+        lines.push(`${textName}-text { color: ${textValue}; }`)
+        lines.push(`${textName}-background { background-color: ${textValue}; }`)
+      })
+    })
+    const out = lines.sort().join('\n')
+    this.uiClassesStyleSheet.innerHTML = out
   }
 
-  // REMINDER: This is the internal one that 
-  // matches the active mode. The one that's 
-  // exported is the responsibility of 
+  // REMINDER: This is the internal one that
+  // matches the active mode. The one that's
+  // exported is the responsibility of
   // another function that lets you pick
-  // the primary mode. 
+  // the primary mode.
   updateUiVarsStyleSheet() {
     if (this.uiColorVarsStyleSheet === undefined) {
-      this.uiColorVarsStyleSheet = dc('style');
-      ad("name", "UI Vars", this.uiColorVarsStyleSheet);
-      document.head.appendChild(this.uiColorVarsStyleSheet);
+      this.uiColorVarsStyleSheet = dc('style')
+      ad('name', 'UI Vars', this.uiColorVarsStyleSheet)
+      document.head.appendChild(this.uiColorVarsStyleSheet)
     }
-    const lines = [];
+    const lines = []
     // Background
-    lines.push(`--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${p.backgroundColorName});`);
+    lines.push(
+      `--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${
+        p.backgroundColorName
+      });`
+    )
     // UI Color
     if (this.getBackgroundValueL(p.activeMode) > 40) {
-      lines.push(`--ui__picker: oklch(0% 0 0);`);
-      lines.push(`--ui__picker-faded: oklch(0% 0 0 / .7);`);
-      lines.push(`--ui__picker-faded2: oklch(0% 0 0 / .7);`);
+      lines.push(`--ui__picker: oklch(0% 0 0);`)
+      lines.push(`--ui__picker-faded: oklch(0% 0 0 / .7);`)
+      lines.push(`--ui__picker-faded2: oklch(0% 0 0 / .7);`)
     } else {
-      lines.push(`--ui__picker: oklch(100% 0 0);`);
-      lines.push(`--ui__picker-faded: oklch(100% 0 0 / .4);`);
-      lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`);
+      lines.push(`--ui__picker: oklch(100% 0 0);`)
+      lines.push(`--ui__picker-faded: oklch(100% 0 0 / .4);`)
+      lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`)
     }
     // color-box-set-button-underlines
-    this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hueIndex) => {
-      this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightnessIndex) => {
-        if (this.getActiveColorIndexH() === hueIndex && this.getActiveColorIndexL() === lightnessIndex) {
-          lines.push(
-            makeVar(
-              `--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
-              `underline`
-            )
-          )
-        }
-      });
-    });
+    this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+      (hueData, hueIndex) => {
+        this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+          (lightnessData, lightnessIndex) => {
+            if (
+              this.getActiveColorIndexH() === hueIndex &&
+              this.getActiveColorIndexL() === lightnessIndex
+            ) {
+              lines.push(
+                makeVar(
+                  `--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
+                  `underline`
+                )
+              )
+            }
+          }
+        )
+      }
+    )
 
     // color mode selector buttons
     p.modes.forEach((modeData, modeIndex) => {
@@ -2379,147 +2404,148 @@ class Picker extends HTMLElement {
             `  --mode-${modeIndex}-selector-button-color`,
             `var(--content)`
           )
-        );
+        )
         lines.push(
           makeVar(
             `  --mode-${modeIndex}-selector-button-background-color`,
             `var(--white)`
           )
-        );
+        )
       } else {
         lines.push(
-          makeVar(
-            `  --mode-${modeIndex}-selector-button-color`,
-            `var(--black)`
-          )
-        );
+          makeVar(`  --mode-${modeIndex}-selector-button-color`, `var(--black)`)
+        )
         lines.push(
           makeVar(
             `  --mode-${modeIndex}-selector-button-background-color`,
             `var(--white-faded)`
           )
-        );
+        )
       }
     })
     p.modes.forEach((modeData, modeIndex) => {
-      const modeName = scrubStyle(modeData.name);
-      const backgroundL = this.getBackgroundValueL(modeIndex);
-      const backgroundC = this.getBackgroundValueC(modeIndex);
-      const backgroundH = this.getBackgroundValueH(modeIndex);
+      const modeName = scrubStyle(modeData.name)
+      const backgroundL = this.getBackgroundValueL(modeIndex)
+      const backgroundC = this.getBackgroundValueC(modeIndex)
+      const backgroundH = this.getBackgroundValueH(modeIndex)
       let backgroundName = `--ui__${modeName}__${p.backgroundColorName}`
-      let backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-      lines.push(`${backgroundName}: ${backgroundValue};`);
-      backgroundName = `--ui__mode-${modeIndex}__background`;
-      backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-      lines.push(`${backgroundName}: ${backgroundValue};`);
+      let backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`
+      lines.push(`${backgroundName}: ${backgroundValue};`)
+      backgroundName = `--ui__mode-${modeIndex}__background`
+      backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`
+      lines.push(`${backgroundName}: ${backgroundValue};`)
       this.getActiveColors().forEach((colorName, colorIndex) => {
-        const l = this.getColorValueL(modeIndex, colorIndex);
-        const c = this.getColorValueC(modeIndex, colorIndex);
-        const h = this.getColorValueH(modeIndex, colorIndex);
-        let textName = `--ui__${modeName}__${colorName}`;
-        let textValue = `oklch(${l}% ${c} ${h})`;
-        lines.push(`${textName}: ${textValue};`);
-        textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
-        textValue = `oklch(${l}% ${c} ${h})`;
-        lines.push(`${textName}: ${textValue};`);
+        const l = this.getColorValueL(modeIndex, colorIndex)
+        const c = this.getColorValueC(modeIndex, colorIndex)
+        const h = this.getColorValueH(modeIndex, colorIndex)
+        let textName = `--ui__${modeName}__${colorName}`
+        let textValue = `oklch(${l}% ${c} ${h})`
+        lines.push(`${textName}: ${textValue};`)
+        textName = `--ui__mode-${modeIndex}__color-${colorIndex}`
+        textValue = `oklch(${l}% ${c} ${h})`
+        lines.push(`${textName}: ${textValue};`)
         p.fadedNames.forEach((fadedName, fadedIndex) => {
-          const fade = .5;
-          let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`;
-          let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-          lines.push(`${fadedClassName}: ${fadedValue};`);
-          fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`;
-          fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-          lines.push(`${fadedClassName}: ${fadedValue};`);
-        });
-      });
-    });
-    const modeIndex = p.activeMode;
-    const backgroundL = this.getBackgroundValueL(modeIndex);
-    const backgroundC = this.getBackgroundValueC(modeIndex);
-    const backgroundH = this.getBackgroundValueH(modeIndex);
+          const fade = 0.5
+          let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`
+          let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
+          lines.push(`${fadedClassName}: ${fadedValue};`)
+          fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`
+          fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
+          lines.push(`${fadedClassName}: ${fadedValue};`)
+        })
+      })
+    })
+    const modeIndex = p.activeMode
+    const backgroundL = this.getBackgroundValueL(modeIndex)
+    const backgroundC = this.getBackgroundValueC(modeIndex)
+    const backgroundH = this.getBackgroundValueH(modeIndex)
     const backgroundName = `--ui__${p.backgroundColorName}`
-    const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-    lines.push(`${backgroundName}: ${backgroundValue};`);
+    const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`
+    lines.push(`${backgroundName}: ${backgroundValue};`)
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      const l = this.getColorValueL(modeIndex, colorIndex);
-      const c = this.getColorValueC(modeIndex, colorIndex);
-      const h = this.getColorValueH(modeIndex, colorIndex);
-      const textName = `--ui__${colorName}`;
-      const textValue = `oklch(${l}% ${c} ${h})`;
-      lines.push(`${textName}: ${textValue};`);
+      const l = this.getColorValueL(modeIndex, colorIndex)
+      const c = this.getColorValueC(modeIndex, colorIndex)
+      const h = this.getColorValueH(modeIndex, colorIndex)
+      const textName = `--ui__${colorName}`
+      const textValue = `oklch(${l}% ${c} ${h})`
+      lines.push(`${textName}: ${textValue};`)
       p.fadedNames.forEach((fadedName, fadedIndex) => {
-        const fade = .5;
-        const fadedClassName = `--ui__${colorName}-${fadedName}`;
-        const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-        lines.push(`${fadedClassName}: ${fadedValue};`);
-      });
-    });
+        const fade = 0.5
+        const fadedClassName = `--ui__${colorName}-${fadedName}`
+        const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
+        lines.push(`${fadedClassName}: ${fadedValue};`)
+      })
+    })
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
-      lines.push(`--${colorName}: var(--${value});`);
+      const value = `${this.getActiveModeScrubbedName()}__${colorName}`
+      lines.push(`--${colorName}: var(--${value});`)
       p.fadedNames.forEach((fadedName) => {
-        const name = `${colorName}-${fadedName}`;
-        const fadedValue = `${this.getActiveModeScrubbedName()}__${name}`;
-        lines.push(`--${name}: var(--${fadedValue});`);
-      });
-    });
+        const name = `${colorName}-${fadedName}`
+        const fadedValue = `${this.getActiveModeScrubbedName()}__${name}`
+        lines.push(`--${name}: var(--${fadedValue});`)
+      })
+    })
     //
-    this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
-      this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
-        const cValue = this.getColorValueC(p.activeMode, p.activeColor);
-        const name = `--ui__lightness-${lightnessIndex}__hue-${hueIndex}`;
-        const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
-        lines.push(`${name}: ${value};`);
-      });
-    });
+    this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+      (hueValue, hueIndex) => {
+        this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+          (lightnessValue, lightnessIndex) => {
+            const cValue = this.getColorValueC(p.activeMode, p.activeColor)
+            const name = `--ui__lightness-${lightnessIndex}__hue-${hueIndex}`
+            const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`
+            lines.push(`${name}: ${value};`)
+          }
+        )
+      }
+    )
     //
     p.modes.forEach((modeData, modeIndex) => {
       if (modeIndex === p.activeMode) {
-        let name = `--ui__mode-${modeIndex}__text`;
-        let value = "red";
-        lines.push(`${name}: ${value};`);
-        name = `--ui__mode-${modeIndex}__background`;
-        value = "yellow";
-        lines.push(`${name}: ${value};`);
+        let name = `--ui__mode-${modeIndex}__text`
+        let value = 'red'
+        lines.push(`${name}: ${value};`)
+        name = `--ui__mode-${modeIndex}__background`
+        value = 'yellow'
+        lines.push(`${name}: ${value};`)
       } else {
-        let name = `--ui__mode-${modeIndex}__text`;
-        let value = "green";
-        lines.push(`${name}: ${value};`);
-        name = `--ui__mode-${modeIndex}__background`;
-        value = "blue";
-        lines.push(`${name}: ${value};`);
+        let name = `--ui__mode-${modeIndex}__text`
+        let value = 'green'
+        lines.push(`${name}: ${value};`)
+        name = `--ui__mode-${modeIndex}__background`
+        value = 'blue'
+        lines.push(`${name}: ${value};`)
       }
-    });
-    const out = `:root { ${lines.join("\n")} }`;
-    this.uiColorVarsStyleSheet.innerHTML = out;
+    })
+    const out = `:root { ${lines.join('\n')} }`
+    this.uiColorVarsStyleSheet.innerHTML = out
   }
 
   updateUiView(event) {
     if (event.target.dataset) {
-      const kind = event.target.dataset.kind;
-      if (event.type === "click") { 
-        if (kind === "mode-button") {
-          this.updateMode(event.target);
-        } else if (kind === "color-box-set-button") {
+      const kind = event.target.dataset.kind
+      if (event.type === 'click') {
+        if (kind === 'mode-button') {
+          this.updateMode(event.target)
+        } else if (kind === 'color-box-set-button') {
           this.updateLightnessHue(event.target)
-        } else if (kind === "color-selector-button") {
+        } else if (kind === 'color-selector-button') {
           this.updateActiveColor(event.target)
-        } else if (kind === "top-nav-button") {
-          this.switchTopLevelTabs();
-        } else if (kind === "background-box-isolate-checkbox") {
-          this.toggleIsolateBackground(event.target);
-        } else if (kind === "color-isolate-checkbox") {
-          this.toggleIsolateColor(event.target);
+        } else if (kind === 'top-nav-button') {
+          this.switchTopLevelTabs()
+        } else if (kind === 'background-box-isolate-checkbox') {
+          this.toggleIsolateBackground(event.target)
+        } else if (kind === 'color-isolate-checkbox') {
+          this.toggleIsolateColor(event.target)
         }
-      } else if (event.type === "change") {
-        if (kind === "background-box-slider") {
-          this.updateColorBackground(event.target);
+      } else if (event.type === 'change') {
+        if (kind === 'background-box-slider') {
+          this.updateColorBackground(event.target)
         }
-      } else if (event.type === "input") {
-        if (kind === "background-box-slider") {
-          this.updateColorBackground(event.target);
-        } else if (kind === "color-chroma-slider") {
-          this.updateColorChroma(event.target);
+      } else if (event.type === 'input') {
+        if (kind === 'background-box-slider') {
+          this.updateColorBackground(event.target)
+        } else if (kind === 'color-chroma-slider') {
+          this.updateColorChroma(event.target)
         }
       }
     }
@@ -2528,66 +2554,65 @@ class Picker extends HTMLElement {
 
 class TabGroup extends HTMLElement {
   get tabs() {
-    return [...this.querySelectorAll(':scope > div > [role=tab]')];
+    return [...this.querySelectorAll(':scope > div > [role=tab]')]
   }
 
   get panels() {
-    return [...this.querySelectorAll(':scope > [role=tabpanel]')];
+    return [...this.querySelectorAll(':scope > [role=tabpanel]')]
   }
 
   get selected() {
-    return this.querySelector(':scope > div > [role=tab][aria-selected=true]');
+    return this.querySelector(':scope > div > [role=tab][aria-selected=true]')
   }
 
   set selected(element) {
-    this.selected?.setAttribute('aria-selected', 'false');
-    element?.setAttribute('aria-selected', 'true');
-    element?.focus();
-    this.updateSelection();
+    this.selected?.setAttribute('aria-selected', 'false')
+    element?.setAttribute('aria-selected', 'true')
+    element?.focus()
+    this.updateSelection()
   }
 
   connectedCallback() {
-    this.generateIds();
-    this.updateSelection();
-    this.setupEvents();
+    this.generateIds()
+    this.updateSelection()
+    this.setupEvents()
   }
 
   generateIds() {
-    const prefix = Math.floor(Date.now()).toString(36);
+    const prefix = Math.floor(Date.now()).toString(36)
     this.tabs.forEach((tab, index) => {
-      const panel = this.panels[index];
-      tab.id ||= `${prefix}-tab-${index}`;
-      panel.id ||= `${prefix}-panel-${index}`;
-      tab.setAttribute('aria-controls', panel.id);
-      panel.setAttribute('aria-labelledby', tab.id);
-    });
+      const panel = this.panels[index]
+      tab.id ||= `${prefix}-tab-${index}`
+      panel.id ||= `${prefix}-panel-${index}`
+      tab.setAttribute('aria-controls', panel.id)
+      panel.setAttribute('aria-labelledby', tab.id)
+    })
   }
 
   updateSelection() {
     this.tabs.forEach((tab, index) => {
-      const panel = this.panels[index];
-      const isSelected = tab.getAttribute('aria-selected') === 'true';
-      tab.setAttribute('aria-selected', isSelected ? 'true' : 'false');
-      tab.setAttribute('tabindex', isSelected ? '0' : '-1');
-      panel.setAttribute('tabindex', isSelected ? '0' : '-1');
-      panel.hidden = !isSelected;
-    });
+      const panel = this.panels[index]
+      const isSelected = tab.getAttribute('aria-selected') === 'true'
+      tab.setAttribute('aria-selected', isSelected ? 'true' : 'false')
+      tab.setAttribute('tabindex', isSelected ? '0' : '-1')
+      panel.setAttribute('tabindex', isSelected ? '0' : '-1')
+      panel.hidden = !isSelected
+    })
   }
 
   setupEvents() {
     this.tabs.forEach((tab) => {
-      tab.addEventListener('click', () => this.selected = tab);
+      tab.addEventListener('click', () => (this.selected = tab))
       tab.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
-          this.selected = tab.previousElementSibling ?? this.tabs.at(-1);
+          this.selected = tab.previousElementSibling ?? this.tabs.at(-1)
         } else if (e.key === 'ArrowRight') {
-          this.selected = tab.nextElementSibling ?? this.tabs.at(0);
+          this.selected = tab.nextElementSibling ?? this.tabs.at(0)
         }
-      });
-    });
+      })
+    })
   }
 }
 
-customElements.define('tab-group', TabGroup);
-customElements.define('color-picker', Picker);
-
+customElements.define('tab-group', TabGroup)
+customElements.define('color-picker', Picker)

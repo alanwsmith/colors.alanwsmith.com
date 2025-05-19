@@ -25,18 +25,37 @@
       .background-box-wrapper {
         border: 1px solid var(--ui__picker);
       }
-      .colors-box-wrapper {
-        border: 1px solid var(--ui__picker);
-      }
-      .colors-box-wrapper button {
+      .color-box-set-button {
+        background-color: inherit;
         border: none;
+        border-radius: 0;
+        font-size: var(--small-font-size);
+        font-weight: bold;
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--xsmall-padding);
+      }
+      .color-grid-wrapper {
+        display: grid;
+        justify-content: center;
+        margin-block: var(--default-margin);
+        padding-bottom: var(--large-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .color-selector-button {
+        border: none;
+        border-radius: 0;
         cursor: pointer;
+        font-size: var(--default-font-size);
         outline: inherit;
         padding: 0;
-      }
-      .colors-box-wrapper .color-selector-button {
         width: 2.3ch;
-        font-size: var(--default-font-size);
+      }
+      .colors-box-chroma-slider-wrapper{
+        padding-bottom: var(--large-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .colors-box-wrapper {
+        border: 1px solid var(--ui__picker);
       }
       .invisible {
         visibility: hidden;
@@ -2121,6 +2140,7 @@ It was a dark and stormy night...
             <h2>TODO</h2>
 
             <ul>
+              <li><input type="checkbox" disabled /> JSON schema for data</li>
               <li><input type="checkbox" disabled /> Multiple sample page</li>
               <li>
                 <input type="checkbox" disabled /> Float controls so they are

@@ -1439,6 +1439,7 @@ class Picker extends HTMLElement {
         ac(`xsmall-inline-padding`, tabName);
         a(tabName, panel);
         const tabGrid = dc('div');
+        ac('color-grid-wrapper', tabGrid);
         this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {
           const row = dc('div');
           this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightness) => {
@@ -1450,6 +1451,8 @@ class Picker extends HTMLElement {
             ad("lightness", lightness, button);
             ad("hue", hue, button);
             ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
+            ac(`ui__set-grid__lightness-${lightness}__hue-${hue}__decorations`, button);
+            ac(`color-box-set-button`, button);
             a(button, row);
           });
           a(row, tabGrid);

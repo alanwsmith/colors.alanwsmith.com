@@ -1377,6 +1377,7 @@ class Picker extends HTMLElement {
       sa("for", connector, label);
       ac('picker-text', label);
       const checkbox = getEl('input', wrapper);
+      sa("id", connector, checkbox);
       sa("name", connector, checkbox);
       ad("kind", "background-box-isolate-checkbox", checkbox);
       ad("tab", tab, checkbox);
@@ -1498,6 +1499,7 @@ class Picker extends HTMLElement {
         sa("for", checkboxConnector, checkboxLabel);
         html('Isolate: ', checkboxLabel);
         const checkbox = dc('input');
+        sa("id", checkboxConnector, checkbox);
         sa("name", checkboxConnector, checkbox);
         sa("type", "checkbox", checkbox);
         ad('kind', 'color-isolate-checkbox', checkbox);

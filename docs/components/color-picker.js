@@ -1058,6 +1058,7 @@ class Picker extends HTMLElement {
     this.updateProdVarsStyleSheet();
     this.requestUpdate = this.updateUiView.bind(this);
     this.addListeners();
+    this.updateExportPage();
 
     // // TODO: Deprecate or Redo
     // this.requestRender = this.renderPage.bind(this);
@@ -1324,6 +1325,7 @@ class Picker extends HTMLElement {
     this.updateUiVarsStyleSheet();
     this.updateProdVarsStyleSheet();
     this.updateUiClassesStyleSheet();
+    this.updateExportPage();
   }
 
   getActiveBackgroundValueAspect(aspect) {
@@ -2434,9 +2436,43 @@ ${sheets.join("\n")}
   }
 
   // V2
+  updateExportPage(){
+    const outputEl = elV2('.export-content');
+    const sheets = els('style[data-name]');
+    let payloads = [
+    ];
+    sheets.forEach((sheet) => {
+      payloads.push(
+        { 
+          "name": sheet.dataset.name,
+          "content": sheet.innerHTML,
+        });
+    });
+    outputEl.innerHTML = payloads.sort((a, b) => {
+      const n1 = a.name.toLowerCase();
+      const n2 = b.name.toLowerCase();
+      if (n1 < n2) {
+        return -1;
+      }
+      if (n1 > n2) {
+        return 1;
+      }
+      return 0;
+    }).map((item) => {
+        return `
+<details>
+<summary>${item.name}</summary>
+<pre>${item.content}</pre>
+</details>
+`;
+      }).join("\n\n");
+  } 
+
+  // V2
   updateUiClassesStyleSheet() {
     if (this.uiClassesStyleSheet === undefined) {
       this.uiClassesStyleSheet = dc('style');
+      ad("name", "UI Classes", this.uiClassesStyleSheet);
       document.head.appendChild(this.uiClassesStyleSheet);
     }
     const lines = [];
@@ -2479,6 +2515,7 @@ ${sheets.join("\n")}
   updateUiVarsStyleSheet() {
     if (this.uiColorVarsStyleSheet === undefined) {
       this.uiColorVarsStyleSheet = dc('style');
+      ad("name", "UI Vars", this.uiColorVarsStyleSheet);
       document.head.appendChild(this.uiColorVarsStyleSheet);
     }
     const lines = [`:root {`];

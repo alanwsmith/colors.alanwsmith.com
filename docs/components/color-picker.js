@@ -1417,7 +1417,6 @@ class Picker extends HTMLElement {
           ac(`ui__background-text`, tabButton);
         } else {
           ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
-          // ac(`ui__background-text`, tabButton);
         }
         html(Array.from(p.colorNames[nameIndex])[0], tabButton);
         ad("kind", "color-selector-button", tabButton);
@@ -1433,7 +1432,10 @@ class Picker extends HTMLElement {
         }
         const tabName = dc('div');
         html(p.colorNames[nameIndex], tabName);
-        // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabName);
+        ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabName);
+        ac(`ui__background-text`, tabName);
+        ac(`xxxsmall-block-padding`, tabName);
+        ac(`xsmall-inline-padding`, tabName);
         a(tabName, panel);
         const tabGrid = dc('div');
         this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hue) => {

@@ -1271,19 +1271,23 @@ class Picker extends HTMLElement {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getDirections().forEach((direction) => {
+        let dir = `-${direction[0]}`;
+        if (direction[1] === false) {
+          dir = ""
+        }
         lines.push(
           makeClass(
             `  .${bwName}-${direction[0]}-border`,
-            `color`,
-            `var(--${bwName})`
+            `border${dir}`,
+            `1px solid var(--${bwName})`
           )
         );
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
           lines.push(
             makeClass(
             `  .${bwName}-${direction[0]}-border-${fadedName}`,
-            `color`,
-            `var(--${bwName}-${fadedName})`
+            `border${dir}`,
+            `1px solid var(--${bwName}-${fadedName})`
             )
           );
         });
@@ -1819,12 +1823,16 @@ class Picker extends HTMLElement {
         html(Array.from(p.colorNames[nameIndex])[0], tabButton);
         ad("kind", "color-selector-button", tabButton);
         ad("color", nameIndex, tabButton);
+        if (nameIndex === p.numberOfColors - 1) {
+          ac(`round-upper-right-corner`, tabButton);
+        }
         a(tabButton, tabList);
       }
       a(tabList, tabGroup);
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
         const panel = dc('div');
         sa("role", "tabpanel", panel);
+        ac(`color-tab-panel`, panel);
         if (nameIndex !== p.activeColor) {
           panel.hidden = true;
         }

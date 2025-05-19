@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <title>Alan's Color Picker</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <style data-name="Reset Styles">
       *,
       *::before,
@@ -37,6 +37,10 @@
         padding-block: var(--default-padding);
         padding-inline: var(--default-padding);
       }
+      .background-box-slider-wrapper {
+        display: grid;
+        grid-template-columns: 1.6ch 1fr;
+      }
       .background-box-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
@@ -69,6 +73,7 @@
       .color-selector-button {
         border: 0;
         border-right: 1px solid var(--ui__picker);
+        border-top: 1px solid var(--ui__picker);
         cursor: pointer;
         font-size: var(--default-font-size);
         outline: inherit;
@@ -85,18 +90,17 @@
         text-align: end;
       }
       .colors-box-chroma-checkbox-label {
-              color: var(--ui__picker);
+        color: var(--ui__picker);
       }
       .colors-box-chroma-slider-label {
-              color: var(--ui__picker);
+        color: var(--ui__picker);
       }
       .colors-box-chroma-slider-wrapper {
+        display: grid;
+        grid-template-columns: 1.6ch 1fr;
         padding-inline: var(--default-padding);
         padding-bottom: var(--default-padding);
         border-bottom: 1px solid var(--ui__picker);
-      }
-      .colors-box-tab-list {
-        border-top: 1px solid var(--ui__picker);
       }
       .colors-box-name {
         color: var(--ui__picker);
@@ -109,7 +113,11 @@
         visibility: hidden;
       }
       .mode-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
         padding: var(--default-padding);
+        justify-content: space-between;
       }
       .mode-buttons-name {
         border-bottom: 1px solid var(--ui__picker);
@@ -121,6 +129,7 @@
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
       }
+
       .sidebar-controls {
         padding-top: var(--large-padding);
       }
@@ -143,6 +152,9 @@
       }
       [role='tabpanel'] {
         padding: 0;
+      }
+      .round-upper-right-corner {
+        border-top-right-radius: 0.3rem;
       }
     </style>
 
@@ -484,7 +496,7 @@
 
     <!-- START GENERATED STYLES -->
 
-<!--
+    <!--
     <style
       data-key="black-and-white-color-and-background-classes"
       data-name="Black and White Color and Background Classes"
@@ -1518,9 +1530,7 @@
             <div class="content-wrapper ui-two-column">
               <div class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
-                  <h1>
-                    Alan's Color Picker
-                  </h1>
+                  <h1>Alan's Color Picker</h1>
                   <p class="align-end">
                     made by
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
@@ -1859,9 +1869,7 @@ It was a dark and stormy night...
 
           <div role="tabpanel" hidden>
             <hgroup class="large-bottom-margin">
-              <h1>
-                Alan's Color Picker
-              </h1>
+              <h1>Alan's Color Picker</h1>
               <p class="align-end">
                 made by <a href="https://www.alanwsmith.com/">alan w smith</a>
               </p>
@@ -1873,9 +1881,7 @@ It was a dark and stormy night...
 
           <div role="tabpanel" hidden>
             <hgroup class="large-bottom-margin">
-              <h1>
-                Alan's Color Picker
-              </h1>
+              <h1>Alan's Color Picker</h1>
               <p class="align-end">
                 made by <a href="https://www.alanwsmith.com/">alan w smith</a>
               </p>
@@ -1890,25 +1896,25 @@ It was a dark and stormy night...
             <div class="content-wrapper ui-two-column">
               <div class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
-                  <h1>
-                    Alan's Color Picker
-                  </h1>
+                  <h1>Alan's Color Picker</h1>
                   <p class="align-end">
                     made by
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>
                 </hgroup>
-                <div class="xlarge-inline-margin large-inline-padding xlarge-block-padding content-full-border default-radius default-flow ">
-                <h4 class="heading-bottom-border">TL;DR</h4>
-                <p>
-                  Play around with the controls in the <em>Modes</em>,
-                  <em>Background</em>, and <em>Colors</em> boxes to change
-                  colors.
-                </p>
-                <p>
-                  Use the <em>Export</em> tab to get a stylesheet when you've
-                  got a palette you like.
-                </p>
+                <div
+                  class="xlarge-inline-margin large-inline-padding xlarge-block-padding content-full-border default-radius default-flow"
+                >
+                  <h4 class="heading-bottom-border">TL;DR</h4>
+                  <p>
+                    Play around with the controls in the <em>Modes</em>,
+                    <em>Background</em>, and <em>Colors</em> boxes to change
+                    colors.
+                  </p>
+                  <p>
+                    Use the <em>Export</em> tab to get a stylesheet when you've
+                    got a palette you like.
+                  </p>
                 </div>
                 <h2>The Basics</h2>
                 <h3>Color Modes</h3>
@@ -2050,11 +2056,28 @@ It was a dark and stormy night...
             <h2>TODO</h2>
 
             <ul>
-              <li><input type="checkbox" disabled /> JSON schema for data</li>
+              <li>
+                <input type="checkbox" disabled /> Clear cache button to go back
+                to defaults
+              </li>
+              <li>
+                <input type="checkbox" disabled /> Mute colors so you can them
+                on individually
+              </li>
+              <li>
+                <input type="checkbox" disabled /> Add example text under the
+                isoloate color button so you can see something even if the
+                actual text isn't in view
+              </li>
+              <li><input type="checkbox" disabled /> Mute all button</li>
               <li><input type="checkbox" disabled /> Multiple sample page</li>
               <li>
                 <input type="checkbox" disabled /> Float controls so they are
                 always visible
+              </li>
+              <li>
+                <input type="checkbox" disabled /> Optimize so only changes
+get updated in the stylesheet
               </li>
               <li>
                 <input type="checkbox" disabled /> Consolidate variable output
@@ -2118,6 +2141,7 @@ It was a dark and stormy night...
               <li>
                 <input type="checkbox" disabled /> Change CSS variable names
               </li>
+              <li><input type="checkbox" disabled /> JSON schema for data</li>
               <li><input type="checkbox" disabled /> Change mode names</li>
               <li><input type="checkbox" disabled /> Add/subtract modes</li>
               <li><input type="checkbox" disabled /> Copy button for CSS</li>

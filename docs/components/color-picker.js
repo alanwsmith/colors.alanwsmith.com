@@ -1380,7 +1380,6 @@ class Picker extends HTMLElement {
   getHueRowCount(mode, color) {
     return Math.round(360 / this.getHueOffsetAmount(mode, color));
   } 
-
   
   getSizes() {
     return [
@@ -1395,15 +1394,13 @@ class Picker extends HTMLElement {
       'xxxsmall', 
     ]
   }
-
   
   getSizesWithFull() {
     return ['full', ...this.getSizes()];
   }
 
-
-  
   initBackgroundCheckboxes() {
+    dbg('initBackgroundCheckboxes()');
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar, sidebarIndex) => {
       const tab = gdsV2("tab", sidebar);
@@ -1418,9 +1415,9 @@ class Picker extends HTMLElement {
       ad("tab", tab, checkbox);
     });
   }
-
   
   initBackgroundSliders() {
+    dbg('initBackgroundSlider()');
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar, sidebarIndex) => {
       const tab = gdsV2("tab", sidebar);
@@ -1443,7 +1440,6 @@ class Picker extends HTMLElement {
       this.updateBackgroundSliders(tab);
     });
   }
-
   
   initColorTabs() {
     dbg("initColorTabs");
@@ -1495,6 +1491,7 @@ class Picker extends HTMLElement {
         a(tabGrid, panel);
         const chromaWrapper = dc('div');
         ac('colors-box-chroma-slider-wrapper', chromaWrapper);
+        ac('default-full-padding', chromaWrapper);
         const connector  = `colors-box-chroma-slider-${tabKey}`;
         const label = dc('label');
         ac('picker-text', label);
@@ -1512,12 +1509,31 @@ class Picker extends HTMLElement {
         slider.value = this.getColorValueC(p.activeMode, nameIndex);
         a(slider, chromaWrapper);
         a(chromaWrapper, panel);
+        const checkboxWrapper = dc('div');
+        ac('colors-box-chroma-checkbox-wrapper', checkboxWrapper);
+        ac('default-full-padding', checkboxWrapper);
+        ac('align-end', checkboxWrapper);
+        const checkboxConnector  = `colors-box-chroma-checkbox-${tabKey}`;
+        const checkboxLabel = dc('label');
+        ac('picker-text', checkboxLabel);
+        sa("for", checkboxConnector, checkboxLabel);
+        html('Isolate: ', checkboxLabel);
+        const checkbox = dc('input');
+        sa("name", checkboxConnector, checkbox);
+        sa("type", "checkbox", checkbox);
+        ad('kind', 'color-isolate-checkbox', checkbox);
+        ad('color', nameIndex, checkbox);
+        if (p.isolatedColor >= 0) {
+          checkbox.checked = true;
+        }
+        a(checkboxLabel, checkboxWrapper);
+        a(checkbox, checkboxWrapper);
+        a(checkboxWrapper, panel);
         a(panel, tabGroup);
       }
       a(tabGroup, wrapper);
     })
   }
-
   
   initControls() {
     const sidebars = els('.sidebar-controls');
@@ -1532,7 +1548,6 @@ class Picker extends HTMLElement {
     this.initBackgroundCheckboxes();
     this.initColorTabs();
   }
-
   
   initModeButtonsV2() {
     const sidebars = els('.sidebar-controls');
@@ -1576,7 +1591,6 @@ class Picker extends HTMLElement {
     };
     dbg("Loaded default colors");
   }
-
   
   refreshColorGrid() {
     const sidebars = els('.sidebar-controls');
@@ -1600,13 +1614,11 @@ class Picker extends HTMLElement {
       });
     });
   }
-
   
   setColorAspect(mode, color, aspect, value) {
     const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex;
     p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value;
   }
-
   
   switchTopLevelTabs() {
     this.initColorTabs();
@@ -1615,7 +1627,6 @@ class Picker extends HTMLElement {
   }
 
   toggleIsolateBackground(obj) {
-    const nav = elV2('.nav-tab-list');
     if (obj.checked === true) {
       dbg('Isolating background');
       p.previousIsolatedColor = p.isolatedColor;
@@ -1623,6 +1634,17 @@ class Picker extends HTMLElement {
     } else {
       dbg('Returning from isolated background');
       p.isolatedColor = p.previousIsolatedColor;
+    }
+    this.finishUpdate();
+  }
+
+  toggleIsolateColor(obj) {
+    if (obj.checked === true) {
+      const color = gdiV2("color", obj);
+      p.previousIsolatedColor = -2;
+      p.isolatedColor = color;
+    } else {
+      p.isolatedColor = -2;
     }
     this.finishUpdate();
   }
@@ -1651,6 +1673,16 @@ class Picker extends HTMLElement {
       els('.colors-box-wrapper').forEach((wrapper) => {
         wrapper.classList.add('invisible');
       })
+    } else if (p.isolatedColor >= 0) {
+      this.getActiveColors().forEach((colorName, colorIndex) => {
+        if (colorIndex !== p.isolatedColor) {
+          lines.push(`--${colorName}: var(--background);`);
+          p.fadedNames.forEach((fadedName) => {
+            const name = `${colorName}-${fadedName}`;
+            lines.push(`--${name}: var(--background);`);
+          });
+        }
+      });
     } else {
       els('.mode-buttons-wrapper').forEach((wrapper) => {
         wrapper.classList.remove('invisible');
@@ -1665,13 +1697,17 @@ class Picker extends HTMLElement {
     const out = `:root { ${lines.join("\n")} }`;
     this.uiIsolationStyleSheet.innerHTML = out;
   }
-
   
   updateActiveColor(obj) {
     const color = gdiV2("color", obj);
+    dbg(`updateActiveColor: ${color}`);
     p.activeColor = color;
+    if (p.isolatedColor >= 0) {
+      p.isolatedColor = color;
+    }
+    this.initColorTabs();
+    this.finishUpdate();
   }
-
   
   updateBackgroundColor(obj) {
     const mode = p.activeMode;
@@ -1680,14 +1716,12 @@ class Picker extends HTMLElement {
     p.modes[mode].base[aspect] = gvfV2(obj);
     this.finishUpdate();
   }
-
   
   updateColorChroma(obj) {
     const value = gvfV2(obj);
     this.setColorAspect(p.activeMode, p.activeColor, "c", value);
     this.finishUpdate();
   }
-
   
   updateLightnessHue(obj) {
     const mode = gdiV2("mode", obj);
@@ -1698,7 +1732,6 @@ class Picker extends HTMLElement {
     this.setColorAspect(mode, color, "h", hue);
     this.finishUpdate();
   }
-
   
   updateProdVarsStyleSheet() {
     if (this.colorVarsStyleSheet === undefined) {
@@ -1737,7 +1770,6 @@ class Picker extends HTMLElement {
     const out = lines.join("\n");
     this.colorVarsStyleSheet.innerHTML = out;
   }
-
   
   updateMode(obj) {
     const newMode = gdiV2("mode", obj);
@@ -1764,7 +1796,6 @@ class Picker extends HTMLElement {
     const outputEl = elV2('.debugging-content');
     outputEl.innerHTML = JSON.stringify(p, null, 2);
   }
-
   
   updateExportPage(){
     const outputEl = elV2('.export-content');
@@ -1794,7 +1825,6 @@ class Picker extends HTMLElement {
 `;
       }).join("\n\n");
   } 
-
   
   updateUiClassesStyleSheet() {
     if (this.uiClassesStyleSheet === undefined) {
@@ -1824,7 +1854,6 @@ class Picker extends HTMLElement {
     const out = lines.sort().join("\n");
     this.uiClassesStyleSheet.innerHTML = out;
   }
-
   
   // REMINDER: This is the internal one that 
   // matches the active mode. The one that's 
@@ -1901,6 +1930,8 @@ class Picker extends HTMLElement {
           this.switchTopLevelTabs();
         } else if (kind === "background-box-isolate-checkbox") {
           this.toggleIsolateBackground(event.target);
+        } else if (kind === "color-isolate-checkbox") {
+          this.toggleIsolateColor(event.target);
         }
       } else if (event.type === "change") {
         if (kind === "background-box-slider") {

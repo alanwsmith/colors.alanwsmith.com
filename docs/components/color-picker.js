@@ -277,7 +277,6 @@ const defaultPalette = {
       "base": { "l": 85.74, "c": 0.07833, "h": 269.46},
       "blackAndWhiteFaded": [0.4, 0.1],
       "blackAndWhiteValues": [0, 100, 100, 0],
-      "category": 3,
       "colors": [
         // 0-0
         {
@@ -431,7 +430,6 @@ const defaultPalette = {
       "base": { "l": 100, "c": 0.0492, "h": 101.484 },
       "blackAndWhiteFaded": [0.4, 0.1],
       "blackAndWhiteValues": [0, 100, 100, 0],
-      "category": 2,
       "colors": [
         // 1-0
         {
@@ -585,7 +583,6 @@ const defaultPalette = {
       "base": { "l": 25.71, "c": 0.07395, "h": 58.896 },
       "blackAndWhiteFaded": [0.4, 0.1],
       "blackAndWhiteValues": [0, 100, 0, 100],
-      "category": 0,
       "colors": [
         // 2-0
         {
@@ -739,7 +736,6 @@ const defaultPalette = {
       "base": { "l": 5.21, "c": 0.28248, "h": 74.808 },
       "blackAndWhiteFaded": [0.4, 0.1],
       "blackAndWhiteValues": [0, 100, 0, 100],
-      "category": 1,
       "colors": [
         // 3-0
         {

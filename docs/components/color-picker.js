@@ -1174,14 +1174,37 @@ class Picker extends HTMLElement {
     ad("deployable", "yes", this.utilityClassesStyleSheet);
     ad("name", "Utility Classes", this.utilityClassesStyleSheet);
     const lines =[];
+    lines.push("");
+    lines.push(...[this.generateUtilityTextClasses()]);
+    lines.push("");
+    lines.push(...[this.generateUtilityBackgroundClasses()]);
+    lines.push("");
     lines.push(...[this.generateUtilityBorderClasses()]);
-    const out = `:root {\n${lines.join("\n")}\n}`;
+    lines.push("");
+    const out = `:root { ${lines.join("\n")} }`;
     this.utilityClassesStyleSheet.innerHTML = out;
+  }
+
+  generateUtilityBackgroundClasses() {
+    const lines =[];
+    lines.push(`  /* Background Colors */`);
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      this.getFadedValues().forEach((fade) => {
+          lines.push(
+            makeClass(
+              `  .${colorName}${fade}-background`,
+              `background-color`,
+              `var(--${colorName}${fade})`
+            )
+          );
+      });
+    });
+    return lines.join("\n");
   }
 
   generateUtilityBorderClasses() {
     const lines =[];
-    lines.push(`/* Color borders */`);
+    lines.push(`  /* Color Borders */`);
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
         this.getDirections().forEach((direction) => {
@@ -1191,12 +1214,29 @@ class Picker extends HTMLElement {
           }
           lines.push(
             makeClass(
-              `.${colorName}${fade}-${direction[0]}-border`,
+              `  .${colorName}${fade}-${direction[0]}-border`,
               `border${dir}`,
               `1px solid var(--${colorName}${fade})`
             )
           );
         });
+      });
+    });
+    return lines.join("\n");
+  }
+
+  generateUtilityTextClasses() {
+    const lines =[];
+    lines.push(`  /* Text Colors */`);
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      this.getFadedValues().forEach((fade) => {
+          lines.push(
+            makeClass(
+              `  .${colorName}${fade}-text`,
+              `color`,
+              `var(--${colorName}${fade})`
+            )
+          );
       });
     });
     return lines.join("\n");

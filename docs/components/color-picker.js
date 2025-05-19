@@ -1184,13 +1184,15 @@ class Picker extends HTMLElement {
     ad("name", "Utility Classes", this.utilityClassesStyleSheet);
     const lines =[];
     lines.push("");
-    lines.push(this.generateUtilityTextClasses().join("\n"));
+    lines.push(this.generateUtilityTextColorClasses().join("\n"));
     lines.push("");
-    lines.push(this.generateUtilityBackgroundClasses().join("\n"));
+    lines.push(this.generateUtilityBackgroundColorClasses().join("\n"));
     lines.push("");
-    lines.push(this.generateUtilityBorderClasses().join("\n"));
+    lines.push(this.generateUtilityBorderColorClasses().join("\n"));
     lines.push("");
     lines.push(this.generateUtilityFontSizeClasses().join("\n"));
+    lines.push("");
+    lines.push(this.generateUtilityBlackAndWhiteTextClasses().join("\n"));
     lines.push("");
     const out = `:root { ${lines.join("\n")} }`;
     this.utilityClassesStyleSheet.innerHTML = out;
@@ -1212,7 +1214,7 @@ class Picker extends HTMLElement {
     this.utilityVarsStyleSheet.innerHTML = out;
   }
 
-  generateUtilityBackgroundClasses() {
+  generateUtilityBackgroundColorClasses() {
     const lines =[];
     lines.push(`  /* Background Colors */`);
     this.getActiveColors().forEach((colorName, colorIndex) => {
@@ -1224,6 +1226,32 @@ class Picker extends HTMLElement {
               `var(--${colorName}${fade})`
             )
           );
+      });
+    });
+    return lines;
+  }
+
+  generateUtilityBlackAndWhiteTextClasses() {
+    const lines = [];
+    lines.push(`  /* Black And White Text Classes */`);
+    this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+      this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+        lines.push(
+          makeClass(
+            `  .${bwName}-text`,
+            `color`,
+            `var(--${bwName})`
+          )
+        );
+        this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+          lines.push(
+            makeClass(
+            `  .${bwName}-${fadedName}-text`,
+            `color`,
+            `var(--${bwName}-${fadedName})`
+            )
+          );
+        });
       });
     });
     return lines;
@@ -1255,7 +1283,7 @@ class Picker extends HTMLElement {
     return lines;
   }
 
-  generateUtilityBorderClasses() {
+  generateUtilityBorderColorClasses() {
     const lines =[];
     lines.push(`  /* Color Borders */`);
     this.getActiveColors().forEach((colorName, colorIndex) => {
@@ -1311,7 +1339,7 @@ class Picker extends HTMLElement {
   }
 
 
-  generateUtilityTextClasses() {
+  generateUtilityTextColorClasses() {
     const lines =[];
     lines.push(`  /* Text Colors */`);
     this.getActiveColors().forEach((colorName, colorIndex) => {
@@ -1802,8 +1830,9 @@ class Picker extends HTMLElement {
       p.modes.forEach((modeData, modeIndex) => {
         const button = dc('button');
         html(modeData.name, button);
-        ac(`ui__mode-${modeIndex}__text`, button);
-        ac(`ui__mode-${modeIndex}__background`, button);
+        if (modeIndex === p.activeMode) {
+          ac(`reversed-text`, button);
+        }
         ad("tab", tab, button);
         ad("mode", modeIndex, button);
         ad("kind", "mode-button", button);
@@ -1980,9 +2009,11 @@ class Picker extends HTMLElement {
       ad("name", "Active Variables", this.activeVarsStyleSheet);
     }
     const lines = [];
+    lines.push(`:root {`);
     lines.push(this.updateActiveColorVars().join("\n"));
     lines.push("");
     lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
+    lines.push(`}`);
     this.activeVarsStyleSheet.innerHTML = lines.join("\n");
   }
 
@@ -2008,8 +2039,6 @@ class Picker extends HTMLElement {
     });
     return lines;
   }
-
-
 
   updateActiveColorVars() {
     const lines = [];

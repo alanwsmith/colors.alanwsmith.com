@@ -1687,7 +1687,7 @@ class Picker extends HTMLElement {
         wrapper.classList.remove('invisible');
       })
       els('.nav-tab-list').forEach((wrapper) => {
-        wrapper.classList.remove('invisible');
+        wrapper.classList.add('invisible');
       })
       els('.colors-box-wrapper').forEach((wrapper) => {
         wrapper.classList.remove('invisible');

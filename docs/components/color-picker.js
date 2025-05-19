@@ -1653,6 +1653,9 @@ class Picker extends HTMLElement {
       els('.colors-box-wrapper').forEach((wrapper) => {
         wrapper.classList.add('invisible');
       })
+      els('.content-body').forEach((e) => {
+        e.classList.add("invisible");
+      });
     } else if (p.isolatedColor >= 0) {
       this.getActiveColors().forEach((colorName, colorIndex) => {
         if (colorIndex !== p.isolatedColor) {
@@ -1662,6 +1665,9 @@ class Picker extends HTMLElement {
             lines.push(`--${name}: var(--background);`);
           });
         }
+      });
+      els('.content-body').forEach((e) => {
+        e.classList.remove("invisible");
       });
       els('.mode-buttons-wrapper').forEach((wrapper) => {
         wrapper.classList.remove('invisible');
@@ -1673,6 +1679,9 @@ class Picker extends HTMLElement {
         wrapper.classList.remove('invisible');
       })
     } else {
+      els('.content-body').forEach((e) => {
+        e.classList.remove("invisible");
+      });
       els('.mode-buttons-wrapper').forEach((wrapper) => {
         wrapper.classList.remove('invisible');
       })
@@ -1924,7 +1933,6 @@ class Picker extends HTMLElement {
         }
       });
     });
-
 
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);

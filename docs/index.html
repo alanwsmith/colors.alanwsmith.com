@@ -2,8 +2,7 @@
 <html lang="en">
   <head>
     <title>Alan's Color Picker</title>
-
-    <style class="reset-styles" data-name="Reset Styles">
+    <style data-name="Reset Styles">
       *,
       *::before,
       *::after {
@@ -20,592 +19,1477 @@
       ul > :where(:not(:first-child)) {
         margin-top: var(--flow-space, 1em);
       }
-      body {
-        font-family: system-ui;
-      }
     </style>
 
-    <style class="picker-styles" data-name="Picker Styles">
-      a {
-        color: var(--links);
-        text-decoration: none;
-      }
+    <style data-name="Interface Styles">
       .background-box-wrapper {
         border: 1px solid var(--ui__picker);
-      }
-      body {
-        background-color: var(--background);
-        color: var(--content);
-        line-height: 1.25;
       }
       .colors-box-wrapper {
         border: 1px solid var(--ui__picker);
       }
-      h1 {
-        color: var(--title);
-        border-bottom: 1px solid var(--accents);
+      .colors-box-wrapper button {
+        border: none;
+        cursor: pointer;
+        outline: inherit;
+        padding: 0;
       }
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        color: var(--headings);
-      }
-      h2 {
-        border-bottom: 1px solid var(--accents);
+      .colors-box-wrapper .color-selector-button {
+        width: 2.3ch;
+        font-size: var(--default-font-size);
       }
       .invisible {
         visibility: hidden;
       }
-      .two-column {
+      .mode-buttons-wrapper {
+        border: 1px solid var(--ui__picker);
+      }
+      .ui-two-column {
         display: grid;
         grid-template-columns: 1fr 13rem;
         gap: 2rem;
       }
     </style>
 
-    <!-- START: Generated Styles -->
+    <style data-name="Layout Styles">
+      ::marker {
+        color: var(--content);
+      }
+      a {
+        color: var(--links);
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: var(--accent);
+      }
+      abbr {
+        color: var(--accent);
+        font-style: italic;
+      }
+      aside {
+        margin-left: 20vw;
+        font-style: italic;
+        border-left: 3px solid var(--reversed-faded);
+        padding: var(--default-padding);
+      }
+      audio {
+        max-width: 100%;
+      }
+      b {
+        font-weight: 900;
+      }
+      blockquote {
+        margin: var(--large-margin);
+        padding: var(--default-padding);
+        background-color: var(--reversed-faded2);
+      }
+      body {
+        background-color: var(--background);
+        color: var(--content);
+        font-family: system-ui;
+        font-size: 16px;
+        line-height: 1.25;
+      }
+      button {
+        background-color: var(--reversed-faded2);
+        border: 1px solid var(--reversed-faded);
+        border-radius: var(--xsmall-radius);
+        color: var(--matched);
+      }
+      canvas {
+        display: block;
+        max-width: 100%;
+      }
+      caption {
+        caption-side: bottom;
+        padding: 10px;
+        font-weight: 900;
+      }
+      cite {
+        font-style: italic;
+      }
+      data {
+        font-style: normal;
+      }
+      code {
+        font-size: var(--small-font-size);
+        color: var(--reverse-faded);
+      }
+      dd {
+        font-style: normal;
+      }
+      del {
+        background-color: var(--accent-faded2);
+        text-decoration: line-through;
+      }
+      details {
+        border: 1px solid var(--reversed-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+      }
+      dfn {
+        font-style: italic;
+      }
+      dl {
+        font-style: normal;
+      }
+      dt {
+        font-style: normal;
+      }
+      em {
+        font-style: italic;
+      }
+      embed {
+        max-width: 100%;
+        display: block;
+      }
+      fieldset {
+        border-radius: var(--default-radius);
+      }
+      figcaption {
+        background-color: var(--reversed);
+        color: var(--match);
+        font-size: var(--small-font-size);
+        padding: var(--default-padding);
+        text-align: var(--alight-center);
+      }
+      figure {
+        border: 1px solid var(--reversed-faded);
+        display: flex;
+        flex-flow: column;
+        padding: var(--large-padding);
+        max-width: var(--xsmall-width);
+        margin-inline: auto;
+      }
+      h1 {
+        color: var(--title);
+        border-bottom: 1px solid var(--accents);
+        font-size: var(--xxxlarge-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h2 {
+        color: var(--headings);
+        border-bottom: 1px solid var(--accents);
+        font-size: var(--xxlarge-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h3 {
+        color: var(--headings);
+        border-bottom: 1px solid var(--accents);
+        font-size: var(--xlarge-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h4 {
+        color: var(--headings);
+        border-bottom: 1px solid var(--accents);
+        font-size: var(--large-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h5 {
+        color: var(--headings);
+        border-bottom: 1px solid var(--accents);
+        font-size: var(--large-font-size);
+        font-weight: 400;
+        text-wrap: balance;
+      }
+      h6 {
+        color: var(--headings);
+        border-bottom: 1px solid var(--accents);
+        font-size: var(--large-font-size);
+        font-style: italic;
+        font-weight: 400;
+        text-wrap: balance;
+      }
+      hgroup {
+        font-style: normal;
+      }
+      hr {
+        border: none;
+        border-top: 3px double var(--reversed-faded);
+        color: var(--reversed);
+        overflow: visible;
+        text-align: var(--align-center);
+        height: 5px;
+      }
+      hr::after {
+        /* background was in the mdn example, 
+        I'm not sure whey. commenting out until
+        I have a chance to look closer 
+        background: #fff;
+        */
+        content: '§';
+        padding-inline: var(--small-padding);
+        position: relative;
+        top: -13px;
+      }
+      i {
+        font-style: italic;
+      }
+      iframe {
+        max-width: 100%;
+        display: block;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      input {
+        margin-inline: var(--small-margin);
+      }
+      ins {
+        background-color: var(--accent-faded);
+        font-style: italic;
+      }
+      kbd {
+        background-color: var(--reversed-faded2);
+        border: var(--reversed-faded);
+        border-radius: var(--xsmall-radius);
+        font-family: monospace;
+        font-size: var(--small-font-size);
+        padding-inline: var(--xxsmall-padding);
+      }
+      label {
+        color: var(--reversed);
+      }
+      legend {
+        color: var(--reversed);
+        font-weight: 900;
+      }
+      li {
+        font-style: normal;
+      }
+      main {
+        font-style: normal;
+      }
+      map {
+        max-width: 100%;
+        display: block;
+      }
+      mark {
+        background-color: var(--accent-faded2);
+      }
+      menu {
+        border: 1px solid var(--reversed-faded);
+      }
+      meter {
+        padding-inline: var(--default-padding);
+      }
+      nav {
+        border: 1px solid var(--reversed-faded);
+      }
+      object {
+        max-width: 100%;
+        display: block;
+      }
+      ol {
+        font-style: normal;
+      }
+      output {
+        font-weight: 900;
+      }
+      p {
+        font-style: normal;
+      }
+      picture {
+        display: block;
+        margin: var(--default-margin);
+        max-width: 100%;
+      }
+      pre {
+        margin: var(--default-margin);
+      }
+      progress {
+        padding-inline: var(--small-padding);
+      }
+      q {
+        font-style: italic;
+      }
+      s {
+        font-style: normal;
+      }
+      samp {
+        font-weight: bold;
+      }
+      search {
+        padding-inline: var(--small-padding);
+      }
+      section {
+        font-style: normal;
+      }
+      select {
+        padding-inline: var(--small-padding);
+      }
+      small {
+        font-size: var(--xsmall-font-size);
+      }
+      span {
+        font-style: normal;
+      }
+      strong {
+        font-style: normal;
+      }
+      sub {
+        font-style: normal;
+      }
+      summary {
+        font-weight: 900;
+      }
+      sup {
+        font-style: normal;
+      }
+      svg {
+        display: block;
+        max-width: 100%;
+      }
+      table {
+        margin: var(--default-margin);
+      }
+      tbody {
+        font-style: normal;
+      }
+      td {
+        font-style: normal;
+      }
+      textarea {
+        max-width: var(--large-width);
+        margin: var(--default-margin);
+      }
+      tfoot {
+        font-style: normal;
+      }
+      th {
+        font-weight: 900;
+      }
+      thead {
+        font-style: normal;
+      }
+      time {
+        font-weight: 900;
+      }
+      tr {
+        font-weight: 900;
+      }
+      u {
+        text-decoration: var(--accent-faded) wavy underline;
+      }
+      ul {
+        font-style: normal;
+      }
+      var {
+        font-weight: 900;
+      }
+      video {
+        max-width: 100%;
+        display: block;
+      }
+    </style>
 
-<style 
-data-key="black-and-white-variables" 
-data-name="Black and White Variables" 
-data-editable="no"
-data-deployable="yes"
->
-:root {
---light__black: oklch(0% 0 0);
---light__black-faded: oklch(0% 0 0 / .3);
---light__black-faded2: oklch(0% 0 0 / .1);
---light__white: oklch(100% 0 0);
---light__white-faded: oklch(100% 0 0 / .3);
---light__white-faded2: oklch(100% 0 0 / .1);
---light__matched: oklch(100% 0 0);
---light__matched-faded: oklch(100% 0 0 / .3);
---light__matched-faded2: oklch(100% 0 0 / .1);
---light__reversed: oklch(0% 0 0);
---light__reversed-faded: oklch(0% 0 0 / .3);
---light__reversed-faded2: oklch(0% 0 0 / .1);
---hc-light__black: oklch(0% 0 0);
---hc-light__black-faded: oklch(0% 0 0 / .3);
---hc-light__black-faded2: oklch(0% 0 0 / .1);
---hc-light__white: oklch(100% 0 0);
---hc-light__white-faded: oklch(100% 0 0 / .3);
---hc-light__white-faded2: oklch(100% 0 0 / .1);
---hc-light__matched: oklch(100% 0 0);
---hc-light__matched-faded: oklch(100% 0 0 / .3);
---hc-light__matched-faded2: oklch(100% 0 0 / .1);
---hc-light__reversed: oklch(0% 0 0);
---hc-light__reversed-faded: oklch(0% 0 0 / .3);
---hc-light__reversed-faded2: oklch(0% 0 0 / .1);
---dark__black: oklch(0% 0 0);
---dark__black-faded: oklch(0% 0 0 / .3);
---dark__black-faded2: oklch(0% 0 0 / .1);
---dark__white: oklch(100% 0 0);
---dark__white-faded: oklch(100% 0 0 / .3);
---dark__white-faded2: oklch(100% 0 0 / .1);
---dark__matched: oklch(0% 0 0);
---dark__matched-faded: oklch(0% 0 0 / .3);
---dark__matched-faded2: oklch(0% 0 0 / .1);
---dark__reversed: oklch(100% 0 0);
---dark__reversed-faded: oklch(100% 0 0 / .3);
---dark__reversed-faded2: oklch(100% 0 0 / .1);
---hc-dark__black: oklch(0% 0 0);
---hc-dark__black-faded: oklch(0% 0 0 / .3);
---hc-dark__black-faded2: oklch(0% 0 0 / .1);
---hc-dark__white: oklch(100% 0 0);
---hc-dark__white-faded: oklch(100% 0 0 / .3);
---hc-dark__white-faded2: oklch(100% 0 0 / .1);
---hc-dark__matched: oklch(0% 0 0);
---hc-dark__matched-faded: oklch(0% 0 0 / .3);
---hc-dark__matched-faded2: oklch(0% 0 0 / .1);
---hc-dark__reversed: oklch(100% 0 0);
---hc-dark__reversed-faded: oklch(100% 0 0 / .3);
---hc-dark__reversed-faded2: oklch(100% 0 0 / .1);
---black: var(--light__black);
---black-faded: var(--light__black-faded);
---black-faded2: var(--light__black-faded2);
---white: var(--light__white);
---white-faded: var(--light__white-faded);
---white-faded2: var(--light__white-faded2);
---matched: var(--light__matched);
---matched-faded: var(--light__matched-faded);
---matched-faded2: var(--light__matched-faded2);
---reversed: var(--light__reversed);
---reversed-faded: var(--light__reversed-faded);
---reversed-faded2: var(--light__reversed-faded2);
-}
-</style>
+    <!-- START GENERATED STYLES -->
 
-<style 
-data-key="black-and-white-color-and-background-classes" 
-data-name="Black and White Color and Background Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.black-text { color: var(--black); }
-.black-background { background-color: var(--black); }
-.black-faded-text { color: var(--black-faded); }
-.black-faded-background { background-color: var(--black-faded); }
-.black-faded2-text { color: var(--black-faded2); }
-.black-faded2-background { background-color: var(--black-faded2); }
-.white-text { color: var(--white); }
-.white-background { background-color: var(--white); }
-.white-faded-text { color: var(--white-faded); }
-.white-faded-background { background-color: var(--white-faded); }
-.white-faded2-text { color: var(--white-faded2); }
-.white-faded2-background { background-color: var(--white-faded2); }
-.matched-text { color: var(--matched); }
-.matched-background { background-color: var(--matched); }
-.matched-faded-text { color: var(--matched-faded); }
-.matched-faded-background { background-color: var(--matched-faded); }
-.matched-faded2-text { color: var(--matched-faded2); }
-.matched-faded2-background { background-color: var(--matched-faded2); }
-.reversed-text { color: var(--reversed); }
-.reversed-background { background-color: var(--reversed); }
-.reversed-faded-text { color: var(--reversed-faded); }
-.reversed-faded-background { background-color: var(--reversed-faded); }
-.reversed-faded2-text { color: var(--reversed-faded2); }
-.reversed-faded2-background { background-color: var(--reversed-faded2); }
-</style>
+    <style
+      data-key="black-and-white-variables"
+      data-name="Black and White Variables"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      :root {
+        --light__black: oklch(0% 0 0);
+        --light__black-faded: oklch(0% 0 0 / 0.3);
+        --light__black-faded2: oklch(0% 0 0 / 0.1);
+        --light__white: oklch(100% 0 0);
+        --light__white-faded: oklch(100% 0 0 / 0.3);
+        --light__white-faded2: oklch(100% 0 0 / 0.1);
+        --light__matched: oklch(100% 0 0);
+        --light__matched-faded: oklch(100% 0 0 / 0.3);
+        --light__matched-faded2: oklch(100% 0 0 / 0.1);
+        --light__reversed: oklch(0% 0 0);
+        --light__reversed-faded: oklch(0% 0 0 / 0.3);
+        --light__reversed-faded2: oklch(0% 0 0 / 0.1);
+        --hc-light__black: oklch(0% 0 0);
+        --hc-light__black-faded: oklch(0% 0 0 / 0.3);
+        --hc-light__black-faded2: oklch(0% 0 0 / 0.1);
+        --hc-light__white: oklch(100% 0 0);
+        --hc-light__white-faded: oklch(100% 0 0 / 0.3);
+        --hc-light__white-faded2: oklch(100% 0 0 / 0.1);
+        --hc-light__matched: oklch(100% 0 0);
+        --hc-light__matched-faded: oklch(100% 0 0 / 0.3);
+        --hc-light__matched-faded2: oklch(100% 0 0 / 0.1);
+        --hc-light__reversed: oklch(0% 0 0);
+        --hc-light__reversed-faded: oklch(0% 0 0 / 0.3);
+        --hc-light__reversed-faded2: oklch(0% 0 0 / 0.1);
+        --dark__black: oklch(0% 0 0);
+        --dark__black-faded: oklch(0% 0 0 / 0.3);
+        --dark__black-faded2: oklch(0% 0 0 / 0.1);
+        --dark__white: oklch(100% 0 0);
+        --dark__white-faded: oklch(100% 0 0 / 0.3);
+        --dark__white-faded2: oklch(100% 0 0 / 0.1);
+        --dark__matched: oklch(0% 0 0);
+        --dark__matched-faded: oklch(0% 0 0 / 0.3);
+        --dark__matched-faded2: oklch(0% 0 0 / 0.1);
+        --dark__reversed: oklch(100% 0 0);
+        --dark__reversed-faded: oklch(100% 0 0 / 0.3);
+        --dark__reversed-faded2: oklch(100% 0 0 / 0.1);
+        --hc-dark__black: oklch(0% 0 0);
+        --hc-dark__black-faded: oklch(0% 0 0 / 0.3);
+        --hc-dark__black-faded2: oklch(0% 0 0 / 0.1);
+        --hc-dark__white: oklch(100% 0 0);
+        --hc-dark__white-faded: oklch(100% 0 0 / 0.3);
+        --hc-dark__white-faded2: oklch(100% 0 0 / 0.1);
+        --hc-dark__matched: oklch(0% 0 0);
+        --hc-dark__matched-faded: oklch(0% 0 0 / 0.3);
+        --hc-dark__matched-faded2: oklch(0% 0 0 / 0.1);
+        --hc-dark__reversed: oklch(100% 0 0);
+        --hc-dark__reversed-faded: oklch(100% 0 0 / 0.3);
+        --hc-dark__reversed-faded2: oklch(100% 0 0 / 0.1);
+        --black: var(--light__black);
+        --black-faded: var(--light__black-faded);
+        --black-faded2: var(--light__black-faded2);
+        --white: var(--light__white);
+        --white-faded: var(--light__white-faded);
+        --white-faded2: var(--light__white-faded2);
+        --matched: var(--light__matched);
+        --matched-faded: var(--light__matched-faded);
+        --matched-faded2: var(--light__matched-faded2);
+        --reversed: var(--light__reversed);
+        --reversed-faded: var(--light__reversed-faded);
+        --reversed-faded2: var(--light__reversed-faded2);
+      }
+    </style>
 
-<style 
-data-key="black-and-white-border-classes" 
-data-name="Black and White Border Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.black-full-border { border: 1px solid var(--black); }
-.black-left-border { border-left: 1px solid var(--black); }
-.black-right-border { border-right: 1px solid var(--black); }
-.black-top-border { border-top: 1px solid var(--black); }
-.black-bottom-border { border-bottom: 1px solid var(--black); }
-.black-inline-border { border-inline: 1px solid var(--black); }
-.black-block-border { border-block: 1px solid var(--black); }
-.black-faded-full-border { border: 1px solid var(--black-faded); }
-.black-faded-left-border { border-left: 1px solid var(--black-faded); }
-.black-faded-right-border { border-right: 1px solid var(--black-faded); }
-.black-faded-top-border { border-top: 1px solid var(--black-faded); }
-.black-faded-bottom-border { border-bottom: 1px solid var(--black-faded); }
-.black-faded-inline-border { border-inline: 1px solid var(--black-faded); }
-.black-faded-block-border { border-block: 1px solid var(--black-faded); }
-.black-faded2-full-border { border: 1px solid var(--black-faded2); }
-.black-faded2-left-border { border-left: 1px solid var(--black-faded2); }
-.black-faded2-right-border { border-right: 1px solid var(--black-faded2); }
-.black-faded2-top-border { border-top: 1px solid var(--black-faded2); }
-.black-faded2-bottom-border { border-bottom: 1px solid var(--black-faded2); }
-.black-faded2-inline-border { border-inline: 1px solid var(--black-faded2); }
-.black-faded2-block-border { border-block: 1px solid var(--black-faded2); }
-.white-full-border { border: 1px solid var(--white); }
-.white-left-border { border-left: 1px solid var(--white); }
-.white-right-border { border-right: 1px solid var(--white); }
-.white-top-border { border-top: 1px solid var(--white); }
-.white-bottom-border { border-bottom: 1px solid var(--white); }
-.white-inline-border { border-inline: 1px solid var(--white); }
-.white-block-border { border-block: 1px solid var(--white); }
-.white-faded-full-border { border: 1px solid var(--white-faded); }
-.white-faded-left-border { border-left: 1px solid var(--white-faded); }
-.white-faded-right-border { border-right: 1px solid var(--white-faded); }
-.white-faded-top-border { border-top: 1px solid var(--white-faded); }
-.white-faded-bottom-border { border-bottom: 1px solid var(--white-faded); }
-.white-faded-inline-border { border-inline: 1px solid var(--white-faded); }
-.white-faded-block-border { border-block: 1px solid var(--white-faded); }
-.white-faded2-full-border { border: 1px solid var(--white-faded2); }
-.white-faded2-left-border { border-left: 1px solid var(--white-faded2); }
-.white-faded2-right-border { border-right: 1px solid var(--white-faded2); }
-.white-faded2-top-border { border-top: 1px solid var(--white-faded2); }
-.white-faded2-bottom-border { border-bottom: 1px solid var(--white-faded2); }
-.white-faded2-inline-border { border-inline: 1px solid var(--white-faded2); }
-.white-faded2-block-border { border-block: 1px solid var(--white-faded2); }
-.matched-full-border { border: 1px solid var(--matched); }
-.matched-left-border { border-left: 1px solid var(--matched); }
-.matched-right-border { border-right: 1px solid var(--matched); }
-.matched-top-border { border-top: 1px solid var(--matched); }
-.matched-bottom-border { border-bottom: 1px solid var(--matched); }
-.matched-inline-border { border-inline: 1px solid var(--matched); }
-.matched-block-border { border-block: 1px solid var(--matched); }
-.matched-faded-full-border { border: 1px solid var(--matched-faded); }
-.matched-faded-left-border { border-left: 1px solid var(--matched-faded); }
-.matched-faded-right-border { border-right: 1px solid var(--matched-faded); }
-.matched-faded-top-border { border-top: 1px solid var(--matched-faded); }
-.matched-faded-bottom-border { border-bottom: 1px solid var(--matched-faded); }
-.matched-faded-inline-border { border-inline: 1px solid var(--matched-faded); }
-.matched-faded-block-border { border-block: 1px solid var(--matched-faded); }
-.matched-faded2-full-border { border: 1px solid var(--matched-faded2); }
-.matched-faded2-left-border { border-left: 1px solid var(--matched-faded2); }
-.matched-faded2-right-border { border-right: 1px solid var(--matched-faded2); }
-.matched-faded2-top-border { border-top: 1px solid var(--matched-faded2); }
-.matched-faded2-bottom-border { border-bottom: 1px solid var(--matched-faded2); }
-.matched-faded2-inline-border { border-inline: 1px solid var(--matched-faded2); }
-.matched-faded2-block-border { border-block: 1px solid var(--matched-faded2); }
-.reversed-full-border { border: 1px solid var(--reversed); }
-.reversed-left-border { border-left: 1px solid var(--reversed); }
-.reversed-right-border { border-right: 1px solid var(--reversed); }
-.reversed-top-border { border-top: 1px solid var(--reversed); }
-.reversed-bottom-border { border-bottom: 1px solid var(--reversed); }
-.reversed-inline-border { border-inline: 1px solid var(--reversed); }
-.reversed-block-border { border-block: 1px solid var(--reversed); }
-.reversed-faded-full-border { border: 1px solid var(--reversed-faded); }
-.reversed-faded-left-border { border-left: 1px solid var(--reversed-faded); }
-.reversed-faded-right-border { border-right: 1px solid var(--reversed-faded); }
-.reversed-faded-top-border { border-top: 1px solid var(--reversed-faded); }
-.reversed-faded-bottom-border { border-bottom: 1px solid var(--reversed-faded); }
-.reversed-faded-inline-border { border-inline: 1px solid var(--reversed-faded); }
-.reversed-faded-block-border { border-block: 1px solid var(--reversed-faded); }
-.reversed-faded2-full-border { border: 1px solid var(--reversed-faded2); }
-.reversed-faded2-left-border { border-left: 1px solid var(--reversed-faded2); }
-.reversed-faded2-right-border { border-right: 1px solid var(--reversed-faded2); }
-.reversed-faded2-top-border { border-top: 1px solid var(--reversed-faded2); }
-.reversed-faded2-bottom-border { border-bottom: 1px solid var(--reversed-faded2); }
-.reversed-faded2-inline-border { border-inline: 1px solid var(--reversed-faded2); }
-.reversed-faded2-block-border { border-block: 1px solid var(--reversed-faded2); }
-</style>
+    <style
+      data-key="black-and-white-color-and-background-classes"
+      data-name="Black and White Color and Background Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .black-text {
+        color: var(--black);
+      }
+      .black-background {
+        background-color: var(--black);
+      }
+      .black-faded-text {
+        color: var(--black-faded);
+      }
+      .black-faded-background {
+        background-color: var(--black-faded);
+      }
+      .black-faded2-text {
+        color: var(--black-faded2);
+      }
+      .black-faded2-background {
+        background-color: var(--black-faded2);
+      }
+      .white-text {
+        color: var(--white);
+      }
+      .white-background {
+        background-color: var(--white);
+      }
+      .white-faded-text {
+        color: var(--white-faded);
+      }
+      .white-faded-background {
+        background-color: var(--white-faded);
+      }
+      .white-faded2-text {
+        color: var(--white-faded2);
+      }
+      .white-faded2-background {
+        background-color: var(--white-faded2);
+      }
+      .matched-text {
+        color: var(--matched);
+      }
+      .matched-background {
+        background-color: var(--matched);
+      }
+      .matched-faded-text {
+        color: var(--matched-faded);
+      }
+      .matched-faded-background {
+        background-color: var(--matched-faded);
+      }
+      .matched-faded2-text {
+        color: var(--matched-faded2);
+      }
+      .matched-faded2-background {
+        background-color: var(--matched-faded2);
+      }
+      .reversed-text {
+        color: var(--reversed);
+      }
+      .reversed-background {
+        background-color: var(--reversed);
+      }
+      .reversed-faded-text {
+        color: var(--reversed-faded);
+      }
+      .reversed-faded-background {
+        background-color: var(--reversed-faded);
+      }
+      .reversed-faded2-text {
+        color: var(--reversed-faded2);
+      }
+      .reversed-faded2-background {
+        background-color: var(--reversed-faded2);
+      }
+    </style>
 
-<style 
-data-key="spacing-variables" 
-data-name="Spacing Variables" 
-data-editable="yes"
-data-deployable="yes"
->
-:root {
---xxxsmall-padding: 0.1rem;
---xxsmall-padding: 0.2rem;
---xsmall-padding: 0.3rem;
---small-padding: 0.4rem;
---default-padding: 0.5rem;
---large-padding: 0.8rem;
---xlarge-padding: 1.3rem;
---xxlarge-padding: 1.9rem;
---xxxlarge-padding: 2.4rem;
---xxxsmall-margin: 0.1rem;
---xxsmall-margin: 0.2rem;
---xsmall-margin: 0.3rem;
---small-margin: 0.4rem;
---default-margin: 0.5rem;
---large-margin: 0.8rem;
---xlarge-margin: 1.3rem;
---xxlarge-margin: 1.9rem;
---xxxlarge-margin: 2.4rem;
-}
-</style>
+    <style
+      data-key="black-and-white-border-classes"
+      data-name="Black and White Border Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .black-full-border {
+        border: 1px solid var(--black);
+      }
+      .black-left-border {
+        border-left: 1px solid var(--black);
+      }
+      .black-right-border {
+        border-right: 1px solid var(--black);
+      }
+      .black-top-border {
+        border-top: 1px solid var(--black);
+      }
+      .black-bottom-border {
+        border-bottom: 1px solid var(--black);
+      }
+      .black-inline-border {
+        border-inline: 1px solid var(--black);
+      }
+      .black-block-border {
+        border-block: 1px solid var(--black);
+      }
+      .black-faded-full-border {
+        border: 1px solid var(--black-faded);
+      }
+      .black-faded-left-border {
+        border-left: 1px solid var(--black-faded);
+      }
+      .black-faded-right-border {
+        border-right: 1px solid var(--black-faded);
+      }
+      .black-faded-top-border {
+        border-top: 1px solid var(--black-faded);
+      }
+      .black-faded-bottom-border {
+        border-bottom: 1px solid var(--black-faded);
+      }
+      .black-faded-inline-border {
+        border-inline: 1px solid var(--black-faded);
+      }
+      .black-faded-block-border {
+        border-block: 1px solid var(--black-faded);
+      }
+      .black-faded2-full-border {
+        border: 1px solid var(--black-faded2);
+      }
+      .black-faded2-left-border {
+        border-left: 1px solid var(--black-faded2);
+      }
+      .black-faded2-right-border {
+        border-right: 1px solid var(--black-faded2);
+      }
+      .black-faded2-top-border {
+        border-top: 1px solid var(--black-faded2);
+      }
+      .black-faded2-bottom-border {
+        border-bottom: 1px solid var(--black-faded2);
+      }
+      .black-faded2-inline-border {
+        border-inline: 1px solid var(--black-faded2);
+      }
+      .black-faded2-block-border {
+        border-block: 1px solid var(--black-faded2);
+      }
+      .white-full-border {
+        border: 1px solid var(--white);
+      }
+      .white-left-border {
+        border-left: 1px solid var(--white);
+      }
+      .white-right-border {
+        border-right: 1px solid var(--white);
+      }
+      .white-top-border {
+        border-top: 1px solid var(--white);
+      }
+      .white-bottom-border {
+        border-bottom: 1px solid var(--white);
+      }
+      .white-inline-border {
+        border-inline: 1px solid var(--white);
+      }
+      .white-block-border {
+        border-block: 1px solid var(--white);
+      }
+      .white-faded-full-border {
+        border: 1px solid var(--white-faded);
+      }
+      .white-faded-left-border {
+        border-left: 1px solid var(--white-faded);
+      }
+      .white-faded-right-border {
+        border-right: 1px solid var(--white-faded);
+      }
+      .white-faded-top-border {
+        border-top: 1px solid var(--white-faded);
+      }
+      .white-faded-bottom-border {
+        border-bottom: 1px solid var(--white-faded);
+      }
+      .white-faded-inline-border {
+        border-inline: 1px solid var(--white-faded);
+      }
+      .white-faded-block-border {
+        border-block: 1px solid var(--white-faded);
+      }
+      .white-faded2-full-border {
+        border: 1px solid var(--white-faded2);
+      }
+      .white-faded2-left-border {
+        border-left: 1px solid var(--white-faded2);
+      }
+      .white-faded2-right-border {
+        border-right: 1px solid var(--white-faded2);
+      }
+      .white-faded2-top-border {
+        border-top: 1px solid var(--white-faded2);
+      }
+      .white-faded2-bottom-border {
+        border-bottom: 1px solid var(--white-faded2);
+      }
+      .white-faded2-inline-border {
+        border-inline: 1px solid var(--white-faded2);
+      }
+      .white-faded2-block-border {
+        border-block: 1px solid var(--white-faded2);
+      }
+      .matched-full-border {
+        border: 1px solid var(--matched);
+      }
+      .matched-left-border {
+        border-left: 1px solid var(--matched);
+      }
+      .matched-right-border {
+        border-right: 1px solid var(--matched);
+      }
+      .matched-top-border {
+        border-top: 1px solid var(--matched);
+      }
+      .matched-bottom-border {
+        border-bottom: 1px solid var(--matched);
+      }
+      .matched-inline-border {
+        border-inline: 1px solid var(--matched);
+      }
+      .matched-block-border {
+        border-block: 1px solid var(--matched);
+      }
+      .matched-faded-full-border {
+        border: 1px solid var(--matched-faded);
+      }
+      .matched-faded-left-border {
+        border-left: 1px solid var(--matched-faded);
+      }
+      .matched-faded-right-border {
+        border-right: 1px solid var(--matched-faded);
+      }
+      .matched-faded-top-border {
+        border-top: 1px solid var(--matched-faded);
+      }
+      .matched-faded-bottom-border {
+        border-bottom: 1px solid var(--matched-faded);
+      }
+      .matched-faded-inline-border {
+        border-inline: 1px solid var(--matched-faded);
+      }
+      .matched-faded-block-border {
+        border-block: 1px solid var(--matched-faded);
+      }
+      .matched-faded2-full-border {
+        border: 1px solid var(--matched-faded2);
+      }
+      .matched-faded2-left-border {
+        border-left: 1px solid var(--matched-faded2);
+      }
+      .matched-faded2-right-border {
+        border-right: 1px solid var(--matched-faded2);
+      }
+      .matched-faded2-top-border {
+        border-top: 1px solid var(--matched-faded2);
+      }
+      .matched-faded2-bottom-border {
+        border-bottom: 1px solid var(--matched-faded2);
+      }
+      .matched-faded2-inline-border {
+        border-inline: 1px solid var(--matched-faded2);
+      }
+      .matched-faded2-block-border {
+        border-block: 1px solid var(--matched-faded2);
+      }
+      .reversed-full-border {
+        border: 1px solid var(--reversed);
+      }
+      .reversed-left-border {
+        border-left: 1px solid var(--reversed);
+      }
+      .reversed-right-border {
+        border-right: 1px solid var(--reversed);
+      }
+      .reversed-top-border {
+        border-top: 1px solid var(--reversed);
+      }
+      .reversed-bottom-border {
+        border-bottom: 1px solid var(--reversed);
+      }
+      .reversed-inline-border {
+        border-inline: 1px solid var(--reversed);
+      }
+      .reversed-block-border {
+        border-block: 1px solid var(--reversed);
+      }
+      .reversed-faded-full-border {
+        border: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded-left-border {
+        border-left: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded-right-border {
+        border-right: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded-top-border {
+        border-top: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded-bottom-border {
+        border-bottom: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded-inline-border {
+        border-inline: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded-block-border {
+        border-block: 1px solid var(--reversed-faded);
+      }
+      .reversed-faded2-full-border {
+        border: 1px solid var(--reversed-faded2);
+      }
+      .reversed-faded2-left-border {
+        border-left: 1px solid var(--reversed-faded2);
+      }
+      .reversed-faded2-right-border {
+        border-right: 1px solid var(--reversed-faded2);
+      }
+      .reversed-faded2-top-border {
+        border-top: 1px solid var(--reversed-faded2);
+      }
+      .reversed-faded2-bottom-border {
+        border-bottom: 1px solid var(--reversed-faded2);
+      }
+      .reversed-faded2-inline-border {
+        border-inline: 1px solid var(--reversed-faded2);
+      }
+      .reversed-faded2-block-border {
+        border-block: 1px solid var(--reversed-faded2);
+      }
+    </style>
 
-<style 
-data-key="spacing-variables" 
-data-name="Spacing Variables" 
-data-editable="no"
-data-deployable="yes"
->
-.xxxsmall-full-padding { padding: var(--xxxsmall-padding); }
-.xxxsmall-left-padding { padding-left: var(--xxxsmall-padding); }
-.xxxsmall-right-padding { padding-right: var(--xxxsmall-padding); }
-.xxxsmall-top-padding { padding-top: var(--xxxsmall-padding); }
-.xxxsmall-bottom-padding { padding-bottom: var(--xxxsmall-padding); }
-.xxxsmall-inline-padding { padding-inline: var(--xxxsmall-padding); }
-.xxxsmall-block-padding { padding-block: var(--xxxsmall-padding); }
-.xxsmall-full-padding { padding: var(--xxsmall-padding); }
-.xxsmall-left-padding { padding-left: var(--xxsmall-padding); }
-.xxsmall-right-padding { padding-right: var(--xxsmall-padding); }
-.xxsmall-top-padding { padding-top: var(--xxsmall-padding); }
-.xxsmall-bottom-padding { padding-bottom: var(--xxsmall-padding); }
-.xxsmall-inline-padding { padding-inline: var(--xxsmall-padding); }
-.xxsmall-block-padding { padding-block: var(--xxsmall-padding); }
-.xsmall-full-padding { padding: var(--xsmall-padding); }
-.xsmall-left-padding { padding-left: var(--xsmall-padding); }
-.xsmall-right-padding { padding-right: var(--xsmall-padding); }
-.xsmall-top-padding { padding-top: var(--xsmall-padding); }
-.xsmall-bottom-padding { padding-bottom: var(--xsmall-padding); }
-.xsmall-inline-padding { padding-inline: var(--xsmall-padding); }
-.xsmall-block-padding { padding-block: var(--xsmall-padding); }
-.small-full-padding { padding: var(--small-padding); }
-.small-left-padding { padding-left: var(--small-padding); }
-.small-right-padding { padding-right: var(--small-padding); }
-.small-top-padding { padding-top: var(--small-padding); }
-.small-bottom-padding { padding-bottom: var(--small-padding); }
-.small-inline-padding { padding-inline: var(--small-padding); }
-.small-block-padding { padding-block: var(--small-padding); }
-.default-full-padding { padding: var(--default-padding); }
-.default-left-padding { padding-left: var(--default-padding); }
-.default-right-padding { padding-right: var(--default-padding); }
-.default-top-padding { padding-top: var(--default-padding); }
-.default-bottom-padding { padding-bottom: var(--default-padding); }
-.default-inline-padding { padding-inline: var(--default-padding); }
-.default-block-padding { padding-block: var(--default-padding); }
-.large-full-padding { padding: var(--large-padding); }
-.large-left-padding { padding-left: var(--large-padding); }
-.large-right-padding { padding-right: var(--large-padding); }
-.large-top-padding { padding-top: var(--large-padding); }
-.large-bottom-padding { padding-bottom: var(--large-padding); }
-.large-inline-padding { padding-inline: var(--large-padding); }
-.large-block-padding { padding-block: var(--large-padding); }
-.xlarge-full-padding { padding: var(--xlarge-padding); }
-.xlarge-left-padding { padding-left: var(--xlarge-padding); }
-.xlarge-right-padding { padding-right: var(--xlarge-padding); }
-.xlarge-top-padding { padding-top: var(--xlarge-padding); }
-.xlarge-bottom-padding { padding-bottom: var(--xlarge-padding); }
-.xlarge-inline-padding { padding-inline: var(--xlarge-padding); }
-.xlarge-block-padding { padding-block: var(--xlarge-padding); }
-.xxlarge-full-padding { padding: var(--xxlarge-padding); }
-.xxlarge-left-padding { padding-left: var(--xxlarge-padding); }
-.xxlarge-right-padding { padding-right: var(--xxlarge-padding); }
-.xxlarge-top-padding { padding-top: var(--xxlarge-padding); }
-.xxlarge-bottom-padding { padding-bottom: var(--xxlarge-padding); }
-.xxlarge-inline-padding { padding-inline: var(--xxlarge-padding); }
-.xxlarge-block-padding { padding-block: var(--xxlarge-padding); }
-.xxxlarge-full-padding { padding: var(--xxxlarge-padding); }
-.xxxlarge-left-padding { padding-left: var(--xxxlarge-padding); }
-.xxxlarge-right-padding { padding-right: var(--xxxlarge-padding); }
-.xxxlarge-top-padding { padding-top: var(--xxxlarge-padding); }
-.xxxlarge-bottom-padding { padding-bottom: var(--xxxlarge-padding); }
-.xxxlarge-inline-padding { padding-inline: var(--xxxlarge-padding); }
-.xxxlarge-block-padding { padding-block: var(--xxxlarge-padding); }
-.xxxsmall-full-margin { margin: var(--xxxsmall-margin); }
-.xxxsmall-left-margin { margin-left: var(--xxxsmall-margin); }
-.xxxsmall-right-margin { margin-right: var(--xxxsmall-margin); }
-.xxxsmall-top-margin { margin-top: var(--xxxsmall-margin); }
-.xxxsmall-bottom-margin { margin-bottom: var(--xxxsmall-margin); }
-.xxxsmall-inline-margin { margin-inline: var(--xxxsmall-margin); }
-.xxxsmall-block-margin { margin-block: var(--xxxsmall-margin); }
-.xxsmall-full-margin { margin: var(--xxsmall-margin); }
-.xxsmall-left-margin { margin-left: var(--xxsmall-margin); }
-.xxsmall-right-margin { margin-right: var(--xxsmall-margin); }
-.xxsmall-top-margin { margin-top: var(--xxsmall-margin); }
-.xxsmall-bottom-margin { margin-bottom: var(--xxsmall-margin); }
-.xxsmall-inline-margin { margin-inline: var(--xxsmall-margin); }
-.xxsmall-block-margin { margin-block: var(--xxsmall-margin); }
-.xsmall-full-margin { margin: var(--xsmall-margin); }
-.xsmall-left-margin { margin-left: var(--xsmall-margin); }
-.xsmall-right-margin { margin-right: var(--xsmall-margin); }
-.xsmall-top-margin { margin-top: var(--xsmall-margin); }
-.xsmall-bottom-margin { margin-bottom: var(--xsmall-margin); }
-.xsmall-inline-margin { margin-inline: var(--xsmall-margin); }
-.xsmall-block-margin { margin-block: var(--xsmall-margin); }
-.small-full-margin { margin: var(--small-margin); }
-.small-left-margin { margin-left: var(--small-margin); }
-.small-right-margin { margin-right: var(--small-margin); }
-.small-top-margin { margin-top: var(--small-margin); }
-.small-bottom-margin { margin-bottom: var(--small-margin); }
-.small-inline-margin { margin-inline: var(--small-margin); }
-.small-block-margin { margin-block: var(--small-margin); }
-.default-full-margin { margin: var(--default-margin); }
-.default-left-margin { margin-left: var(--default-margin); }
-.default-right-margin { margin-right: var(--default-margin); }
-.default-top-margin { margin-top: var(--default-margin); }
-.default-bottom-margin { margin-bottom: var(--default-margin); }
-.default-inline-margin { margin-inline: var(--default-margin); }
-.default-block-margin { margin-block: var(--default-margin); }
-.large-full-margin { margin: var(--large-margin); }
-.large-left-margin { margin-left: var(--large-margin); }
-.large-right-margin { margin-right: var(--large-margin); }
-.large-top-margin { margin-top: var(--large-margin); }
-.large-bottom-margin { margin-bottom: var(--large-margin); }
-.large-inline-margin { margin-inline: var(--large-margin); }
-.large-block-margin { margin-block: var(--large-margin); }
-.xlarge-full-margin { margin: var(--xlarge-margin); }
-.xlarge-left-margin { margin-left: var(--xlarge-margin); }
-.xlarge-right-margin { margin-right: var(--xlarge-margin); }
-.xlarge-top-margin { margin-top: var(--xlarge-margin); }
-.xlarge-bottom-margin { margin-bottom: var(--xlarge-margin); }
-.xlarge-inline-margin { margin-inline: var(--xlarge-margin); }
-.xlarge-block-margin { margin-block: var(--xlarge-margin); }
-.xxlarge-full-margin { margin: var(--xxlarge-margin); }
-.xxlarge-left-margin { margin-left: var(--xxlarge-margin); }
-.xxlarge-right-margin { margin-right: var(--xxlarge-margin); }
-.xxlarge-top-margin { margin-top: var(--xxlarge-margin); }
-.xxlarge-bottom-margin { margin-bottom: var(--xxlarge-margin); }
-.xxlarge-inline-margin { margin-inline: var(--xxlarge-margin); }
-.xxlarge-block-margin { margin-block: var(--xxlarge-margin); }
-.xxxlarge-full-margin { margin: var(--xxxlarge-margin); }
-.xxxlarge-left-margin { margin-left: var(--xxxlarge-margin); }
-.xxxlarge-right-margin { margin-right: var(--xxxlarge-margin); }
-.xxxlarge-top-margin { margin-top: var(--xxxlarge-margin); }
-.xxxlarge-bottom-margin { margin-bottom: var(--xxxlarge-margin); }
-.xxxlarge-inline-margin { margin-inline: var(--xxxlarge-margin); }
-.xxxlarge-block-margin { margin-block: var(--xxxlarge-margin); }
-</style>
+    <style
+      data-key="spacing-variables"
+      data-name="Spacing Variables"
+      data-editable="yes"
+      data-deployable="yes"
+    >
+      :root {
+        --xxxsmall-padding: 0.1rem;
+        --xxsmall-padding: 0.2rem;
+        --xsmall-padding: 0.3rem;
+        --small-padding: 0.4rem;
+        --default-padding: 0.5rem;
+        --large-padding: 0.8rem;
+        --xlarge-padding: 1.3rem;
+        --xxlarge-padding: 1.9rem;
+        --xxxlarge-padding: 2.4rem;
+        --xxxsmall-margin: 0.1rem;
+        --xxsmall-margin: 0.2rem;
+        --xsmall-margin: 0.3rem;
+        --small-margin: 0.4rem;
+        --default-margin: 0.5rem;
+        --large-margin: 0.8rem;
+        --xlarge-margin: 1.3rem;
+        --xxlarge-margin: 1.9rem;
+        --xxxlarge-margin: 2.4rem;
+      }
+    </style>
 
-<style 
-data-key="flow-classes" 
-data-name="Flow Classes" 
-data-editable="yes"
-data-deployable="yes"
->
-.xxxsmall-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.1em);
-}
-.xxsmall-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.3em);
-}
-.xsmall-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.5em);
-}
-.small-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 0.7em);
-}
-.default-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1em);
-}
-.large-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 1.8em);
-}
-.xlarge-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 2.9em);
-}
-.xxlarge-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 4.3em);
-}
-.xxxlarge-flow > :where(:not(:first-child)) {
-  margin-top: var(--flow-space, 6.5em);
-}
-</style>
+    <style
+      data-key="spacing-variables"
+      data-name="Spacing Variables"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .xxxsmall-full-padding {
+        padding: var(--xxxsmall-padding);
+      }
+      .xxxsmall-left-padding {
+        padding-left: var(--xxxsmall-padding);
+      }
+      .xxxsmall-right-padding {
+        padding-right: var(--xxxsmall-padding);
+      }
+      .xxxsmall-top-padding {
+        padding-top: var(--xxxsmall-padding);
+      }
+      .xxxsmall-bottom-padding {
+        padding-bottom: var(--xxxsmall-padding);
+      }
+      .xxxsmall-inline-padding {
+        padding-inline: var(--xxxsmall-padding);
+      }
+      .xxxsmall-block-padding {
+        padding-block: var(--xxxsmall-padding);
+      }
+      .xxsmall-full-padding {
+        padding: var(--xxsmall-padding);
+      }
+      .xxsmall-left-padding {
+        padding-left: var(--xxsmall-padding);
+      }
+      .xxsmall-right-padding {
+        padding-right: var(--xxsmall-padding);
+      }
+      .xxsmall-top-padding {
+        padding-top: var(--xxsmall-padding);
+      }
+      .xxsmall-bottom-padding {
+        padding-bottom: var(--xxsmall-padding);
+      }
+      .xxsmall-inline-padding {
+        padding-inline: var(--xxsmall-padding);
+      }
+      .xxsmall-block-padding {
+        padding-block: var(--xxsmall-padding);
+      }
+      .xsmall-full-padding {
+        padding: var(--xsmall-padding);
+      }
+      .xsmall-left-padding {
+        padding-left: var(--xsmall-padding);
+      }
+      .xsmall-right-padding {
+        padding-right: var(--xsmall-padding);
+      }
+      .xsmall-top-padding {
+        padding-top: var(--xsmall-padding);
+      }
+      .xsmall-bottom-padding {
+        padding-bottom: var(--xsmall-padding);
+      }
+      .xsmall-inline-padding {
+        padding-inline: var(--xsmall-padding);
+      }
+      .xsmall-block-padding {
+        padding-block: var(--xsmall-padding);
+      }
+      .small-full-padding {
+        padding: var(--small-padding);
+      }
+      .small-left-padding {
+        padding-left: var(--small-padding);
+      }
+      .small-right-padding {
+        padding-right: var(--small-padding);
+      }
+      .small-top-padding {
+        padding-top: var(--small-padding);
+      }
+      .small-bottom-padding {
+        padding-bottom: var(--small-padding);
+      }
+      .small-inline-padding {
+        padding-inline: var(--small-padding);
+      }
+      .small-block-padding {
+        padding-block: var(--small-padding);
+      }
+      .default-full-padding {
+        padding: var(--default-padding);
+      }
+      .default-left-padding {
+        padding-left: var(--default-padding);
+      }
+      .default-right-padding {
+        padding-right: var(--default-padding);
+      }
+      .default-top-padding {
+        padding-top: var(--default-padding);
+      }
+      .default-bottom-padding {
+        padding-bottom: var(--default-padding);
+      }
+      .default-inline-padding {
+        padding-inline: var(--default-padding);
+      }
+      .default-block-padding {
+        padding-block: var(--default-padding);
+      }
+      .large-full-padding {
+        padding: var(--large-padding);
+      }
+      .large-left-padding {
+        padding-left: var(--large-padding);
+      }
+      .large-right-padding {
+        padding-right: var(--large-padding);
+      }
+      .large-top-padding {
+        padding-top: var(--large-padding);
+      }
+      .large-bottom-padding {
+        padding-bottom: var(--large-padding);
+      }
+      .large-inline-padding {
+        padding-inline: var(--large-padding);
+      }
+      .large-block-padding {
+        padding-block: var(--large-padding);
+      }
+      .xlarge-full-padding {
+        padding: var(--xlarge-padding);
+      }
+      .xlarge-left-padding {
+        padding-left: var(--xlarge-padding);
+      }
+      .xlarge-right-padding {
+        padding-right: var(--xlarge-padding);
+      }
+      .xlarge-top-padding {
+        padding-top: var(--xlarge-padding);
+      }
+      .xlarge-bottom-padding {
+        padding-bottom: var(--xlarge-padding);
+      }
+      .xlarge-inline-padding {
+        padding-inline: var(--xlarge-padding);
+      }
+      .xlarge-block-padding {
+        padding-block: var(--xlarge-padding);
+      }
+      .xxlarge-full-padding {
+        padding: var(--xxlarge-padding);
+      }
+      .xxlarge-left-padding {
+        padding-left: var(--xxlarge-padding);
+      }
+      .xxlarge-right-padding {
+        padding-right: var(--xxlarge-padding);
+      }
+      .xxlarge-top-padding {
+        padding-top: var(--xxlarge-padding);
+      }
+      .xxlarge-bottom-padding {
+        padding-bottom: var(--xxlarge-padding);
+      }
+      .xxlarge-inline-padding {
+        padding-inline: var(--xxlarge-padding);
+      }
+      .xxlarge-block-padding {
+        padding-block: var(--xxlarge-padding);
+      }
+      .xxxlarge-full-padding {
+        padding: var(--xxxlarge-padding);
+      }
+      .xxxlarge-left-padding {
+        padding-left: var(--xxxlarge-padding);
+      }
+      .xxxlarge-right-padding {
+        padding-right: var(--xxxlarge-padding);
+      }
+      .xxxlarge-top-padding {
+        padding-top: var(--xxxlarge-padding);
+      }
+      .xxxlarge-bottom-padding {
+        padding-bottom: var(--xxxlarge-padding);
+      }
+      .xxxlarge-inline-padding {
+        padding-inline: var(--xxxlarge-padding);
+      }
+      .xxxlarge-block-padding {
+        padding-block: var(--xxxlarge-padding);
+      }
+      .xxxsmall-full-margin {
+        margin: var(--xxxsmall-margin);
+      }
+      .xxxsmall-left-margin {
+        margin-left: var(--xxxsmall-margin);
+      }
+      .xxxsmall-right-margin {
+        margin-right: var(--xxxsmall-margin);
+      }
+      .xxxsmall-top-margin {
+        margin-top: var(--xxxsmall-margin);
+      }
+      .xxxsmall-bottom-margin {
+        margin-bottom: var(--xxxsmall-margin);
+      }
+      .xxxsmall-inline-margin {
+        margin-inline: var(--xxxsmall-margin);
+      }
+      .xxxsmall-block-margin {
+        margin-block: var(--xxxsmall-margin);
+      }
+      .xxsmall-full-margin {
+        margin: var(--xxsmall-margin);
+      }
+      .xxsmall-left-margin {
+        margin-left: var(--xxsmall-margin);
+      }
+      .xxsmall-right-margin {
+        margin-right: var(--xxsmall-margin);
+      }
+      .xxsmall-top-margin {
+        margin-top: var(--xxsmall-margin);
+      }
+      .xxsmall-bottom-margin {
+        margin-bottom: var(--xxsmall-margin);
+      }
+      .xxsmall-inline-margin {
+        margin-inline: var(--xxsmall-margin);
+      }
+      .xxsmall-block-margin {
+        margin-block: var(--xxsmall-margin);
+      }
+      .xsmall-full-margin {
+        margin: var(--xsmall-margin);
+      }
+      .xsmall-left-margin {
+        margin-left: var(--xsmall-margin);
+      }
+      .xsmall-right-margin {
+        margin-right: var(--xsmall-margin);
+      }
+      .xsmall-top-margin {
+        margin-top: var(--xsmall-margin);
+      }
+      .xsmall-bottom-margin {
+        margin-bottom: var(--xsmall-margin);
+      }
+      .xsmall-inline-margin {
+        margin-inline: var(--xsmall-margin);
+      }
+      .xsmall-block-margin {
+        margin-block: var(--xsmall-margin);
+      }
+      .small-full-margin {
+        margin: var(--small-margin);
+      }
+      .small-left-margin {
+        margin-left: var(--small-margin);
+      }
+      .small-right-margin {
+        margin-right: var(--small-margin);
+      }
+      .small-top-margin {
+        margin-top: var(--small-margin);
+      }
+      .small-bottom-margin {
+        margin-bottom: var(--small-margin);
+      }
+      .small-inline-margin {
+        margin-inline: var(--small-margin);
+      }
+      .small-block-margin {
+        margin-block: var(--small-margin);
+      }
+      .default-full-margin {
+        margin: var(--default-margin);
+      }
+      .default-left-margin {
+        margin-left: var(--default-margin);
+      }
+      .default-right-margin {
+        margin-right: var(--default-margin);
+      }
+      .default-top-margin {
+        margin-top: var(--default-margin);
+      }
+      .default-bottom-margin {
+        margin-bottom: var(--default-margin);
+      }
+      .default-inline-margin {
+        margin-inline: var(--default-margin);
+      }
+      .default-block-margin {
+        margin-block: var(--default-margin);
+      }
+      .large-full-margin {
+        margin: var(--large-margin);
+      }
+      .large-left-margin {
+        margin-left: var(--large-margin);
+      }
+      .large-right-margin {
+        margin-right: var(--large-margin);
+      }
+      .large-top-margin {
+        margin-top: var(--large-margin);
+      }
+      .large-bottom-margin {
+        margin-bottom: var(--large-margin);
+      }
+      .large-inline-margin {
+        margin-inline: var(--large-margin);
+      }
+      .large-block-margin {
+        margin-block: var(--large-margin);
+      }
+      .xlarge-full-margin {
+        margin: var(--xlarge-margin);
+      }
+      .xlarge-left-margin {
+        margin-left: var(--xlarge-margin);
+      }
+      .xlarge-right-margin {
+        margin-right: var(--xlarge-margin);
+      }
+      .xlarge-top-margin {
+        margin-top: var(--xlarge-margin);
+      }
+      .xlarge-bottom-margin {
+        margin-bottom: var(--xlarge-margin);
+      }
+      .xlarge-inline-margin {
+        margin-inline: var(--xlarge-margin);
+      }
+      .xlarge-block-margin {
+        margin-block: var(--xlarge-margin);
+      }
+      .xxlarge-full-margin {
+        margin: var(--xxlarge-margin);
+      }
+      .xxlarge-left-margin {
+        margin-left: var(--xxlarge-margin);
+      }
+      .xxlarge-right-margin {
+        margin-right: var(--xxlarge-margin);
+      }
+      .xxlarge-top-margin {
+        margin-top: var(--xxlarge-margin);
+      }
+      .xxlarge-bottom-margin {
+        margin-bottom: var(--xxlarge-margin);
+      }
+      .xxlarge-inline-margin {
+        margin-inline: var(--xxlarge-margin);
+      }
+      .xxlarge-block-margin {
+        margin-block: var(--xxlarge-margin);
+      }
+      .xxxlarge-full-margin {
+        margin: var(--xxxlarge-margin);
+      }
+      .xxxlarge-left-margin {
+        margin-left: var(--xxxlarge-margin);
+      }
+      .xxxlarge-right-margin {
+        margin-right: var(--xxxlarge-margin);
+      }
+      .xxxlarge-top-margin {
+        margin-top: var(--xxxlarge-margin);
+      }
+      .xxxlarge-bottom-margin {
+        margin-bottom: var(--xxxlarge-margin);
+      }
+      .xxxlarge-inline-margin {
+        margin-inline: var(--xxxlarge-margin);
+      }
+      .xxxlarge-block-margin {
+        margin-block: var(--xxxlarge-margin);
+      }
+    </style>
 
-<style 
-data-key="align-text-classes" 
-data-name="Align Text Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.align-start { text-align: start; }
-.align-end { text-align: end; }
-.align-center { text-align: center; }
-.align-justify { text-align: justify; }
-.align-left { text-align: left; }
-.align-right { text-align: right; }
-</style>
+    <style
+      data-key="flow-classes"
+      data-name="Flow Classes"
+      data-editable="yes"
+      data-deployable="yes"
+    >
+      .xxxsmall-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 0.1em);
+      }
+      .xxsmall-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 0.3em);
+      }
+      .xsmall-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 0.5em);
+      }
+      .small-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 0.7em);
+      }
+      .default-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 1em);
+      }
+      .large-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 1.8em);
+      }
+      .xlarge-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 2.9em);
+      }
+      .xxlarge-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 4.3em);
+      }
+      .xxxlarge-flow > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 6.5em);
+      }
+    </style>
 
-<style 
-data-key="width-variables" 
-data-name="Width Variables" 
-data-editable="yes"
-data-deployable="yes"
->
-:root {
---xxxsmall-width: min(100vw - 1.4rem, 3rem);
---xxsmall-width: min(100vw - 1.4rem, 7rem);
---xsmall-width: min(100vw - 1.4rem, 16rem);
---small-width: min(100vw - 1.4rem, 33rem);
---default-width: min(100vw - 1.4rem, 36rem);
---large-width: min(100vw - 1.4rem, 42rem);
---xlarge-width: min(100vw - 1.4rem, 48rem);
---xxlarge-width: min(100vw - 1.4rem, 56rem);
---xxxlarge-width: min(100vw - 1.4rem, 64rem);
---full-width: calc(100vw - 1.4rem);
-}
-</style>
+    <style
+      data-key="align-text-classes"
+      data-name="Align Text Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .align-start {
+        text-align: start;
+      }
+      .align-end {
+        text-align: end;
+      }
+      .align-center {
+        text-align: center;
+      }
+      .align-justify {
+        text-align: justify;
+      }
+      .align-left {
+        text-align: left;
+      }
+      .align-right {
+        text-align: right;
+      }
+    </style>
 
-<style 
-data-key="width-classes" 
-data-name="Width Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.xxxsmall-width { width: var(--xxxsmall-width); }
-.xxsmall-width { width: var(--xxsmall-width); }
-.xsmall-width { width: var(--xsmall-width); }
-.small-width { width: var(--small-width); }
-.default-width { width: var(--default-width); }
-.large-width { width: var(--large-width); }
-.xlarge-width { width: var(--xlarge-width); }
-.xxlarge-width { width: var(--xxlarge-width); }
-.xxxlarge-width { width: var(--xxxlarge-width); }
-.full-width { width: calc(100vw - 1.4rem); }
-</style>
+    <style
+      data-key="width-variables"
+      data-name="Width Variables"
+      data-editable="yes"
+      data-deployable="yes"
+    >
+      :root {
+        --xxxsmall-width: min(100vw - 1.4rem, 3rem);
+        --xxsmall-width: min(100vw - 1.4rem, 7rem);
+        --xsmall-width: min(100vw - 1.4rem, 16rem);
+        --small-width: min(100vw - 1.4rem, 33rem);
+        --default-width: min(100vw - 1.4rem, 36rem);
+        --large-width: min(100vw - 1.4rem, 42rem);
+        --xlarge-width: min(100vw - 1.4rem, 48rem);
+        --xxlarge-width: min(100vw - 1.4rem, 56rem);
+        --xxxlarge-width: min(100vw - 1.4rem, 64rem);
+        --full-width: calc(100vw - 1.4rem);
+      }
+    </style>
 
-<style 
-data-key="wrapper-classes" 
-data-name="Wrapper Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.xxxsmall-wrapper { width: var(--xxxsmall-width); margin-inline: auto; }
-.xxsmall-wrapper { width: var(--xxsmall-width); margin-inline: auto; }
-.xsmall-wrapper { width: var(--xsmall-width); margin-inline: auto; }
-.small-wrapper { width: var(--small-width); margin-inline: auto; }
-.default-wrapper { width: var(--default-width); margin-inline: auto; }
-.large-wrapper { width: var(--large-width); margin-inline: auto; }
-.xlarge-wrapper { width: var(--xlarge-width); margin-inline: auto; }
-.xxlarge-wrapper { width: var(--xxlarge-width); margin-inline: auto; }
-.xxxlarge-wrapper { width: var(--xxxlarge-width); margin-inline: auto; }
-.full-width { width: calc(100vw - 1.4rem); }
-</style>
+    <style
+      data-key="width-classes"
+      data-name="Width Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .xxxsmall-width {
+        width: var(--xxxsmall-width);
+      }
+      .xxsmall-width {
+        width: var(--xxsmall-width);
+      }
+      .xsmall-width {
+        width: var(--xsmall-width);
+      }
+      .small-width {
+        width: var(--small-width);
+      }
+      .default-width {
+        width: var(--default-width);
+      }
+      .large-width {
+        width: var(--large-width);
+      }
+      .xlarge-width {
+        width: var(--xlarge-width);
+      }
+      .xxlarge-width {
+        width: var(--xxlarge-width);
+      }
+      .xxxlarge-width {
+        width: var(--xxxlarge-width);
+      }
+      .full-width {
+        width: calc(100vw - 1.4rem);
+      }
+    </style>
 
-<style 
-data-key="border-radius-variables" 
-data-name="Border Radius Variables" 
-data-editable="yes"
-data-deployable="yes"
->
-:root {
---xxxsmall-radius: 0.1rem;
---xxsmall-radius: 0.2rem;
---xsmall-radius: 0.3rem;
---small-radius: 0.4rem;
---default-radius: 0.5rem;
---large-radius: 0.6rem;
---xlarge-radius: 0.8rem;
---xxlarge-radius: 1rem;
---xxxlarge-radius: 1.2rem;
-}
-</style>
+    <style
+      data-key="wrapper-classes"
+      data-name="Wrapper Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .xxxsmall-wrapper {
+        width: var(--xxxsmall-width);
+        margin-inline: auto;
+      }
+      .xxsmall-wrapper {
+        width: var(--xxsmall-width);
+        margin-inline: auto;
+      }
+      .xsmall-wrapper {
+        width: var(--xsmall-width);
+        margin-inline: auto;
+      }
+      .small-wrapper {
+        width: var(--small-width);
+        margin-inline: auto;
+      }
+      .default-wrapper {
+        width: var(--default-width);
+        margin-inline: auto;
+      }
+      .large-wrapper {
+        width: var(--large-width);
+        margin-inline: auto;
+      }
+      .xlarge-wrapper {
+        width: var(--xlarge-width);
+        margin-inline: auto;
+      }
+      .xxlarge-wrapper {
+        width: var(--xxlarge-width);
+        margin-inline: auto;
+      }
+      .xxxlarge-wrapper {
+        width: var(--xxxlarge-width);
+        margin-inline: auto;
+      }
+      .full-width {
+        width: calc(100vw - 1.4rem);
+      }
+    </style>
 
-<style 
-data-key="border-radius-classes" 
-data-name="Border Radius Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.xxxsmall-radius { border-radius: var(--xxxsmall-radius); }
-.xxsmall-radius { border-radius: var(--xxsmall-radius); }
-.xsmall-radius { border-radius: var(--xsmall-radius); }
-.small-radius { border-radius: var(--small-radius); }
-.default-radius { border-radius: var(--default-radius); }
-.large-radius { border-radius: var(--large-radius); }
-.xlarge-radius { border-radius: var(--xlarge-radius); }
-.xxlarge-radius { border-radius: var(--xxlarge-radius); }
-.xxxlarge-radius { border-radius: var(--xxxlarge-radius); }
-</style>
+    <style
+      data-key="border-radius-variables"
+      data-name="Border Radius Variables"
+      data-editable="yes"
+      data-deployable="yes"
+    >
+      :root {
+        --xxxsmall-radius: 0.1rem;
+        --xxsmall-radius: 0.2rem;
+        --xsmall-radius: 0.3rem;
+        --small-radius: 0.4rem;
+        --default-radius: 0.5rem;
+        --large-radius: 0.6rem;
+        --xlarge-radius: 0.8rem;
+        --xxlarge-radius: 1rem;
+        --xxxlarge-radius: 1.2rem;
+      }
+    </style>
 
-<style 
-data-key="font-size-variables" 
-data-name="Font Size Variables" 
-data-editable="yes"
-data-deployable="yes"
->
-:root {
---xxxsmall-font: clamp(0.58rem, calc(0.57rem + 0.03vw), 0.60rem);
---xxsmall-font: clamp(0.68rem, calc(0.67rem + 0.03vw), 0.70rem);
---xsmall-font: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.80rem);
---small-font: clamp(0.94rem, calc(0.92rem + 0.11vw), 1.00rem);
---default-font: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
---large-font: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
---xlarge-font: clamp(1.62rem, calc(1.50rem + 0.58vw), 1.95rem);
---xxlarge-font: clamp(1.94rem, calc(1.77rem + 0.87vw), 2.44rem);
---xxxlarge-font: clamp(2.33rem, calc(2.08rem + 1.25vw), 3.05rem);
-}
-</style>
+    <style
+      data-key="border-radius-classes"
+      data-name="Border Radius Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .xxxsmall-radius {
+        border-radius: var(--xxxsmall-radius);
+      }
+      .xxsmall-radius {
+        border-radius: var(--xxsmall-radius);
+      }
+      .xsmall-radius {
+        border-radius: var(--xsmall-radius);
+      }
+      .small-radius {
+        border-radius: var(--small-radius);
+      }
+      .default-radius {
+        border-radius: var(--default-radius);
+      }
+      .large-radius {
+        border-radius: var(--large-radius);
+      }
+      .xlarge-radius {
+        border-radius: var(--xlarge-radius);
+      }
+      .xxlarge-radius {
+        border-radius: var(--xxlarge-radius);
+      }
+      .xxxlarge-radius {
+        border-radius: var(--xxxlarge-radius);
+      }
+    </style>
 
-<style 
-data-key="font-size-classes" 
-data-name="Font Size Classes" 
-data-editable="no"
-data-deployable="yes"
->
-.xxxsmall-font { font-size: var(--xxxsmall-font); }
-.xxsmall-font { font-size: var(--xxsmall-font); }
-.xsmall-font { font-size: var(--xsmall-font); }
-.small-font { font-size: var(--small-font); }
-.default-font { font-size: var(--default-font); }
-.large-font { font-size: var(--large-font); }
-.xlarge-font { font-size: var(--xlarge-font); }
-.xxlarge-font { font-size: var(--xxlarge-font); }
-.xxxlarge-font { font-size: var(--xxxlarge-font); }
-</style>
+    <style
+      data-key="font-size-variables"
+      data-name="Font Size Variables"
+      data-editable="yes"
+      data-deployable="yes"
+    >
+      :root {
+        --xxxsmall-font-size: clamp(0.58rem, calc(0.57rem + 0.03vw), 0.6rem);
+        --xxsmall-font-size: clamp(0.68rem, calc(0.67rem + 0.03vw), 0.7rem);
+        --xsmall-font-size: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
+        --small-font-size: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
+        --default-font-size: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
+        --large-font-size: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
+        --xlarge-font-size: clamp(1.62rem, calc(1.5rem + 0.58vw), 1.95rem);
+        --xxlarge-font-size: clamp(1.94rem, calc(1.77rem + 0.87vw), 2.44rem);
+        --xxxlarge-font-size: clamp(2.33rem, calc(2.08rem + 1.25vw), 3.05rem);
+      }
+    </style>
 
+    <style
+      data-key="font-size-classes"
+      data-name="Font Size Classes"
+      data-editable="no"
+      data-deployable="yes"
+    >
+      .xxxsmall-font-size {
+        font-size: var(--xxxsmall-font);
+      }
+      .xxsmall-font-size {
+        font-size: var(--xxsmall-font);
+      }
+      .xsmall-font-size {
+        font-size: var(--xsmall-font);
+      }
+      .small-font-size {
+        font-size: var(--small-font);
+      }
+      .default-font-size {
+        font-size: var(--default-font);
+      }
+      .large-font-size {
+        font-size: var(--large-font);
+      }
+      .xlarge-font-size {
+        font-size: var(--xlarge-font);
+      }
+      .xxlarge-font-size {
+        font-size: var(--xxlarge-font);
+      }
+      .xxxlarge-font-size {
+        font-size: var(--xxxlarge-font);
+      }
+    </style>
 
-
-
-
-
-    <!-- END: Generated Styles -->
+    <!-- END GENERATED STYLES -->
 
     <style class="tab-layouts">
       [role='tab'] {
@@ -617,11 +1501,9 @@ data-deployable="yes"
         font-weight: bold;
         border: none;
         &[aria-selected='true'] {
-
         }
       }
       [role='tablist'] {
-        
       }
       [role='tabpanel'] {
         margin: 0;
@@ -633,7 +1515,10 @@ data-deployable="yes"
 
   <body>
     <template id="picker-controls-template">
-      <div class="mode-buttons-wrapper"></div>
+      <div class="mode-buttons-wrapper default-full-padding default-radius">
+        <div class="mode-buttons-name picker-text">Modes</div>
+        <div class="mode-buttons"></div>
+      </div>
       <div class="background-box-wrapper default-full-padding default-radius">
         <div class="background-box-name picker-text">Background</div>
         <div class="background-box-sliders">
@@ -650,36 +1535,34 @@ data-deployable="yes"
             <input type="range" data-kind="background-box-slider" />
           </div>
         </div>
-        <div class="background-box-isolate-wrapper default-top-margin align-end small-right-padding">
+        <div
+          class="background-box-isolate-wrapper default-top-margin align-end small-right-padding"
+        >
           <label>Isolate:</label>
           <input type="checkbox" />
         </div>
       </div>
       <div class="colors-box-wrapper default-radius">
-        <div class="colors-box-name picker-text default-full-padding">Colors</div>
+        <div class="colors-box-name picker-text default-full-padding">
+          Colors
+        </div>
         <div class="colors-box-tabs-wrapper"></div>
       </div>
     </template>
 
     <color-picker class="flow">
       <main class="xlarge-wrapper">
-        <hgroup class="large-bottom-margin">
-          <h1
-            class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
-          >
-            Alan's Color Picker
-          </h1>
-<p class="align-end">made by <a href="https://www.alanwsmith.com/">alan w smith</a></p>
-        </hgroup>
         <tab-group>
           <div
             role="tablist"
             class="nav-tab-list reversed-faded-bottom-border large-bottom-margin"
           >
-            <button role="tab" data-kind="top-nav-button">Picker</button>
+            <button role="tab" data-kind="top-nav-button">Samples</button>
             <button role="tab" data-kind="top-nav-button">Customize</button>
             <button role="tab" data-kind="top-nav-button">Export</button>
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">Instructions</button>
+            <button role="tab" data-kind="top-nav-button" aria-selected="true">
+              Instructions
+            </button>
             <button role="tab" data-kind="top-nav-button">B&amp;W</button>
             <button role="tab" data-kind="top-nav-button">Utilities</button>
             <button role="tab" data-kind="top-nav-button">TODO</button>
@@ -687,21 +1570,350 @@ data-deployable="yes"
           </div>
 
           <div role="tabpanel" hidden>
-            <div class="content-wrapper two-column">
+            <div class="content-wrapper ui-two-column">
               <div class="picker-content default-flow">
-                <h2 class="title">Picker</h2>
-                <p>Fly by night, and you waste little time
-Glue the sheet to the dark blue background
-Go now and come here later</p>
-<p>Greet the new guests and leave quickly
-Guess the results from the first scores
-Hang tinsel from both branches</p>
-<h2>Ping</h2>
-<h3>Heave the line over</h3> 
-<p>the port side
-Help the weak to preserve their strength
-Hoist it up and take it away</p>
+                <hgroup class="large-bottom-margin">
+                  <h1
+                    class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
+                  >
+                    Alan's Color Picker
+                  </h1>
+                  <p class="align-end">
+                    made by
+                    <a href="https://www.alanwsmith.com/">alan w smith</a>
+                  </p>
+                </hgroup>
+                <h2 class="title">Basic Sample</h2>
+                <p>
+                  Fly by night, and you waste little time Glue the sheet to the
+                  dark blue background Go now and come here later
+                </p>
+                <abbr>CSS</abbr>
 
+                <aside>
+                  <p>
+                    The Rough-skinned Newt defends itself with a deadly
+                    neurotoxin.
+                  </p>
+                </aside>
+
+                <figure>
+                  <figcaption>Listen to the T-Rex:</figcaption>
+                  <audio
+                    controls
+                    src="/shared-assets/audio/t-rex-roar.mp3"
+                  ></audio>
+                  <a href="/shared-assets/audio/t-rex-roar.mp3">
+                    Download audio
+                  </a>
+                </figure>
+
+                <b>Bring Attention</b>
+
+                <blockquote cite="https://www.huxley.net/bnw/four.html">
+                  <p>
+                    Words can be like X-rays, if you use them properly—they’ll
+                    go through anything. You read and you’re pierced.
+                  </p>
+                </blockquote>
+
+                <button class="favorite styled" type="button">
+                  Add to favorites
+                </button>
+
+                <table>
+                  <caption>
+                    He-Man and Skeletor facts
+                  </caption>
+                  <tr>
+                    <td></td>
+                    <th scope="col" class="heman">He-Man</th>
+                    <th scope="col" class="skeletor">Skeletor</th>
+                  </tr>
+                  <tr>
+                    <th scope="row">Role</th>
+                    <td>Hero</td>
+                    <td>Villain</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Weapon</th>
+                    <td>Power Sword</td>
+                    <td>Havoc Staff</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Dark secret</th>
+                    <td>Expert florist</td>
+                    <td>Cries at romcoms</td>
+                  </tr>
+                </table>
+
+                <cite
+                  ><a href="http://www.george-orwell.org/1984/0.html"
+                    >Nineteen Eighty-Four</a
+                  ></cite
+                >
+
+                <data value="398">Mini Ketchup</data>
+
+                do dl, dd, dt
+
+                <del>nothing</del>
+
+                <details>
+                  <summary>Details</summary>
+                  Something small enough to escape casual notice.
+                </details>
+
+                <dfn id="def-validator">validator</dfn>
+
+                <em>now</em>
+
+                <fieldset>
+                  <legend>Choose your favorite monster</legend>
+
+                  <input type="radio" id="kraken" name="monster" value="K" />
+                  <label for="kraken">Kraken</label><br />
+
+                  <input type="radio" id="sasquatch" name="monster" value="S" />
+                  <label for="sasquatch">Sasquatch</label><br />
+
+                  <input type="radio" id="mothman" name="monster" value="M" />
+                  <label for="mothman">Mothman</label>
+                </fieldset>
+
+                <figure>
+                  <img
+                    src="/shared-assets/images/examples/elephant.jpg"
+                    alt="Elephant at sunset"
+                  />
+                  <figcaption>An elephant at sunset</figcaption>
+                </figure>
+
+                <hgroup>
+                  <h1>Frankenstein</h1>
+                  <p>Or: The Modern Prometheus</p>
+                </hgroup>
+                <p>
+                  Victor Frankenstein, a Swiss scientist, has a great ambition:
+                  to create intelligent life. But when his creature first stirs,
+                  he realizes he has made a monster. A monster which, abandoned
+                  by his master and shunned by everyone who sees it, follows Dr
+                  Frankenstein to the very ends of the earth.
+                </p>
+
+                <hr />
+
+                <i>This can't be real!</i>
+
+                <ins cite="../how-to-be-a-wizard.html" datetime="2018-05">
+                  <p>&ldquo;A wizard is never late &hellip;&rdquo;</p>
+                </ins>
+
+                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
+
+                <div class="preference">
+                  <label for="cheese">Do you like cheese?</label>
+                  <input type="checkbox" name="cheese" id="cheese" />
+                </div>
+
+                <mark>salamander</mark>
+
+                <menu>
+                  <li><button id="save">Save for later</button></li>
+                  <li><button id="share">Share this news</button></li>
+                </menu>
+
+                <meter
+                  id="fuel"
+                  min="0"
+                  max="100"
+                  low="33"
+                  high="66"
+                  optimum="80"
+                  value="50"
+                >
+                  at 50/100
+                </meter>
+
+                <nav class="crumbs">
+                  <ol>
+                    <li class="crumb"><a href="#">Bikes</a></li>
+                    <li class="crumb"><a href="#">BMX</a></li>
+                    <li class="crumb">Jump Bike 3000</li>
+                  </ol>
+                </nav>
+
+                <object
+                  type="video/mp4"
+                  data="/shared-assets/videos/flower.mp4"
+                  width="250"
+                  height="200"
+                ></object>
+
+                <output name="result" for="a b">60</output>
+
+                <p>para</p>
+
+                <picture>
+                  <source
+                    srcset="/shared-assets/images/examples/surfer.jpg"
+                    media="(orientation: portrait)"
+                  />
+                  <img
+                    src="/shared-assets/images/examples/painted-hand.jpg"
+                    alt=""
+                  />
+                </picture>
+
+                <pre>some pre text</pre>
+
+                <label for="file">File progress:</label>
+                <progress id="file" max="100" value="70">70%</progress>
+
+                <q
+                  cite="https://www.imdb.com/title/tt0062622/quotes/?item=qt0396921&ref_=ext_shr_lnk"
+                >
+                  I'm sorry, Dave. I'm afraid I can't do that.
+                </q>
+
+                <p>
+                  <s
+                    >There will be a few tickets available at the box office
+                    tonight.</s
+                  >
+                </p>
+
+                <samp>Keyboard not found <br />Press F1 to continue</samp>
+
+                <search>
+                  <form action="./search/">
+                    <label for="movie">Find a Movie</label>
+                    <input type="search" id="movie" name="q" />
+                    <button type="submit">Search</button>
+                  </form>
+                </search>
+
+                <select name="pets" id="pet-select">
+                  <option value="">--Please choose an option--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="hamster">Hamster</option>
+                  <option value="parrot">Parrot</option>
+                  <option value="spider">Spider</option>
+                  <option value="goldfish">Goldfish</option>
+                </select>
+
+                <small
+                  >The content is licensed under a Creative Commons
+                  Attribution-ShareAlike 2.5 Generic License.</small
+                >
+
+                <p>
+                  Add the <span class="ingredient">basil</span>,
+                  <span class="ingredient">pine nuts</span> and
+                  <span class="ingredient">garlic</span> to a blender and blend
+                  into a paste.
+                </p>
+
+                <strong>never feed him after midnight</strong>.
+
+                <p>
+                  Almost every developer's favorite molecule is
+                  C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>, also
+                  known as "caffeine."
+                </p>
+
+                <details>
+                  <summary>
+                    I have keys but no doors. I have space but no room. You can
+                    enter but can’t leave. What am I?
+                  </summary>
+                  A keyboard.
+                </details>
+
+                <var>a<sup>2</sup></var> + <var>b<sup>2</sup></var> =
+                <var>c<sup>2</sup></var>
+
+                <table>
+                  <caption>
+                    Front-end web developer course 2021
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Person</th>
+                      <th scope="col">Most interest in</th>
+                      <th scope="col">Age</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Chris</th>
+                      <td>HTML tables</td>
+                      <td>22</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dennis</th>
+                      <td>Web accessibility</td>
+                      <td>45</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Sarah</th>
+                      <td>JavaScript frameworks</td>
+                      <td>29</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Karen</th>
+                      <td>Web performance</td>
+                      <td>36</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th scope="row" colspan="2">Average age</th>
+                      <td>33</td>
+                    </tr>
+                  </tfoot>
+                </table>
+
+                <textarea id="story" name="story" rows="5" cols="33">
+It was a dark and stormy night...
+</textarea
+                >
+
+                <time datetime="2018-07-07">July 7</time>
+
+                <p>
+                  You could use this element to highlight
+                  <u>speling</u> mistakes, so the writer can <u>corect</u> them.
+                </p>
+
+                <ul>
+                  <li>Milk</li>
+                  <li>
+                    Cheese
+                    <ul>
+                      <li>Blue cheese</li>
+                      <li>Feta</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <p>
+                  The volume of a box is <var>l</var> × <var>w</var> ×
+                  <var>h</var>, where <var>l</var> represents the length,
+                  <var>w</var> the width and <var>h</var> the height of the box.
+                </p>
+
+                <p>
+                  Greet the new guests and leave quickly Guess the results from
+                  the first scores Hang tinsel from both branches
+                </p>
+                <h2>Ping</h2>
+                <h3>Heave the line over</h3>
+                <p>
+                  the port side Help the weak to preserve their strength Hoist
+                  it up and take it away
+                </p>
               </div>
               <div class="sidebar-controls default-flow" data-tab="picker">
                 picker controls
@@ -710,12 +1922,32 @@ Hoist it up and take it away</p>
           </div>
 
           <div role="tabpanel" hidden>
+            <hgroup class="large-bottom-margin">
+              <h1
+                class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
+              >
+                Alan's Color Picker
+              </h1>
+              <p class="align-end">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+              </p>
+            </hgroup>
             <div class="default-flow">
               <h2>Settings</h2>
             </div>
           </div>
 
           <div role="tabpanel" hidden>
+            <hgroup class="large-bottom-margin">
+              <h1
+                class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
+              >
+                Alan's Color Picker
+              </h1>
+              <p class="align-end">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+              </p>
+            </hgroup>
             <div class="default-flow">
               <h2>Export</h2>
               <div class="export-content picker-text"></div>
@@ -723,41 +1955,54 @@ Hoist it up and take it away</p>
           </div>
 
           <div role="tabpanel">
-            <div class="content-wrapper two-column">
+            <div class="content-wrapper ui-two-column">
               <div class="picker-content default-flow">
+                <hgroup class="large-bottom-margin">
+                  <h1
+                    class="xlarge-top-margin reverse-faded-bottom-border base-full-padding base-full-margin"
+                  >
+                    Alan's Color Picker
+                  </h1>
+                  <p class="align-end">
+                    made by
+                    <a href="https://www.alanwsmith.com/">alan w smith</a>
+                  </p>
+                </hgroup>
                 <h2>TL;DR</h2>
                 <p>
-                  Play with the sliders and buttons
-                  to change colors. 
-</p>
-<p>Use the Export tab 
-to get them in a stylesheet when you've got a palette you like. 
+                  Play around with the controls in the <em>Modes</em>,
+                  <em>Background</em>, and <em>Colors</em> boxes to change
+                  colors.
+                </p>
+                <p>
+                  Use the <em>Export</em> tab to get a stylesheet when you've
+                  got a palette you like.
                 </p>
 
-              <h2>The Basics</h2>
-<h3>Color Modes</h3>
-<p>There are four color modes to choose from: Light, High-Contrast Light, 
-Dark, High-Constast Dark. The buttons at the top of the sidebar 
-change between them.
-</p>
+                <h2>The Basics</h2>
+                <h3>Color Modes</h3>
+                <p>
+                  There are four color modes to choose from: Light,
+                  High-Contrast Light, Dark, High-Constast Dark. The buttons at
+                  the top of the sidebar change between them.
+                </p>
 
-<h3>The Background Color</h3>
-<p>
-The three sliders in the Background box are l, c, and h 
-(which stand for lightness, chroma, and hue, respectively).
-Changing them changes the background color. 
-</p>
-<p>
-You can use the Isolate checkbox in the Background to hide 
-content and make it easier to focus on the color.
-</p>
+                <h3>The Background Color</h3>
+                <p>
+                  The three sliders in the Background box are l, c, and h (which
+                  stand for lightness, chroma, and hue, respectively). Changing
+                  them changes the background color.
+                </p>
+                <p>
+                  You can use the Isolate checkbox in the Background to hide
+                  content and make it easier to focus on the color.
+                </p>
 
-
-<h3>The Colors</h3>
-<p>
-The picker provides five colors by default*: content, 
-links, title, headings, and accents. 
-</p>
+                <h3>The Colors</h3>
+                <p>
+                  The picker provides five colors by default*: content, links,
+                  title, headings, and accents.
+                </p>
 
                 <ol>
                   <li>
@@ -876,18 +2121,21 @@ links, title, headings, and accents.
             <h2>TODO</h2>
 
             <ul>
+              <li><input type="checkbox" disabled /> Multiple sample page</li>
               <li>
-                <input type="checkbox" disabled /> Deprecate:
-                <code>{ l: 1, c: 0.2034, h: 7 }</code> in favor of:
-                <code>{ lIndex: 1, cValue: 0.2034, hIndex: 7 }</code>
-                in colors
+                <input type="checkbox" disabled /> Float controls so they are
+                always visible
+              </li>
+              <li>
+                <input type="checkbox" disabled /> Consolidate variable output
+                into single <code>:root</code>
               </li>
               <li>
                 <input type="checkbox" disabled /> Change Black and White CSS
                 names
               </li>
               <li>
-                <input type="checkbox" disabled /> Make back button work for tab switching?
+                <input type="checkbox" disabled /> Control click on things to get style info about them.
               </li>
               <li>
                 <input type="checkbox" disabled /> Save state in localstorage
@@ -930,6 +2178,10 @@ links, title, headings, and accents.
                 white variables
               </li>
               <li>
+                <input type="checkbox" disabled /> Make back button work for tab
+                switching?
+              </li>
+              <li>
                 <input type="checkbox" disabled /> Optional utility classes
               </li>
               <li>
@@ -964,22 +2216,28 @@ links, title, headings, and accents.
                 <input type="checkbox" disabled checked /> Use min light level
                 from each color
               </li>
-              <li><input type="checkbox" disabled checked /> Mode selection works</li>
               <li>
-                <input type="checkbox" disabled checked /> Background sliders work
+                <input type="checkbox" disabled checked /> Mode selection works
               </li>
-              <li><input type="checkbox" disabled checked /> Isolating background works</li>
+              <li>
+                <input type="checkbox" disabled checked /> Background sliders
+                work
+              </li>
+              <li>
+                <input type="checkbox" disabled checked /> Isolating background
+                works
+              </li>
               <li>
                 <input type="checkbox" disabled /> Switching between colors
                 works
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Changing colors via set
-                buttons works
+                <input type="checkbox" disabled checked /> Changing colors via
+                set buttons works
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Changing colors via chroma
-                slider
+                <input type="checkbox" disabled checked /> Changing colors via
+                chroma slider
               </li>
               <li><input type="checkbox" disabled /> Isolating colors works</li>
             </ul>
@@ -992,155 +2250,6 @@ links, title, headings, and accents.
             </div>
           </div>
         </tab-group>
-
-        <!--
-
-
-<div class="main-body two-columns">
-
-  <div class="content-area base-flow focus-toggle-watcher">
-    <h1>Alan's (prototype) Color Picker</h1>
-
-    <p>Hi there! Glad you made. Just one thing you 
-need to know. This is still a work in progress. 
-The picking functionality is mostly in place. Getting
-the stylesheets out is a work in progress. Check
-back if a few days.<p>
-
-    <p>
-I need to write up an intro here with some
-details about how this thing came to be. Or, something
-like that. Right now, <a href="">there just needs</a> to be
-some text here to test with. To wit, what you're
-reading now.
-    </p>
-
-<p>
-This space isn't completley wasted though. We
-can use it for some basic instructions. 
-</p>
-
-    <h3>Instructions</h3>
-<p>
-  This picker is designed to reduce as much 
-  friction as possible when it comes to creating
-  a color palette. The steps are:
-</p>
-
-<ol>
-  <li>Move the &quot;l&quot;, &quot;c&quot;, and &quot;h&quot; 
-sliders in the upper right to choose a background color. 
-  </li>
-  <li>
-    Click/tap the various &quot;set&quot; colors 
-to switch things up. 
-  </li>
-  <li>
-    Fiddle around with the &quot;c&quot; slidders
-    below the blocks of &quot;set&quot; colors to 
-change things around. 
-</li>
-</ol>
-
-
-<h3>Random Filler Content</h3>
-<p>
-  Everything below is standin text to give
-you something to look at. No real information
-to be found in it.
-<p>
-      
-      Dip the pail once and let it settle.
-      Draw <a href="">the chart with heavy</a> black lines.
-    </p>
-    <p>
-      Drop the ashes on the worn old rug.
-      Fasten two pins on each side.
-    </p>
-    <p>
-      Fly by night, and you waste little time.
-      Glue the sheet to the dark blue background.
-      Go now and come here later.
-    </p>
-    <p>
-      Greet the new guests and leave quickly.
-      Guess the results from the first scores.
-      Hang tinsel from both branches.
-      Heave the line over the port side.
-    </p>
-  </div>
-
-  <div class="sidebar base-flow"> 
-    <div class="base-wrapper">
-      <div class="view-light-dark-wrapper">
-        <div class="view-mode-buttons"></div>
-      </div>
-      <div class="background-fieldset ui-font-size-small base-flow">
-        <div class="interface-text ui-font-size-small reverse-bw-bottom-border-80 small-full-padding">Background</div>
-        <div class="base-sliders small-inline-padding xxsmall-flow"></div>
-        <div class="background-checkboxes">
-          <div class="background-isolate-wrapper background-checkbox-wrapper small-inline-padding">
-            <label for="background-isolate-checkbox" class="interface-text ui-font-size-small">
-              Isolate:
-            </label>
-            <input type="checkbox" class="background-isolate-checkbox" name="background-isolate-checkbox">
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="colors-wrapper">
-      <div class="colors-fieldset">
-        <div class="interface-text small-full-padding">Colors</div>
-        <div class="colors-content-wrapper"></div>
-      </div>
-    </div>
-
-    <details class="advanced-settings-wrapper flow ui-font-size-small">
-      <summary class="interface-text">Advanced Settings</summary>
-      <div class="number-of-colors-wrapper ui-font-size-small">
-        <label for="number-of-colors-selector-label" class="interface-text">
-          Number of Colors:
-        </label>
-        <select 
-          name="number-of-colors-selector" 
-          class="number-of-colors-selector"
-          data-kind="number-of-colors-selector"
-        ></select>
-      </div>
-    </details>
-    <details class="todo-wrapper flow interface-text ui-font-size-small">
-      <summary class="interface-text">TODO List</summary>
-      <ul>
-        <li><input type="checkbox" disabled /> Set min light level for each color</li>
-        <li><input type="checkbox" disabled /> Contrast calculations</li>
-        <li><input type="checkbox" disabled /> Undo/Redo</li>
-        <li><input type="checkbox" disabled /> Faded alternatives</li>
-        <li><input type="checkbox" disabled /> Include/Remove black an white variables</li>
-        <li><input type="checkbox" disabled /> Optional utility classes</li>
-        <li><input type="checkbox" disabled /> Change CSS variable names</li>
-        <li><input type="checkbox" disabled /> Chnage mode names</li>
-        <li><input type="checkbox" disabled /> Copy button for CSS</li>
-        <li><input type="checkbox" disabled /> Edit CSS</li>
-        <li><input type="checkbox" disabled /> Edit HTML</li>
-        <li><input type="checkbox" disabled /> Save/Load</li>
-        <li><input type="checkbox" disabled /> Shareable URLs</li>
-        <li><input type="checkbox" disabled /> Implementation example</li>
-        <li><input type="checkbox" disabled /> Web component for mode switching</li>
-        <li><input type="checkbox" disabled /> Randomizer</li>
-        <li><input type="checkbox" disabled /> Switch between 45 and 60 degrees</li>
-        <li><input type="checkbox" disabled /> Add/subtract modes</li>
-        <li><input type="checkbox" disabled cheked /> Show/Hide content to focus on base color</li>
-        <li><input type="checkbox" disabled checked /> Issoldated color view to look at them one at a time</li>
-        <li><input type="checkbox" disabled checked /> Use min light level from each color</li>
-      </ul>
-    </details>
-</div>
-
-<div class="footer">
-  <div class="debug flow"></div>
-</div>
--->
       </main>
     </color-picker>
     <script src="/components/color-picker.js" type="module"></script>

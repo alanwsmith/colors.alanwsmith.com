@@ -1411,6 +1411,7 @@ class Picker extends HTMLElement {
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
         const tabButton = dc('button');
         sa("role", "tab", tabButton);
+        ac("color-selector-button", tabButton);
         if (nameIndex === p.activeColor) {
           sa("aria-selected", "true", tabButton);
           ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
@@ -1518,7 +1519,7 @@ class Picker extends HTMLElement {
     const sidebars = els('.sidebar-controls');
     sidebars.forEach((sidebar) => {
       const tab = gdsV2("tab", sidebar);
-      const wrapper = getEl('.mode-buttons-wrapper', sidebar);
+      const wrapper = getEl('.mode-buttons', sidebar);
       ad("tab", tab, wrapper);
       html("", wrapper);
       p.modes.forEach((modeData, modeIndex) => {

@@ -1610,6 +1610,7 @@ class Picker extends HTMLElement {
   // V2
   switchTopLevelTabs() {
     this.initColorTabs();
+    this.initBackgroundSliders();
     this.finishUpdate();
   }
 

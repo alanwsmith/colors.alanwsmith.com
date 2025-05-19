@@ -172,6 +172,16 @@ function html(str, obj) {
   obj.innerHTML = str;
 }
 
+// Returns a CSS class
+function makeClass(name, key, value) {
+  return `${name} { ${key}: ${value}; }`;
+}
+
+// Returns a CSS variable string
+function makeVar(name, value) {
+  return `${name}: ${value};`;
+}
+
 // Remove classes from Object
 function rc(data, obj) {
   if (typeof data === "string") {
@@ -1451,7 +1461,7 @@ class Picker extends HTMLElement {
             ad("lightness", lightness, button);
             ad("hue", hue, button);
             ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
-            ac(`ui__set-grid__lightness-${lightness}__hue-${hue}__decorations`, button);
+            ac(`ui__set-grid__lightness-${lightness}__hue-${hue}__decoration`, button);
             ac(`color-box-set-button`, button);
             a(button, row);
           });
@@ -1577,6 +1587,7 @@ class Picker extends HTMLElement {
           ad("lightness", lightness, button);
           ad("hue", hue, button);
           ac(`ui__set-grid__lightness-${lightness}__hue-${hue}`, button);
+          ac(`ui__set-grid__lightness-${lightness}__hue-${hue}__decoration`, button);
           a(button, row);
         });
         a(row, wrapper);
@@ -1803,7 +1814,7 @@ class Picker extends HTMLElement {
 `;
       }).join("\n\n");
   } 
-  
+
   updateUiClassesStyleSheet() {
     if (this.uiClassesStyleSheet === undefined) {
       this.uiClassesStyleSheet = dc('style');
@@ -1815,10 +1826,20 @@ class Picker extends HTMLElement {
     lines.push(`.picker-text { color: var(--ui__picker); }`);
     this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueValue, hueIndex) => {
       this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessValue, lightnessIndex) => {
-        const cValue = this.getColorValueC(p.activeMode, p.activeColor);
-        const name = `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}`;
-        const value = `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex})`;
-        lines.push(`${name} { color: ${value}; }`);
+        lines.push(
+          makeClass(
+            `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}`,
+            `color`,
+            `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex})`
+          )
+        );
+        lines.push(
+          makeClass(
+            `.ui__set-grid__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
+            `text-decoration`,
+            `var(--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration)`
+          )
+        );
       });
     });
     p.modes.forEach((modeData, modeIndex) => {
@@ -1868,7 +1889,7 @@ class Picker extends HTMLElement {
     const out = lines.sort().join("\n");
     this.uiClassesStyleSheet.innerHTML = out;
   }
-  
+
   // REMINDER: This is the internal one that 
   // matches the active mode. The one that's 
   // exported is the responsibility of 
@@ -1889,6 +1910,22 @@ class Picker extends HTMLElement {
     } else {
       lines.push(`--ui__picker: oklch(100% 0 0 / .5);`);
     }
+    // color-box-set-button-underlines
+
+    this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hueIndex) => {
+      this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightnessIndex) => {
+        if (this.getActiveColorIndexH() === hueIndex && this.getActiveColorIndexL() === lightnessIndex) {
+          lines.push(
+            makeVar(
+              `--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
+              `underline`
+            )
+          )
+        }
+      });
+    });
+
+
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
       const backgroundL = this.getBackgroundValueL(modeIndex);

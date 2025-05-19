@@ -924,6 +924,7 @@ class Picker extends HTMLElement {
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
     this.updateProdVarsStyleSheet();
+    this.updateActiveVarsStyleSheet();
     this.requestUpdate = this.updateUiView.bind(this);
     this.addListeners();
     this.updateExportPage();
@@ -1166,6 +1167,7 @@ class Picker extends HTMLElement {
   }
   
   finishUpdate() {
+    this.updateActiveVarsStyleSheet();
     this.updateUiVarsStyleSheet();
     this.updateProdVarsStyleSheet();
     this.updateUiClassesStyleSheet();
@@ -1239,7 +1241,7 @@ class Picker extends HTMLElement {
             `oklch(${lightnessValue}% 0 0)`
           )
         );
-        this.getFadedNames().forEach((fadedName, fadedIndex) => {
+        this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         const fadedValue = this.getBlackAndWhiteModeFadedValue(modeIndex, fadedIndex);
           lines.push(
             makeVar(
@@ -1483,6 +1485,11 @@ class Picker extends HTMLElement {
       ['reverse', 'match']
     ]
   }
+
+  getColorFadedValue(mode, color, index) {
+    return p.modes[mode].colors[color].fadedValues[index];
+  }
+
   
   getColorIndexC(mode, color) {
     const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
@@ -1546,8 +1553,8 @@ class Picker extends HTMLElement {
     ]
   }
 
-  getFadedNames() {
-    return p.fadedNames;
+  getScrubbedFadedNames() {
+    return p.fadedNames.map((name) => { return scrubStyle(name); });
   }
   
   // TODO: Deprecate and put in data object
@@ -1586,6 +1593,12 @@ class Picker extends HTMLElement {
 
   getModeScrubbedNames() {
     return p.modes.map((mode) => { return scrubStyle(mode.name)});
+  }
+
+  getActiveScrubbedColorNames() {
+    return this.getActiveColors().map((colorName) => {
+      return scrubStyle(colorName);
+    });
   }
 
   // TODO: Deprecate and put in data object
@@ -1952,6 +1965,37 @@ class Picker extends HTMLElement {
     this.initColorTabs();
     this.finishUpdate();
   }
+
+  updateActiveVarsStyleSheet() {
+    if (this.activeVarsStyleSheet === undefined) {
+      this.activeVarsStyleSheet = dc('style');
+      document.head.appendChild(this.activeVarsStyleSheet);
+      ad("editable", "no", this.activeVarsStyleSheet);
+      ad("deployable", "yes", this.activeVarsStyleSheet);
+      ad("name", "Active Variables", this.activeVarsStyleSheet);
+    }
+    const lines = [];
+    lines.push(`/* Active Variables */`);
+    this.getActiveScrubbedColorNames().forEach((colorName, colorIndex) => {
+      const modeName = this.getActiveModeScrubbedName(p.activeMode);
+      lines.push(
+        makeVar(
+          `--${colorName}`,
+          `var(--${modeName}__${colorName})`
+        )
+      );
+      this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+        lines.push(
+          makeVar(
+            `--${colorName}-${fadedName}`,
+            `var(--${modeName}__${colorName}-${fadedName})`
+          )
+        );
+      });
+    });
+    lines.push("");
+    this.activeVarsStyleSheet.innerHTML = lines.join("\n");
+  }
   
   updateBackgroundColor(obj) {
     const mode = p.activeMode;
@@ -2011,6 +2055,7 @@ class Picker extends HTMLElement {
           // item.name === "Color Variables"
         item.name === "Utility Variables"
         || item.name === "Utility Classes"
+        || item.name === "Active Variables"
             // || item.name === "Picker Styles"
             // || item.name === "UI Classes"
             // || item.name === "UI Vars"
@@ -2124,7 +2169,6 @@ class Picker extends HTMLElement {
       lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`);
     }
     // color-box-set-button-underlines
-
     this.getColorHueValues(p.activeMode, p.activeColor).forEach((hueData, hueIndex) => {
       this.getLightnessValues(p.activeMode, p.activeColor).forEach((lightnessData, lightnessIndex) => {
         if (this.getActiveColorIndexH() === hueIndex && this.getActiveColorIndexL() === lightnessIndex) {
@@ -2137,7 +2181,6 @@ class Picker extends HTMLElement {
         }
       });
     });
-
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
       const backgroundL = this.getBackgroundValueL(modeIndex);

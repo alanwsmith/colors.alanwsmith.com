@@ -22,8 +22,32 @@
     </style>
 
     <style data-name="Interface Styles">
+      .background-box-name {
+        padding-block: var(--small-padding);
+        padding-inline: var(--default-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .background-box-isolate-wrapper {
+        text-align: end;
+        padding-block: var(--small-padding);
+        padding-inline: var(--default-padding);
+      }
+      .background-box-sliders {
+        padding-block: var(--large-padding);
+        padding-inline: var(--default-padding);
+      }
       .background-box-wrapper {
         border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        color: var(--ui__picker);
+      }
+      .background-box-isolate-wrapper {
+        border-top: 1px solid var(--ui__picker);
+        padding-top: var(--default-padding);
+      }
+      .colors-box-name {
+        padding-block: var(--small-padding);
+        padding-inline: var(--default-padding);
       }
       .color-box-set-button {
         background-color: inherit;
@@ -42,26 +66,42 @@
         border-bottom: 1px solid var(--ui__picker);
       }
       .color-selector-button {
-        border: none;
-        border-radius: 0;
+        border: 0;
+        border-right: 1px solid var(--ui__picker);
         cursor: pointer;
         font-size: var(--default-font-size);
         outline: inherit;
         padding: 0;
         width: 2.3ch;
       }
+      .color-selector-tab-name {
+        border-bottom: 1px solid var(--ui__picker);
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--small-padding);
+      }
       .colors-box-chroma-slider-wrapper {
         padding-bottom: var(--large-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
+      .colors-box-tab-list {
+        border-top: 1px solid var(--ui__picker);
+      }
       .colors-box-wrapper {
         border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
       }
       .invisible {
         visibility: hidden;
       }
+      .mode-buttons-name {
+        border-bottom: 1px solid var(--ui__picker);
+        color: var(--ui__picker);
+        padding-block: var(--small-padding);
+        padding-inline: var(--default-padding);
+      }
       .mode-buttons-wrapper {
         border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
       }
       .ui-two-column {
         display: grid;
@@ -72,10 +112,7 @@
         background: none;
         cursor: pointer;
         outline: inherit;
-        padding-top: 0.1rem;
-        padding-inline: 7px;
-        font-weight: bold;
-        border: none;
+        border-radius: 0;
         &[aria-selected='true'] {
           font-style: normal;
         }
@@ -84,9 +121,7 @@
         font-style: normal;
       }
       [role='tabpanel'] {
-        margin: 0;
-        padding-block: 0;
-        padding-bottom: 0.5rem;
+        padding: 0;
       }
     </style>
 
@@ -1533,12 +1568,12 @@
 
   <body>
     <template id="picker-controls-template">
-      <div class="mode-buttons-wrapper default-full-padding default-radius">
-        <div class="mode-buttons-name picker-text">Modes</div>
+      <div class="mode-buttons-wrapper">
+        <div class="mode-buttons-name">Modes</div>
         <div class="mode-buttons"></div>
       </div>
-      <div class="background-box-wrapper default-full-padding default-radius">
-        <div class="background-box-name picker-text">Background</div>
+      <div class="background-box-wrapper">
+        <div class="background-box-name">Background</div>
         <div class="background-box-sliders">
           <div class="background-box-slider-wrapper" data-aspect="l">
             <label></label>
@@ -1553,17 +1588,13 @@
             <input type="range" data-kind="background-box-slider" />
           </div>
         </div>
-        <div
-          class="background-box-isolate-wrapper default-top-margin align-end small-right-padding"
-        >
+        <div class="background-box-isolate-wrapper">
           <label>Isolate:</label>
           <input type="checkbox" />
         </div>
       </div>
-      <div class="colors-box-wrapper default-radius">
-        <div class="colors-box-name picker-text default-full-padding">
-          Colors
-        </div>
+      <div class="colors-box-wrapper">
+        <div class="colors-box-name">Colors</div>
         <div class="colors-box-tabs-wrapper"></div>
       </div>
     </template>
@@ -1577,8 +1608,8 @@
           >
             <button role="tab" data-kind="top-nav-button">Samples</button>
             <button role="tab" data-kind="top-nav-button">Customize</button>
-            <button role="tab" data-kind="top-nav-button">Export</button>
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">
+            <button role="tab" data-kind="top-nav-button" aria-selected="true">Export</button>
+            <button role="tab" data-kind="top-nav-button">
               Instructions
             </button>
             <button role="tab" data-kind="top-nav-button">B&amp;W</button>

@@ -913,6 +913,7 @@ class Picker extends HTMLElement {
     this.addSpacingWrapperExamples();
     this.addFontSizeExamples();
     this.initControls();
+    this.populateUtilityClasses();
     this.updateUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
     this.updateProdVarsStyleSheet();
@@ -1165,6 +1166,90 @@ class Picker extends HTMLElement {
     this.updateDebuggingTab();
     this.toggleIsolation();
   }
+
+  populateUtilityClasses() {
+    this.utilityClassesStyleSheet = dc('style');
+    document.head.appendChild(this.utilityClassesStyleSheet);
+    ad("editable", "no", this.utilityClassesStyleSheet);
+    ad("deployable", "yes", this.utilityClassesStyleSheet);
+    ad("name", "Utility Classes", this.utilityClassesStyleSheet);
+    const lines =[];
+    lines.push(...[this.generateUtilityBorderClasses()]);
+    const out = `:root {\n${lines.join("\n")}\n}`;
+    this.utilityClassesStyleSheet.innerHTML = out;
+  }
+
+  generateUtilityBorderClasses() {
+    const lines =[];
+    lines.push(`/* Color borders */`);
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      this.getFadedValues().forEach((fade) => {
+        this.getDirections().forEach((direction) => {
+          let dir = `-${direction[0]}`;
+          if (direction[1] === false) {
+            dir = ""
+          }
+          lines.push(
+            makeClass(
+              `.${colorName}${fade}-${direction[0]}-border`,
+              `border${dir}`,
+              `1px solid var(--${colorName}${fade})`
+            )
+          );
+        });
+      });
+    });
+    return lines.join("\n");
+  }
+
+  updateProdVarsStyleSheet() {
+    if (this.colorVarsStyleSheet === undefined) {
+      this.colorVarsStyleSheet = dc('style');
+      document.head.appendChild(this.colorVarsStyleSheet);
+      ad("editable", "no", this.colorVarsStyleSheet);
+      ad("deployable", "yes", this.colorVarsStyleSheet);
+      ad("key", "color-variables", this.colorVarsStyleSheet);
+      ad("name", "Color Variables", this.colorVarsStyleSheet);
+    }
+    const lines = [`:root {`];
+    p.modes.forEach((modeData, modeIndex) => {
+      const modeName = scrubStyle(modeData.name);
+      const backgroundL = this.getBackgroundValueL(modeIndex);
+      const backgroundC = this.getBackgroundValueC(modeIndex);
+      const backgroundH = this.getBackgroundValueH(modeIndex);
+      const backgroundName = `--${modeName}__${p.backgroundColorName}`
+      const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+      lines.push(`${backgroundName}: ${backgroundValue};`);
+      this.getActiveColors().forEach((colorName, colorIndex) => {
+        const l = this.getColorValueL(modeIndex, colorIndex);
+        const c = this.getColorValueC(modeIndex, colorIndex);
+        const h = this.getColorValueH(modeIndex, colorIndex);
+        const textName = `--${modeName}__${colorName}`;
+        const textValue = `oklch(${l}% ${c} ${h})`;
+        lines.push(`${textName}: ${textValue};`);
+        p.fadedNames.forEach((fadedName, fadedIndex) => {
+          const fade = .5;
+          const fadedClassName = `--${modeName}__${colorName}-${fadedName}`;
+          const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+          lines.push(`${fadedClassName}: ${fadedValue};`);
+        });
+      });
+    });
+    lines.push(`}`);
+    const out = lines.join("\n");
+    this.colorVarsStyleSheet.innerHTML = out;
+  }
+  
+  updateMode(obj) {
+    const newMode = gdiV2("mode", obj);
+    if (newMode !== p.activeMode) {
+      p.activeMode = newMode;
+    }
+    this.initColorTabs();
+    this.updateBackgroundSliders('instructions');
+    this.updateBackgroundSliders('picker');
+    this.finishUpdate();
+  }
   
   getActiveBackgroundValueAspect(aspect) {
     if (aspect === "l") {
@@ -1187,19 +1272,23 @@ class Picker extends HTMLElement {
   getActiveBackgroundValueL() {
     return p.modes[p.activeMode].base.l;
   }
-  
+
   getActiveColorIndexC() {
     return this.getColorIndexC(p.activeMode, p.activeColor);
   }
-  
+
   getActiveColorIndexH() {
     return this.getColorIndexH(p.activeMode, p.activeColor);
   }
-  
+
   getActiveColorIndexL() {
     return this.getColorIndexL(p.activeMode, p.activeColor);
   }
-  
+
+  getActiveColorScrubbedName() {
+    return scrubStyle(p.colorNames[p.activeColor]);
+  }
+
   getActiveColors() {
     return p.colorNames.filter((name, index) => {
       return index < p.numberOfColors;
@@ -1419,16 +1508,25 @@ class Picker extends HTMLElement {
       const tabGroup = dc('tab-group');
       const tabList = dc('div');
       sa("role", "tablist", tabList);
+      ac("colors-box-tab-list", tabList);
       for (let nameIndex = 0; nameIndex < p.numberOfColors; nameIndex ++) {
         const tabButton = dc('button');
         sa("role", "tab", tabButton);
         ac("color-selector-button", tabButton);
         if (nameIndex === p.activeColor) {
           sa("aria-selected", "true", tabButton);
-          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
           ac(`ui__background-text`, tabButton);
+          // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
+          // ac(`reversed`, tabButton);
+          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
+          ac(`${this.getActiveColorScrubbedName()}-bottom-border`, tabButton);
         } else {
-          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
+          ac(`reversed-bottom-border`, tabButton);
+          ac(`ui__background-text`, tabButton);
+          // ac(`background-text`, tabButton);
+          //ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
+          // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
+          ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
         }
         html(Array.from(p.colorNames[nameIndex])[0], tabButton);
         ad("kind", "color-selector-button", tabButton);
@@ -1446,8 +1544,7 @@ class Picker extends HTMLElement {
         html(p.colorNames[nameIndex], tabName);
         ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabName);
         ac(`ui__background-text`, tabName);
-        ac(`xxxsmall-block-padding`, tabName);
-        ac(`xsmall-inline-padding`, tabName);
+        ac(`color-selector-tab-name`, tabName);
         a(tabName, panel);
         const tabGrid = dc('div');
         ac('color-grid-wrapper', tabGrid);
@@ -1471,10 +1568,8 @@ class Picker extends HTMLElement {
         a(tabGrid, panel);
         const chromaWrapper = dc('div');
         ac('colors-box-chroma-slider-wrapper', chromaWrapper);
-        ac('default-full-padding', chromaWrapper);
         const connector  = `colors-box-chroma-slider-${tabKey}`;
         const label = dc('label');
-        ac('picker-text', label);
         sa("for", connector, label);
         html('c:', label);
         a(label, chromaWrapper);
@@ -1491,11 +1586,8 @@ class Picker extends HTMLElement {
         a(chromaWrapper, panel);
         const checkboxWrapper = dc('div');
         ac('colors-box-chroma-checkbox-wrapper', checkboxWrapper);
-        ac('default-full-padding', checkboxWrapper);
-        ac('align-end', checkboxWrapper);
         const checkboxConnector  = `colors-box-chroma-checkbox-${tabKey}`;
         const checkboxLabel = dc('label');
-        ac('picker-text', checkboxLabel);
         sa("for", checkboxConnector, checkboxLabel);
         html('Isolate: ', checkboxLabel);
         const checkbox = dc('input');
@@ -1732,55 +1824,7 @@ class Picker extends HTMLElement {
     this.setColorAspect(mode, color, "h", hue);
     this.finishUpdate();
   }
-  
-  updateProdVarsStyleSheet() {
-    if (this.colorVarsStyleSheet === undefined) {
-      this.colorVarsStyleSheet = dc('style');
-      document.head.appendChild(this.colorVarsStyleSheet);
-      ad("editable", "no", this.colorVarsStyleSheet);
-      ad("deployable", "yes", this.colorVarsStyleSheet);
-      ad("key", "color-variables", this.colorVarsStyleSheet);
-      ad("name", "Color Variables", this.colorVarsStyleSheet);
-    }
-    const lines = [`:root {`];
-    p.modes.forEach((modeData, modeIndex) => {
-      const modeName = scrubStyle(modeData.name);
-      const backgroundL = this.getBackgroundValueL(modeIndex);
-      const backgroundC = this.getBackgroundValueC(modeIndex);
-      const backgroundH = this.getBackgroundValueH(modeIndex);
-      const backgroundName = `--${modeName}__${p.backgroundColorName}`
-      const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-      lines.push(`${backgroundName}: ${backgroundValue};`);
-      this.getActiveColors().forEach((colorName, colorIndex) => {
-        const l = this.getColorValueL(modeIndex, colorIndex);
-        const c = this.getColorValueC(modeIndex, colorIndex);
-        const h = this.getColorValueH(modeIndex, colorIndex);
-        const textName = `--${modeName}__${colorName}`;
-        const textValue = `oklch(${l}% ${c} ${h})`;
-        lines.push(`${textName}: ${textValue};`);
-        p.fadedNames.forEach((fadedName, fadedIndex) => {
-          const fade = .5;
-          const fadedClassName = `--${modeName}__${colorName}-${fadedName}`;
-          const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-          lines.push(`${fadedClassName}: ${fadedValue};`);
-        });
-      });
-    });
-    lines.push(`}`);
-    const out = lines.join("\n");
-    this.colorVarsStyleSheet.innerHTML = out;
-  }
-  
-  updateMode(obj) {
-    const newMode = gdiV2("mode", obj);
-    if (newMode !== p.activeMode) {
-      p.activeMode = newMode;
-    }
-    this.initColorTabs();
-    this.updateBackgroundSliders('instructions');
-    this.updateBackgroundSliders('picker');
-    this.finishUpdate();
-  }
+
 
   updateBackgroundSliders(tab) {
     const sidebar = elV2(`.sidebar-controls[data-tab="${tab}"]`);
@@ -1813,9 +1857,10 @@ class Picker extends HTMLElement {
         let open = "";
         if (
           item.name === "Color Variables"
-            || item.name === "Picker Styles"
-            || item.name === "UI Classes"
-            || item.name === "UI Vars"
+        || item.name === "Utility Classes"
+            // || item.name === "Picker Styles"
+            // || item.name === "UI Classes"
+            // || item.name === "UI Vars"
         ) { open = " open"; }
         return `
 <details${open}>
@@ -1917,9 +1962,13 @@ class Picker extends HTMLElement {
     lines.push(`--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${p.backgroundColorName});`);
     // UI Color
     if (this.getBackgroundValueL(p.activeMode) > 40) {
-      lines.push(`--ui__picker: oklch(0% 0 0 / .5);`);
+      lines.push(`--ui__picker: oklch(0% 0 0);`);
+      lines.push(`--ui__picker-faded: oklch(0% 0 0 / .7);`);
+      lines.push(`--ui__picker-faded2: oklch(0% 0 0 / .7);`);
     } else {
-      lines.push(`--ui__picker: oklch(100% 0 0 / .5);`);
+      lines.push(`--ui__picker: oklch(100% 0 0);`);
+      lines.push(`--ui__picker-faded: oklch(100% 0 0 / .4);`);
+      lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`);
     }
     // color-box-set-button-underlines
 

@@ -30,10 +30,16 @@
         color: var(--links);
         text-decoration: none;
       }
+      .background-box-wrapper {
+        border: 1px solid var(--ui__picker);
+      }
       body {
         background-color: var(--background);
         color: var(--content);
         line-height: 1.25;
+      }
+      .colors-box-wrapper {
+        border: 1px solid var(--ui__picker);
       }
       h1 {
         color: var(--title);
@@ -48,6 +54,9 @@
       }
       h2 {
         border-bottom: 1px solid var(--accents);
+      }
+      .invisible {
+        visibility: hidden;
       }
       .two-column {
         display: grid;
@@ -624,11 +633,6 @@ data-deployable="yes"
         padding-bottom: 0.5rem;
       }
     </style>
-
-    <style class="picker-styles" data-name="Picker Styles">
-
-    </style>
-
     <!--
     <style>
       a {
@@ -821,8 +825,8 @@ data-deployable="yes"
   <body>
     <template id="picker-controls-template">
       <div class="mode-buttons-wrapper"></div>
-      <div class="background-box-wrapper">
-        <div class="background-box-name">Background</div>
+      <div class="background-box-wrapper default-full-padding default-radius">
+        <div class="background-box-name picker-text">Background</div>
         <div class="background-box-sliders">
           <div class="background-box-slider-wrapper" data-aspect="l">
             <label></label>
@@ -837,27 +841,14 @@ data-deployable="yes"
             <input type="range" data-kind="background-box-slider" />
           </div>
         </div>
-        <div class="background-box-isolate-wrapper">
+        <div class="background-box-isolate-wrapper default-top-margin align-end small-right-padding">
           <label>Isolate:</label>
           <input type="checkbox" />
         </div>
       </div>
       <div class="colors-box-wrapper">
-        <div class="colors-box-name">Colors</div>
+        <div class="colors-box-name picker-text">Colors</div>
         <div class="colors-box-tabs-wrapper"></div>
-        <!-- TODO: deprecate the rest of this when everything is moved into the tab -->
-        <!--
-<div class="colors-box-grid-wrapper"></div>
-
-        <div class="colors-box-chroma-slider-wrapper">
-          <label>c:</label>
-          <input type="range" data-kind="colors-box-chroma-slider" />
-        </div>
-
-        <div class="colors-box-isloate-wrapper">
-          <label>Isolate:</label>
-          <input type="checkbox" data-kind="colors-box-isolate-checkbox" />
-        </div>-->
       </div>
     </template>
 
@@ -874,15 +865,16 @@ data-deployable="yes"
         <tab-group>
           <div
             role="tablist"
-            class="reversed-faded-bottom-border large-bottom-margin"
+            class="nav-tab-list reversed-faded-bottom-border large-bottom-margin"
           >
             <button role="tab" data-kind="top-nav-button">Picker</button>
             <button role="tab" data-kind="top-nav-button">Customize</button>
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">Export</button>
-            <button role="tab" data-kind="top-nav-button">Instructions</button>
+            <button role="tab" data-kind="top-nav-button">Export</button>
+            <button role="tab" data-kind="top-nav-button" aria-selected="true">Instructions</button>
             <button role="tab" data-kind="top-nav-button">B&amp;W</button>
             <button role="tab" data-kind="top-nav-button">Utilities</button>
             <button role="tab" data-kind="top-nav-button">TODO</button>
+            <button role="tab" data-kind="top-nav-button">Debugging</button>
           </div>
 
           <div role="tabpanel" hidden>
@@ -917,7 +909,7 @@ Hoist it up and take it away</p>
           <div role="tabpanel" hidden>
             <div class="default-flow">
               <h2>Export</h2>
-              <div class="export-content"></div>
+              <div class="export-content picker-text"></div>
             </div>
           </div>
 
@@ -1182,6 +1174,13 @@ links, title, headings, and accents.
               </li>
               <li><input type="checkbox" disabled /> Isolating colors works</li>
             </ul>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <div class="default-flow picker-text">
+              <h2>Debugging</h2>
+              <pre class="debugging-content"></pre>
+            </div>
           </div>
         </tab-group>
 

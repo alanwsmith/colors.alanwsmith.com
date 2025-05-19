@@ -231,7 +231,6 @@ const defaultPalette = {
     "h": { "name": "hue", "max": 360 }
   },
   "backgroundColorName": "background",
-  "baseColorName": "base-color",
   "blackAndWhiteNames": [
     "black", "white", "matched", "reversed"
   ],
@@ -904,6 +903,8 @@ class Picker extends HTMLElement {
 
   connectedCallback() {
     this.loadData();
+
+    /*
     this.addBorderRadiusExamples();
     this.addBwBackgroundExamples();
     this.addBwBorderExamples();
@@ -915,6 +916,8 @@ class Picker extends HTMLElement {
     this.addSpacingWidthExamples();
     this.addSpacingWrapperExamples();
     this.addFontSizeExamples();
+    */
+
     this.initControls();
     this.populateUtilityClasses();
     this.populateVarsStyleSheet();

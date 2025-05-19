@@ -1514,18 +1514,24 @@
             role="tablist"
             class="nav-tab-list reversed-faded-bottom-border large-bottom-margin"
           >
-            <button role="tab" data-kind="top-nav-button">Samples</button>
+
+<!--
+            <button role="tab" data-kind="top-nav-button">Customize</button>
+-->
+            <button role="tab" data-kind="top-nav-button" aria-selected="true">
+              Picker
+            </button>
             <button role="tab" data-kind="top-nav-button">Customize</button>
             <button role="tab" data-kind="top-nav-button">Export</button>
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">
-              Instructions
-            </button>
+<!--
             <button role="tab" data-kind="top-nav-button">B&amp;W</button>
             <button role="tab" data-kind="top-nav-button">Utilities</button>
+-->
             <button role="tab" data-kind="top-nav-button">TODO</button>
             <button role="tab" data-kind="top-nav-button">Debugging</button>
           </div>
 
+<!--
           <div role="tabpanel" hidden>
             <div class="content-wrapper ui-two-column">
               <div class="content-body default-flow">
@@ -1866,31 +1872,8 @@ It was a dark and stormy night...
               ></div>
             </div>
           </div>
+-->
 
-          <div role="tabpanel" hidden>
-            <hgroup class="large-bottom-margin">
-              <h1>Alan's Color Picker</h1>
-              <p class="align-end">
-                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-              </p>
-            </hgroup>
-            <div class="default-flow">
-              <h2>Settings</h2>
-            </div>
-          </div>
-
-          <div role="tabpanel" hidden>
-            <hgroup class="large-bottom-margin">
-              <h1>Alan's Color Picker</h1>
-              <p class="align-end">
-                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-              </p>
-            </hgroup>
-            <div class="default-flow">
-              <h2>Export</h2>
-              <div class="export-content picker-text"></div>
-            </div>
-          </div>
 
           <div role="tabpanel">
             <div class="content-wrapper ui-two-column">
@@ -2022,6 +2005,44 @@ It was a dark and stormy night...
             </div>
           </div>
 
+          <div role="tabpanel" hidden>
+            <hgroup class="large-bottom-margin">
+              <h1>Alan's Color Picker</h1>
+              <p class="align-end">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+              </p>
+            </hgroup>
+            <div class="default-flow">
+              <h2>Settings</h2>
+              <p>Customiztions are a work in progress. They'll
+include:</p>
+<ul>
+<li>Change the number of colors</li>
+<li>Change the names off the styles</li>
+<li>Customize CSS (e.g. to bring in fonts)</li>
+<li>Customize HTML with your content</li>
+</ul>
+
+<p>Check out the TODO list for more.</p>
+
+            </div>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <hgroup class="large-bottom-margin">
+              <h1>Alan's Color Picker</h1>
+              <p class="align-end">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+              </p>
+            </hgroup>
+            <div class="default-flow">
+              <h2>Export</h2>
+              <div class="export-content picker-text"></div>
+            </div>
+          </div>
+
+
+<!--
           <div class="default-flow" role="tabpanel" hidden>
             <h2>Black And White Examples</h2>
             <h3>Black And White Colors</h3>
@@ -2052,6 +2073,8 @@ It was a dark and stormy night...
             <div class="border-radius-examples-wrapper large-flow"></div>
           </div>
 
+-->
+
           <div class="picker-text" role="tabpanel" hidden>
             <h2>TODO</h2>
 
@@ -2070,7 +2093,7 @@ It was a dark and stormy night...
                 actual text isn't in view
               </li>
               <li><input type="checkbox" disabled /> Mute all button</li>
-              <li><input type="checkbox" disabled /> Multiple sample page</li>
+              <li><input type="checkbox" disabled /> Multiple sample pages</li>
               <li>
                 <input type="checkbox" disabled /> Float controls so they are
                 always visible
@@ -2090,9 +2113,6 @@ get updated in the stylesheet
               <li>
                 <input type="checkbox" disabled /> Control click on things to
                 get style info about them.
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Save state in localstorage
               </li>
               <li>
                 <input type="checkbox" disabled /> Change Background color name
@@ -2121,10 +2141,6 @@ get updated in the stylesheet
               </li>
               <li><input type="checkbox" disabled /> Example palettes</li>
               <li><input type="checkbox" disabled /> Contrast calculations</li>
-              <li>
-                <input type="checkbox" disabled /> Add defaulf faded
-                alternatives
-              </li>
               <li><input type="checkbox" disabled /> Undo/Redo</li>
               <li><input type="checkbox" disabled /> Set faded alt values</li>
               <li>
@@ -2183,7 +2199,7 @@ get updated in the stylesheet
                 works
               </li>
               <li>
-                <input type="checkbox" disabled /> Switching between colors
+                <input type="checkbox" disabled checked /> Switching between colors
                 works
               </li>
               <li>
@@ -2194,7 +2210,14 @@ get updated in the stylesheet
                 <input type="checkbox" disabled checked /> Changing colors via
                 chroma slider
               </li>
-              <li><input type="checkbox" disabled /> Isolating colors works</li>
+              <li><input type="checkbox" disabled checked /> Isolating colors works</li>
+              <li>
+                <input type="checkbox" disabled checked /> Default faded
+                alternatives
+              </li>
+              <li>
+                <input type="checkbox" disabled /> Save state in localstorage
+              </li>
             </ul>
           </div>
 

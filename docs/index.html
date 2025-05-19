@@ -24,7 +24,7 @@
 
     <style data-name="Interface Styles">
       .background-box-name {
-        padding-block: var(--xxxsmall-padding);
+        padding-block: var(--xsmall-padding);
         padding-inline: var(--default-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
@@ -47,7 +47,7 @@
         padding-top: var(--default-padding);
       }
       .colors-box-name {
-        padding-block: var(--xxxsmall-padding);
+        padding-block: var(--xsmall-padding);
         padding-inline: var(--default-padding);
       }
       .color-box-set-button {
@@ -56,8 +56,8 @@
         border-radius: 0;
         font-size: var(--small-font-size);
         font-weight: bold;
-        padding-block: var(--xxsmall-padding);
-        padding-inline: var(--xsmall-padding);
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--xxsmall-padding);
       }
       .color-grid-wrapper {
         display: grid;
@@ -80,12 +80,26 @@
         padding-block: var(--xxsmall-padding);
         padding-inline: var(--small-padding);
       }
+      .colors-box-chroma-checkbox-wrapper {
+        padding: var(--default-padding);
+        text-align: end;
+      }
+      .colors-box-chroma-checkbox-label {
+              color: var(--ui__picker);
+      }
+      .colors-box-chroma-slider-label {
+              color: var(--ui__picker);
+      }
       .colors-box-chroma-slider-wrapper {
-        padding-bottom: var(--large-padding);
+        padding-inline: var(--default-padding);
+        padding-bottom: var(--default-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .colors-box-tab-list {
         border-top: 1px solid var(--ui__picker);
+      }
+      .colors-box-name {
+        color: var(--ui__picker);
       }
       .colors-box-wrapper {
         border: 1px solid var(--ui__picker);
@@ -100,7 +114,7 @@
       .mode-buttons-name {
         border-bottom: 1px solid var(--ui__picker);
         color: var(--ui__picker);
-        padding-block: var(--xxxsmall-padding);
+        padding-block: var(--xsmall-padding);
         padding-inline: var(--default-padding);
       }
       .mode-buttons-wrapper {
@@ -112,7 +126,7 @@
       }
       .ui-two-column {
         display: grid;
-        grid-template-columns: 1fr 13rem;
+        grid-template-columns: 1fr 13.4rem;
         gap: 2rem;
       }
       [role='tab'] {
@@ -177,6 +191,7 @@
         border: 1px solid var(--reversed-faded);
         border-radius: var(--xsmall-radius);
         color: var(--matched);
+        cursor: pointer;
       }
       canvas {
         display: block;
@@ -1489,8 +1504,8 @@
           >
             <button role="tab" data-kind="top-nav-button">Samples</button>
             <button role="tab" data-kind="top-nav-button">Customize</button>
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">Export</button>
-            <button role="tab" data-kind="top-nav-button">
+            <button role="tab" data-kind="top-nav-button">Export</button>
+            <button role="tab" data-kind="top-nav-button" aria-selected="true">
               Instructions
             </button>
             <button role="tab" data-kind="top-nav-button">B&amp;W</button>

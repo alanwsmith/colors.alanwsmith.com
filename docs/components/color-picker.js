@@ -1191,14 +1191,13 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.generateUtilityColorBorderClasses().join("\n"));
     lines.push("");
-    lines.push(this.generateUtilityFontSizeClasses().join("\n"));
-    lines.push("");
     lines.push(this.generateUtilityBlackAndWhiteTextClasses().join("\n"));
     lines.push("");
     lines.push(this.generateUtilityBlackAndWhiteBackgroundClasses().join("\n"));
     lines.push("");
     lines.push(this.generateUtilityBlackAndWhiteBorderClasses().join("\n"));
     lines.push("");
+    lines.push(this.generateUtilityFontSizeClasses().join("\n"));
     const out = `:root { ${lines.join("\n")} }`;
     this.utilityClassesStyleSheet.innerHTML = out;
   }
@@ -1212,8 +1211,7 @@ class Picker extends HTMLElement {
       ad("name", "Variables", this.varsStyleSheet);
     }
     const lines =[];
-    lines.push("");
-    lines.push(this.generateUtilityFontSizeVars().join("\n"));
+    // TODO: Update names to generate. 
     lines.push("");
     lines.push(this.getColorModeVars().join("\n"));
     lines.push("");
@@ -1222,6 +1220,8 @@ class Picker extends HTMLElement {
     lines.push(this.updateActiveColorVars().join("\n"));
     lines.push("");
     lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
+    lines.push("");
+    lines.push(this.generateUtilityFontSizeVars().join("\n"));
     const out = `:root { ${lines.join("\n")} }`;
     this.varsStyleSheet.innerHTML = out;
   }
@@ -1391,9 +1391,9 @@ class Picker extends HTMLElement {
   --small-font-size: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
   --default-font-size: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
   --large-font-size: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
-  --xlarge-font-size: clamp(1.62rem, calc(1.5rem + 0.58vw), 1.95rem);
-  --xxlarge-font-size: clamp(1.94rem, calc(1.77rem + 0.87vw), 2.44rem);
-  --xxxlarge-font-size: clamp(2.03rem, calc(2rem + 1.25vw), 2.7rem);`
+  --xlarge-font-size: clamp(1.32rem, calc(1.5rem + 0.58vw), 1.65rem);
+  --xxlarge-font-size: clamp(1.84rem, calc(1.77rem + 0.87vw), 2.14rem);
+  --xxxlarge-font-size: clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem);`
     lines.push(...hardCoded.split("\n"));
     return lines;
   }
@@ -1858,6 +1858,7 @@ class Picker extends HTMLElement {
         ac('colors-box-chroma-slider-wrapper', chromaWrapper);
         const connector  = `colors-box-chroma-slider-${tabKey}`;
         const label = dc('label');
+        ac('colors-box-chroma-slider-label', label);
         sa("for", connector, label);
         html('c:', label);
         a(label, chromaWrapper);
@@ -1876,6 +1877,7 @@ class Picker extends HTMLElement {
         ac('colors-box-chroma-checkbox-wrapper', checkboxWrapper);
         const checkboxConnector  = `colors-box-chroma-checkbox-${tabKey}`;
         const checkboxLabel = dc('label');
+        ac('colors-box-chroma-checkbox-label', checkboxLabel); 
         sa("for", checkboxConnector, checkboxLabel);
         html('Isolate: ', checkboxLabel);
         const checkbox = dc('input');

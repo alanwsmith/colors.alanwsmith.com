@@ -1341,9 +1341,11 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateBlackAndWhiteVars().join('\n'))
     lines.push('')
-    lines.push(this.generateBorderStyleVars().join('\n'))
+    lines.push(this.generateBlackAndWhiteBorderStyleVars().join('\n'))
     lines.push('')
     lines.push(this.generateBorderRadiiVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateColorBorderStyleVars().join('\n'))
     lines.push('')
     // TODO: Rename Mode to Theme
     lines.push(this.getColorModeVars().join('\n'))
@@ -1418,7 +1420,7 @@ class Picker extends HTMLElement {
           makeClass(
             `.${bwName}-${direction[0]}-border`,
             `border${dir}`,
-            `1px solid var(--${bwName})`
+            `var(--${bwName}-border-style)`
           )
         )
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
@@ -1426,7 +1428,7 @@ class Picker extends HTMLElement {
             makeClass(
               `.${bwName}-${direction[0]}-border-${fadedName}`,
               `border${dir}`,
-              `1px solid var(--${bwName}-${fadedName})`
+              `var(--${bwName}-border-style${fadedName})`
             )
           )
         })
@@ -1434,6 +1436,21 @@ class Picker extends HTMLElement {
     })
     lines.sort()
     return [`/* Black And White Border Classes */`, ...lines]
+  }
+
+  generateBlackAndWhiteBorderStyleVars() {
+    const lines = []
+    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+      this.getFadedValues().forEach((fadedName, fadedIndex) => {
+        const name = `  --${bwName}-border-style${fadedName}`;
+        const value = `1px solid var(--${bwName}${fadedName})`;
+        lines.push(
+          makeVar(name, value)
+        );
+      });
+    });
+    lines.sort(sortVars)
+    return [`  /* Black and White Border Style Variables */`, ...lines]
   }
 
   generateBlackAndWhiteTextClasses() {
@@ -1513,17 +1530,19 @@ class Picker extends HTMLElement {
     return [`  /* Border Radii Variables */`, ...lines]
   }
 
-  generateBorderStyleVars() {
+  generateColorBorderStyleVars() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
-        const name = `  --${colorName}-border-style`;
-        const value = `1px solid var(--${colorName})`;
+      this.getFadedValues().forEach((fadedName, fadedIndex) => {
+        const name = `  --${colorName}-border-style${fadedName}`;
+        const value = `1px solid var(--${colorName}${fadedName})`;
         lines.push(
           makeVar(name, value)
         );
+      });
     });
     lines.sort(sortVars)
-    return [`  /* Border Style Variables */`, ...lines]
+    return [`  /* Color Border Style Variables */`, ...lines]
   }
 
   generateColoredBorderClasses() {
@@ -1539,14 +1558,14 @@ class Picker extends HTMLElement {
             makeClass(
               `.${colorName}-${direction[0]}-border${fade}`,
               `border${dir}`,
-              `1px solid var(--${colorName}${fade})`
+              `var(--${colorName}-border-style${fade})`
             )
           )
         })
       })
     })
     lines.sort()
-    return [`/* Colored Borders Classes */`, ...lines]
+    return [`/* Color Border Classes */`, ...lines]
   }
 
   generateFlowClasses() {

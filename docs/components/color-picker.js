@@ -2757,8 +2757,7 @@ class Picker extends HTMLElement {
     const lines = []
     // Background
     lines.push(
-      `--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${
-        p.backgroundColorName
+      `--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${p.backgroundColorName
       });`
     )
     // UI Color

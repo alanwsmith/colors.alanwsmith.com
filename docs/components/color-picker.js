@@ -1310,7 +1310,7 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateBorderRadiiClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateColoredBorderClasses().join('\n'))
+    lines.push(this.generateColorBorderClasses().join('\n'))
     lines.push('')
     lines.push(this.generateFlowClasses().join('\n'))
     lines.push('')
@@ -1549,6 +1549,25 @@ class Picker extends HTMLElement {
     return [`  /* Border Radii Variables */`, ...lines]
   }
 
+  generateColorBorderClasses() {
+    const lines = []
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+      this.getBorderDirectionNames().forEach((directionName, directionIndex) => {
+        let name = `.${colorName}${directionName}-border`;
+        const key = `border${directionName}`;
+        let value = `var(--${colorName}-border-style)`;
+        lines.push(makeClass(name, key, value));
+        this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+          name = `.${colorName}${directionName}-border-${fadedName}`;
+          let value = `var(--${colorName}-border-style-${fadedName})`;
+          lines.push(makeClass(name, key, value));
+        });
+      });
+    });
+    lines.sort()
+    return [`/* Color Border Classes */`, ...lines]
+  }
+
   generateColorBorderStyleVars() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
@@ -1562,29 +1581,6 @@ class Picker extends HTMLElement {
     });
     lines.sort(sortVars)
     return [`  /* Color Border Style Variables */`, ...lines]
-  }
-
-  generateColoredBorderClasses() {
-    const lines = []
-    this.getActiveColors().forEach((colorName, colorIndex) => {
-      this.getFadedValues().forEach((fade) => {
-        this.getDirections().forEach((direction) => {
-          let dir = `-${direction[0]}`
-          if (direction[1] === false) {
-            dir = ''
-          }
-          lines.push(
-            makeClass(
-              `.${colorName}-${direction[0]}-border${fade}`,
-              `border${dir}`,
-              `var(--${colorName}-border-style${fade})`
-            )
-          )
-        })
-      })
-    })
-    lines.sort()
-    return [`/* Color Border Classes */`, ...lines]
   }
 
   generateFlowClasses() {
@@ -2361,9 +2357,9 @@ class Picker extends HTMLElement {
 
   runTest(payload) {
     if (payload[0] === payload[1]) {
-      return { status: "pass", expected: payload[1], got: payload[0]};
+      return { status: "pass", expected: payload[1], got: payload[0], details: payload[2] };
     } else {
-      return { status: "fail", expected: payload[1], got: payload[0]};
+      return { status: "fail", expected: payload[1], got: payload[0], details: payload[2] };
     }
   }
 
@@ -2375,41 +2371,59 @@ class Picker extends HTMLElement {
     const tests = [
       [
         this.generateBackgroundColorsClasses()[1], 
-        '.accent-background { background-color: var(--accent); }'
+        '.accent-background { background-color: var(--accent); }',
+        'generateBackgroundColorsClasses'
       ],
       [
         this.generateBackgroundColorsClasses()[2], 
-        '.accent-background-faded { background-color: var(--accent-faded); }'
+        '.accent-background-faded { background-color: var(--accent-faded); }',
+        'generateBackgroundColorsClasses'
       ],
       [
         this.generateBackgroundColorsClasses()[3], 
-        '.accent-background-faded2 { background-color: var(--accent-faded2); }'
+        '.accent-background-faded2 { background-color: var(--accent-faded2); }',
+        'generateBackgroundColorsClasses',
       ], 
       [
         this.generateBlackAndWhiteBackgroundClasses()[1], 
-        '.black-background { background-color: var(--black); }'
+        '.black-background { background-color: var(--black); }',
+        'generateBlackAndWhiteBackgroundClasses',
       ],
       [
         this.generateBlackAndWhiteBackgroundClasses()[2], 
-        '.black-background-faded { background-color: var(--black-faded); }'
+        '.black-background-faded { background-color: var(--black-faded); }',
+        'generateBlackAndWhiteBackgroundClasses',
       ],
       [
         this.generateBlackAndWhiteBackgroundClasses()[3], 
-        '.black-background-faded2 { background-color: var(--black-faded2); }'
+        '.black-background-faded2 { background-color: var(--black-faded2); }',
+        'generateBlackAndWhiteBackgroundClasses',
       ],
       [
         this.generateBlackAndWhiteBorderClasses()[4], 
-        '.black-border { border: var(--black-border-style); }'
+        '.black-border { border: var(--black-border-style); }',
+        'generateBlackAndWhiteBorderClasses',
       ],
       [
         this.generateBorderRadiiClasses()[1],
-        '.default-block-bottom-radius { border-block-bottom-radius: var(--default-radius); }'
+        '.default-block-bottom-radius { border-block-bottom-radius: var(--default-radius); }',
+        'generateBorderRadiiClasses',
       ],
       [
         this.generateBorderRadiiClasses()[11],
-        '.default-radius { border-radius: var(--default-radius); }'
+        '.default-radius { border-radius: var(--default-radius); }',
+        'generateBorderRadiiClasses',
       ],
-
+      [ 
+        this.generateColorBorderClasses()[2],
+        '.accent-block-border-faded { border-block: var(--accent-border-style-faded); }',
+        'generateColorBorderClasses',
+      ],
+      [ 
+        this.generateColorBorderClasses()[4],
+        'accent-border { border: var(--accent-border-style); }',
+        'generateColorBorderClasses',
+      ]
     ];
     tests.forEach((test) => {
       this.testResults.push(this.runTest(test));

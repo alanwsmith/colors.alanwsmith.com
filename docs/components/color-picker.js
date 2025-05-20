@@ -273,6 +273,17 @@ const defaultPalette = {
   // because it felt like it was adding
   // significant complexity without much
   // utility.
+  flows: [
+    '6.5em',
+    '4.3em',
+    '2.9em',
+    '1.8em',
+    '1em',
+    '0.7em',
+    '0.5em',
+    '0.3em',
+    '0.2em',
+  ],
   focused: false,
   fontSizes: [  
     'clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem)',
@@ -1255,6 +1266,8 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateBlackAndWhiteBorderClasses().join('\n'))
     lines.push('')
+    lines.push(this.generateFlowClasses().join('\n'))
+    lines.push('')
     lines.push(this.generateFontSizeClasses().join('\n'))
     lines.push('')
     lines.push(this.generateMarginClasses().join('\n'))
@@ -1282,6 +1295,8 @@ class Picker extends HTMLElement {
     lines.push(this.generateBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.getColorModeVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateFlowVars().join('\n'))
     lines.push('')
     lines.push(this.generateFontSizeVars().join('\n'))
     lines.push('')
@@ -1431,6 +1446,33 @@ class Picker extends HTMLElement {
     })
     lines.sort()
     return [`  /* Color Borders */`, ...lines]
+  }
+
+  generateFlowClasses() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+      const name = `  .${sizeName}-flow > :where(:not(:first-child))`;
+      const key = `margin-top`;
+      const value = `var(--flow-space, --${sizeName}-flow)`;
+      lines.push(
+        makeClass(name, key, value)
+      );
+    });
+    lines.sort()
+    return [`  /* Flow Classes */`, ...lines]
+  }
+
+  generateFlowVars() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+        const name = `  --${sizeName}-flow`;
+        const value = `${p.flows[sizeIndex]}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort(sortVars)
+    return [`  /* Flow Variables */`, ...lines]
   }
 
 

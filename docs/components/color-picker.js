@@ -262,6 +262,17 @@ const defaultPalette = {
   // significant complexity without much
   // utility.
   focused: false,
+  fontSizes: [  
+    'clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem)',
+    'clamp(1.84rem, calc(1.77rem + 0.87vw), 2.14rem)',
+    'clamp(1.32rem, calc(1.5rem + 0.58vw), 1.65rem)',
+    'clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem)',
+    'clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem)',
+    'clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem)',
+    'clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem)',
+    'clamp(0.68rem, calc(0.67rem + 0.03vw), 0.7rem)',
+    'clamp(0.58rem, calc(0.57rem + 0.03vw), 0.6rem)',
+  ],
   hueOffsets: [45, 60],
   isolatedColor: -2,
   lightLevels: 6,
@@ -1407,36 +1418,31 @@ class Picker extends HTMLElement {
     return [`  /* Color Borders */`, ...lines]
   }
 
+
   generateUtilityFontSizeClasses() {
     const lines = []
-    lines.push(`  /* Font Size Classes */`)
-    const hardCoded = `  .xxxsmall-font-size {font-size: var(--xxxsmall-font-size); }
-  .xxsmall-font-size { font-size: var(--xxsmall-font-size); }
-  .xsmall-font-size { font-size: var(--xsmall-font-size); }
-  .small-font-size { font-size: var(--small-font-size); }
-  .default-font-size { font-size: var(--default-font-size); }
-  .large-font-size { font-size: var(--large-font-size); }
-  .xlarge-font-size { font-size: var(--xlarge-font-size); }
-  .xxlarge-font-size { font-size: var(--xxlarge-font-size); }
-  .xxxlarge-font-size { font-size: var(--xxxlarge-font-size); }`
-    lines.push(...hardCoded.split('\n'))
-    return lines
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+      const name = `  .${sizeName}-font-size`;
+      const value = `font-size: ${p.fontSizes[sizeIndex]}`;
+      lines.push(
+        makeVar(name, value)
+      );
+    });
+    lines.sort()
+    return [`  /* Font Size Classes */`, ...lines]
   }
 
   generateUtilityFontSizeVars() {
     const lines = []
-    lines.push(`  /* Font Size Variables */`)
-    const hardCoded = `  --xxxsmall-font-size: clamp(0.58rem, calc(0.57rem + 0.03vw), 0.6rem);
-  --xxsmall-font-size: clamp(0.68rem, calc(0.67rem + 0.03vw), 0.7rem);
-  --xsmall-font-size: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
-  --small-font-size: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
-  --default-font-size: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
-  --large-font-size: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
-  --xlarge-font-size: clamp(1.32rem, calc(1.5rem + 0.58vw), 1.65rem);
-  --xxlarge-font-size: clamp(1.84rem, calc(1.77rem + 0.87vw), 2.14rem);
-  --xxxlarge-font-size: clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem);`
-    lines.push(...hardCoded.split('\n'))
-    return lines
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+        const name = `  --${sizeName}-font-size`;
+        const value = `${p.fontSizes[sizeIndex]}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort()
+    return [`  /* Font Size Variables */`, ...lines]
   }
 
   generateUtilityPaddingClasses() {
@@ -1456,7 +1462,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort()
-    return [`  /* Padding Variables */`, ...lines]
+    return [`  /* Padding Classes */`, ...lines]
   }
 
   generateUtilityPaddingVars() {

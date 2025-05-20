@@ -245,6 +245,17 @@ const defaultPalette = {
   },
   backgroundColorName: 'background',
   blackAndWhiteNames: ['black', 'white', 'matched', 'reversed'],
+  borderRadii: [
+    '1.2rem',
+    '1.0rem',
+    '0.8rem',
+    '0.6rem',
+    '0.5rem',
+    '0.4rem',
+    '0.3rem',
+    '0.2rem',
+    '0.1rem',
+  ],
   borderStylePrefix: 'border',
   colorNames: [
     'content',
@@ -1272,6 +1283,8 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateBlackAndWhiteTextClasses().join('\n'))
     lines.push('')
+    lines.push(this.generateBorderRadiiClasses().join('\n'))
+    lines.push('')
     lines.push(this.generateColoredBorderClasses().join('\n'))
     lines.push('')
     lines.push(this.generateFlowClasses().join('\n'))
@@ -1310,6 +1323,9 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateBlackAndWhiteVars().join('\n'))
     lines.push('')
+    lines.push(this.generateBorderRadiiVars().join('\n'))
+    lines.push('')
+    // TODO: Rename Mode to Theme
     lines.push(this.getColorModeVars().join('\n'))
     lines.push('')
     lines.push(this.generateFlowVars().join('\n'))
@@ -1447,6 +1463,33 @@ class Picker extends HTMLElement {
     return [`  /* Black And White Theme Variables */`, ...lines]
   }
 
+  generateBorderRadiiClasses() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+      const name = `.${sizeName}-full-radius`;
+      const key = `border`;
+      const value = `var(--${sizeName}-radius`;
+      lines.push(
+        makeClass(name, key, value)
+      );
+    });
+    lines.sort()
+    return [`/* Border Radii Classes */`, ...lines]
+  }
+
+  generateBorderRadiiVars() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+        const name = `  --${sizeName}-radius`;
+        const value = `${p.borderRadii[sizeIndex]}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort(sortVars)
+    return [`  /* Border Radii Variables */`, ...lines]
+  }
+
   generateColoredBorderClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
@@ -1496,7 +1539,6 @@ class Picker extends HTMLElement {
     lines.sort(sortVars)
     return [`  /* Flow Variables */`, ...lines]
   }
-
 
   generateFontSizeClasses() {
     const lines = []

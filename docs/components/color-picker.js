@@ -1276,7 +1276,7 @@ class Picker extends HTMLElement {
     lines.push(this.generateTextAlignmentClasses().join('\n'))
     lines.push('')
     lines.push(this.generateColorTextClasses().join('\n'))
-    const out = `:root { ${lines.join('\n')} }`
+    const out = lines.join('\n')
     this.utilityClassesStyleSheet.innerHTML = out
   }
 
@@ -1319,7 +1319,7 @@ class Picker extends HTMLElement {
       this.getFadedValues().forEach((fade) => {
         lines.push(
           makeClass(
-            `  .${colorName}-background${fade}`,
+            `.${colorName}-background${fade}`,
             `background-color`,
             `var(--${colorName}${fade})`
           )
@@ -1327,7 +1327,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Background Color Classes */`, ...lines]
+    return [`/* Background Color Classes */`, ...lines]
   }
 
   generateBlackAndWhiteBackgroundClasses() {
@@ -1335,7 +1335,7 @@ class Picker extends HTMLElement {
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       lines.push(
         makeClass(
-          `  .${bwName}-background`,
+          `.${bwName}-background`,
           `background-color`,
           `var(--${bwName})`
         )
@@ -1343,7 +1343,7 @@ class Picker extends HTMLElement {
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeClass(
-            `  .${bwName}-background-${fadedName}`,
+            `.${bwName}-background-${fadedName}`,
             `background-color`,
             `var(--${bwName}-${fadedName})`
           )
@@ -1351,7 +1351,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Black And White Background Classes */`, ...lines]
+    return [`/* Black And White Background Classes */`, ...lines]
   }
 
   generateBlackAndWhiteBorderClasses() {
@@ -1364,7 +1364,7 @@ class Picker extends HTMLElement {
         }
         lines.push(
           makeClass(
-            `  .${bwName}-${direction[0]}-border`,
+            `.${bwName}-${direction[0]}-border`,
             `border${dir}`,
             `1px solid var(--${bwName})`
           )
@@ -1372,7 +1372,7 @@ class Picker extends HTMLElement {
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
           lines.push(
             makeClass(
-              `  .${bwName}-${direction[0]}-border-${fadedName}`,
+              `.${bwName}-${direction[0]}-border-${fadedName}`,
               `border${dir}`,
               `1px solid var(--${bwName}-${fadedName})`
             )
@@ -1381,17 +1381,17 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Black And White Border Classes */`, ...lines]
+    return [`/* Black And White Border Classes */`, ...lines]
   }
 
   generateBlackAndWhiteTextClasses() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-      lines.push(makeClass(`  .${bwName}-text`, `color`, `var(--${bwName})`))
+      lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`))
       this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
         lines.push(
           makeClass(
-            `  .${bwName}-text-${fadedName}`,
+            `.${bwName}-text-${fadedName}`,
             `color`,
             `var(--${bwName}-${fadedName})`
           )
@@ -1399,7 +1399,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Black And White Text Classes */`, ...lines]
+    return [`/* Black And White Text Classes */`, ...lines]
   }
 
   generateBlackAndWhiteVars() {
@@ -1442,7 +1442,7 @@ class Picker extends HTMLElement {
           }
           lines.push(
             makeClass(
-              `  .${colorName}-${direction[0]}-border${fade}`,
+              `.${colorName}-${direction[0]}-border${fade}`,
               `border${dir}`,
               `1px solid var(--${colorName}${fade})`
             )
@@ -1451,13 +1451,13 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Colored Borders Classes */`, ...lines]
+    return [`/* Colored Borders Classes */`, ...lines]
   }
 
   generateFlowClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-      const name = `  .${sizeName}-flow > :where(:not(:first-child))`;
+      const name = `.${sizeName}-flow > :where(:not(:first-child))`;
       const key = `margin-top`;
       const value = `var(--flow-space, --${sizeName}-flow)`;
       lines.push(
@@ -1465,7 +1465,7 @@ class Picker extends HTMLElement {
       );
     });
     lines.sort()
-    return [`  /* Flow Classes */`, ...lines]
+    return [`/* Flow Classes */`, ...lines]
   }
 
   generateFlowVars() {
@@ -1485,7 +1485,7 @@ class Picker extends HTMLElement {
   generateFontSizeClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-      const name = `  .${sizeName}-font-size`;
+      const name = `.${sizeName}-font-size`;
       const key = `font-size`;
       const value = `var(--${sizeName}-font-size)`;
       lines.push(
@@ -1493,7 +1493,7 @@ class Picker extends HTMLElement {
       );
     });
     lines.sort()
-    return [`  /* Font Size Classes */`, ...lines]
+    return [`/* Font Size Classes */`, ...lines]
   }
 
   generateFontSizeVars() {
@@ -1517,7 +1517,7 @@ class Picker extends HTMLElement {
          if (direction[1] === false) {
            ext = '';
          }
-        const name = `  .${sizeName}-${direction[0]}-margin`;
+        const name = `.${sizeName}-${direction[0]}-margin`;
         const key = `margin${ext}`;
         const value = `var(--${sizeName}-margin)`;
         lines.push(
@@ -1526,7 +1526,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort()
-    return [`  /* Margin Classes */`, ...lines]
+    return [`/* Margin Classes */`, ...lines]
   }
 
   generateMarginVars() {
@@ -1550,7 +1550,7 @@ class Picker extends HTMLElement {
          if (direction[1] === false) {
            ext = '';
          }
-        const name = `  .${sizeName}-${direction[0]}-padding`;
+        const name = `.${sizeName}-${direction[0]}-padding`;
         const key = `padding${ext}`;
         const value = `var(--${sizeName}-padding)`;
         lines.push(
@@ -1559,7 +1559,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort()
-    return [`  /* Padding Classes */`, ...lines]
+    return [`/* Padding Classes */`, ...lines]
   }
 
   generatePaddingVars() {
@@ -1576,6 +1576,20 @@ class Picker extends HTMLElement {
     return [`  /* Padding Variables */`, ...lines]
   }
 
+  generateTextAlignmentClasses() {
+    const lines = []
+    this.getAlignments().forEach((alignment) => {
+      const name = `.align-${alignment}`;
+      const key = `text-align`;
+      const value = `var(--align-${alignment}`;
+      lines.push(
+        makeClass(name, key, value)
+      );
+    });
+    lines.sort()
+    return [`/* Text Alignment Classes */`, ...lines]
+  }
+
   generateTextAlignmentVars() {
     const lines = []
     this.getAlignments().forEach((alignment) => {
@@ -1589,19 +1603,6 @@ class Picker extends HTMLElement {
     return [`  /* Text Alignment Variables */`, ...lines]
   }
 
-  generateTextAlignmentClasses() {
-    const lines = []
-    this.getAlignments().forEach((alignment) => {
-      const name = `  .align-${alignment}`;
-      const key = `text-align`;
-      const value = `var(--align-${alignment}`;
-      lines.push(
-        makeClass(name, key, value)
-      );
-    });
-    lines.sort()
-    return [`  /* Text Alignment Classes */`, ...lines]
-  }
 
   generateColorTextClasses() {
     const lines = []
@@ -1609,7 +1610,7 @@ class Picker extends HTMLElement {
       this.getFadedValues().forEach((fade) => {
         lines.push(
           makeClass(
-            `  .${colorName}-text${fade}`,
+            `.${colorName}-text${fade}`,
             `color`,
             `var(--${colorName}${fade})`
           )
@@ -1617,7 +1618,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Text Color Classes */`, ...lines]
+    return [`/* Text Color Classes */`, ...lines]
   }
 
   getColorModeVars() {

@@ -1257,6 +1257,8 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateFontSizeClasses().join('\n'))
     lines.push('')
+    lines.push(this.generateMarginClasses().join('\n'))
+    lines.push('')
     lines.push(this.generatePaddingClasses().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.utilityClassesStyleSheet.innerHTML = out
@@ -1282,6 +1284,8 @@ class Picker extends HTMLElement {
     lines.push(this.getColorModeVars().join('\n'))
     lines.push('')
     lines.push(this.generateFontSizeVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateMarginVars().join('\n'))
     lines.push('')
     lines.push(this.generatePaddingVars().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
@@ -1486,7 +1490,7 @@ class Picker extends HTMLElement {
           makeVar(name, value)
         );
     });
-    lines.sort(softVars)
+    lines.sort(sortVars)
     return [`  /* Margin Variables */`, ...lines]
   }
 

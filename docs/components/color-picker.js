@@ -1287,6 +1287,8 @@ class Picker extends HTMLElement {
     lines.push(this.generateTextColorClasses().join('\n'))
     lines.push('')
     lines.push(this.generateWidthClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateWrapperClasses().join('\n'))
     const out = lines.join('\n')
     this.utilityClassesStyleSheet.innerHTML = out
   }
@@ -1595,7 +1597,7 @@ class Picker extends HTMLElement {
     this.getAlignments().forEach((alignment) => {
       const name = `.align-${alignment}`;
       const key = `text-align`;
-      const value = `var(--align-${alignment}`;
+      const value = `var(--align-${alignment})`;
       lines.push(
         makeClass(name, key, value)
       );
@@ -1659,6 +1661,19 @@ class Picker extends HTMLElement {
     });
     lines.sort(sortVars)
     return [`  /* Width Variables */`, ...lines]
+  }
+
+  generateWrapperClasses() {
+    const lines = []
+    this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
+      const name = `.${sizeName}-wrapper`;
+      const values = `width: var(--${sizeName}-width); margin-inline: auto;`;
+      lines.push(
+        `${name} { ${values} }`
+      );
+    });
+    lines.sort()
+    return [`/* Wrapper Classes */`, ...lines]
   }
 
   getColorModeVars() {

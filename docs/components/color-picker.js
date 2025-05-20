@@ -1341,6 +1341,8 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateBlackAndWhiteVars().join('\n'))
     lines.push('')
+    lines.push(this.generateBorderStyleVars().join('\n'))
+    lines.push('')
     lines.push(this.generateBorderRadiiVars().join('\n'))
     lines.push('')
     // TODO: Rename Mode to Theme
@@ -1509,6 +1511,19 @@ class Picker extends HTMLElement {
     });
     lines.sort(sortVars)
     return [`  /* Border Radii Variables */`, ...lines]
+  }
+
+  generateBorderStyleVars() {
+    const lines = []
+    this.getActiveColors().forEach((colorName, colorIndex) => {
+        const name = `  --${colorName}-border-style`;
+        const value = `1px solid var(--${colorName})`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort(sortVars)
+    return [`  /* Border Style Variables */`, ...lines]
   }
 
   generateColoredBorderClasses() {

@@ -5,12 +5,18 @@
     <meta charset="UTF-8" />
     <style data-name="Reset Styles">
       *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
-      * {
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
         margin: 0;
+      }
+      *,
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
+        box-sizing: border-box;
       }
       dt,
       dl,
@@ -19,6 +25,17 @@
       ol,
       ul > :where(:not(:first-child)) {
         margin-top: var(--flow-space, 1em);
+      }
+      audio,
+      canvas,
+      embed,
+      iframe,
+      img,
+      object,
+      svg,
+      video {
+        max-width: calc(100vw - 1.4rem);
+        display: block;
       }
     </style>
 
@@ -201,7 +218,7 @@
         padding: var(--default-padding);
       }
       audio {
-        max-width: 100%;
+        border: var(--accent-border-style);
       }
       b {
         font-weight: 900;
@@ -359,8 +376,7 @@
         display: block;
       }
       img {
-        max-width: 100%;
-        display: block;
+        border: 1px solid var(--heading);
       }
       input {
         margin-inline: var(--small-margin);
@@ -1251,10 +1267,14 @@ It was a dark and stormy night...
                 get style info about them.
               </li>
               <li>
+                <input type="checkbox" disabled /> Customize `-style-border` name and value
+              </li>
+              <li>
                 <input type="checkbox" disabled /> Change Background color name
               </li>
               <li>
-                <input type="checkbox" disabled /> Change `border`, `radius`, etc... string names
+                <input type="checkbox" disabled /> Change `border`, `radius`,
+                etc... string names
               </li>
               <li>
                 <input type="checkbox" disabled /> Add faded Background values
@@ -1263,7 +1283,8 @@ It was a dark and stormy night...
                 <input type="checkbox" disabled /> Change number of colors
               </li>
               <li>
-                <input type="checkbox" disabled /> Templates for variable and class names to format in custom orders
+                <input type="checkbox" disabled /> Templates for variable and
+                class names to format in custom orders
               </li>
               <li>
                 <input type="checkbox" disabled /> Color picker on both

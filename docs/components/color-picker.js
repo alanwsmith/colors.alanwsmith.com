@@ -233,24 +233,24 @@ const defaultPalette = {
   backgroundColorName: 'background',
   blackAndWhiteNames: ['black', 'white', 'matched', 'reversed'],
   borderStylePrefix: 'border',
-  borderTypes: [
-    ['full', false],
-    ['top', true],
-    ['bottom', true],
-    ['left', true],
-    ['right', true],
-    ['inline', true],
-    ['block', true],
-  ],
   colorNames: [
     'content',
     'link',
-    'title',
     'heading',
     'accent',
-    'warning',
     'info',
+    'warning',
     'extra',
+    'bonus',
+  ],
+  directions: [
+      ['block', true],
+      ['bottom', true],
+      ['full', false],
+      ['inline', true],
+      ['left', true],
+      ['right', true],
+      ['top', true],
   ],
   fadedNames: ['faded', 'faded2'],
   // i've got back and forth between
@@ -270,7 +270,7 @@ const defaultPalette = {
   maxLightValue: 100,
   modes: [
     {
-      base: { l: 74.23, c: 0.03081, h: 94.86 },
+      base: { l: 86.94, c: 0.03081, h: 94.86 },
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100, 100, 0],
       colors: [
@@ -353,8 +353,8 @@ const defaultPalette = {
           hueOffsetValues: [
             {
               l: 2,
-              c: 0.01815,
-              h: 2,
+              c: 0.09171,
+              h: 3,
             },
             {
               l: 4,
@@ -658,9 +658,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 1,
+              l: 3,
               c: 0.03654,
-              h: 7,
+              h: 3,
             },
             {
               l: 4,
@@ -811,9 +811,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              l: 2,
-              c: 0.07218,
-              h: 2,
+              l: 5,
+              c: 0.09053,
+              h: 3,
             },
             {
               l: 4,
@@ -881,11 +881,44 @@ const defaultPalette = {
       name: 'High-Contrast Dark',
     },
   ],
+  margins: [
+    '2.4rem',
+    '1.9rem',
+    '1.3rem',
+    '0.5rem',
+    '0.8rem',
+    '0.4rem',
+    '0.3rem',
+    '0.2rem',
+    '0.1rem',
+  ],
   name: 'Color Palette',
-  numberOfColors: 5,
-  numberOfFaded: 1,
+  numberOfColors: 4,
+  numberOfFaded: 2,
+  paddings: [
+    '2.4rem',
+    '1.9rem',
+    '1.3rem',
+    '0.5rem',
+    '0.8rem',
+    '0.4rem',
+    '0.3rem',
+    '0.2rem',
+    '0.1rem',
+  ],
   preferredMode: 0,
   previousIsolatedColor: -2,
+  sizeNames: [
+    'xxxlarge',
+    'xxlarge',
+    'xlarge',
+    'large',
+    'default',
+    'small',
+    'xsmall',
+    'xxsmall',
+    'xxxsmall',
+  ],
 }
 
 const config = {
@@ -1201,6 +1234,8 @@ class Picker extends HTMLElement {
     lines.push(this.generateUtilityBlackAndWhiteBorderClasses().join('\n'))
     lines.push('')
     lines.push(this.generateUtilityFontSizeClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityPaddingClasses().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.utilityClassesStyleSheet.innerHTML = out
   }
@@ -1225,6 +1260,8 @@ class Picker extends HTMLElement {
     lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.generateUtilityFontSizeVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateUtilityPaddingVars().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.varsStyleSheet.innerHTML = out
   }
@@ -1400,6 +1437,39 @@ class Picker extends HTMLElement {
   --xxxlarge-font-size: clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem);`
     lines.push(...hardCoded.split('\n'))
     return lines
+  }
+
+  generateUtilityPaddingClasses() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+      this.getDirections().forEach((direction) => {
+         let ext = `-${direction[0]}`;
+         if (direction[1] === false) {
+           ext = '';
+         }
+        const name = `  .${sizeName}-${direction[0]}-padding`;
+        const key = `padding${ext}`;
+        const value = `${sizeName}-padding`;
+        lines.push(
+          makeVar(name, value)
+        );
+      });
+    });
+    lines.sort()
+    return [`  /* Padding Variables */`, ...lines]
+  }
+
+  generateUtilityPaddingVars() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+        const name = `  --${sizeName}-padding`;
+        const value = `${p.paddings[sizeIndex]}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort()
+    return [`  /* Padding Variables */`, ...lines]
   }
 
   generateUtilityColorTextClasses() {
@@ -1659,15 +1729,7 @@ class Picker extends HTMLElement {
 
   // TODO: Deprecate and put in data object
   getDirections() {
-    return [
-      ['full', false],
-      ['top', true],
-      ['bottom', true],
-      ['left', true],
-      ['right', true],
-      ['block', true],
-      ['inline', true],
-    ]
+    return p.directions
   }
 
   getScrubbedActiveModeName() {
@@ -1728,17 +1790,7 @@ class Picker extends HTMLElement {
 
   // TODO: Deprecate and put in data object
   getSizes() {
-    return [
-      'xxxlarge',
-      'xxlarge',
-      'xlarge',
-      'large',
-      'default',
-      'small',
-      'xsmall',
-      'xxsmall',
-      'xxxsmall',
-    ]
+    return p.sizeNames;
   }
 
   getSizesWithFull() {
@@ -1805,7 +1857,7 @@ class Picker extends HTMLElement {
         ac('color-selector-button', tabButton)
         if (nameIndex === p.activeColor) {
           sa('aria-selected', 'true', tabButton)
-          ac(`ui__background-text`, tabButton)
+         ac(`ui__background-text`, tabButton)
           // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
           // ac(`reversed`, tabButton);
           ac(
@@ -2226,7 +2278,7 @@ class Picker extends HTMLElement {
       })
     });
 
-    outputEl.innerHTML = JSON.stringify(p, null, 2)
+//    outputEl.innerHTML = JSON.stringify(p, null, 2)
   }
 
 
@@ -2520,24 +2572,6 @@ class Picker extends HTMLElement {
         )
       }
     )
-    //
-    p.modes.forEach((modeData, modeIndex) => {
-      if (modeIndex === p.activeMode) {
-        let name = `--ui__mode-${modeIndex}__text`
-        let value = 'red'
-        lines.push(`${name}: ${value};`)
-        name = `--ui__mode-${modeIndex}__background`
-        value = 'yellow'
-        lines.push(`${name}: ${value};`)
-      } else {
-        let name = `--ui__mode-${modeIndex}__text`
-        let value = 'green'
-        lines.push(`${name}: ${value};`)
-        name = `--ui__mode-${modeIndex}__background`
-        value = 'blue'
-        lines.push(`${name}: ${value};`)
-      }
-    })
     const out = `:root { ${lines.join('\n')} }`
     this.uiColorVarsStyleSheet.innerHTML = out
   }

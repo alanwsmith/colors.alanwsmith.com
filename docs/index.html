@@ -45,6 +45,7 @@
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
         color: var(--ui__picker);
+        font-size: var(--small-font-size);
       }
       .background-box-isolate-wrapper {
         border-top: 1px solid var(--ui__picker);
@@ -108,6 +109,10 @@
       .colors-box-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
+        font-size: var(--small-font-size);
+      }
+      hgroup {
+        padding-bottom: var(--large-padding);
       }
       .invisible {
         visibility: hidden;
@@ -128,10 +133,25 @@
       .mode-buttons-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
+        font-size: var(--small-font-size);
+        margin-top: var(--default-margin);
       }
-
       .sidebar-controls {
         padding-top: var(--large-padding);
+      }
+      .top-nav-button {
+        border: 1px solid var(--background);
+        color: var(--link);
+        font-size: var(--small-font-size);
+        font-weight: 900;
+      }
+      .top-nav-button[aria-selected='true'] {
+        color: var(--accent);
+      }
+      .nav-tab-list {
+        border-bottom: 1px solid var(--ui__picker);
+        margin-top: var(--xlarge-margin);
+        margin-bottom: var(--xlarge-margin);
       }
       .ui-two-column {
         display: grid;
@@ -195,8 +215,8 @@
         background-color: var(--background);
         color: var(--content);
         font-family: system-ui;
-        font-size: 16px;
-        line-height: 1.25;
+        font-size: var(--default-font-size);
+        line-height: 1.4;
       }
       button {
         background-color: var(--reversed-faded2);
@@ -271,15 +291,15 @@
         margin-inline: auto;
       }
       h1 {
-        color: var(--title);
-        border-bottom: 2px solid var(--accent);
+        color: var(--heading);
+        border-bottom: 1px solid var(--content);
         font-size: var(--xxxlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
       }
       h2 {
         color: var(--heading);
-        border-bottom: 2px solid var(--accent);
+        border-bottom: 1px solid var(--content);
         font-size: var(--xxlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
@@ -289,7 +309,6 @@
         font-size: var(--xlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
-        text-decoration: underline 1px var(--accent);
       }
       h4 {
         color: var(--heading);
@@ -496,347 +515,7 @@
 
     <!-- START GENERATED STYLES -->
 
-    <!--
-    <style
-      data-key="black-and-white-color-and-background-classes"
-      data-name="Black and White Color and Background Classes"
-      data-editable="no"
-      data-deployable="yes"
-    >
-      .black-text {
-        color: var(--black);
-      }
-      .black-background {
-        background-color: var(--black);
-      }
-      .black-faded-text {
-        color: var(--black-faded);
-      }
-      .black-faded-background {
-        background-color: var(--black-faded);
-      }
-      .black-faded2-text {
-        color: var(--black-faded2);
-      }
-      .black-faded2-background {
-        background-color: var(--black-faded2);
-      }
-      .white-text {
-        color: var(--white);
-      }
-      .white-background {
-        background-color: var(--white);
-      }
-      .white-faded-text {
-        color: var(--white-faded);
-      }
-      .white-faded-background {
-        background-color: var(--white-faded);
-      }
-      .white-faded2-text {
-        color: var(--white-faded2);
-      }
-      .white-faded2-background {
-        background-color: var(--white-faded2);
-      }
-      .matched-text {
-        color: var(--matched);
-      }
-      .matched-background {
-        background-color: var(--matched);
-      }
-      .matched-faded-text {
-        color: var(--matched-faded);
-      }
-      .matched-faded-background {
-        background-color: var(--matched-faded);
-      }
-      .matched-faded2-text {
-        color: var(--matched-faded2);
-      }
-      .matched-faded2-background {
-        background-color: var(--matched-faded2);
-      }
-      .reversed-text {
-        color: var(--reversed);
-      }
-      .reversed-background {
-        background-color: var(--reversed);
-      }
-      .reversed-faded-text {
-        color: var(--reversed-faded);
-      }
-      .reversed-faded-background {
-        background-color: var(--reversed-faded);
-      }
-      .reversed-faded2-text {
-        color: var(--reversed-faded2);
-      }
-      .reversed-faded2-background {
-        background-color: var(--reversed-faded2);
-      }
-    </style>
-
-    <style
-      data-key="black-and-white-border-classes"
-      data-name="Black and White Border Classes"
-      data-editable="no"
-      data-deployable="yes"
-    >
-      .black-full-border {
-        border: 1px solid var(--black);
-      }
-      .black-left-border {
-        border-left: 1px solid var(--black);
-      }
-      .black-right-border {
-        border-right: 1px solid var(--black);
-      }
-      .black-top-border {
-        border-top: 1px solid var(--black);
-      }
-      .black-bottom-border {
-        border-bottom: 1px solid var(--black);
-      }
-      .black-inline-border {
-        border-inline: 1px solid var(--black);
-      }
-      .black-block-border {
-        border-block: 1px solid var(--black);
-      }
-      .black-faded-full-border {
-        border: 1px solid var(--black-faded);
-      }
-      .black-faded-left-border {
-        border-left: 1px solid var(--black-faded);
-      }
-      .black-faded-right-border {
-        border-right: 1px solid var(--black-faded);
-      }
-      .black-faded-top-border {
-        border-top: 1px solid var(--black-faded);
-      }
-      .black-faded-bottom-border {
-        border-bottom: 1px solid var(--black-faded);
-      }
-      .black-faded-inline-border {
-        border-inline: 1px solid var(--black-faded);
-      }
-      .black-faded-block-border {
-        border-block: 1px solid var(--black-faded);
-      }
-      .black-faded2-full-border {
-        border: 1px solid var(--black-faded2);
-      }
-      .black-faded2-left-border {
-        border-left: 1px solid var(--black-faded2);
-      }
-      .black-faded2-right-border {
-        border-right: 1px solid var(--black-faded2);
-      }
-      .black-faded2-top-border {
-        border-top: 1px solid var(--black-faded2);
-      }
-      .black-faded2-bottom-border {
-        border-bottom: 1px solid var(--black-faded2);
-      }
-      .black-faded2-inline-border {
-        border-inline: 1px solid var(--black-faded2);
-      }
-      .black-faded2-block-border {
-        border-block: 1px solid var(--black-faded2);
-      }
-      .white-full-border {
-        border: 1px solid var(--white);
-      }
-      .white-left-border {
-        border-left: 1px solid var(--white);
-      }
-      .white-right-border {
-        border-right: 1px solid var(--white);
-      }
-      .white-top-border {
-        border-top: 1px solid var(--white);
-      }
-      .white-bottom-border {
-        border-bottom: 1px solid var(--white);
-      }
-      .white-inline-border {
-        border-inline: 1px solid var(--white);
-      }
-      .white-block-border {
-        border-block: 1px solid var(--white);
-      }
-      .white-faded-full-border {
-        border: 1px solid var(--white-faded);
-      }
-      .white-faded-left-border {
-        border-left: 1px solid var(--white-faded);
-      }
-      .white-faded-right-border {
-        border-right: 1px solid var(--white-faded);
-      }
-      .white-faded-top-border {
-        border-top: 1px solid var(--white-faded);
-      }
-      .white-faded-bottom-border {
-        border-bottom: 1px solid var(--white-faded);
-      }
-      .white-faded-inline-border {
-        border-inline: 1px solid var(--white-faded);
-      }
-      .white-faded-block-border {
-        border-block: 1px solid var(--white-faded);
-      }
-      .white-faded2-full-border {
-        border: 1px solid var(--white-faded2);
-      }
-      .white-faded2-left-border {
-        border-left: 1px solid var(--white-faded2);
-      }
-      .white-faded2-right-border {
-        border-right: 1px solid var(--white-faded2);
-      }
-      .white-faded2-top-border {
-        border-top: 1px solid var(--white-faded2);
-      }
-      .white-faded2-bottom-border {
-        border-bottom: 1px solid var(--white-faded2);
-      }
-      .white-faded2-inline-border {
-        border-inline: 1px solid var(--white-faded2);
-      }
-      .white-faded2-block-border {
-        border-block: 1px solid var(--white-faded2);
-      }
-      .matched-full-border {
-        border: 1px solid var(--matched);
-      }
-      .matched-left-border {
-        border-left: 1px solid var(--matched);
-      }
-      .matched-right-border {
-        border-right: 1px solid var(--matched);
-      }
-      .matched-top-border {
-        border-top: 1px solid var(--matched);
-      }
-      .matched-bottom-border {
-        border-bottom: 1px solid var(--matched);
-      }
-      .matched-inline-border {
-        border-inline: 1px solid var(--matched);
-      }
-      .matched-block-border {
-        border-block: 1px solid var(--matched);
-      }
-      .matched-faded-full-border {
-        border: 1px solid var(--matched-faded);
-      }
-      .matched-faded-left-border {
-        border-left: 1px solid var(--matched-faded);
-      }
-      .matched-faded-right-border {
-        border-right: 1px solid var(--matched-faded);
-      }
-      .matched-faded-top-border {
-        border-top: 1px solid var(--matched-faded);
-      }
-      .matched-faded-bottom-border {
-        border-bottom: 1px solid var(--matched-faded);
-      }
-      .matched-faded-inline-border {
-        border-inline: 1px solid var(--matched-faded);
-      }
-      .matched-faded-block-border {
-        border-block: 1px solid var(--matched-faded);
-      }
-      .matched-faded2-full-border {
-        border: 1px solid var(--matched-faded2);
-      }
-      .matched-faded2-left-border {
-        border-left: 1px solid var(--matched-faded2);
-      }
-      .matched-faded2-right-border {
-        border-right: 1px solid var(--matched-faded2);
-      }
-      .matched-faded2-top-border {
-        border-top: 1px solid var(--matched-faded2);
-      }
-      .matched-faded2-bottom-border {
-        border-bottom: 1px solid var(--matched-faded2);
-      }
-      .matched-faded2-inline-border {
-        border-inline: 1px solid var(--matched-faded2);
-      }
-      .matched-faded2-block-border {
-        border-block: 1px solid var(--matched-faded2);
-      }
-      .reversed-full-border {
-        border: 1px solid var(--reversed);
-      }
-      .reversed-left-border {
-        border-left: 1px solid var(--reversed);
-      }
-      .reversed-right-border {
-        border-right: 1px solid var(--reversed);
-      }
-      .reversed-top-border {
-        border-top: 1px solid var(--reversed);
-      }
-      .reversed-bottom-border {
-        border-bottom: 1px solid var(--reversed);
-      }
-      .reversed-inline-border {
-        border-inline: 1px solid var(--reversed);
-      }
-      .reversed-block-border {
-        border-block: 1px solid var(--reversed);
-      }
-      .reversed-faded-full-border {
-        border: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded-left-border {
-        border-left: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded-right-border {
-        border-right: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded-top-border {
-        border-top: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded-bottom-border {
-        border-bottom: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded-inline-border {
-        border-inline: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded-block-border {
-        border-block: 1px solid var(--reversed-faded);
-      }
-      .reversed-faded2-full-border {
-        border: 1px solid var(--reversed-faded2);
-      }
-      .reversed-faded2-left-border {
-        border-left: 1px solid var(--reversed-faded2);
-      }
-      .reversed-faded2-right-border {
-        border-right: 1px solid var(--reversed-faded2);
-      }
-      .reversed-faded2-top-border {
-        border-top: 1px solid var(--reversed-faded2);
-      }
-      .reversed-faded2-bottom-border {
-        border-bottom: 1px solid var(--reversed-faded2);
-      }
-      .reversed-faded2-inline-border {
-        border-inline: 1px solid var(--reversed-faded2);
-      }
-      .reversed-faded2-block-border {
-        border-block: 1px solid var(--reversed-faded2);
-      }
-    </style>
--->
+<!--
     <style
       data-key="spacing-variables"
       data-name="Spacing Variables"
@@ -1250,7 +929,7 @@
         margin-block: var(--xxxlarge-margin);
       }
     </style>
-
+-->
     <style
       data-key="flow-classes"
       data-name="Flow Classes"
@@ -1477,7 +1156,7 @@
   <body>
     <template id="picker-controls-template">
       <div class="mode-buttons-wrapper">
-        <div class="mode-buttons-name">Modes</div>
+        <div class="mode-buttons-name">Themes</div>
         <div class="mode-buttons"></div>
       </div>
       <div class="background-box-wrapper">
@@ -1508,33 +1187,60 @@
     </template>
 
     <color-picker class="flow">
-      <main class="xlarge-wrapper">
+      <div class="xlarge-wrapper">
         <tab-group>
-          <div
-            role="tablist"
-            class="nav-tab-list reversed-faded-bottom-border large-bottom-margin"
-          >
-
-<!--
-            <button role="tab" data-kind="top-nav-button">Customize</button>
+          <div role="tablist" class="nav-tab-list">
+            <!--
+            <button class="top-nav-button" role="tab" data-kind="top-nav-button">Customize</button>
 -->
-            <button role="tab" data-kind="top-nav-button" aria-selected="true">
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
               Picker
             </button>
-            <button role="tab" data-kind="top-nav-button">Customize</button>
-            <button role="tab" data-kind="top-nav-button">Export</button>
-<!--
-            <button role="tab" data-kind="top-nav-button">B&amp;W</button>
-            <button role="tab" data-kind="top-nav-button">Utilities</button>
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              Customize
+            </button>
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+              aria-selected="true"
+            >
+              Export
+            </button>
+            <!--
+            <button class="top-nav-button" role="tab" data-kind="top-nav-button">B&amp;W</button>
+            <button class="top-nav-button" role="tab" data-kind="top-nav-button">Utilities</button>
 -->
-            <button role="tab" data-kind="top-nav-button">TODO</button>
-            <button role="tab" data-kind="top-nav-button">Debugging</button>
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              TODO
+            </button>
+            <!--
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              Debugging
+            </button>
+-->
           </div>
 
-<!--
+          <!--
           <div role="tabpanel" hidden>
             <div class="content-wrapper ui-two-column">
-              <div class="content-body default-flow">
+              <main class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
                   <h1>Alan's Color Picker</h1>
                   <p class="align-end">
@@ -1869,11 +1575,10 @@ It was a dark and stormy night...
               <div
                 class="sidebar-controls default-flow"
                 data-tab="picker"
-              ></div>
+              ></main>
             </div>
           </div>
 -->
-
 
           <div role="tabpanel">
             <div class="content-wrapper ui-two-column">
@@ -1886,42 +1591,105 @@ It was a dark and stormy night...
                   </p>
                 </hgroup>
                 <div
-                  class="xlarge-inline-margin large-inline-padding xlarge-block-padding content-full-border default-radius default-flow"
+                  class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-full-border default-radius default-flow"
                 >
-                  <h4 class="heading-bottom-border">TL;DR</h4>
+                  <div class="content-bottom-border">
+                    <strong>TL;DR</strong>
+                  </div>
                   <p>
-                    Play around with the controls in the <em>Modes</em>,
-                    <em>Background</em>, and <em>Colors</em> boxes to change
+                    Play around with the <em>Themes</em>, <em>Background</em>,
+                    and <em>Colors</em> controls in the sidebar to change
                     colors.
                   </p>
                   <p>
-                    Use the <em>Export</em> tab to get a stylesheet when you've
-                    got a palette you like.
+                    Hit <em>Export</em> above when you've got a palette you
+                    like. It'll give you a stylesheet with your colors.
+                  </p>
+                  <p>There is no step 3.</p>
+                  <p class="content-top-border large-top-padding">
+                    I'm working on more features. Follow me on
+                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a> or
+                    <a href="https://bsky.app/profile/alanwsmith.com"
+                      >Bluesky</a
+                    >
+                    for updates. Or,
+                    <a href="https://www.alanwsmith.com/feeds/posts.xml"
+                      >grab my RSS feed</a
+                    >.
                   </p>
                 </div>
                 <h2>The Basics</h2>
-                <h3>Color Modes</h3>
+                <h3>Color Themes</h3>
                 <p>
-                  There are four color modes to choose from: Light,
-                  High-Contrast Light, Dark, High-Constast Dark. The buttons at
-                  the top of the sidebar change between them.
+                  There are four themes: <em>Light</em>,
+                  <em>High-Contrast Light</em>, <em>Dark</em>,
+                  <em>High-Constast Dark</em><sup>pitch for more themes</sup>.
+                  The buttons in the <em>Themes</em> box change between
+                  them<sup>guidelines</sup>.
                 </p>
 
                 <h3>The Background Color</h3>
                 <p>
-                  The three sliders in the Background box are l, c, and h (which
-                  stand for lightness, chroma, and hue, respectively). Changing
-                  them changes the background color.
+                  The three sliders in the <em>Background</em> box are
+                  <em>l</em>, <em>c</em>, and <em>h</em> (aka lightness, chroma,
+                  and hue). Changing them changes the background color. Fiddle
+                  with them to get an idea of how they work.
                 </p>
                 <p>
-                  You can use the Isolate checkbox in the Background to hide
-                  content and make it easier to focus on the color.
+                  You can use the <em>Isolate</em> checkbox to hide content. It
+                  makes it easier to focus on the color.
                 </p>
 
                 <h3>The Colors</h3>
                 <p>
-                  The picker provides five colors by default*: content, link,
-                  title, heading, and accent.
+                  The picker has five colors: content, link, title, heading, and
+                  accent<sup>more soon</sup>. Change between them with the
+                  colored tabs in the <em>Colors</em> box.
+                </p>
+
+                <p>
+                  Clicking/tapping a colored <em>set</em> from the grid changes
+                  the selected color to match it. The <em>c</em> slider below
+                  the <em>set</em> grid changes the <em>chroma</em> of the
+                  color<sup>more later</sup>. Basically, its intensity.
+                </p>
+                <p>
+                  The <em>Isolate</em> checkbox in the <em>Colors</em> box hides
+                  everything that's not using the selected color.
+                </p>
+
+                <h3>Picking</h3>
+                <p>
+                  That's it. There's not a lot too it. That's kinda the point.
+                </p>
+
+                <p>
+                  I make
+                  <a href="https://links.alanwsmith.com/">lots of websites</a>.
+                  Picking colors for them was always a pain with existing
+                  tools<sup>note about other tools</sup>. A friction that slowed
+                  me down with no payoff. I built this picker to address that.
+                  It's designed to generate a nice set of colors with as little
+                  effort as possible.
+                </p>
+
+                <p>I hope you enjoy it,</p>
+
+                <p>-a</p>
+
+                <h3>Set Color Mechanics</h3>
+
+                <p>
+                  The picker users OKLCH<sup>2</sup>. The <em>L</em>,
+                  <em>C</em>, and <em>H</em> being our lightness, chroma, and
+                  hue. Each of the <em>set</em> colors is based off the the
+                  <em>h/hue</em> value from the <em>Background</em>.
+                </p>
+                <p>
+                  Behind the scenes, the <em>Background</em>
+                  <em>h/hue</em> value is between 0 and 360. The first from of
+                  the <em>set</em> colors adds 45 to it. Each subsequent row
+                  adds another 45<sup>flips</sup>.
                 </p>
 
                 <ol>
@@ -1986,17 +1754,20 @@ It was a dark and stormy night...
                   checkbox. Ticking it hides all the content so you can pick the
                   background without existing text colors influencing it.
                 </p>
-                <h2>Light/Dark Modes</h2>
-                <p>
-                  The buttons above the &quot;Background&quot; box choose
-                  between on of four different color modes: &quot;Light&quot;
-                  &quot;High-Contrast Light&quot;, &quot;Dark&quot;, and
-                  &quot;High-Contrast Dark&quot;. Each one is independent, but
-                  operates the same way.
-                </p>
-                <h2>TODO: CSS Export</h2>
-                <h2>TODO: Custom HTML</h2>
-                <h2>TODO: Custom CSS</h2>
+
+                <h2>Footnotes</h2>
+                <ol>
+                  <li>
+                    Changing the number of colors and what they are called is a
+                    work in progress.
+                  </li>
+                  <li>
+                    OKLCH is a &quot;color space&quot; which is a fancy way of
+                    saying it's a way for computers to deal with colors. There's
+                    lots of science behind it. I'll write more about it in
+                    future updates.
+                  </li>
+                </ol>
               </div>
               <div
                 class="sidebar-controls default-flow"
@@ -2014,17 +1785,22 @@ It was a dark and stormy night...
             </hgroup>
             <div class="default-flow">
               <h2>Settings</h2>
-              <p>Customiztions are a work in progress. They'll
-include:</p>
-<ul>
-<li>Change the number of colors</li>
-<li>Change the names off the styles</li>
-<li>Customize CSS (e.g. to bring in fonts)</li>
-<li>Customize HTML with your content</li>
-</ul>
+              <div class="number-of-colors-wrapper">
+                <label for="number-of-colors">Number of Colors:</label>
+                <select
+                  id="number-of-colors"
+                  class="number-of-colors-selector"
+                ></select>
+              </div>
+              <p>Customiztions are a work in progress. They'll include:</p>
+              <ul>
+                <li>Change the number of colors</li>
+                <li>Change the names off the styles</li>
+                <li>Customize CSS (e.g. to bring in fonts)</li>
+                <li>Customize HTML with your content</li>
+              </ul>
 
-<p>Check out the TODO list for more.</p>
-
+              <p>Check out the TODO list for more.</p>
             </div>
           </div>
 
@@ -2041,8 +1817,7 @@ include:</p>
             </div>
           </div>
 
-
-<!--
+          <!--
           <div class="default-flow" role="tabpanel" hidden>
             <h2>Black And White Examples</h2>
             <h3>Black And White Colors</h3>
@@ -2099,8 +1874,8 @@ include:</p>
                 always visible
               </li>
               <li>
-                <input type="checkbox" disabled /> Optimize so only changes
-get updated in the stylesheet
+                <input type="checkbox" disabled /> Optimize so only changes get
+                updated in the stylesheet
               </li>
               <li>
                 <input type="checkbox" disabled /> Consolidate variable output
@@ -2159,7 +1934,11 @@ get updated in the stylesheet
               </li>
               <li><input type="checkbox" disabled /> JSON schema for data</li>
               <li><input type="checkbox" disabled /> Change mode names</li>
-              <li><input type="checkbox" disabled /> Add/subtract modes</li>
+              <li><input type="checkbox" disabled /> Add/subtract themes</li>
+              <li>
+                <input type="checkbox" disabled /> Refactor to use 'theme'
+                instead of 'mode'
+              </li>
               <li><input type="checkbox" disabled /> Copy button for CSS</li>
               <li><input type="checkbox" disabled /> Edit CSS</li>
               <li><input type="checkbox" disabled /> Edit HTML</li>
@@ -2199,8 +1978,8 @@ get updated in the stylesheet
                 works
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Switching between colors
-                works
+                <input type="checkbox" disabled checked /> Switching between
+                colors works
               </li>
               <li>
                 <input type="checkbox" disabled checked /> Changing colors via
@@ -2210,7 +1989,10 @@ get updated in the stylesheet
                 <input type="checkbox" disabled checked /> Changing colors via
                 chroma slider
               </li>
-              <li><input type="checkbox" disabled checked /> Isolating colors works</li>
+              <li>
+                <input type="checkbox" disabled checked /> Isolating colors
+                works
+              </li>
               <li>
                 <input type="checkbox" disabled checked /> Default faded
                 alternatives
@@ -2221,18 +2003,23 @@ get updated in the stylesheet
             </ul>
           </div>
 
+          <!--
           <div role="tabpanel" hidden>
             <div class="default-flow picker-text">
               <h2>Debugging</h2>
               <p>
-            I'm working on the next round of features. This page
-is here to help me with that. </p>
-<h3>Here Be Dragons</h3>
+                I'm working on the next round of features. This page is here to
+                help me with that.
+              </p>
+              <h3>Here Be Dragons</h3>
               <pre class="debugging-content"></pre>
             </div>
           </div>
+-->
+
+          <!-- end of line -->
         </tab-group>
-      </main>
+      </div>
     </color-picker>
     <script src="/components/color-picker.js" type="module"></script>
     <noscript>

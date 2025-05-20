@@ -2375,28 +2375,40 @@ class Picker extends HTMLElement {
     const tests = [
       [
         this.generateBackgroundColorsClasses()[1], 
-        ".accent-background { background-color: var(--accent); }"
+        '.accent-background { background-color: var(--accent); }'
       ],
       [
         this.generateBackgroundColorsClasses()[2], 
-        ".accent-background-faded { background-color: var(--accent-faded); }"
+        '.accent-background-faded { background-color: var(--accent-faded); }'
       ],
       [
         this.generateBackgroundColorsClasses()[3], 
-        ".accent-background-faded2 { background-color: var(--accent-faded2); }"
+        '.accent-background-faded2 { background-color: var(--accent-faded2); }'
       ], 
       [
         this.generateBlackAndWhiteBackgroundClasses()[1], 
-        ".black-background { background-color: var(--black); }"
+        '.black-background { background-color: var(--black); }'
       ],
       [
         this.generateBlackAndWhiteBackgroundClasses()[2], 
-        ".black-background-faded { background-color: var(--black-faded); }"
+        '.black-background-faded { background-color: var(--black-faded); }'
       ],
       [
         this.generateBlackAndWhiteBackgroundClasses()[3], 
-        ".black-background-faded2 { background-color: var(--black-faded2); }"
-      ]
+        '.black-background-faded2 { background-color: var(--black-faded2); }'
+      ],
+      [
+        this.generateBlackAndWhiteBorderClasses()[4], 
+        '.black-border { border: var(--black-border-style); }'
+      ],
+      [
+        this.generateBorderRadiiClasses()[1],
+        '.default-block-bottom-radius { border-block-bottom-radius: var(--default-radius); }'
+      ],
+      [
+        this.generateBorderRadiiClasses()[11],
+        '.default-radius { border-radius: var(--default-radius); }'
+      ],
 
     ];
     tests.forEach((test) => {
@@ -2650,7 +2662,7 @@ class Picker extends HTMLElement {
         return `
 <details${open}>
 <summary>${item.name}</summary>
-<pre>${item.content}</pre>
+<pre class="xsmall-font-size">${item.content}</pre>
 </details>
 `
       })

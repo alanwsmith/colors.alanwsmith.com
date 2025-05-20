@@ -1487,8 +1487,8 @@ class Picker extends HTMLElement {
       this.getBorderRadiiDirectionNames().forEach((directionName, index) => {
         const ext = this.getBorderRadiiDirectionExtensions()[index];
         const name = `.${sizeName}-${directionName}-radius`;
-        const key = `border-radius${ext}`;
-        const value = `var(--${sizeName}-radius`;
+        const key = `border${ext}-radius`;
+        const value = `var(--${sizeName}-radius)`;
         lines.push(
           makeClass(name, key, value)
         );

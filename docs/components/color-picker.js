@@ -1232,21 +1232,21 @@ class Picker extends HTMLElement {
     ad('name', 'Utility Classes', this.utilityClassesStyleSheet)
     const lines = []
     lines.push('')
-    lines.push(this.generateUtilityColorTextClasses().join('\n'))
+    lines.push(this.generateColorTextClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityColorBackgroundClasses().join('\n'))
+    lines.push(this.generateColorBackgroundClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityColorBorderClasses().join('\n'))
+    lines.push(this.generateColorBorderClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityBlackAndWhiteTextClasses().join('\n'))
+    lines.push(this.generateBlackAndWhiteTextClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityBlackAndWhiteBackgroundClasses().join('\n'))
+    lines.push(this.generateBlackAndWhiteBackgroundClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityBlackAndWhiteBorderClasses().join('\n'))
+    lines.push(this.generateBlackAndWhiteBorderClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityFontSizeClasses().join('\n'))
+    lines.push(this.generateFontSizeClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityPaddingClasses().join('\n'))
+    lines.push(this.generatePaddingClasses().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.utilityClassesStyleSheet.innerHTML = out
   }
@@ -1264,20 +1264,20 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.getColorModeVars().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityBlackAndWhiteVars().join('\n'))
+    lines.push(this.generateBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.updateActiveColorVars().join('\n'))
     lines.push('')
     lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityFontSizeVars().join('\n'))
+    lines.push(this.generateFontSizeVars().join('\n'))
     lines.push('')
-    lines.push(this.generateUtilityPaddingVars().join('\n'))
+    lines.push(this.generatePaddingVars().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.varsStyleSheet.innerHTML = out
   }
 
-  generateUtilityColorBackgroundClasses() {
+  generateColorBackgroundClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
@@ -1294,7 +1294,7 @@ class Picker extends HTMLElement {
     return [`  /* Background Colors */`, ...lines]
   }
 
-  generateUtilityBlackAndWhiteBackgroundClasses() {
+  generateBlackAndWhiteBackgroundClasses() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       lines.push(
@@ -1318,7 +1318,7 @@ class Picker extends HTMLElement {
     return [`  /* Black And White Background Classes */`, ...lines]
   }
 
-  generateUtilityBlackAndWhiteBorderClasses() {
+  generateBlackAndWhiteBorderClasses() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getDirections().forEach((direction) => {
@@ -1348,7 +1348,7 @@ class Picker extends HTMLElement {
     return [`  /* Black And White Border Classes */`, ...lines]
   }
 
-  generateUtilityBlackAndWhiteTextClasses() {
+  generateBlackAndWhiteTextClasses() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       lines.push(makeClass(`  .${bwName}-text`, `color`, `var(--${bwName})`))
@@ -1366,7 +1366,7 @@ class Picker extends HTMLElement {
     return [`  /* Black And White Text Classes */`, ...lines]
   }
 
-  generateUtilityBlackAndWhiteVars() {
+  generateBlackAndWhiteVars() {
     const lines = []
     this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
@@ -1395,7 +1395,7 @@ class Picker extends HTMLElement {
     return [`  /* Black And White Mode Variables */`, ...lines]
   }
 
-  generateUtilityColorBorderClasses() {
+  generateColorBorderClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
@@ -1419,7 +1419,7 @@ class Picker extends HTMLElement {
   }
 
 
-  generateUtilityFontSizeClasses() {
+  generateFontSizeClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  .${sizeName}-font-size`;
@@ -1433,7 +1433,7 @@ class Picker extends HTMLElement {
     return [`  /* Font Size Classes */`, ...lines]
   }
 
-  generateUtilityFontSizeVars() {
+  generateFontSizeVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-font-size`;
@@ -1446,7 +1446,7 @@ class Picker extends HTMLElement {
     return [`  /* Font Size Variables */`, ...lines]
   }
 
-  generateUtilityPaddingClasses() {
+  generatePaddingClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       this.getDirections().forEach((direction) => {
@@ -1466,7 +1466,7 @@ class Picker extends HTMLElement {
     return [`  /* Padding Classes */`, ...lines]
   }
 
-  generateUtilityPaddingVars() {
+  generatePaddingVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-padding`;
@@ -1479,7 +1479,7 @@ class Picker extends HTMLElement {
     return [`  /* Padding Variables */`, ...lines]
   }
 
-  generateUtilityColorTextClasses() {
+  generateColorTextClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {

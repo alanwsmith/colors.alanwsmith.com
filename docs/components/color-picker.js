@@ -1005,8 +1005,8 @@ class Picker extends HTMLElement {
   }
 
   connectedCallback() {
-    dbg('Connected Color Picker')
-    this.loadData()
+    dbg('Connected Color Picker');
+    this.loadData();
 
     /*
     this.addBorderRadiusExamples();
@@ -1022,15 +1022,15 @@ class Picker extends HTMLElement {
     this.addFontSizeExamples();
     */
 
-    this.initControls()
-    this.populateUtilityClasses()
-    this.populateVarsStyleSheet()
-    this.updateUiVarsStyleSheet()
-    this.updateUiClassesStyleSheet()
-    this.requestUpdate = this.updateUiView.bind(this)
-    this.addListeners()
-    this.updateExportPage()
-    this.updateDebuggingTab()
+    this.initControls();
+    this.populateUtilityClasses();
+    this.populateVarsStyleSheet();
+    this.updateUiVarsStyleSheet();
+    this.updateUiClassesStyleSheet();
+    this.requestUpdate = this.updateUiView.bind(this);
+    this.addListeners();
+    this.updateExportPage();
+    this.updateDebuggingTab();
   }
 
   addBorderRadiusExamples() {

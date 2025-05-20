@@ -246,7 +246,7 @@ const defaultPalette = {
   backgroundColorName: 'background',
   blackAndWhiteNames: ['black', 'white', 'matched', 'reversed'],
   borderRadiiDirections: [
-    ['full', false],
+    ['', false],
     ['block', true],
     ['block-end', true],
     ['block-start', true],
@@ -1505,7 +1505,7 @@ class Picker extends HTMLElement {
     this.getSizes().forEach((sizeName, sizeIndex) => {
       this.getBorderRadiiDirectionNames().forEach((directionName, index) => {
         const ext = this.getBorderRadiiDirectionExtensions()[index];
-        const name = `.${sizeName}-${directionName}-radius`;
+        const name = `.${sizeName}${directionName}-radius`;
         const key = `border${ext}-radius`;
         const value = `var(--${sizeName}-radius)`;
         lines.push(
@@ -1923,7 +1923,11 @@ class Picker extends HTMLElement {
 
   getBorderRadiiDirectionNames() {
     return p.borderRadiiDirections.map((direction) => {
-      return direction[0];
+      if (direction[1] === true) {
+        return `-${direction[0]}`;
+      } else {
+        return `${direction[0]}`;
+      }
     });
   }
 

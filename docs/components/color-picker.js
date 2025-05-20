@@ -233,6 +233,11 @@ function sortVars(a, b) {
 }
 
 const defaultPalette = {
+  _tests: {
+    passed: 0,
+    failed: 0,
+    failureDetails: [],
+  },
   _debugging: {},
   activeMode: 0,
   activeColor: 0,
@@ -1006,8 +1011,10 @@ class Picker extends HTMLElement {
 
   connectedCallback() {
     dbg('Connected Color Picker')
+    // Reminder: Default data needs to be loaded for tests
+    p = JSON.parse(JSON.stringify(defaultPalette));
+    this.runTests()
     this.loadData()
-
     /*
     this.addBorderRadiusExamples();
     this.addBwBackgroundExamples();
@@ -1365,7 +1372,6 @@ class Picker extends HTMLElement {
     const out = lines.join('\n');
     this.varsStyleSheet.innerHTML = out
   }
-
 
   generateBackgroundColorsClasses() {
     const lines = []
@@ -2353,6 +2359,51 @@ class Picker extends HTMLElement {
     })
   }
 
+  runTest(payload) {
+    if (payload[0] === payload[1]) {
+      return { status: "pass", expected: payload[1], got: payload[0]};
+    } else {
+      return { status: "fail", expected: payload[1], got: payload[0]};
+    }
+  }
+
+  // NOTE: This is a stub for when I figure
+  // out how I want to test after the
+  // design finalizes.
+  runTests() {
+    this.testResults = [];
+    const tests = [
+      [
+        this.generateBackgroundColorsClasses()[1], 
+        ".accent-background { background-color: var(--accent); }"
+      ],
+      [
+        this.generateBackgroundColorsClasses()[2], 
+        ".accent-background-faded { background-color: var(--accent-faded); }"
+      ],
+      [
+        this.generateBackgroundColorsClasses()[3], 
+        ".accent-background-faded2 { background-color: var(--accent-faded2); }"
+      ], 
+      [
+        this.generateBlackAndWhiteBackgroundClasses()[1], 
+        ".black-background { background-color: var(--black); }"
+      ],
+      [
+        this.generateBlackAndWhiteBackgroundClasses()[2], 
+        ".black-background-faded { background-color: var(--black-faded); }"
+      ],
+      [
+        this.generateBlackAndWhiteBackgroundClasses()[3], 
+        ".black-background-faded2 { background-color: var(--black-faded2); }"
+      ]
+
+    ];
+    tests.forEach((test) => {
+      this.testResults.push(this.runTest(test));
+    });
+  }
+
   setColorAspect(mode, color, aspect, value) {
     const hueOffsetIndex = p.modes[mode].colors[color].hueOffsetIndex
     p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value
@@ -2539,7 +2590,22 @@ class Picker extends HTMLElement {
 
   updateDebuggingTab() {
     const outputEl = elV2('.debugging-content')
-
+    let pass = 0;
+    let fail = 0;
+    let failDetails = [];
+    this.testResults.forEach((result) => {
+      if (result.status === 'pass') {
+        pass ++;
+      } else {
+        fail ++;
+        failDetails.push(result);
+      }
+    });
+    p["_tests"] = {
+      pass: pass,
+      fail: fail,
+      failureDetails: failDetails,
+    };
     p["_debugging"] = {
       base: {
         l: this.getBackgroundValueL(p.activeMode),
@@ -2548,7 +2614,6 @@ class Picker extends HTMLElement {
       },
       colors: []
     };
-
     p.modes.forEach((modeData, modeIndex) => {
       modeData.colors.forEach((colorData, colorIndex) => {
         const l = this.getColorIndexL(modeIndex, colorIndex);
@@ -2559,6 +2624,7 @@ class Picker extends HTMLElement {
         );
       })
     });
+    el('debugging-content').innerHTML = JSON.stringify(p, null, 2); 
   }
 
 

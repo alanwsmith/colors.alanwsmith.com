@@ -221,14 +221,14 @@ function scrubStyle(input) {
 }
 
 function sortVars(a, b) {
-  const x = a.split(':')[0];
-  const y = b.split(':')[0];
+  const x = a.split(':')[0]
+  const y = b.split(':')[0]
   if (x > y) {
-    return 1;
+    return 1
   } else if (x < y) {
-    return -1;
+    return -1
   } else {
-    return 0;
+    return 0
   }
 }
 
@@ -291,13 +291,13 @@ const defaultPalette = {
     'bonus',
   ],
   directions: [
-      ['block', true],
-      ['bottom', true],
-      ['', false],
-      ['inline', true],
-      ['left', true],
-      ['right', true],
-      ['top', true],
+    ['block', true],
+    ['bottom', true],
+    ['', false],
+    ['inline', true],
+    ['left', true],
+    ['right', true],
+    ['top', true],
   ],
   fadedNames: ['faded', 'faded2'],
   // i've got back and forth between
@@ -320,7 +320,7 @@ const defaultPalette = {
     '0.2em',
   ],
   focused: false,
-  fontSizes: [  
+  fontSizes: [
     'clamp(2.8rem, calc(2rem + 1.25vw), 3.1rem)',
     'clamp(1.84rem, calc(1.77rem + 0.87vw), 2.14rem)',
     'clamp(1.32rem, calc(1.5rem + 0.58vw), 1.65rem)',
@@ -491,7 +491,7 @@ const defaultPalette = {
       name: 'Light',
     },
     {
-      base: { l: 94.92, c: 0.06066, h: 270},
+      base: { l: 94.92, c: 0.06066, h: 270 },
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100, 100, 0],
       colors: [
@@ -643,7 +643,7 @@ const defaultPalette = {
       name: 'High-Contrast Light',
     },
     {
-      base: { l: 25.71, c: 0.05262, h: 78.336},
+      base: { l: 25.71, c: 0.05262, h: 78.336 },
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100, 0, 100],
       colors: [
@@ -995,8 +995,8 @@ const defaultPalette = {
     'min(100vw - 1.4rem, 33rem)',
     'min(100vw - 1.4rem, 16rem)',
     'min(100vw - 1.4rem, 7rem)',
-    'min(100vw - 1.4rem, 3rem)'
-  ]
+    'min(100vw - 1.4rem, 3rem)',
+  ],
 }
 
 const config = {
@@ -1012,21 +1012,21 @@ class Picker extends HTMLElement {
   connectedCallback() {
     dbg('Connected Color Picker')
     // Reminder: Default data needs to be loaded for tests
-    p = JSON.parse(JSON.stringify(defaultPalette));
+    p = JSON.parse(JSON.stringify(defaultPalette))
     this.runTests()
     this.loadData()
     /*
-    this.addBorderRadiusExamples();
-    this.addBwBackgroundExamples();
-    this.addBwBorderExamples();
-    this.addBwColorExamples();
-    this.addSpacingAlignmentExamples();
-    this.addSpacingFlowExamples();
-    this.addSpacingMarginExamples();
-    this.addSpacingPaddingExamples();
-    this.addSpacingWidthExamples();
-    this.addSpacingWrapperExamples();
-    this.addFontSizeExamples();
+    this.addExampleForBorderRadius();
+    this.addExampleForBwBackground();
+    this.addExampleForBwBorder();
+    this.addExampleForBwColor();
+    this.addExampleForSpacingAlignment();
+    this.addExampleForSpacingFlow();
+    this.addExampleForSpacingMargin();
+    this.addExampleForSpacingPadding();
+    this.addExampleForSpacingWidth();
+    this.addExampleForSpacingWrapper();
+    this.addExampleForFontSize();
     */
 
     this.initControls()
@@ -1040,8 +1040,8 @@ class Picker extends HTMLElement {
     this.updateDebuggingTab()
   }
 
-  addBorderRadiusExamples() {
-    dbg('addBorderRadiusExamples')
+  addExampleForBorderRadius() {
+    dbg('addExampleForBorderRadius')
     const wrapper = el('border-radius-examples-wrapper')
     this.getSizes().forEach((size) => {
       const example = dc('div')
@@ -1056,7 +1056,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addBwBackgroundExamples() {
+  addExampleForBwBackground() {
     const wrapper = el('bw-background-examples-wrapper')
     const kinds = ['match', 'reverse']
     this.getBwKinds().forEach((kind) => {
@@ -1076,7 +1076,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addBwBorderExamples() {
+  addExampleForBwBorder() {
     const wrapper = el('bw-border-examples-wrapper')
     const kinds = ['match', 'reverse']
     this.getBwKinds().forEach((kind) => {
@@ -1103,7 +1103,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addBwColorExamples() {
+  addExampleForBwColor() {
     const wrapper = el('bw-color-examples-wrapper')
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div')
@@ -1121,7 +1121,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addFontSizeExamples() {
+  addExampleForFontSize() {
     const wrapper = el('font-size-examples-wrapper')
     this.getSizes().forEach((size) => {
       const token = `${size}-font`
@@ -1149,7 +1149,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addSpacingAlignmentExamples() {
+  addExampleForSpacingAlignment() {
     const wrapper = el('alignment-examples-wrapper')
     this.getAlignments().forEach((alignment) => {
       const example = dc('div')
@@ -1167,7 +1167,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addSpacingFlowExamples() {
+  addExampleForSpacingFlow() {
     const wrapper = el('flow-examples-wrapper')
     this.getSizes().forEach((size) => {
       const example = dc('div')
@@ -1188,7 +1188,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addSpacingMarginExamples() {
+  addExampleForSpacingMargin() {
     const wrapper = el('margin-examples-wrapper')
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
@@ -1222,8 +1222,8 @@ class Picker extends HTMLElement {
     })
   }
 
-  addSpacingPaddingExamples() {
-    const wrapper = el('padding-examples-wrapper')
+  addExampleForSpacingPadding() {
+    const wrapper = el('paddExampleForing--wrapper')
     this.getSizes().forEach((size) => {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-padding`
@@ -1240,7 +1240,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addSpacingWidthExamples() {
+  addExampleForSpacingWidth() {
     const wrapper = el('width-examples-wrapper')
     this.getSizesWithFull().forEach((size) => {
       const token = `${size}-width`
@@ -1260,7 +1260,7 @@ class Picker extends HTMLElement {
     })
   }
 
-  addSpacingWrapperExamples() {
+  addExampleForSpacingWrapper() {
     const wrapper = el('wrapper-examples-wrapper')
     this.getSizesWithFull().forEach((size) => {
       const token = `${size}-wrapper`
@@ -1281,7 +1281,7 @@ class Picker extends HTMLElement {
   }
 
   finishUpdate() {
-    dbg("finishUpdate");
+    dbg('finishUpdate')
     this.updateVarsStyleSheet()
     this.updateUiVarsStyleSheet()
     // TODO: move the classes things so it only has
@@ -1340,7 +1340,7 @@ class Picker extends HTMLElement {
       ad('name', 'Variables', this.varsStyleSheet)
     }
     const lines = []
-    lines.push(`:root {`);
+    lines.push(`:root {`)
     lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.updateActiveColorVars().join('\n'))
@@ -1366,8 +1366,8 @@ class Picker extends HTMLElement {
     lines.push(this.updateTextAlignmentVars().join('\n'))
     lines.push('')
     lines.push(this.updateWidthVars().join('\n'))
-    lines.push(`}`);
-    const out = lines.join('\n');
+    lines.push(`}`)
+    const out = lines.join('\n')
     this.varsStyleSheet.innerHTML = out
   }
 
@@ -1415,17 +1415,19 @@ class Picker extends HTMLElement {
   generateBlackAndWhiteBorderClasses() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-      this.getBorderDirectionNames().forEach((directionName, directionIndex) => {
-        let name = `.${bwName}${directionName}-border`;
-        const key = `border${directionName}`;
-        let value = `var(--${bwName}-border-style)`;
-        lines.push(makeClass(name, key, value));
-        this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-          name = `.${bwName}${directionName}-border-${fadedName}`;
-          let value = `var(--${bwName}-border-style-${fadedName})`;
-          lines.push(makeClass(name, key, value));
-        });
-      });
+      this.getBorderDirectionNames().forEach(
+        (directionName, directionIndex) => {
+          let name = `.${bwName}${directionName}-border`
+          const key = `border${directionName}`
+          let value = `var(--${bwName}-border-style)`
+          lines.push(makeClass(name, key, value))
+          this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+            name = `.${bwName}${directionName}-border-${fadedName}`
+            let value = `var(--${bwName}-border-style-${fadedName})`
+            lines.push(makeClass(name, key, value))
+          })
+        }
+      )
     })
     lines.sort()
     return [`/* Black And White Border Classes */`, ...lines]
@@ -1435,13 +1437,11 @@ class Picker extends HTMLElement {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getFadedValues().forEach((fadedName, fadedIndex) => {
-        const name = `  --${bwName}-border-style${fadedName}`;
-        const value = `1px solid var(--${bwName}${fadedName})`;
-        lines.push(
-          makeVar(name, value)
-        );
-      });
-    });
+        const name = `  --${bwName}-border-style${fadedName}`
+        const value = `1px solid var(--${bwName}${fadedName})`
+        lines.push(makeVar(name, value))
+      })
+    })
     lines.sort(sortVars)
     return [`  /* Black and White Border Style Variables */`, ...lines]
   }
@@ -1489,7 +1489,7 @@ class Picker extends HTMLElement {
         })
       })
     })
-    lines.sort(sortVars);
+    lines.sort(sortVars)
     return [`  /* Black And White Theme Variables */`, ...lines]
   }
 
@@ -1497,15 +1497,13 @@ class Picker extends HTMLElement {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       this.getBorderRadiiDirectionNames().forEach((directionName, index) => {
-        const ext = this.getBorderRadiiDirectionExtensions()[index];
-        const name = `.${sizeName}${directionName}-radius`;
-        const key = `border${ext}-radius`;
-        const value = `var(--${sizeName}-radius)`;
-        lines.push(
-          makeClass(name, key, value)
-        );
-      });
-    });
+        const ext = this.getBorderRadiiDirectionExtensions()[index]
+        const name = `.${sizeName}${directionName}-radius`
+        const key = `border${ext}-radius`
+        const value = `var(--${sizeName}-radius)`
+        lines.push(makeClass(name, key, value))
+      })
+    })
     lines.sort()
     return [`/* Border Radii Classes */`, ...lines]
   }
@@ -1513,12 +1511,10 @@ class Picker extends HTMLElement {
   updateBorderRadiiVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-        const name = `  --${sizeName}-radius`;
-        const value = `${p.borderRadii[sizeIndex]}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --${sizeName}-radius`
+      const value = `${p.borderRadii[sizeIndex]}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Border Radii Variables */`, ...lines]
   }
@@ -1526,18 +1522,20 @@ class Picker extends HTMLElement {
   generateColorBorderClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
-      this.getBorderDirectionNames().forEach((directionName, directionIndex) => {
-        let name = `.${colorName}${directionName}-border`;
-        const key = `border${directionName}`;
-        let value = `var(--${colorName}-border-style)`;
-        lines.push(makeClass(name, key, value));
-        this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-          name = `.${colorName}${directionName}-border-${fadedName}`;
-          let value = `var(--${colorName}-border-style-${fadedName})`;
-          lines.push(makeClass(name, key, value));
-        });
-      });
-    });
+      this.getBorderDirectionNames().forEach(
+        (directionName, directionIndex) => {
+          let name = `.${colorName}${directionName}-border`
+          const key = `border${directionName}`
+          let value = `var(--${colorName}-border-style)`
+          lines.push(makeClass(name, key, value))
+          this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+            name = `.${colorName}${directionName}-border-${fadedName}`
+            let value = `var(--${colorName}-border-style-${fadedName})`
+            lines.push(makeClass(name, key, value))
+          })
+        }
+      )
+    })
     lines.sort()
     return [`/* Color Border Classes */`, ...lines]
   }
@@ -1546,13 +1544,11 @@ class Picker extends HTMLElement {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fadedName, fadedIndex) => {
-        const name = `  --${colorName}-border-style${fadedName}`;
-        const value = `1px solid var(--${colorName}${fadedName})`;
-        lines.push(
-          makeVar(name, value)
-        );
-      });
-    });
+        const name = `  --${colorName}-border-style${fadedName}`
+        const value = `1px solid var(--${colorName}${fadedName})`
+        lines.push(makeVar(name, value))
+      })
+    })
     lines.sort(sortVars)
     return [`  /* Color Border Style Variables */`, ...lines]
   }
@@ -1560,13 +1556,11 @@ class Picker extends HTMLElement {
   generateFlowClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-      const name = `.${sizeName}-flow > :where(:not(:first-child))`;
-      const key = `margin-top`;
-      const value = `var(--flow-space, var(--${sizeName}-flow))`;
-      lines.push(
-        makeClass(name, key, value)
-      );
-    });
+      const name = `.${sizeName}-flow > :where(:not(:first-child))`
+      const key = `margin-top`
+      const value = `var(--flow-space, var(--${sizeName}-flow))`
+      lines.push(makeClass(name, key, value))
+    })
     lines.sort()
     return [`/* Flow Classes */`, ...lines]
   }
@@ -1574,12 +1568,10 @@ class Picker extends HTMLElement {
   updateFlowVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-        const name = `  --${sizeName}-flow`;
-        const value = `${p.flows[sizeIndex]}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --${sizeName}-flow`
+      const value = `${p.flows[sizeIndex]}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Flow Variables */`, ...lines]
   }
@@ -1587,13 +1579,11 @@ class Picker extends HTMLElement {
   generateFontSizeClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-      const name = `.${sizeName}-font-size`;
-      const key = `font-size`;
-      const value = `var(--${sizeName}-font-size)`;
-      lines.push(
-        makeClass(name, key, value)
-      );
-    });
+      const name = `.${sizeName}-font-size`
+      const key = `font-size`
+      const value = `var(--${sizeName}-font-size)`
+      lines.push(makeClass(name, key, value))
+    })
     lines.sort()
     return [`/* Font Size Classes */`, ...lines]
   }
@@ -1601,12 +1591,10 @@ class Picker extends HTMLElement {
   updateFontSizeVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-        const name = `  --${sizeName}-font-size`;
-        const value = `${p.fontSizes[sizeIndex]}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --${sizeName}-font-size`
+      const value = `${p.fontSizes[sizeIndex]}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Font Size Variables */`, ...lines]
   }
@@ -1615,18 +1603,16 @@ class Picker extends HTMLElement {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       this.getDirections().forEach((direction) => {
-         let ext = `-${direction[0]}`;
-         if (direction[1] === false) {
-           ext = '';
-         }
-        const name = `.${sizeName}-${direction[0]}-margin`;
-        const key = `margin${ext}`;
-        const value = `var(--${sizeName}-margin)`;
-        lines.push(
-          makeClass(name, key, value)
-        );
-      });
-    });
+        let ext = `-${direction[0]}`
+        if (direction[1] === false) {
+          ext = ''
+        }
+        const name = `.${sizeName}-${direction[0]}-margin`
+        const key = `margin${ext}`
+        const value = `var(--${sizeName}-margin)`
+        lines.push(makeClass(name, key, value))
+      })
+    })
     lines.sort()
     return [`/* Margin Classes */`, ...lines]
   }
@@ -1634,12 +1620,10 @@ class Picker extends HTMLElement {
   updateMarginVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-        const name = `  --${sizeName}-margin`;
-        const value = `${p.margins[sizeIndex]}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --${sizeName}-margin`
+      const value = `${p.margins[sizeIndex]}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Margin Variables */`, ...lines]
   }
@@ -1648,32 +1632,28 @@ class Picker extends HTMLElement {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       this.getDirections().forEach((direction) => {
-         let ext = `-${direction[0]}`;
-         if (direction[1] === false) {
-           ext = '';
-         }
-        const name = `.${sizeName}-${direction[0]}-padding`;
-        const key = `padding${ext}`;
-        const value = `var(--${sizeName}-padding)`;
-        lines.push(
-          makeClass(name, key, value)
-        );
-      });
-    });
+        let ext = `-${direction[0]}`
+        if (direction[1] === false) {
+          ext = ''
+        }
+        const name = `.${sizeName}-${direction[0]}-padding`
+        const key = `padding${ext}`
+        const value = `var(--${sizeName}-padding)`
+        lines.push(makeClass(name, key, value))
+      })
+    })
     lines.sort()
     return [`/* Padding Classes */`, ...lines]
   }
 
   updatePaddingVars() {
     const lines = []
-    const alignments = ['left', 'right', 'start', 'end', 'justify', 'center'];
+    const alignments = ['left', 'right', 'start', 'end', 'justify', 'center']
     this.getSizes().forEach((sizeName, sizeIndex) => {
-        const name = `  --${sizeName}-padding`;
-        const value = `${p.paddings[sizeIndex]}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --${sizeName}-padding`
+      const value = `${p.paddings[sizeIndex]}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Padding Variables */`, ...lines]
   }
@@ -1681,13 +1661,11 @@ class Picker extends HTMLElement {
   generateTextAlignmentClasses() {
     const lines = []
     this.getAlignments().forEach((alignment) => {
-      const name = `.align-${alignment}`;
-      const key = `text-align`;
-      const value = `var(--align-${alignment})`;
-      lines.push(
-        makeClass(name, key, value)
-      );
-    });
+      const name = `.align-${alignment}`
+      const key = `text-align`
+      const value = `var(--align-${alignment})`
+      lines.push(makeClass(name, key, value))
+    })
     lines.sort()
     return [`/* Text Alignment Classes */`, ...lines]
   }
@@ -1695,12 +1673,10 @@ class Picker extends HTMLElement {
   updateTextAlignmentVars() {
     const lines = []
     this.getAlignments().forEach((alignment) => {
-        const name = `  --align-${alignment}`;
-        const value = `${alignment}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --align-${alignment}`
+      const value = `${alignment}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Text Alignment Variables */`, ...lines]
   }
@@ -1725,13 +1701,11 @@ class Picker extends HTMLElement {
   generateWidthClasses() {
     const lines = []
     this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
-      const name = `.${sizeName}-width`;
-      const key = `width`;
-      const value = `var(--${sizeName}-width)`;
-      lines.push(
-        makeClass(name, key, value)
-      );
-    });
+      const name = `.${sizeName}-width`
+      const key = `width`
+      const value = `var(--${sizeName}-width)`
+      lines.push(makeClass(name, key, value))
+    })
     lines.sort()
     return [`/* Width Classes */`, ...lines]
   }
@@ -1739,12 +1713,10 @@ class Picker extends HTMLElement {
   updateWidthVars() {
     const lines = []
     this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
-        const name = `  --${sizeName}-width`;
-        const value = `${p.widths[sizeIndex]}`;
-        lines.push(
-          makeVar(name, value)
-        );
-    });
+      const name = `  --${sizeName}-width`
+      const value = `${p.widths[sizeIndex]}`
+      lines.push(makeVar(name, value))
+    })
     lines.sort(sortVars)
     return [`  /* Width Variables */`, ...lines]
   }
@@ -1752,12 +1724,10 @@ class Picker extends HTMLElement {
   generateWrapperClasses() {
     const lines = []
     this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
-      const name = `.${sizeName}-wrapper`;
-      const values = `width: var(--${sizeName}-width); margin-inline: auto;`;
-      lines.push(
-        `${name} { ${values} }`
-      );
-    });
+      const name = `.${sizeName}-wrapper`
+      const values = `width: var(--${sizeName}-width); margin-inline: auto;`
+      lines.push(`${name} { ${values} }`)
+    })
     lines.sort()
     return [`/* Wrapper Classes */`, ...lines]
   }
@@ -1788,7 +1758,7 @@ class Picker extends HTMLElement {
         })
       })
     })
-    lines.sort(sortVars);
+    lines.sort(sortVars)
     return [`  /* Color Theme Variables */`, ...lines]
   }
 
@@ -1864,7 +1834,7 @@ class Picker extends HTMLElement {
   }
 
   getAlignments() {
-    return p.alignments;
+    return p.alignments
   }
 
   getAspectMax(aspect) {
@@ -1903,41 +1873,41 @@ class Picker extends HTMLElement {
   getBorderDirectionExtensions() {
     return p.directions.map((direction) => {
       if (direction[1] === true) {
-        return `-${direction[0]}`;
+        return `-${direction[0]}`
       } else {
-        return '';
-      };
-    });
+        return ''
+      }
+    })
   }
 
   getBorderDirectionNames() {
     return p.directions.map((direction) => {
       if (direction[1] === true) {
-        return `-${direction[0]}`;
+        return `-${direction[0]}`
       } else {
-        return `${direction[0]}`;
+        return `${direction[0]}`
       }
-    });
+    })
   }
 
   getBorderRadiiDirectionExtensions() {
     return p.borderRadiiDirections.map((direction) => {
       if (direction[1] === true) {
-        return `-${direction[0]}`;
+        return `-${direction[0]}`
       } else {
-        return '';
-      };
-    });
+        return ''
+      }
+    })
   }
 
   getBorderRadiiDirectionNames() {
     return p.borderRadiiDirections.map((direction) => {
       if (direction[1] === true) {
-        return `-${direction[0]}`;
+        return `-${direction[0]}`
       } else {
-        return `${direction[0]}`;
+        return `${direction[0]}`
       }
-    });
+    })
   }
 
   // TODO: Deprecate this to getBlackAndWhiteNames
@@ -2065,7 +2035,7 @@ class Picker extends HTMLElement {
   }
 
   getSizes() {
-    return p.sizeNames;
+    return p.sizeNames
   }
 
   getSizesWithFull() {
@@ -2132,7 +2102,7 @@ class Picker extends HTMLElement {
         ac('color-selector-button', tabButton)
         if (nameIndex === p.activeColor) {
           sa('aria-selected', 'true', tabButton)
-         ac(`ui__background-text`, tabButton)
+          ac(`ui__background-text`, tabButton)
           // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
           // ac(`reversed`, tabButton);
           ac(
@@ -2331,9 +2301,19 @@ class Picker extends HTMLElement {
 
   runTest(payload) {
     if (payload[0] === payload[1]) {
-      return { status: "pass", expected: payload[1], got: payload[0], details: payload[2] };
+      return {
+        status: 'pass',
+        expected: payload[1],
+        got: payload[0],
+        details: payload[2],
+      }
     } else {
-      return { status: "fail", expected: payload[1], got: payload[0], details: payload[2] };
+      return {
+        status: 'fail',
+        expected: payload[1],
+        got: payload[0],
+        details: payload[2],
+      }
     }
   }
 
@@ -2341,40 +2321,40 @@ class Picker extends HTMLElement {
   // out how I want to test after the
   // design finalizes.
   runTests() {
-    this.testResults = [];
+    this.testResults = []
     const tests = [
       [
-        this.generateBackgroundColorsClasses()[1], 
+        this.generateBackgroundColorsClasses()[1],
         '.accent-background { background-color: var(--accent); }',
-        'generateBackgroundColorsClasses'
+        'generateBackgroundColorsClasses',
       ],
       [
-        this.generateBackgroundColorsClasses()[2], 
+        this.generateBackgroundColorsClasses()[2],
         '.accent-background-faded { background-color: var(--accent-faded); }',
-        'generateBackgroundColorsClasses'
+        'generateBackgroundColorsClasses',
       ],
       [
-        this.generateBackgroundColorsClasses()[3], 
+        this.generateBackgroundColorsClasses()[3],
         '.accent-background-faded2 { background-color: var(--accent-faded2); }',
         'generateBackgroundColorsClasses',
-      ], 
+      ],
       [
-        this.generateBlackAndWhiteBackgroundClasses()[1], 
+        this.generateBlackAndWhiteBackgroundClasses()[1],
         '.black-background { background-color: var(--black); }',
         'generateBlackAndWhiteBackgroundClasses',
       ],
       [
-        this.generateBlackAndWhiteBackgroundClasses()[2], 
+        this.generateBlackAndWhiteBackgroundClasses()[2],
         '.black-background-faded { background-color: var(--black-faded); }',
         'generateBlackAndWhiteBackgroundClasses',
       ],
       [
-        this.generateBlackAndWhiteBackgroundClasses()[3], 
+        this.generateBlackAndWhiteBackgroundClasses()[3],
         '.black-background-faded2 { background-color: var(--black-faded2); }',
         'generateBlackAndWhiteBackgroundClasses',
       ],
       [
-        this.generateBlackAndWhiteBorderClasses()[4], 
+        this.generateBlackAndWhiteBorderClasses()[4],
         '.black-border { border: var(--black-border-style); }',
         'generateBlackAndWhiteBorderClasses',
       ],
@@ -2388,25 +2368,25 @@ class Picker extends HTMLElement {
         '.default-radius { border-radius: var(--default-radius); }',
         'generateBorderRadiiClasses',
       ],
-      [ 
+      [
         this.generateColorBorderClasses()[2],
         '.accent-block-border-faded { border-block: var(--accent-border-style-faded); }',
         'generateColorBorderClasses',
       ],
-      [ 
+      [
         this.generateColorBorderClasses()[4],
         '.accent-border { border: var(--accent-border-style); }',
         'generateColorBorderClasses',
       ],
-      [ 
+      [
         this.generateFlowClasses()[4],
         '.xlarge-flow > :where(:not(:first-child)) { margin-top: var(--flow-space, var(--xlarge-flow)); }',
-        'generateFlowClasses'
-      ]
-    ];
+        'generateFlowClasses',
+      ],
+    ]
     tests.forEach((test) => {
-      this.testResults.push(this.runTest(test));
-    });
+      this.testResults.push(this.runTest(test))
+    })
   }
 
   setColorAspect(mode, color, aspect, value) {
@@ -2595,43 +2575,42 @@ class Picker extends HTMLElement {
 
   updateDebuggingTab() {
     const outputEl = elV2('.debugging-content')
-    let pass = 0;
-    let fail = 0;
-    let failDetails = [];
+    let pass = 0
+    let fail = 0
+    let failDetails = []
     this.testResults.forEach((result) => {
       if (result.status === 'pass') {
-        pass ++;
+        pass++
       } else {
-        fail ++;
-        failDetails.push(result);
+        fail++
+        failDetails.push(result)
       }
-    });
-    p["_tests"] = {
+    })
+    p['_tests'] = {
       pass: pass,
       fail: fail,
       failureDetails: failDetails,
-    };
-    p["_debugging"] = {
+    }
+    p['_debugging'] = {
       base: {
         l: this.getBackgroundValueL(p.activeMode),
         c: this.getBackgroundValueC(p.activeMode),
         h: this.getBackgroundValueH(p.activeMode),
       },
-      colors: []
-    };
+      colors: [],
+    }
     p.modes.forEach((modeData, modeIndex) => {
       modeData.colors.forEach((colorData, colorIndex) => {
-        const l = this.getColorIndexL(modeIndex, colorIndex);
-        const c = this.getColorIndexC(modeIndex, colorIndex);
-        const h = this.getColorIndexH(modeIndex, colorIndex);
-        p["_debugging"].colors.push(
+        const l = this.getColorIndexL(modeIndex, colorIndex)
+        const c = this.getColorIndexC(modeIndex, colorIndex)
+        const h = this.getColorIndexH(modeIndex, colorIndex)
+        p['_debugging'].colors.push(
           `mode: ${modeIndex} - color: ${colorIndex} - l: ${l} c: ${c} h: ${h}`
-        );
+        )
       })
-    });
-    el('debugging-content').innerHTML = JSON.stringify(p, null, 2); 
+    })
+    el('debugging-content').innerHTML = JSON.stringify(p, null, 2)
   }
-
 
   updateExportPage() {
     const outputEl = elV2('.export-content')
@@ -2646,10 +2625,7 @@ class Picker extends HTMLElement {
     outputEl.innerHTML = payloads
       .map((item) => {
         let open = ''
-        if (
-          item.name === 'Variables' ||
-          item.name === 'Utility Classes' 
-        ) {
+        if (item.name === 'Variables' || item.name === 'Utility Classes') {
           open = ' open'
         }
         return `

@@ -288,7 +288,7 @@ const defaultPalette = {
   directions: [
       ['block', true],
       ['bottom', true],
-      ['full', false],
+      ['', false],
       ['inline', true],
       ['left', true],
       ['right', true],
@@ -1411,28 +1411,41 @@ class Picker extends HTMLElement {
   generateBlackAndWhiteBorderClasses() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-      this.getDirections().forEach((direction) => {
-        let dir = `-${direction[0]}`
-        if (direction[1] === false) {
-          dir = ''
-        }
-        lines.push(
-          makeClass(
-            `.${bwName}-${direction[0]}-border`,
-            `border${dir}`,
-            `var(--${bwName}-border-style)`
-          )
-        )
+      this.getBorderDirectionNames().forEach((directionName, directionIndex) => {
+        let name = `.${bwName}${directionName}-border`;
+        const key = `border${directionName}`;
+        let value = `var(--${bwName}-border-style)`;
+        lines.push(makeClass(name, key, value));
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-          lines.push(
-            makeClass(
-              `.${bwName}-${direction[0]}-border-${fadedName}`,
-              `border${dir}`,
-              `var(--${bwName}-border-style${fadedName})`
-            )
-          )
-        })
-      })
+          name = `.${bwName}${directionName}-border-${fadedName}`;
+          let value = `var(--${bwName}-border-style-${fadedName})`;
+          lines.push(makeClass(name, key, value));
+        });
+      });
+
+      // this.getDirections().forEach((direction) => {
+      //   let dir = `-${direction[0]}`
+      //   if (direction[1] === false) {
+      //     dir = ''
+      //   }
+      //   lines.push(
+      //     makeClass(
+      //       `.${bwName}-${direction[0]}-border`,
+      //       `border${dir}`,
+      //       `var(--${bwName}-border-style)`
+      //     )
+      //   )
+      //   this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+      //     lines.push(
+      //       makeClass(
+      //         `.${bwName}-${direction[0]}-border-${fadedName}`,
+      //         `border${dir}`,
+      //         `var(--${bwName}-border-style${fadedName})`
+      //       )
+      //     )
+      //   })
+      // })
+
     })
     lines.sort()
     return [`/* Black And White Border Classes */`, ...lines]
@@ -1909,6 +1922,26 @@ class Picker extends HTMLElement {
 
   getBlackAndWhiteNames() {
     return p.blackAndWhiteNames
+  }
+
+  getBorderDirectionExtensions() {
+    return p.directions.map((direction) => {
+      if (direction[1] === true) {
+        return `-${direction[0]}`;
+      } else {
+        return '';
+      };
+    });
+  }
+
+  getBorderDirectionNames() {
+    return p.directions.map((direction) => {
+      if (direction[1] === true) {
+        return `-${direction[0]}`;
+      } else {
+        return `${direction[0]}`;
+      }
+    });
   }
 
   getBorderRadiiDirectionExtensions() {

@@ -220,6 +220,18 @@ function scrubStyle(input) {
     .toLowerCase()
 }
 
+function sortVars(a, b) {
+  const x = a.split(':')[0];
+  const y = b.split(':')[0];
+  if (x > y) {
+    return 1;
+  } else if (x < y) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
 const defaultPalette = {
   _debugging: {},
   activeMode: 0,
@@ -1262,13 +1274,13 @@ class Picker extends HTMLElement {
     const lines = []
     // TODO: Update names to generate.
     lines.push('')
-    lines.push(this.getColorModeVars().join('\n'))
-    lines.push('')
-    lines.push(this.generateBlackAndWhiteVars().join('\n'))
+    lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.updateActiveColorVars().join('\n'))
     lines.push('')
-    lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
+    lines.push(this.generateBlackAndWhiteVars().join('\n'))
+    lines.push('')
+    lines.push(this.getColorModeVars().join('\n'))
     lines.push('')
     lines.push(this.generateFontSizeVars().join('\n'))
     lines.push('')
@@ -1391,7 +1403,7 @@ class Picker extends HTMLElement {
         })
       })
     })
-    lines.sort()
+    lines.sort(sortVars);
     return [`  /* Black And White Mode Variables */`, ...lines]
   }
 
@@ -1442,8 +1454,41 @@ class Picker extends HTMLElement {
           makeVar(name, value)
         );
     });
-    lines.sort()
+    lines.sort(sortVars)
     return [`  /* Font Size Variables */`, ...lines]
+  }
+
+  generateMarginClasses() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+      this.getDirections().forEach((direction) => {
+         let ext = `-${direction[0]}`;
+         if (direction[1] === false) {
+           ext = '';
+         }
+        const name = `  .${sizeName}-${direction[0]}-margin`;
+        const key = `margin${ext}`;
+        const value = `var(--${sizeName}-margin)`;
+        lines.push(
+          makeClass(name, key, value)
+        );
+      });
+    });
+    lines.sort()
+    return [`  /* Margin Classes */`, ...lines]
+  }
+
+  generateMarginVars() {
+    const lines = []
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+        const name = `  --${sizeName}-margin`;
+        const value = `${p.margins[sizeIndex]}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort(softVars)
+    return [`  /* Margin Variables */`, ...lines]
   }
 
   generatePaddingClasses() {
@@ -1475,7 +1520,7 @@ class Picker extends HTMLElement {
           makeVar(name, value)
         );
     });
-    lines.sort()
+    lines.sort(sortVars)
     return [`  /* Padding Variables */`, ...lines]
   }
 
@@ -1521,47 +1566,9 @@ class Picker extends HTMLElement {
         })
       })
     })
+    lines.sort(sortVars);
     return [`  /* Color Mode Variables */`, ...lines]
   }
-
-  // updateProdVarsStyleSheet() {
-  //   if (this.colorVarsStyleSheet === undefined) {
-  //     this.colorVarsStyleSheet = dc('style');
-  //     document.head.appendChild(this.colorVarsStyleSheet);
-  //     ad("editable", "no", this.colorVarsStyleSheet);
-  //     ad("deployable", "yes", this.colorVarsStyleSheet);
-  //     ad("key", "color-variables", this.colorVarsStyleSheet);
-  //     ad("name", "Color Mode Variables", this.colorVarsStyleSheet);
-  //   }
-  //   const lines = [`:root {`];
-  //   lines.push(`  /* Color Mode Variables */`);
-  //   p.modes.forEach((modeData, modeIndex) => {
-  //     const modeName = scrubStyle(modeData.name);
-  //     const backgroundL = this.getBackgroundValueL(modeIndex);
-  //     const backgroundC = this.getBackgroundValueC(modeIndex);
-  //     const backgroundH = this.getBackgroundValueH(modeIndex);
-  //     const backgroundName = `  --${modeName}__${p.backgroundColorName}`
-  //     const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-  //     lines.push(`${backgroundName}: ${backgroundValue};`);
-  //     this.getActiveColors().forEach((colorName, colorIndex) => {
-  //       const l = this.getColorValueL(modeIndex, colorIndex);
-  //       const c = this.getColorValueC(modeIndex, colorIndex);
-  //       const h = this.getColorValueH(modeIndex, colorIndex);
-  //       const textName = `  --${modeName}__${colorName}`;
-  //       const textValue = `oklch(${l}% ${c} ${h})`;
-  //       lines.push(`${textName}: ${textValue};`);
-  //       p.fadedNames.forEach((fadedName, fadedIndex) => {
-  //         const fade = .5;
-  //         const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
-  //         const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-  //         lines.push(`${fadedClassName}: ${fadedValue};`);
-  //       });
-  //     });
-  //   });
-  //   lines.push(`}`);
-  //   const out = lines.join("\n");
-  //   this.colorVarsStyleSheet.innerHTML = out;
-  // }
 
   updateMode(obj) {
     const newMode = gdiV2('mode', obj)
@@ -2204,7 +2211,7 @@ class Picker extends HTMLElement {
         )
       })
     })
-    lines.sort()
+    lines.sort(sortVars)
     return [`  /* Active Black and White Variables */`, ...lines]
   }
 
@@ -2224,7 +2231,7 @@ class Picker extends HTMLElement {
         )
       })
     })
-    lines.sort()
+    lines.sort(sortVars)
     return [`  /* Active Color Variables */`, ...lines]
   }
 

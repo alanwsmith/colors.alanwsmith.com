@@ -245,6 +245,25 @@ const defaultPalette = {
   },
   backgroundColorName: 'background',
   blackAndWhiteNames: ['black', 'white', 'matched', 'reversed'],
+  borderRadiiDirections: [
+    ['full', false],
+    ['block', true],
+    ['block-end', true],
+    ['block-start', true],
+    ['block-bottom', true],
+    ['end-end', true],
+    ['end-start', true],
+    ['inline', true],
+    ['inline-end', true],
+    ['inline-start', true],
+    ['left', true],
+    ['right', true],
+    ['start-end', true],
+    ['start-start', true],
+    ['top', true],
+    ['top-left', true],
+    ['top-right', true],
+  ],
   borderRadii: [
     '1.2rem',
     '1.0rem',
@@ -256,7 +275,6 @@ const defaultPalette = {
     '0.2rem',
     '0.1rem',
   ],
-  borderStylePrefix: 'border',
   colorNames: [
     'content',
     'link',
@@ -1466,12 +1484,15 @@ class Picker extends HTMLElement {
   generateBorderRadiiClasses() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
-      const name = `.${sizeName}-full-radius`;
-      const key = `border`;
-      const value = `var(--${sizeName}-radius`;
-      lines.push(
-        makeClass(name, key, value)
-      );
+      this.getBorderRadiiDirectionNames().forEach((directionName, index) => {
+        const ext = this.getBorderRadiiDirectionExtensions()[index];
+        const name = `.${sizeName}-${directionName}-radius`;
+        const key = `border-radius${ext}`;
+        const value = `var(--${sizeName}-radius`;
+        lines.push(
+          makeClass(name, key, value)
+        );
+      });
     });
     lines.sort()
     return [`/* Border Radii Classes */`, ...lines]
@@ -1853,6 +1874,22 @@ class Picker extends HTMLElement {
 
   getBlackAndWhiteNames() {
     return p.blackAndWhiteNames
+  }
+
+  getBorderRadiiDirectionExtensions() {
+    return p.borderRadiiDirections.map((direction) => {
+      if (direction[1] === true) {
+        return `-${direction[0]}`;
+      } else {
+        return '';
+      };
+    });
+  }
+
+  getBorderRadiiDirectionNames() {
+    return p.borderRadiiDirections.map((direction) => {
+      return direction[0];
+    });
   }
 
   // TODO: Deprecate this to getBlackAndWhiteNames

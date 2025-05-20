@@ -236,6 +236,7 @@ const defaultPalette = {
   _debugging: {},
   activeMode: 0,
   activeColor: 0,
+  alignments: ['left', 'right', 'start', 'end', 'justify', 'center'],
   aspectOrder: ['l', 'c', 'h'],
   aspects: {
     l: { name: 'lightness', max: 100 },
@@ -1254,17 +1255,15 @@ class Picker extends HTMLElement {
     ad('name', 'Utility Classes', this.utilityClassesStyleSheet)
     const lines = []
     lines.push('')
-    lines.push(this.generateColorTextClasses().join('\n'))
-    lines.push('')
-    lines.push(this.generateColorBackgroundClasses().join('\n'))
-    lines.push('')
-    lines.push(this.generateColorBorderClasses().join('\n'))
-    lines.push('')
-    lines.push(this.generateBlackAndWhiteTextClasses().join('\n'))
+    lines.push(this.generateBackgroundColorsClasses().join('\n'))
     lines.push('')
     lines.push(this.generateBlackAndWhiteBackgroundClasses().join('\n'))
     lines.push('')
     lines.push(this.generateBlackAndWhiteBorderClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateBlackAndWhiteTextClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateColoredBorderClasses().join('\n'))
     lines.push('')
     lines.push(this.generateFlowClasses().join('\n'))
     lines.push('')
@@ -1273,6 +1272,10 @@ class Picker extends HTMLElement {
     lines.push(this.generateMarginClasses().join('\n'))
     lines.push('')
     lines.push(this.generatePaddingClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateTextAlignmentClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateColorTextClasses().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.utilityClassesStyleSheet.innerHTML = out
   }
@@ -1303,11 +1306,14 @@ class Picker extends HTMLElement {
     lines.push(this.generateMarginVars().join('\n'))
     lines.push('')
     lines.push(this.generatePaddingVars().join('\n'))
+    lines.push('')
+    lines.push(this.generateTextAlignmentVars().join('\n'))
     const out = `:root { ${lines.join('\n')} }`
     this.varsStyleSheet.innerHTML = out
   }
 
-  generateColorBackgroundClasses() {
+
+  generateBackgroundColorsClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
@@ -1321,7 +1327,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Background Colors */`, ...lines]
+    return [`  /* Background Color Classes */`, ...lines]
   }
 
   generateBlackAndWhiteBackgroundClasses() {
@@ -1422,10 +1428,10 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort(sortVars);
-    return [`  /* Black And White Mode Variables */`, ...lines]
+    return [`  /* Black And White Theme Variables */`, ...lines]
   }
 
-  generateColorBorderClasses() {
+  generateColoredBorderClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
@@ -1445,7 +1451,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Color Borders */`, ...lines]
+    return [`  /* Colored Borders Classes */`, ...lines]
   }
 
   generateFlowClasses() {
@@ -1558,6 +1564,7 @@ class Picker extends HTMLElement {
 
   generatePaddingVars() {
     const lines = []
+    const alignments = ['left', 'right', 'start', 'end', 'justify', 'center'];
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-padding`;
         const value = `${p.paddings[sizeIndex]}`;
@@ -1567,6 +1574,33 @@ class Picker extends HTMLElement {
     });
     lines.sort(sortVars)
     return [`  /* Padding Variables */`, ...lines]
+  }
+
+  generateTextAlignmentVars() {
+    const lines = []
+    this.getAlignments().forEach((alignment) => {
+        const name = `  --align-${alignment}`;
+        const value = `${alignment}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort(sortVars)
+    return [`  /* Text Alignment Variables */`, ...lines]
+  }
+
+  generateTextAlignmentClasses() {
+    const lines = []
+    this.getAlignments().forEach((alignment) => {
+      const name = `  .align-${alignment}`;
+      const key = `text-align`;
+      const value = `var(--align-${alignment}`;
+      lines.push(
+        makeClass(name, key, value)
+      );
+    });
+    lines.sort()
+    return [`  /* Text Alignment Classes */`, ...lines]
   }
 
   generateColorTextClasses() {
@@ -1583,7 +1617,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort()
-    return [`  /* Text Colors */`, ...lines]
+    return [`  /* Text Color Classes */`, ...lines]
   }
 
   getColorModeVars() {
@@ -1612,7 +1646,7 @@ class Picker extends HTMLElement {
       })
     })
     lines.sort(sortVars);
-    return [`  /* Color Mode Variables */`, ...lines]
+    return [`  /* Color Theme Variables */`, ...lines]
   }
 
   updateMode(obj) {
@@ -1687,7 +1721,7 @@ class Picker extends HTMLElement {
   }
 
   getAlignments() {
-    return ['start', 'center', 'end', 'justify']
+    return p.alignments;
   }
 
   getAspectMax(aspect) {
@@ -2263,7 +2297,7 @@ class Picker extends HTMLElement {
     return [`  /* Active Color Variables */`, ...lines]
   }
 
-  updateColorBackground(obj) {
+  updateBackgroundColors(obj) {
     const mode = p.activeMode
     const color = gdiV2('color', obj)
     const aspect = gdsV2('aspect', obj)
@@ -2637,11 +2671,11 @@ class Picker extends HTMLElement {
         }
       } else if (event.type === 'change') {
         if (kind === 'background-box-slider') {
-          this.updateColorBackground(event.target)
+          this.updateBackgroundColors(event.target)
         }
       } else if (event.type === 'input') {
         if (kind === 'background-box-slider') {
-          this.updateColorBackground(event.target)
+          this.updateBackgroundColors(event.target)
         } else if (kind === 'color-chroma-slider') {
           this.updateColorChroma(event.target)
         }

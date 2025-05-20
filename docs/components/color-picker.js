@@ -1588,7 +1588,7 @@ class Picker extends HTMLElement {
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `.${sizeName}-flow > :where(:not(:first-child))`;
       const key = `margin-top`;
-      const value = `var(--flow-space, --${sizeName}-flow)`;
+      const value = `var(--flow-space, var(--${sizeName}-flow))`;
       lines.push(
         makeClass(name, key, value)
       );
@@ -2423,6 +2423,11 @@ class Picker extends HTMLElement {
         this.generateColorBorderClasses()[4],
         '.accent-border { border: var(--accent-border-style); }',
         'generateColorBorderClasses',
+      ],
+      [ 
+        this.generateFlowClasses()[4],
+        '.xlarge-flow > :where(:not(:first-child)) { margin-top: var(--flow-space, var(--xlarge-flow)); }',
+        'generateFlowClasses'
       ]
     ];
     tests.forEach((test) => {

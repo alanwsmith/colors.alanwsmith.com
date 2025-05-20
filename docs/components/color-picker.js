@@ -2180,23 +2180,6 @@ class Picker extends HTMLElement {
     this.finishUpdate()
   }
 
-  // updateActiveVarsStyleSheet() {
-  //   if (this.activeVarsStyleSheet === undefined) {
-  //     this.activeVarsStyleSheet = dc('style');
-  //     document.head.appendChild(this.activeVarsStyleSheet);
-  //     ad("editable", "no", this.activeVarsStyleSheet);
-  //     ad("deployable", "yes", this.activeVarsStyleSheet);
-  //     ad("name", "Active Variables", this.activeVarsStyleSheet);
-  //   }
-  //   const lines = [];
-  //   lines.push(`:root {`);
-  //   lines.push(this.updateActiveColorVars().join("\n"));
-  //   lines.push("");
-  //   lines.push(this.updateActiveBlackAndWhiteVars().join("\n"));
-  //   lines.push(`}`);
-  //   this.activeVarsStyleSheet.innerHTML = lines.join("\n");
-  // }
-
   updateActiveBlackAndWhiteVars() {
     const lines = []
     const modeName = this.getScrubbedActiveModeName()

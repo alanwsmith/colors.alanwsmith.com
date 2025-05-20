@@ -2371,13 +2371,8 @@ class Picker extends HTMLElement {
       .map((item) => {
         let open = ''
         if (
-          // item.name === "Color Variables"
           item.name === 'Variables' ||
-          item.name === 'Utility Classes' ||
-          item.name === 'Active Variables'
-          // || item.name === "Picker Styles"
-          // || item.name === "UI Classes"
-          // || item.name === "UI Vars"
+          item.name === 'Utility Classes' 
         ) {
           open = ' open'
         }

@@ -2354,8 +2354,6 @@ class Picker extends HTMLElement {
         );
       })
     });
-
-//    outputEl.innerHTML = JSON.stringify(p, null, 2)
   }
 
 

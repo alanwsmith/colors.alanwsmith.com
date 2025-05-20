@@ -456,7 +456,6 @@ const defaultPalette = {
       ],
       name: 'Light',
     },
-
     {
       base: { l: 94.92, c: 0.06066, h: 270},
       blackAndWhiteFaded: [0.4, 0.1],
@@ -609,7 +608,6 @@ const defaultPalette = {
       ],
       name: 'High-Contrast Light',
     },
-
     {
       base: { l: 25.71, c: 0.05262, h: 78.336},
       blackAndWhiteFaded: [0.4, 0.1],
@@ -762,7 +760,6 @@ const defaultPalette = {
       ],
       name: 'Dark',
     },
-
     {
       base: { l: 0, c: 0.22155, h: 214.848 },
       blackAndWhiteFaded: [0.4, 0.1],
@@ -954,6 +951,18 @@ const defaultPalette = {
     'xxsmall',
     'xxxsmall',
   ],
+  widths: [
+    'calc(100vw - 1.4rem)',
+    'min(100vw - 1.4rem, 64rem)',
+    'min(100vw - 1.4rem, 56rem)',
+    'min(100vw - 1.4rem, 48rem)',
+    'min(100vw - 1.4rem, 42rem)',
+    'min(100vw - 1.4rem, 36rem)',
+    'min(100vw - 1.4rem, 33rem)',
+    'min(100vw - 1.4rem, 16rem)',
+    'min(100vw - 1.4rem, 7rem)',
+    'min(100vw - 1.4rem, 3rem)'
+  ]
 }
 
 const config = {
@@ -1275,7 +1284,9 @@ class Picker extends HTMLElement {
     lines.push('')
     lines.push(this.generateTextAlignmentClasses().join('\n'))
     lines.push('')
-    lines.push(this.generateColorTextClasses().join('\n'))
+    lines.push(this.generateTextColorClasses().join('\n'))
+    lines.push('')
+    lines.push(this.generateWidthClasses().join('\n'))
     const out = lines.join('\n')
     this.utilityClassesStyleSheet.innerHTML = out
   }
@@ -1289,8 +1300,8 @@ class Picker extends HTMLElement {
       ad('name', 'Variables', this.varsStyleSheet)
     }
     const lines = []
-    // TODO: Update names to generate.
-    lines.push('')
+    lines.push(`:root {`);
+    // TODO: Update `update` names to `generate`.
     lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.updateActiveColorVars().join('\n'))
@@ -1308,7 +1319,10 @@ class Picker extends HTMLElement {
     lines.push(this.generatePaddingVars().join('\n'))
     lines.push('')
     lines.push(this.generateTextAlignmentVars().join('\n'))
-    const out = `:root { ${lines.join('\n')} }`
+    lines.push('')
+    lines.push(this.generateWidthVars().join('\n'))
+    lines.push(`}`);
+    const out = lines.join('\n');
     this.varsStyleSheet.innerHTML = out
   }
 
@@ -1603,8 +1617,7 @@ class Picker extends HTMLElement {
     return [`  /* Text Alignment Variables */`, ...lines]
   }
 
-
-  generateColorTextClasses() {
+  generateTextColorClasses() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fade) => {
@@ -1619,6 +1632,33 @@ class Picker extends HTMLElement {
     })
     lines.sort()
     return [`/* Text Color Classes */`, ...lines]
+  }
+
+  generateWidthClasses() {
+    const lines = []
+    this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
+      const name = `.${sizeName}-width`;
+      const key = `width`;
+      const value = `var(--${sizeName}-width)`;
+      lines.push(
+        makeClass(name, key, value)
+      );
+    });
+    lines.sort()
+    return [`/* Width Classes */`, ...lines]
+  }
+
+  generateWidthVars() {
+    const lines = []
+    this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
+        const name = `  --${sizeName}-width`;
+        const value = `${p.widths[sizeIndex]}`;
+        lines.push(
+          makeVar(name, value)
+        );
+    });
+    lines.sort(sortVars)
+    return [`  /* Width Variables */`, ...lines]
   }
 
   getColorModeVars() {
@@ -1882,7 +1922,6 @@ class Picker extends HTMLElement {
     })
   }
 
-  // TODO: Deprecate and put in data object
   getSizes() {
     return p.sizeNames;
   }

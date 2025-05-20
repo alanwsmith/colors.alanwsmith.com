@@ -1030,9 +1030,9 @@ class Picker extends HTMLElement {
     */
 
     this.initControls()
-    this.populateUtilityClasses()
+    this.initUtilityClasses()
     this.updateVarsStyleSheet()
-    this.updateUiVarsStyleSheet()
+    this.queryUiVarsStyleSheet()
     this.updateUiClassesStyleSheet()
     this.requestUpdate = this.updateUiView.bind(this)
     this.addListeners()
@@ -1133,19 +1133,6 @@ class Picker extends HTMLElement {
       ac(token, example)
       html(`.${token}`, example)
       a(example, wrapper)
-    })
-  }
-
-  addListeners() {
-    dbg('addListeners')
-    this.addEventListener('click', (event) => {
-      this.requestUpdate.call(this, event)
-    })
-    this.addEventListener('change', (event) => {
-      this.requestUpdate.call(this, event)
-    })
-    this.addEventListener('input', (event) => {
-      this.requestUpdate.call(this, event)
     })
   }
 
@@ -1280,10 +1267,23 @@ class Picker extends HTMLElement {
     })
   }
 
+  addListeners() {
+    dbg('addListeners')
+    this.addEventListener('click', (event) => {
+      this.requestUpdate.call(this, event)
+    })
+    this.addEventListener('change', (event) => {
+      this.requestUpdate.call(this, event)
+    })
+    this.addEventListener('input', (event) => {
+      this.requestUpdate.call(this, event)
+    })
+  }
+
   finishUpdate() {
     dbg('finishUpdate')
     this.updateVarsStyleSheet()
-    this.updateUiVarsStyleSheet()
+    this.queryUiVarsStyleSheet()
     // TODO: move the classes things so it only has
     // to fire once
     this.updateUiClassesStyleSheet()
@@ -1292,7 +1292,7 @@ class Picker extends HTMLElement {
     this.toggleIsolation()
   }
 
-  populateUtilityClasses() {
+  initUtilityClasses() {
     this.utilityClassesStyleSheet = dc('style')
     document.head.appendChild(this.utilityClassesStyleSheet)
     ad('editable', 'no', this.utilityClassesStyleSheet)
@@ -1341,31 +1341,31 @@ class Picker extends HTMLElement {
     }
     const lines = []
     lines.push(`:root {`)
-    lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
+    lines.push(this.queryActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
-    lines.push(this.updateActiveColorVars().join('\n'))
+    lines.push(this.queryActiveColorVars().join('\n'))
     lines.push('')
-    lines.push(this.updateBlackAndWhiteVars().join('\n'))
+    lines.push(this.queryBlackAndWhiteVars().join('\n'))
     lines.push('')
-    lines.push(this.updateBlackAndWhiteBorderStyleVars().join('\n'))
+    lines.push(this.queryBlackAndWhiteBorderStyleVars().join('\n'))
     lines.push('')
-    lines.push(this.updateBorderRadiiVars().join('\n'))
+    lines.push(this.queryBorderRadiiVars().join('\n'))
     lines.push('')
-    lines.push(this.updateColorBorderStyleVars().join('\n'))
+    lines.push(this.queryColorBorderStyleVars().join('\n'))
     lines.push('')
-    lines.push(this.updateColorThemeVars().join('\n'))
+    lines.push(this.queryColorThemeVars().join('\n'))
     lines.push('')
-    lines.push(this.updateFlowVars().join('\n'))
+    lines.push(this.queryFlowVars().join('\n'))
     lines.push('')
-    lines.push(this.updateFontSizeVars().join('\n'))
+    lines.push(this.queryFontSizeVars().join('\n'))
     lines.push('')
-    lines.push(this.updateMarginVars().join('\n'))
+    lines.push(this.queryMarginVars().join('\n'))
     lines.push('')
-    lines.push(this.updatePaddingVars().join('\n'))
+    lines.push(this.queryPaddingVars().join('\n'))
     lines.push('')
-    lines.push(this.updateTextAlignmentVars().join('\n'))
+    lines.push(this.queryTextAlignmentVars().join('\n'))
     lines.push('')
-    lines.push(this.updateWidthVars().join('\n'))
+    lines.push(this.queryWidthVars().join('\n'))
     lines.push(`}`)
     const out = lines.join('\n')
     this.varsStyleSheet.innerHTML = out
@@ -1433,7 +1433,7 @@ class Picker extends HTMLElement {
     return [`/* Black And White Border Classes */`, ...lines]
   }
 
-  updateBlackAndWhiteBorderStyleVars() {
+  queryBlackAndWhiteBorderStyleVars() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getFadedValues().forEach((fadedName, fadedIndex) => {
@@ -1464,7 +1464,7 @@ class Picker extends HTMLElement {
     return [`/* Black And White Text Classes */`, ...lines]
   }
 
-  updateBlackAndWhiteVars() {
+  queryBlackAndWhiteVars() {
     const lines = []
     this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
@@ -1508,7 +1508,7 @@ class Picker extends HTMLElement {
     return [`/* Border Radii Classes */`, ...lines]
   }
 
-  updateBorderRadiiVars() {
+  queryBorderRadiiVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  --${sizeName}-radius`
@@ -1540,7 +1540,7 @@ class Picker extends HTMLElement {
     return [`/* Color Border Classes */`, ...lines]
   }
 
-  updateColorBorderStyleVars() {
+  queryColorBorderStyleVars() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fadedName, fadedIndex) => {
@@ -1565,7 +1565,7 @@ class Picker extends HTMLElement {
     return [`/* Flow Classes */`, ...lines]
   }
 
-  updateFlowVars() {
+  queryFlowVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  --${sizeName}-flow`
@@ -1588,7 +1588,7 @@ class Picker extends HTMLElement {
     return [`/* Font Size Classes */`, ...lines]
   }
 
-  updateFontSizeVars() {
+  queryFontSizeVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  --${sizeName}-font-size`
@@ -1617,7 +1617,7 @@ class Picker extends HTMLElement {
     return [`/* Margin Classes */`, ...lines]
   }
 
-  updateMarginVars() {
+  queryMarginVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  --${sizeName}-margin`
@@ -1646,7 +1646,7 @@ class Picker extends HTMLElement {
     return [`/* Padding Classes */`, ...lines]
   }
 
-  updatePaddingVars() {
+  queryPaddingVars() {
     const lines = []
     const alignments = ['left', 'right', 'start', 'end', 'justify', 'center']
     this.getSizes().forEach((sizeName, sizeIndex) => {
@@ -1670,7 +1670,7 @@ class Picker extends HTMLElement {
     return [`/* Text Alignment Classes */`, ...lines]
   }
 
-  updateTextAlignmentVars() {
+  queryTextAlignmentVars() {
     const lines = []
     this.getAlignments().forEach((alignment) => {
       const name = `  --align-${alignment}`
@@ -1710,7 +1710,7 @@ class Picker extends HTMLElement {
     return [`/* Width Classes */`, ...lines]
   }
 
-  updateWidthVars() {
+  queryWidthVars() {
     const lines = []
     this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
       const name = `  --${sizeName}-width`
@@ -1732,7 +1732,7 @@ class Picker extends HTMLElement {
     return [`/* Wrapper Classes */`, ...lines]
   }
 
-  updateColorThemeVars() {
+  queryColorThemeVars() {
     const lines = []
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name)
@@ -2501,7 +2501,7 @@ class Picker extends HTMLElement {
     this.finishUpdate()
   }
 
-  updateActiveBlackAndWhiteVars() {
+  queryActiveBlackAndWhiteVars() {
     const lines = []
     const modeName = this.getScrubbedActiveModeName()
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
@@ -2519,7 +2519,7 @@ class Picker extends HTMLElement {
     return [`  /* Active Black and White Variables */`, ...lines]
   }
 
-  updateActiveColorVars() {
+  queryActiveColorVars() {
     const lines = []
     this.getActiveScrubbedColorNames().forEach((colorName, colorIndex) => {
       const modeName = this.getActiveModeScrubbedName(p.activeMode)
@@ -2748,7 +2748,7 @@ class Picker extends HTMLElement {
   // exported is the responsibility of
   // another function that lets you pick
   // the primary mode.
-  updateUiVarsStyleSheet() {
+  queryUiVarsStyleSheet() {
     if (this.uiColorVarsStyleSheet === undefined) {
       this.uiColorVarsStyleSheet = dc('style')
       ad('name', 'UI Vars', this.uiColorVarsStyleSheet)

@@ -2421,7 +2421,7 @@ class Picker extends HTMLElement {
       ],
       [ 
         this.generateColorBorderClasses()[4],
-        'accent-border { border: var(--accent-border-style); }',
+        '.accent-border { border: var(--accent-border-style); }',
         'generateColorBorderClasses',
       ]
     ];

@@ -1226,7 +1226,6 @@ class Picker extends HTMLElement {
   finishUpdate() {
     dbg("finishUpdate");
     this.populateVarsStyleSheet()
-    // this.updateActiveVarsStyleSheet();
     this.updateUiVarsStyleSheet()
     // TODO: move the classes things so it only has
     // to fire once

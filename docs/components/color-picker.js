@@ -1031,7 +1031,7 @@ class Picker extends HTMLElement {
 
     this.initControls()
     this.populateUtilityClasses()
-    this.populateVarsStyleSheet()
+    this.updateVarsStyleSheet()
     this.updateUiVarsStyleSheet()
     this.updateUiClassesStyleSheet()
     this.requestUpdate = this.updateUiView.bind(this)
@@ -1282,7 +1282,7 @@ class Picker extends HTMLElement {
 
   finishUpdate() {
     dbg("finishUpdate");
-    this.populateVarsStyleSheet()
+    this.updateVarsStyleSheet()
     this.updateUiVarsStyleSheet()
     // TODO: move the classes things so it only has
     // to fire once
@@ -1331,7 +1331,7 @@ class Picker extends HTMLElement {
     this.utilityClassesStyleSheet.innerHTML = out
   }
 
-  populateVarsStyleSheet() {
+  updateVarsStyleSheet() {
     if (this.varsStyleSheet === undefined) {
       this.varsStyleSheet = dc('style')
       document.head.appendChild(this.varsStyleSheet)
@@ -1341,33 +1341,31 @@ class Picker extends HTMLElement {
     }
     const lines = []
     lines.push(`:root {`);
-    // TODO: Update `update` names to `generate`.
     lines.push(this.updateActiveBlackAndWhiteVars().join('\n'))
     lines.push('')
     lines.push(this.updateActiveColorVars().join('\n'))
     lines.push('')
-    lines.push(this.generateBlackAndWhiteVars().join('\n'))
+    lines.push(this.updateBlackAndWhiteVars().join('\n'))
     lines.push('')
-    lines.push(this.generateBlackAndWhiteBorderStyleVars().join('\n'))
+    lines.push(this.updateBlackAndWhiteBorderStyleVars().join('\n'))
     lines.push('')
-    lines.push(this.generateBorderRadiiVars().join('\n'))
+    lines.push(this.updateBorderRadiiVars().join('\n'))
     lines.push('')
-    lines.push(this.generateColorBorderStyleVars().join('\n'))
+    lines.push(this.updateColorBorderStyleVars().join('\n'))
     lines.push('')
-    // TODO: Rename Mode to Theme
-    lines.push(this.getColorModeVars().join('\n'))
+    lines.push(this.updateColorThemeVars().join('\n'))
     lines.push('')
-    lines.push(this.generateFlowVars().join('\n'))
+    lines.push(this.updateFlowVars().join('\n'))
     lines.push('')
-    lines.push(this.generateFontSizeVars().join('\n'))
+    lines.push(this.updateFontSizeVars().join('\n'))
     lines.push('')
-    lines.push(this.generateMarginVars().join('\n'))
+    lines.push(this.updateMarginVars().join('\n'))
     lines.push('')
-    lines.push(this.generatePaddingVars().join('\n'))
+    lines.push(this.updatePaddingVars().join('\n'))
     lines.push('')
-    lines.push(this.generateTextAlignmentVars().join('\n'))
+    lines.push(this.updateTextAlignmentVars().join('\n'))
     lines.push('')
-    lines.push(this.generateWidthVars().join('\n'))
+    lines.push(this.updateWidthVars().join('\n'))
     lines.push(`}`);
     const out = lines.join('\n');
     this.varsStyleSheet.innerHTML = out
@@ -1428,36 +1426,12 @@ class Picker extends HTMLElement {
           lines.push(makeClass(name, key, value));
         });
       });
-
-      // this.getDirections().forEach((direction) => {
-      //   let dir = `-${direction[0]}`
-      //   if (direction[1] === false) {
-      //     dir = ''
-      //   }
-      //   lines.push(
-      //     makeClass(
-      //       `.${bwName}-${direction[0]}-border`,
-      //       `border${dir}`,
-      //       `var(--${bwName}-border-style)`
-      //     )
-      //   )
-      //   this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-      //     lines.push(
-      //       makeClass(
-      //         `.${bwName}-${direction[0]}-border-${fadedName}`,
-      //         `border${dir}`,
-      //         `var(--${bwName}-border-style${fadedName})`
-      //       )
-      //     )
-      //   })
-      // })
-
     })
     lines.sort()
     return [`/* Black And White Border Classes */`, ...lines]
   }
 
-  generateBlackAndWhiteBorderStyleVars() {
+  updateBlackAndWhiteBorderStyleVars() {
     const lines = []
     this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
       this.getFadedValues().forEach((fadedName, fadedIndex) => {
@@ -1490,7 +1464,7 @@ class Picker extends HTMLElement {
     return [`/* Black And White Text Classes */`, ...lines]
   }
 
-  generateBlackAndWhiteVars() {
+  updateBlackAndWhiteVars() {
     const lines = []
     this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
@@ -1536,7 +1510,7 @@ class Picker extends HTMLElement {
     return [`/* Border Radii Classes */`, ...lines]
   }
 
-  generateBorderRadiiVars() {
+  updateBorderRadiiVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-radius`;
@@ -1568,7 +1542,7 @@ class Picker extends HTMLElement {
     return [`/* Color Border Classes */`, ...lines]
   }
 
-  generateColorBorderStyleVars() {
+  updateColorBorderStyleVars() {
     const lines = []
     this.getActiveColors().forEach((colorName, colorIndex) => {
       this.getFadedValues().forEach((fadedName, fadedIndex) => {
@@ -1597,7 +1571,7 @@ class Picker extends HTMLElement {
     return [`/* Flow Classes */`, ...lines]
   }
 
-  generateFlowVars() {
+  updateFlowVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-flow`;
@@ -1624,7 +1598,7 @@ class Picker extends HTMLElement {
     return [`/* Font Size Classes */`, ...lines]
   }
 
-  generateFontSizeVars() {
+  updateFontSizeVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-font-size`;
@@ -1657,7 +1631,7 @@ class Picker extends HTMLElement {
     return [`/* Margin Classes */`, ...lines]
   }
 
-  generateMarginVars() {
+  updateMarginVars() {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-margin`;
@@ -1690,7 +1664,7 @@ class Picker extends HTMLElement {
     return [`/* Padding Classes */`, ...lines]
   }
 
-  generatePaddingVars() {
+  updatePaddingVars() {
     const lines = []
     const alignments = ['left', 'right', 'start', 'end', 'justify', 'center'];
     this.getSizes().forEach((sizeName, sizeIndex) => {
@@ -1718,7 +1692,7 @@ class Picker extends HTMLElement {
     return [`/* Text Alignment Classes */`, ...lines]
   }
 
-  generateTextAlignmentVars() {
+  updateTextAlignmentVars() {
     const lines = []
     this.getAlignments().forEach((alignment) => {
         const name = `  --align-${alignment}`;
@@ -1762,7 +1736,7 @@ class Picker extends HTMLElement {
     return [`/* Width Classes */`, ...lines]
   }
 
-  generateWidthVars() {
+  updateWidthVars() {
     const lines = []
     this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
         const name = `  --${sizeName}-width`;
@@ -1788,7 +1762,7 @@ class Picker extends HTMLElement {
     return [`/* Wrapper Classes */`, ...lines]
   }
 
-  getColorModeVars() {
+  updateColorThemeVars() {
     const lines = []
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name)

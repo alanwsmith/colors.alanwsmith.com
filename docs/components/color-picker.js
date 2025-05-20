@@ -1780,6 +1780,7 @@ class Picker extends HTMLElement {
       const backgroundL = this.getBackgroundValueL(modeIndex)
       const backgroundC = this.getBackgroundValueC(modeIndex)
       const backgroundH = this.getBackgroundValueH(modeIndex)
+
       const backgroundName = `  --${modeName}__${p.backgroundColorName}`
       const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`
       lines.push(`${backgroundName}: ${backgroundValue};`)
@@ -1793,7 +1794,7 @@ class Picker extends HTMLElement {
         p.fadedNames.forEach((fadedName, fadedIndex) => {
           const fade = 0.5
           const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`
-          const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
+          const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`
           lines.push(`${fadedClassName}: ${fadedValue};`)
         })
       })

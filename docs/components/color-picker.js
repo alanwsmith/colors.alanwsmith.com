@@ -1423,9 +1423,10 @@ class Picker extends HTMLElement {
     const lines = []
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  .${sizeName}-font-size`;
-      const value = `font-size: ${p.fontSizes[sizeIndex]}`;
+      const key = `font-size`;
+      const value = `var(--${sizeName}-font-size)`;
       lines.push(
-        makeVar(name, value)
+        makeClass(name, key, value)
       );
     });
     lines.sort()
@@ -1455,9 +1456,9 @@ class Picker extends HTMLElement {
          }
         const name = `  .${sizeName}-${direction[0]}-padding`;
         const key = `padding${ext}`;
-        const value = `${sizeName}-padding`;
+        const value = `var(--${sizeName}-padding)`;
         lines.push(
-          makeVar(name, value)
+          makeClass(name, key, value)
         );
       });
     });

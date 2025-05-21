@@ -2127,6 +2127,19 @@ class Picker extends HTMLElement {
 		return [`  /* Black And White Theme Variables */`, ...lines];
 	}
 
+	queryBlackAndWhiteReversedBorderStyleVars() {
+		const lines = [];
+		this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+			this.getFadedValues().forEach((fadedName) => {
+				const name = `  --${bwName}-border-style${fadedName}`;
+				const value = `1px solid var(--${bwName}${fadedName})`;
+				lines.push(makeVar(name, value));
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Black and White Border Style Variables */`, ...lines];
+	}
+
 	queryBlackAndWhiteReversedThemeVars() {
 		const lines = [];
 		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
@@ -2743,19 +2756,29 @@ class Picker extends HTMLElement {
 	updateExportPage() {
 		// Variables
 		el("color-theme-vars").innerHTML = this.queryColorThemeVars().join("\n");
+
 		el("color-active-vars").innerHTML = this.queryColorActiveVars().join("\n");
+
 		el("color-border-style-vars").innerHTML =
 			this.queryColorBorderStyleVars().join("\n");
+
 		el("bw-normal-theme-vars").innerHTML =
 			this.queryBlackAndWhiteNormalThemeVars().join("\n");
+
 		el("bw-normal-active-vars").innerHTML =
-			this.queryBlackAndWhiteNormalBorderStyleVars().join("\n");
+			this.queryBlackAndWhiteNormalActiveVars().join("\n");
+
 		el("bw-normal-border-style-vars").innerHTML =
 			this.queryBlackAndWhiteNormalBorderStyleVars().join("\n");
+
 		el("bw-reversed-theme-vars").innerHTML =
 			this.queryBlackAndWhiteReversedThemeVars().join("\n");
+
 		el("bw-reversed-active-vars").innerHTML =
 			this.queryBlackAndWhiteReversedActiveVars().join("\n");
+
+		el("bw-reversed-border-style-vars").innerHTML =
+			this.queryBlackAndWhiteReversedBorderStyleVars().join("\n");
 
 		// Classes
 		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
@@ -2953,23 +2976,23 @@ class Picker extends HTMLElement {
 		}
 		const lines = [];
 		lines.push(`:root {`);
+		lines.push(this.queryColorThemeVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryColorActiveVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryColorBorderStyleVars().join("\n"));
+		lines.push("");
 		lines.push(this.queryBlackAndWhiteNormalThemeVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteNormalActiveVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryBlackAndWhiteNormalBorderStyleVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteReversedThemeVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteReversedActiveVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryColorActiveVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryBlackAndWhiteNormalBorderStyleVars().join("\n"));
-		lines.push("");
 		lines.push(this.queryBorderRadiiVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryColorBorderStyleVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryColorThemeVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryFlowVars().join("\n"));
 		lines.push("");

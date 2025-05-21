@@ -2780,6 +2780,21 @@ class Picker extends HTMLElement {
 		el("bw-reversed-border-style-vars").innerHTML =
 			this.queryBlackAndWhiteReversedBorderStyleVars().join("\n");
 
+		el("border-radii-vars").innerHTML = this.queryBorderRadiiVars().join("\n");
+
+		el("font-size-vars").innerHTML = this.queryFontSizeVars().join("\n");
+
+		el("margin-vars").innerHTML = this.queryMarginVars().join("\n");
+
+		el("padding-vars").innerHTML = this.queryPaddingVars().join("\n");
+
+		el("width-vars").innerHTML = this.queryWidthVars().join("\n");
+
+		el("flow-vars").innerHTML = this.queryFlowVars().join("\n");
+
+		el("text-alignment-vars").innerHTML =
+			this.queryTextAlignmentVars().join("\n");
+
 		// Classes
 		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
 

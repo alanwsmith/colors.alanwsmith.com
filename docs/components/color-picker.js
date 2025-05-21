@@ -106,35 +106,18 @@ function els(selector) {
   return document.querySelectorAll(selector)
 }
 
-// Focus (print to console regardless of debug
-function fx(value) {
-  console.log(value)
-}
+// // Focus (print to console regardless of debug
+// function fx(value) {
+//   console.log(value)
+// }
 
-// Get Float from DataSet Key From Event
-// TODO: put event last
-function gdf(event, key) {
-  return parseFloat(event.target.dataset[key])
-}
-
-// DEPRECATE in favor ov gdiV2
 // Get Int from DataSet Key From Event
-function gdi(key, event) {
-  return parseInt(event.target.dataset[key], 10)
-}
-
-function gdiV2(key, obj) {
+function gdi(key, obj) {
   return parseInt(obj.dataset[key], 10)
 }
 
-// TODO: Deprecate in favor of V2
-// Get String from DataSet Key From Event
-// TODO: put event last
-function gds(event, key) {
-  return event.target.dataset[key]
-}
-
-function gdsV2(key, obj) {
+// Get data attr as a string
+function gds(key, obj) {
   return obj.dataset[key]
 }
 
@@ -150,21 +133,9 @@ function getEls(selector, obj) {
 
 // TODO: Deprecate in favor of V2
 // Get Float Value from an Event
-function gvf(event) {
-  return parseFloat(event.target.value)
-}
-function gvfV2(obj) {
+
+function gvf(obj) {
   return parseFloat(obj.value)
-}
-
-// Get Integer Value from an Event
-function gvi(event) {
-  return parseInt(event.target.value, 10)
-}
-
-// Get String Value from an Event
-function gvs(event) {
-  return parseInt(event.target.value, 10)
 }
 
 // Set InnerHTML
@@ -182,25 +153,20 @@ function makeVar(name, value) {
   return `${name}: ${value};`
 }
 
-// Remove classes from Object
-function rc(data, obj) {
-  if (typeof data === 'string') {
-    obj.classList.remove(data)
-  } else {
-    data.forEach((c) => {
-      obj.classList.remove(c)
-    })
-  }
-}
+// // Remove classes from Object
+// function rc(data, obj) {
+//   if (typeof data === 'string') {
+//     obj.classList.remove(data)
+//   } else {
+//     data.forEach((c) => {
+//       obj.classList.remove(c)
+//     })
+//   }
+// }
 
 // Set Attribute
 function sa(key, value, obj) {
   obj.setAttribute(key, value)
-}
-
-// Set Value
-function sv(value, obj) {
-  obj.value = value
 }
 
 // Make CSS strings lower case for consistency
@@ -1058,7 +1024,6 @@ class Picker extends HTMLElement {
 
   addExampleForBwBackground() {
     const wrapper = el('bw-background-examples-wrapper')
-    const kinds = ['match', 'reverse']
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div')
       this.getFadedValues().forEach((value) => {
@@ -1078,7 +1043,6 @@ class Picker extends HTMLElement {
 
   addExampleForBwBorder() {
     const wrapper = el('bw-border-examples-wrapper')
-    const kinds = ['match', 'reverse']
     this.getBwKinds().forEach((kind) => {
       const kindEl = dc('div')
       this.getDirections().forEach((data) => {
@@ -1333,7 +1297,7 @@ class Picker extends HTMLElement {
 
   generateBackgroundColorsClasses() {
     const lines = []
-    this.getActiveColors().forEach((colorName, colorIndex) => {
+    this.getActiveColors().forEach((colorName) => {
       this.getFadedValues().forEach((fade) => {
         lines.push(
           makeClass(
@@ -1350,7 +1314,7 @@ class Picker extends HTMLElement {
 
   generateBlackAndWhiteBackgroundClasses() {
     const lines = []
-    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+    this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
         makeClass(
           `.${bwName}-background`,
@@ -1358,7 +1322,7 @@ class Picker extends HTMLElement {
           `var(--${bwName})`
         )
       )
-      this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+      this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeClass(
             `.${bwName}-background-${fadedName}`,
@@ -1374,14 +1338,14 @@ class Picker extends HTMLElement {
 
   generateBlackAndWhiteBorderClasses() {
     const lines = []
-    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+    this.getBlackAndWhiteNames().forEach((bwName) => {
       this.getBorderDirectionNames().forEach(
-        (directionName, directionIndex) => {
+        (directionName) => {
           let name = `.${bwName}${directionName}-border`
           const key = `border${directionName}`
           let value = `var(--${bwName}-border-style)`
           lines.push(makeClass(name, key, value))
-          this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+          this.getScrubbedFadedNames().forEach((fadedName) => {
             name = `.${bwName}${directionName}-border-${fadedName}`
             let value = `var(--${bwName}-border-style-${fadedName})`
             lines.push(makeClass(name, key, value))
@@ -1395,9 +1359,9 @@ class Picker extends HTMLElement {
 
   generateBlackAndWhiteTextClasses() {
     const lines = []
-    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+    this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`))
-      this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+      this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeClass(
             `.${bwName}-text-${fadedName}`,
@@ -1413,7 +1377,7 @@ class Picker extends HTMLElement {
 
   generateBorderRadiiClasses() {
     const lines = []
-    this.getSizes().forEach((sizeName, sizeIndex) => {
+    this.getSizes().forEach((sizeName) => {
       this.getBorderRadiiDirectionNames().forEach((directionName, index) => {
         const ext = this.getBorderRadiiDirectionExtensions()[index]
         const name = `.${sizeName}${directionName}-radius`
@@ -1428,14 +1392,14 @@ class Picker extends HTMLElement {
 
   generateColorBorderClasses() {
     const lines = []
-    this.getActiveColors().forEach((colorName, colorIndex) => {
+    this.getActiveColors().forEach((colorName) => {
       this.getBorderDirectionNames().forEach(
-        (directionName, directionIndex) => {
+        (directionName) => {
           let name = `.${colorName}${directionName}-border`
           const key = `border${directionName}`
           let value = `var(--${colorName}-border-style)`
           lines.push(makeClass(name, key, value))
-          this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+          this.getScrubbedFadedNames().forEach((fadedName) => {
             name = `.${colorName}${directionName}-border-${fadedName}`
             let value = `var(--${colorName}-border-style-${fadedName})`
             lines.push(makeClass(name, key, value))
@@ -1449,7 +1413,7 @@ class Picker extends HTMLElement {
 
   generateFlowClasses() {
     const lines = []
-    this.getSizes().forEach((sizeName, sizeIndex) => {
+    this.getSizes().forEach((sizeName) => {
       const name = `.${sizeName}-flow > :where(:not(:first-child))`
       const key = `margin-top`
       const value = `var(--flow-space, var(--${sizeName}-flow))`
@@ -1461,7 +1425,7 @@ class Picker extends HTMLElement {
 
   generateFontSizeClasses() {
     const lines = []
-    this.getSizes().forEach((sizeName, sizeIndex) => {
+    this.getSizes().forEach((sizeName) => {
       const name = `.${sizeName}-font-size`
       const key = `font-size`
       const value = `var(--${sizeName}-font-size)`
@@ -1473,7 +1437,7 @@ class Picker extends HTMLElement {
 
   generateMarginClasses() {
     const lines = []
-    this.getSizes().forEach((sizeName, sizeIndex) => {
+    this.getSizes().forEach((sizeName) => {
       this.getDirections().forEach((direction) => {
         let ext = `-${direction[0]}`
         if (direction[1] === false) {
@@ -1491,7 +1455,7 @@ class Picker extends HTMLElement {
 
   generatePaddingClasses() {
     const lines = []
-    this.getSizes().forEach((sizeName, sizeIndex) => {
+    this.getSizes().forEach((sizeName) => {
       this.getDirections().forEach((direction) => {
         let ext = `-${direction[0]}`
         if (direction[1] === false) {
@@ -1521,7 +1485,7 @@ class Picker extends HTMLElement {
 
   generateTextColorClasses() {
     const lines = []
-    this.getActiveColors().forEach((colorName, colorIndex) => {
+    this.getActiveColors().forEach((colorName) => {
       this.getFadedValues().forEach((fade) => {
         lines.push(
           makeClass(
@@ -1538,7 +1502,7 @@ class Picker extends HTMLElement {
 
   generateWidthClasses() {
     const lines = []
-    this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
+    this.getSizesWithFull().forEach((sizeName) => {
       const name = `.${sizeName}-width`
       const key = `width`
       const value = `var(--${sizeName}-width)`
@@ -1550,7 +1514,7 @@ class Picker extends HTMLElement {
 
   generateWrapperClasses() {
     const lines = []
-    this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
+    this.getSizesWithFull().forEach((sizeName) => {
       const name = `.${sizeName}-wrapper`
       const values = `width: var(--${sizeName}-width); margin-inline: auto;`
       lines.push(`${name} { ${values} }`)
@@ -1561,8 +1525,8 @@ class Picker extends HTMLElement {
 
   queryBlackAndWhiteBorderStyleVars() {
     const lines = []
-    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-      this.getFadedValues().forEach((fadedName, fadedIndex) => {
+    this.getBlackAndWhiteNames().forEach((bwName) => {
+      this.getFadedValues().forEach((fadedName) => {
         const name = `  --${bwName}-border-style${fadedName}`
         const value = `1px solid var(--${bwName}${fadedName})`
         lines.push(makeVar(name, value))
@@ -1614,8 +1578,8 @@ class Picker extends HTMLElement {
 
   queryColorBorderStyleVars() {
     const lines = []
-    this.getActiveColors().forEach((colorName, colorIndex) => {
-      this.getFadedValues().forEach((fadedName, fadedIndex) => {
+    this.getActiveColors().forEach((colorName) => {
+      this.getFadedValues().forEach((fadedName) => {
         const name = `  --${colorName}-border-style${fadedName}`
         const value = `1px solid var(--${colorName}${fadedName})`
         lines.push(makeVar(name, value))
@@ -1660,7 +1624,6 @@ class Picker extends HTMLElement {
 
   queryPaddingVars() {
     const lines = []
-    const alignments = ['left', 'right', 'start', 'end', 'justify', 'center']
     this.getSizes().forEach((sizeName, sizeIndex) => {
       const name = `  --${sizeName}-padding`
       const value = `${p.paddings[sizeIndex]}`
@@ -1710,7 +1673,7 @@ class Picker extends HTMLElement {
         const textName = `  --${modeName}__${colorName}`
         const textValue = `oklch(${l}% ${c} ${h})`
         lines.push(`${textName}: ${textValue};`)
-        p.fadedNames.forEach((fadedName, fadedIndex) => {
+        p.fadedNames.forEach((fadedName) => {
           const fade = 0.5
           const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`
           const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`
@@ -1723,7 +1686,7 @@ class Picker extends HTMLElement {
   }
 
   updateMode(obj) {
-    const newMode = gdiV2('mode', obj)
+    const newMode = gdi('mode', obj)
     if (newMode !== p.activeMode) {
       p.activeMode = newMode
     }
@@ -1936,7 +1899,6 @@ class Picker extends HTMLElement {
 
   getColorHueValues(mode, color) {
     const values = []
-    const h = this.getColorIndexH(mode, color)
     const hueOffsetAmount = this.getHueOffsetAmount(mode, color)
     for (let value = 0; value < 360; value += hueOffsetAmount) {
       values.push(value + p.modes[mode].base.h)
@@ -1946,7 +1908,7 @@ class Picker extends HTMLElement {
 
   // TODO: Figure out why these are magic numbers 
   // and make them not be
-  getColorHueRowValues(mode, color) {
+  getColorHueRowValues() {
     return [23, 34, 45, 234, 23, 12, 32, 51]
   }
 
@@ -1960,7 +1922,6 @@ class Picker extends HTMLElement {
   }
 
   getColorValueH(mode, color) {
-    const hueOffsetIndex = this.getHueOffsetIndex(mode, color)
     const h = this.getColorIndexH(mode, color)
     return this.getColorHueValues(mode, color)[h].toFixed(5)
   }
@@ -2047,8 +2008,8 @@ class Picker extends HTMLElement {
   initBackgroundCheckboxes() {
     dbg('initBackgroundCheckboxes()')
     const sidebars = els('.sidebar-controls')
-    sidebars.forEach((sidebar, sidebarIndex) => {
-      const tab = gdsV2('tab', sidebar)
+    sidebars.forEach((sidebar) => {
+      const tab = gds('tab', sidebar)
       const wrapper = getEl('.background-box-isolate-wrapper', sidebar)
       const connector = `background-box-isolate-checkbox-${tab}`
       const label = getEl('label', wrapper)
@@ -2065,11 +2026,11 @@ class Picker extends HTMLElement {
   initBackgroundSliders() {
     dbg('initBackgroundSlider()')
     const sidebars = els('.sidebar-controls')
-    sidebars.forEach((sidebar, sidebarIndex) => {
-      const tab = gdsV2('tab', sidebar)
+    sidebars.forEach((sidebar) => {
+      const tab = gds('tab', sidebar)
       const wrappers = getEls('.background-box-slider-wrapper', sidebar)
       wrappers.forEach((wrapper) => {
-        const aspect = gdsV2('aspect', wrapper)
+        const aspect = gds('aspect', wrapper)
         const connector = `background-box-slider-${tab}-${aspect}`
         const label = getEl('label', wrapper)
         label.innerHTML = `${aspect}:`
@@ -2091,7 +2052,7 @@ class Picker extends HTMLElement {
     dbg('initColorTabs')
     const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar) => {
-      const tabKey = gdsV2('tab', sidebar)
+      const tabKey = gds('tab', sidebar)
       const wrapper = getEl('.colors-box-tabs-wrapper', sidebar)
       html('', wrapper)
       const tabGroup = dc('tab-group')
@@ -2233,7 +2194,7 @@ class Picker extends HTMLElement {
   initModeButtonsV2() {
     const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar) => {
-      const tab = gdsV2('tab', sidebar)
+      const tab = gds('tab', sidebar)
       const wrapper = getEl('.mode-buttons', sidebar)
       ad('tab', tab, wrapper)
       html('', wrapper)
@@ -2273,7 +2234,6 @@ class Picker extends HTMLElement {
   refreshColorGrid() {
     const sidebars = els('.sidebar-controls')
     sidebars.forEach((sidebar) => {
-      const tabKey = gdsV2('tab', sidebar)
       const wrapper = getEl('.colors-box-grid-wrapper', sidebar)
       this.getColorHueValues(p.activeMode, p.activeColor).forEach(
         (hueData, hue) => {
@@ -2416,7 +2376,7 @@ class Picker extends HTMLElement {
 
   toggleIsolateColor(obj) {
     if (obj.checked === true) {
-      const color = gdiV2('color', obj)
+      const color = gdi('color', obj)
       p.previousIsolatedColor = -2
       p.isolatedColor = color
     } else {
@@ -2433,7 +2393,7 @@ class Picker extends HTMLElement {
     }
     const lines = []
     if (p.isolatedColor === -1) {
-      this.getActiveColors().forEach((colorName, colorIndex) => {
+      this.getActiveColors().forEach((colorName) => {
         lines.push(`--${colorName}: var(--background);`)
         p.fadedNames.forEach((fadedName) => {
           const name = `${colorName}-${fadedName}`
@@ -2493,7 +2453,7 @@ class Picker extends HTMLElement {
   }
 
   updateActiveColor(obj) {
-    const color = gdiV2('color', obj)
+    const color = gdi('color', obj)
     dbg(`updateActiveColor: ${color}`)
     p.activeColor = color
     if (p.isolatedColor >= 0) {
@@ -2506,9 +2466,9 @@ class Picker extends HTMLElement {
   queryActiveBlackAndWhiteVars() {
     const lines = []
     const modeName = this.getScrubbedActiveModeName()
-    this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+    this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(makeVar(`  --${bwName}`, `var(--${modeName}__${bwName})`))
-      this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+      this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${bwName}-${fadedName}`,
@@ -2523,12 +2483,12 @@ class Picker extends HTMLElement {
 
   queryActiveColorVars() {
     const lines = []
-    this.getActiveScrubbedColorNames().forEach((colorName, colorIndex) => {
+    this.getActiveScrubbedColorNames().forEach((colorName) => {
       const modeName = this.getActiveModeScrubbedName(p.activeMode)
       lines.push(
         makeVar(`  --${colorName}`, `var(--${modeName}__${colorName})`)
       )
-      this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+      this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${colorName}-${fadedName}`,
@@ -2543,23 +2503,22 @@ class Picker extends HTMLElement {
 
   updateBackgroundColors(obj) {
     const mode = p.activeMode
-    const color = gdiV2('color', obj)
-    const aspect = gdsV2('aspect', obj)
-    p.modes[mode].base[aspect] = gvfV2(obj)
+    const aspect = gds('aspect', obj)
+    p.modes[mode].base[aspect] = gvf(obj)
     this.finishUpdate()
   }
 
   updateColorChroma(obj) {
-    const value = gvfV2(obj)
+    const value = gvf(obj)
     this.setColorAspect(p.activeMode, p.activeColor, 'c', value)
     this.finishUpdate()
   }
 
   updateLightnessHue(obj) {
-    const mode = gdiV2('mode', obj)
-    const color = gdiV2('color', obj)
-    const lightness = gdiV2('lightness', obj)
-    const hue = gdiV2('hue', obj)
+    const mode = gdi('mode', obj)
+    const color = gdi('color', obj)
+    const lightness = gdi('lightness', obj)
+    const hue = gdi('hue', obj)
     this.setColorAspect(mode, color, 'l', lightness)
     this.setColorAspect(mode, color, 'h', hue)
     this.finishUpdate()
@@ -2570,13 +2529,12 @@ class Picker extends HTMLElement {
     const wrapper = getEl(`.background-box-sliders`, sidebar)
     const sliders = getEls(`input`, wrapper)
     sliders.forEach((slider) => {
-      const aspect = gdsV2('aspect', slider)
+      const aspect = gds('aspect', slider)
       slider.value = this.getActiveBackgroundValueAspect(aspect)
     })
   }
 
   updateDebuggingTab() {
-    const outputEl = elV2('.debugging-content')
     let pass = 0
     let fail = 0
     let failDetails = []
@@ -2703,16 +2661,13 @@ class Picker extends HTMLElement {
       const backgroundValue = `var(--ui__mode-${modeIndex}__background)`
       lines.push(`${backgroundName} { background-color: ${backgroundValue}; }`)
       this.getActiveColors().forEach((colorName, colorIndex) => {
-        const l = this.getColorValueL(modeIndex, colorIndex)
-        const c = this.getColorValueC(modeIndex, colorIndex)
-        const h = this.getColorValueH(modeIndex, colorIndex)
         let textName = `.ui__mode-${modeIndex}__color-${colorIndex}-text`
         let textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`
         lines.push(`${textName} { color: ${textValue} ; }`)
         textName = `.ui__mode-${modeIndex}__color-${colorIndex}-background`
         textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`
         lines.push(`${textName} { background-color: ${textValue} ;} `)
-        p.fadedNames.forEach((fadedName, fadedIndex) => {
+        p.fadedNames.forEach((fadedName) => {
           let fadedClassName = `.ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}-text`
           let fadedValue = `var(--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName})`
           lines.push(`${fadedClassName} { color: ${fadedValue};}`)
@@ -2722,19 +2677,18 @@ class Picker extends HTMLElement {
         })
       })
     })
-    const modeIndex = p.activeMode
     const backgroundName = `.ui__${p.backgroundColorName}`
     const backgroundValue = `var(--ui__${p.backgroundColorName})`
     lines.push(`${backgroundName}-text { color: ${backgroundValue}; }`)
     lines.push(
       `${backgroundName}-background { background-color: ${backgroundValue}; }`
     )
-    this.getActiveColors().forEach((colorName, colorIndex) => {
+    this.getActiveColors().forEach((colorName) => {
       let textName = `.ui__${colorName}`
       let textValue = `var(--ui__${colorName})`
       lines.push(`${textName}-text { color: ${textValue}; }`)
       lines.push(`${textName}-background { background-color: ${textValue}; }`)
-      p.fadedNames.forEach((fadedName, fadedIndex) => {
+      p.fadedNames.forEach((fadedName) => {
         const textName = `.ui__${colorName}-${fadedName}`
         const textValue = `var(--ui__${colorName}-${fadedName})`
         lines.push(`${textName}-text { color: ${textValue}; }`)
@@ -2841,7 +2795,7 @@ class Picker extends HTMLElement {
         textName = `--ui__mode-${modeIndex}__color-${colorIndex}`
         textValue = `oklch(${l}% ${c} ${h})`
         lines.push(`${textName}: ${textValue};`)
-        p.fadedNames.forEach((fadedName, fadedIndex) => {
+        p.fadedNames.forEach((fadedName) => {
           const fade = 0.5
           let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`
           let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
@@ -2866,14 +2820,14 @@ class Picker extends HTMLElement {
       const textName = `--ui__${colorName}`
       const textValue = `oklch(${l}% ${c} ${h})`
       lines.push(`${textName}: ${textValue};`)
-      p.fadedNames.forEach((fadedName, fadedIndex) => {
+      p.fadedNames.forEach((fadedName) => {
         const fade = 0.5
         const fadedClassName = `--ui__${colorName}-${fadedName}`
         const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`
         lines.push(`${fadedClassName}: ${fadedValue};`)
       })
     })
-    this.getActiveColors().forEach((colorName, colorIndex) => {
+    this.getActiveColors().forEach((colorName) => {
       const value = `${this.getActiveModeScrubbedName()}__${colorName}`
       lines.push(`--${colorName}: var(--${value});`)
       p.fadedNames.forEach((fadedName) => {
@@ -2994,7 +2948,6 @@ class TabGroup extends HTMLElement {
     })
   }
 }
-
 
 
 customElements.define('tab-group', TabGroup)

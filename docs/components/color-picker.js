@@ -1648,12 +1648,6 @@ class Picker extends HTMLElement {
 		return p.modes[mode].colors[color].fadedValues[index];
 	}
 
-	// TODO: Figure out why these are magic numbers
-	// and make them not be
-	getColorHueRowValues() {
-		return [23, 34, 45, 234, 23, 12, 32, 51];
-	}
-
 	getColorHueValues(mode, color) {
 		const values = [];
 		const hueOffsetAmount = this.getHueOffsetAmount(mode, color);
@@ -2025,7 +2019,7 @@ class Picker extends HTMLElement {
 		dbg("Loaded default colors");
 	}
 
-	queryActiveBlackAndWhiteThemeReversedVars() {
+	queryReversedBlackAndWhiteActiveVars() {
 		const lines = [];
 		const modeName = this.getScrubbedActiveModeName();
 		this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
@@ -2045,7 +2039,7 @@ class Picker extends HTMLElement {
 		return [`  /* Active Black and White Reversed Variables */`, ...lines];
 	}
 
-	queryActiveBlackAndWhiteThemeVars() {
+	queryBlackAndWhiteActiveVars() {
 		const lines = [];
 		const modeName = this.getScrubbedActiveModeName();
 		this.getBlackAndWhiteNames().forEach((bwName) => {
@@ -2133,7 +2127,7 @@ class Picker extends HTMLElement {
 		return [`  /* Black And White Theme Variables */`, ...lines];
 	}
 
-	queryBlackAndWhiteThemeReversedVars() {
+	queryReversedBlackAndWhiteThemeVars() {
 		const lines = [];
 		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
 			this.getBlackAndWhiteNamesReversed().forEach((bwName, bwIndex) => {
@@ -2189,7 +2183,7 @@ class Picker extends HTMLElement {
 		return [`  /* Color Border Style Variables */`, ...lines];
 	}
 
-	queryColorThemeVars() {
+	queryThemeColorVars() {
 		const lines = [];
 		p.modes.forEach((modeData, modeIndex) => {
 			const modeName = scrubStyle(modeData.name);
@@ -2216,7 +2210,7 @@ class Picker extends HTMLElement {
 			});
 		});
 		lines.sort(sortVars);
-		return [`  /* Color Theme Variables */`, ...lines];
+		return [`  /* Theme Color Variables */`, ...lines];
 	}
 
 	queryFlowVars() {
@@ -2548,19 +2542,19 @@ class Picker extends HTMLElement {
 				"generateFlowClasses",
 			],
 			[
-				this.queryColorThemeVars()[1].trim(),
+				this.queryThemeColorVars()[1].trim(),
 				"--dark-theme__accent: oklch(68.00000% 0.06066 303.33600);",
-				"queryColorThemeVars",
+				"queryThemeColorVars",
 			],
 			[
-				this.queryActiveBlackAndWhiteThemeVars()[1].trim(),
+				this.queryBlackAndWhiteActiveVars()[1].trim(),
 				"--black: var(--light-theme__black);",
-				"queryActiveBlackAndWhiteThemeVars",
+				"queryBlackAndWhiteActiveVars",
 			],
 			[
-				this.queryActiveBlackAndWhiteThemeReversedVars()[1].trim(),
+				this.queryReversedBlackAndWhiteActiveVars()[1].trim(),
 				"--matched: var(--light-theme__matched);",
-				"queryActiveBlackAndWhiteThemeVars",
+				"queryBlackAndWhiteActiveVars",
 			],
 			[
 				this.queryActiveColorVars()[1].trim(),
@@ -2753,10 +2747,16 @@ class Picker extends HTMLElement {
 
 	updateExportPage() {
 		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
+		el("theme-color-vars").innerHTML = this.queryThemeColorVars().join("\n");
 		el("bw-theme-vars").innerHTML =
 			this.queryBlackAndWhiteThemeVars().join("\n");
-		el("bw-theme-reversed-vars").innerHTML =
-			this.queryActiveBlackAndWhiteThemeReversedVars().join("\n");
+		el("bw-active-vars").innerHTML =
+			this.queryBlackAndWhiteActiveVars().join("\n");
+		el("reversed-bw-theme-vars").innerHTML =
+			this.queryReversedBlackAndWhiteThemeVars().join("\n");
+		el("reversed-bw-active-vars").innerHTML =
+			this.queryReversedBlackAndWhiteActiveVars().join("\n");
+
 		// TODO: Deprecate this stuff below.
 		// it was the initial stubs
 
@@ -2950,15 +2950,15 @@ class Picker extends HTMLElement {
 		}
 		const lines = [];
 		lines.push(`:root {`);
-		lines.push(this.queryActiveBlackAndWhiteThemeVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryActiveBlackAndWhiteThemeReversedVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryActiveColorVars().join("\n"));
-		lines.push("");
 		lines.push(this.queryBlackAndWhiteThemeVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryBlackAndWhiteThemeReversedVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteActiveVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryReversedBlackAndWhiteThemeVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryReversedBlackAndWhiteActiveVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryActiveColorVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteBorderStyleVars().join("\n"));
 		lines.push("");
@@ -2966,7 +2966,7 @@ class Picker extends HTMLElement {
 		lines.push("");
 		lines.push(this.queryColorBorderStyleVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryColorThemeVars().join("\n"));
+		lines.push(this.queryThemeColorVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryFlowVars().join("\n"));
 		lines.push("");

@@ -173,6 +173,15 @@
       .styles-grid code { 
         font-size: var(--xxsmall-font-size);
       }
+      .styles-grid details { 
+        font-size: var(--small-font-size);
+      }
+      .styles-grid pre { 
+        line-height: 1;
+      }
+      .styles-grid summary { 
+        font-size: var(--small-font-size);
+      }
       .top-nav-button {
         border: var(--background-border-style);
         color: var(--link);
@@ -1239,10 +1248,23 @@ It was a dark and stormy night...
               <h3>Variables</h3>
 
               <div class="styles-grid">
+                <!-- Theme Color Variables -->
+                <input type="checkbox" id="theme-color-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>Theme Color Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="theme-color-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Theme Black and White Variables -->
                 <input type="checkbox" id="bw-theme-vars-checkbox" />
                 <div>
                   <details>
-                    <summary>Black And White Theme Variables</summary>
+                    <summary>Theme Black &amp; White Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1250,29 +1272,55 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-                <input type="checkbox" id="bw-theme-vars-checkbox" />
+                <!-- Active Black and White Variables -->
+                <input type="checkbox" id="bw-active-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>Active Black &amp; White Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-active-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Theme Reversed Black and White Variables -->
+                <input type="checkbox" id="reversed-bw-theme-vars-checkbox" />
                 <div>
                   <details>
                     <summary>
-                      Reversed Black And White Theme Variables: TODO Split out
+                       Theme Black &amp; White Reversed Variables
                     </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="bw-theme-reversed-vars"></code></pre>
+                      <pre><code class="reversed-bw-theme-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Active Reversed Black and White Variables -->
+                <input type="checkbox" id="reversed-bw-active-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>
+                       Active Black &amp; White Reversed Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="reversed-bw-active-vars"></code></pre>
                     </details>
                   </details>
                 </div>
               </div>
 
               <pre>
-/* Active Black and White Variables */
-  /* Active Color Variables */
-  /* Black And White Theme Variables */
+
+/* Theme Color Variables */
+/* Active Color Variables */
 /* Black and White Border Style Variables */
 /* Border Radii Variables */
 /* Color Border Style Variables */
-/* Color Theme Variables */
 /* Flow Variables */
 /* Font Size Variables */
 /* Margin Variables */

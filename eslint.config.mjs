@@ -1,3 +1,4 @@
+// import sortClassMembers from "eslint-plugin-sort-class-members";
 
 export default [
   {
@@ -1216,7 +1217,8 @@ export default [
       'require-yield': 'error',
       'use-isnan': 'error',
       'valid-typeof': 'error',
-      'space-before-function-paren': 'error',
+      // 'space-before-function-paren': 'error',
+      //'no-var': 'error',
     }),
   },
 

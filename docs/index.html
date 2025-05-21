@@ -592,6 +592,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Picker
             </button>
@@ -606,7 +607,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Export
             </button>
@@ -984,6 +984,39 @@ It was a dark and stormy night...
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>
                 </hgroup>
+
+                <div
+                  class="xlarge-inline-margin large-inline-padding large-block-padding link-border default-radius default-flow"
+                >
+                  <h2>Head's Up: Work-In-Progres</h2>
+                  <p>
+                    Hi there! You're early, but that's cool. Just two things to
+                    know:
+                  </p>
+                  <ol>
+                    <li>The color sliders and buttons work.</li>
+                    <li>The export doesn't (yet).</li>
+                  </ol>
+                  <p>
+                    It's currently May 21st. I plan to have the export working
+                    to launch a fully operationaly tool in the next few days.
+                  </p>
+
+                  <p>
+                    Click around to get a sense of the picker. Check back to see
+                    about the export. Or, follow me on
+                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a>,
+                    <a href="https://bsky.app/profile/alanwsmith.com">Bluesky</a
+                    >, or
+                    <a href="https://www.alanwsmith.com/feeds/posts.xml">
+                      my RSS feed</a
+                    >
+                    for updates.
+                  </p>
+                </div>
+
+                <h2>Content For Launch</h2>
+
                 <div
                   class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
                 >
@@ -1071,8 +1104,9 @@ It was a dark and stormy night...
 
                 <p>-a</p>
 
-                <h3>Set Color Mechanics</h3>
 
+<!--
+                <h3>Set Color Mechanics</h3>
                 <p>
                   The picker users OKLCH<sup>2</sup>. The <em>L</em>,
                   <em>C</em>, and <em>H</em> being our lightness, chroma, and
@@ -1085,7 +1119,6 @@ It was a dark and stormy night...
                   the <em>set</em> colors adds 45 to it. Each subsequent row
                   adds another 45<sup>flips</sup>.
                 </p>
-
                 <ol>
                   <li>
                     Move the &quot;l&quot;, &quot;c&quot;, and &quot;h&quot;
@@ -1148,6 +1181,7 @@ It was a dark and stormy night...
                   checkbox. Ticking it hides all the content so you can pick the
                   background without existing text colors influencing it.
                 </p>
+-->
 
                 <h2>Footnotes</h2>
                 <ol>
@@ -1248,7 +1282,6 @@ It was a dark and stormy night...
               <h3>Variables</h3>
 
               <div class="styles-grid">
-
                 <!-- Color Theme Variables -->
                 <input type="checkbox" id="color-theme-vars-checkbox" checked />
                 <div>
@@ -1270,7 +1303,7 @@ It was a dark and stormy night...
                 />
                 <div>
                   <details>
-                    <summary> Color - Active Variables</summary>
+                    <summary>Color - Active Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1280,10 +1313,7 @@ It was a dark and stormy night...
                 </div>
 
                 <!-- Color Border Style Variables -->
-                <input
-                  type="checkbox"
-                  id="color-border-style-vars-checkbox"
-                />
+                <input type="checkbox" id="color-border-style-vars-checkbox" />
                 <div>
                   <details>
                     <summary>Color - Border Style Variables</summary>
@@ -1299,7 +1329,9 @@ It was a dark and stormy night...
                 <input type="checkbox" id="bw-normal-theme-vars-checkbox" />
                 <div>
                   <details>
-                    <summary>Black &amp; White (Normal) - Theme Variables</summary>
+                    <summary>
+                      Black &amp; White (Normal) - Theme Variables
+                    </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1312,7 +1344,9 @@ It was a dark and stormy night...
                 <input type="checkbox" id="bw-normal-active-vars-checkbox" />
                 <div>
                   <details>
-                    <summary>Black &amp; White (Normal) - Active Variables</summary>
+                    <summary>
+                      Black &amp; White (Normal) - Active Variables
+                    </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1328,7 +1362,9 @@ It was a dark and stormy night...
                 />
                 <div>
                   <details>
-                    <summary>Black &amp; White (Normal) - Border Style Variables</summary>
+                    <summary>
+                      Black &amp; White (Normal) - Border Style Variables
+                    </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1366,8 +1402,6 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
               </div>
 
               <pre>

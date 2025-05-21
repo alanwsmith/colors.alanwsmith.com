@@ -170,16 +170,16 @@
         display: grid;
         grid-template-columns: 3ch 1fr;
       }
-      .styles-grid code { 
+      .styles-grid code {
         font-size: var(--xxsmall-font-size);
       }
-      .styles-grid details { 
+      .styles-grid details {
         font-size: var(--small-font-size);
       }
-      .styles-grid pre { 
+      .styles-grid pre {
         line-height: 1;
       }
-      .styles-grid summary { 
+      .styles-grid summary {
         font-size: var(--small-font-size);
       }
       .top-nav-button {
@@ -1248,84 +1248,145 @@ It was a dark and stormy night...
               <h3>Variables</h3>
 
               <div class="styles-grid">
-                <!-- Theme Color Variables -->
-                <input type="checkbox" id="theme-color-vars-checkbox" />
+
+                <!-- Color Theme Variables -->
+                <input type="checkbox" id="color-theme-vars-checkbox" checked />
                 <div>
                   <details>
-                    <summary>Theme Color Variables</summary>
+                    <summary>Color - Theme Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="theme-color-vars"></code></pre>
+                      <pre><code class="color-theme-vars"></code></pre>
                     </details>
                   </details>
                 </div>
-                <!-- Theme Black and White Variables -->
-                <input type="checkbox" id="bw-theme-vars-checkbox" />
+
+                <!-- Color Active Variables -->
+                <input
+                  type="checkbox"
+                  id="color-active-vars-checkbox"
+                  checked
+                />
                 <div>
                   <details>
-                    <summary>Theme Black &amp; White Variables</summary>
+                    <summary> Color - Active Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="bw-theme-vars"></code></pre>
+                      <pre><code class="color-active-vars"></code></pre>
                     </details>
                   </details>
                 </div>
-                <!-- Active Black and White Variables -->
-                <input type="checkbox" id="bw-active-vars-checkbox" />
+
+                <!-- Color Border Style Variables -->
+                <input
+                  type="checkbox"
+                  id="color-border-style-vars-checkbox"
+                />
                 <div>
                   <details>
-                    <summary>Active Black &amp; White Variables</summary>
+                    <summary>Color - Border Style Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="bw-active-vars"></code></pre>
+                      <pre><code class="color-border-style-vars"></code></pre>
                     </details>
                   </details>
                 </div>
-                <!-- Theme Reversed Black and White Variables -->
-                <input type="checkbox" id="reversed-bw-theme-vars-checkbox" />
+
+                <!-- Black and White Normal Theme Variables -->
+                <input type="checkbox" id="bw-normal-theme-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>Black &amp; White (Normal) - Theme Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-theme-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!--  Black and White Normal Active Variables -->
+                <input type="checkbox" id="bw-normal-active-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>Black &amp; White (Normal) - Active Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-active-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Normal Border Style Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-border-style-vars-checkbox"
+                />
+                <div>
+                  <details>
+                    <summary>Black &amp; White (Normal) - Border Style Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-border-style-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Reversed Theme Variables -->
+                <input type="checkbox" id="bw-reversed-theme-vars-checkbox" />
                 <div>
                   <details>
                     <summary>
-                       Theme Black &amp; White Reversed Variables
+                      Black &amp; White (Reversed) - Theme Variables
                     </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="reversed-bw-theme-vars"></code></pre>
+                      <pre><code class="bw-reversed-theme-vars"></code></pre>
                     </details>
                   </details>
                 </div>
-                <!-- Active Reversed Black and White Variables -->
-                <input type="checkbox" id="reversed-bw-active-vars-checkbox" />
+
+                <!-- Black and White Reversed Active Variables -->
+                <input type="checkbox" id="bw-reversed-active-vars-checkbox" />
                 <div>
                   <details>
                     <summary>
-                       Active Black &amp; White Reversed Variables
+                      Black &amp; White (Reversed) - Active Variables
                     </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="reversed-bw-active-vars"></code></pre>
+                      <pre><code class="bw-reversed-active-vars"></code></pre>
                     </details>
                   </details>
                 </div>
+
+
               </div>
 
               <pre>
 
-/* Theme Color Variables */
-/* Active Color Variables */
-/* Black and White Border Style Variables */
+
+/* Border Style Black &amp; White Variables */
+
 /* Border Radii Variables */
-/* Color Border Style Variables */
+
 /* Flow Variables */
+
 /* Font Size Variables */
+
 /* Margin Variables */
- /* Padding Variables */
+
+/* Padding Variables */
+
 /* Text Alignment Variables */
+
 /* Width Variables */
 </pre
               >

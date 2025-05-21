@@ -1374,7 +1374,7 @@ class Picker extends HTMLElement {
 			});
 		});
 		lines.sort();
-		return [`/* Color Border Classes */`, ...lines];
+		return [`/* Border Style Color Classes */`, ...lines];
 	}
 
 	generateFlowClasses() {
@@ -2082,7 +2082,7 @@ class Picker extends HTMLElement {
 		return [`  /* Active Color Variables */`, ...lines];
 	}
 
-	queryBlackAndWhiteBorderStyleVars() {
+	queryBlackAndWhiteNormalBorderStyleVars() {
 		const lines = [];
 		this.getBlackAndWhiteNames().forEach((bwName) => {
 			this.getFadedValues().forEach((fadedName) => {
@@ -2170,7 +2170,7 @@ class Picker extends HTMLElement {
 		return [`  /* Border Radii Variables */`, ...lines];
 	}
 
-	queryColorBorderStyleVars() {
+	queryBorderStyleColorVars() {
 		const lines = [];
 		this.getActiveColors().forEach((colorName) => {
 			this.getFadedValues().forEach((fadedName) => {
@@ -2180,7 +2180,7 @@ class Picker extends HTMLElement {
 			});
 		});
 		lines.sort(sortVars);
-		return [`  /* Color Border Style Variables */`, ...lines];
+		return [`  /* Border Style Color Variables */`, ...lines];
 	}
 
 	queryThemeColorVars() {
@@ -2746,16 +2746,22 @@ class Picker extends HTMLElement {
 	}
 
 	updateExportPage() {
-		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
-		el("theme-color-vars").innerHTML = this.queryThemeColorVars().join("\n");
-		el("bw-theme-vars").innerHTML =
+		// Variables
+		el("color-theme-vars").innerHTML = this.queryThemeColorVars().join("\n");
+		el("color-active-vars").innerHTML = this.queryActiveColorVars().join("\n");
+		el("color-border-style-vars").innerHTML =
+			this.queryBorderStyleColorVars().join("\n");
+		el("bw-normal-theme-vars").innerHTML =
 			this.queryBlackAndWhiteThemeVars().join("\n");
-		el("bw-active-vars").innerHTML =
+		el("bw-normal-active-vars").innerHTML =
 			this.queryBlackAndWhiteActiveVars().join("\n");
-		el("reversed-bw-theme-vars").innerHTML =
+		el("bw-reversed-theme-vars").innerHTML =
 			this.queryReversedBlackAndWhiteThemeVars().join("\n");
-		el("reversed-bw-active-vars").innerHTML =
+		el("bw-reversed-active-vars").innerHTML =
 			this.queryReversedBlackAndWhiteActiveVars().join("\n");
+
+		// Classes
+		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
 
 		// TODO: Deprecate this stuff below.
 		// it was the initial stubs
@@ -2960,11 +2966,11 @@ class Picker extends HTMLElement {
 		lines.push("");
 		lines.push(this.queryActiveColorVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryBlackAndWhiteBorderStyleVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteNormalBorderStyleVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBorderRadiiVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryColorBorderStyleVars().join("\n"));
+		lines.push(this.queryBorderStyleColorVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryThemeColorVars().join("\n"));
 		lines.push("");

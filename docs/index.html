@@ -170,6 +170,9 @@
         display: grid;
         grid-template-columns: 3ch 1fr;
       }
+      .styles-grid code { 
+        font-size: var(--xxsmall-font-size);
+      }
       .top-nav-button {
         border: var(--background-border-style);
         color: var(--link);
@@ -594,6 +597,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Export
             </button>
@@ -613,7 +617,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Debugging
             </button>
@@ -1236,17 +1239,6 @@ It was a dark and stormy night...
               <h3>Variables</h3>
 
               <div class="styles-grid">
-                <input type="checkbox" id="reset-styles-checkbox" />
-                <div>
-                  <details>
-                    <summary>Reset Defaults</summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="reset-styles"></code></pre>
-                    </details>
-                  </details>
-                </div>
                 <input type="checkbox" id="bw-theme-vars-checkbox" />
                 <div>
                   <details>
@@ -1261,17 +1253,19 @@ It was a dark and stormy night...
                 <input type="checkbox" id="bw-theme-vars-checkbox" />
                 <div>
                   <details>
-                    <summary>Reversed Black And White Theme Variables: TODO Split out</summary>
+                    <summary>
+                      Reversed Black And White Theme Variables: TODO Split out
+                    </summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
-                      <pre><code class="reversed-bw-theme-vars"></code></pre>
+                      <pre><code class="bw-theme-reversed-vars"></code></pre>
                     </details>
                   </details>
                 </div>
               </div>
 
-<pre>
+              <pre>
 /* Active Black and White Variables */
   /* Active Color Variables */
   /* Black And White Theme Variables */
@@ -1285,12 +1279,23 @@ It was a dark and stormy night...
  /* Padding Variables */
 /* Text Alignment Variables */
 /* Width Variables */
-</pre>
+</pre
+              >
 
-
-<h3>Classes</h3>
-
-
+              <h3>Classes</h3>
+              <div class="styles-grid">
+                <input type="checkbox" id="reset-styles-checkbox" />
+                <div>
+                  <details>
+                    <summary>Reset Defaults</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="reset-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+              </div>
 
               <div class="export-content picker-text"></div>
             </div>

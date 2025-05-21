@@ -320,8 +320,8 @@ const defaultPalette = {
 			base: { c: 0.03081, h: 94.86, l: 86.94 },
 			blackAndWhiteFaded: [0.4, 0.1],
 			blackAndWhiteValues: [0, 100],
-			blackAndWhiteValuesReversed: [100, 0],
-			blackAndWhiteFadedReversed: [0.4, 0.1],
+			blackAndWhiteReversedValues: [100, 0],
+			blackAndWhiteReversedFaded: [0.4, 0.1],
 			colors: [
 				// 0-0
 				{
@@ -474,8 +474,8 @@ const defaultPalette = {
 			base: { c: 0.06066, h: 270, l: 94.92 },
 			blackAndWhiteFaded: [0.4, 0.1],
 			blackAndWhiteValues: [0, 100],
-			blackAndWhiteFadedReversed: [0.4, 0.1],
-			blackAndWhiteValuesReversed: [100, 0],
+			blackAndWhiteReversedFaded: [0.4, 0.1],
+			blackAndWhiteReversedValues: [100, 0],
 			colors: [
 				// 1-0
 				{
@@ -628,8 +628,8 @@ const defaultPalette = {
 			base: { c: 0.05262, h: 78.336, l: 25.71 },
 			blackAndWhiteFaded: [0.4, 0.1],
 			blackAndWhiteValues: [0, 100],
-			blackAndWhiteFadedReversed: [0.4, 0.1],
-			blackAndWhiteValuesReversed: [0, 100],
+			blackAndWhiteReversedFaded: [0.4, 0.1],
+			blackAndWhiteReversedValues: [0, 100],
 			colors: [
 				// 2-0
 				{
@@ -782,8 +782,8 @@ const defaultPalette = {
 			base: { c: 0.22155, h: 214.848, l: 0 },
 			blackAndWhiteFaded: [0.4, 0.1],
 			blackAndWhiteValues: [0, 100],
-			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100],
+			blackAndWhiteReversedFaded: [0.4, 0.1],
+			blackAndWhiteReversedValues: [0, 100],
 			colors: [
 				// 3-0
 				{
@@ -1588,6 +1588,14 @@ class Picker extends HTMLElement {
 		return p.modes[mode].blackAndWhiteValues[index];
 	}
 
+	getBlackAndWhiteModeReversedFadedValue(mode, index) {
+		return p.modes[mode].blackAndWhiteReversedFaded[index];
+	}
+
+	getBlackAndWhiteModeReversedValue(mode, index) {
+		return p.modes[mode].blackAndWhiteReversedValues[index];
+	}
+
 	getBlackAndWhiteNames() {
 		return p.blackAndWhiteNames;
 	}
@@ -2125,6 +2133,38 @@ class Picker extends HTMLElement {
 		return [`  /* Black And White Theme Variables */`, ...lines];
 	}
 
+	queryBlackAndWhiteThemeReversedVars() {
+		const lines = [];
+		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+			this.getBlackAndWhiteNamesReversed().forEach((bwName, bwIndex) => {
+				const lightnessValue = this.getBlackAndWhiteModeReversedValue(
+					modeIndex,
+					bwIndex,
+				);
+				lines.push(
+					makeVar(
+						`  --${modeName}-theme__${bwName}`,
+						`oklch(${lightnessValue}% 0 0)`,
+					),
+				);
+				this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+					const fadedValue = this.getBlackAndWhiteModeReversedFadedValue(
+						modeIndex,
+						fadedIndex,
+					);
+					lines.push(
+						makeVar(
+							`  --${modeName}-theme__${bwName}-${fadedName}`,
+							`oklch(${lightnessValue}% 0 0 / ${fadedValue})`,
+						),
+					);
+				});
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Black And White Theme Variables */`, ...lines];
+	}
+
 	queryBorderRadiiVars() {
 		const lines = [];
 		this.getSizes().forEach((sizeName, sizeIndex) => {
@@ -2337,10 +2377,10 @@ class Picker extends HTMLElement {
 				p.fadedNames.forEach((fadedName) => {
 					const fade = 0.5;
 					let fadedClassName = `--ui__${modeName}-theme__${colorName}-${fadedName}`;
-					let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+					let fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
 					lines.push(`${fadedClassName}: ${fadedValue};`);
 					fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`;
-					fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+					fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
 					lines.push(`${fadedClassName}: ${fadedValue};`);
 				});
 			});
@@ -2362,7 +2402,7 @@ class Picker extends HTMLElement {
 			p.fadedNames.forEach((fadedName) => {
 				const fade = 0.5;
 				const fadedClassName = `--ui__${colorName}-${fadedName}`;
-				const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+				const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
 				lines.push(`${fadedClassName}: ${fadedValue};`);
 			});
 		});
@@ -2715,7 +2755,8 @@ class Picker extends HTMLElement {
 		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
 		el("bw-theme-vars").innerHTML =
 			this.queryBlackAndWhiteThemeVars().join("\n");
-
+		el("bw-theme-reversed-vars").innerHTML =
+			this.queryActiveBlackAndWhiteThemeReversedVars().join("\n");
 		// TODO: Deprecate this stuff below.
 		// it was the initial stubs
 
@@ -2916,6 +2957,8 @@ class Picker extends HTMLElement {
 		lines.push(this.queryActiveColorVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteThemeVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryBlackAndWhiteThemeReversedVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteBorderStyleVars().join("\n"));
 		lines.push("");

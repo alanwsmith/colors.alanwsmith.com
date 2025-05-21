@@ -1267,7 +1267,7 @@ class Picker extends HTMLElement {
 
 	generateBackgroundColorsClasses() {
 		const lines = [];
-		this.getActiveColors().forEach((colorName) => {
+		this.getColorActives().forEach((colorName) => {
 			this.getFadedValues().forEach((fade) => {
 				lines.push(
 					makeClass(
@@ -1360,7 +1360,7 @@ class Picker extends HTMLElement {
 
 	generateColorBorderClasses() {
 		const lines = [];
-		this.getActiveColors().forEach((colorName) => {
+		this.getColorActives().forEach((colorName) => {
 			this.getBorderDirectionNames().forEach((directionName) => {
 				let name = `.${colorName}${directionName}-border`;
 				const key = `border${directionName}`;
@@ -1451,7 +1451,7 @@ class Picker extends HTMLElement {
 
 	generateTextColorClasses() {
 		const lines = [];
-		this.getActiveColors().forEach((colorName) => {
+		this.getColorActives().forEach((colorName) => {
 			this.getFadedValues().forEach((fade) => {
 				lines.push(
 					makeClass(
@@ -1511,37 +1511,37 @@ class Picker extends HTMLElement {
 		return p.modes[p.activeMode].base.l;
 	}
 
-	getActiveColorIndexC() {
+	getColorActiveIndexC() {
 		return this.getColorIndexC(p.activeMode, p.activeColor);
 	}
 
-	getActiveColorIndexH() {
+	getColorActiveIndexH() {
 		return this.getColorIndexH(p.activeMode, p.activeColor);
 	}
 
-	getActiveColorIndexL() {
+	getColorActiveIndexL() {
 		return this.getColorIndexL(p.activeMode, p.activeColor);
 	}
 
-	getActiveColors() {
+	getColorActives() {
 		return p.colorNames.filter((name, index) => {
 			return index < p.numberOfColors;
 		});
 	}
 
-	getActiveColorScrubbedName() {
+	getColorActiveScrubbedName() {
 		return scrubStyle(p.colorNames[p.activeColor]);
 	}
 
-	getActiveColorValueC() {
+	getColorActiveValueC() {
 		return this.getColorValueC(p.activeMode, p.activeColor);
 	}
 
-	getActiveColorValueH() {
+	getColorActiveValueH() {
 		return this.getColorValueH(p.activeMode, p.activeColor);
 	}
 
-	getActiveColorValueL() {
+	getColorActiveValueL() {
 		return this.getColorValueL(p.activeMode, p.activeColor);
 	}
 
@@ -1550,7 +1550,7 @@ class Picker extends HTMLElement {
 	}
 
 	getActiveScrubbedColorNames() {
-		return this.getActiveColors().map((colorName) => {
+		return this.getColorActives().map((colorName) => {
 			return scrubStyle(colorName);
 		});
 	}
@@ -1821,7 +1821,7 @@ class Picker extends HTMLElement {
 						`ui__mode-${p.activeMode}__color-${nameIndex}-background`,
 						tabButton,
 					);
-					ac(`${this.getActiveColorScrubbedName()}-bottom-border`, tabButton);
+					ac(`${this.getColorActiveScrubbedName()}-bottom-border`, tabButton);
 				} else {
 					ac(`reversed-bottom-border`, tabButton);
 					ac(`ui__background-text`, tabButton);
@@ -2019,7 +2019,7 @@ class Picker extends HTMLElement {
 		dbg("Loaded default colors");
 	}
 
-	queryReversedBlackAndWhiteActiveVars() {
+	queryBlackAndWhiteReversedActiveVars() {
 		const lines = [];
 		const modeName = this.getScrubbedActiveModeName();
 		this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
@@ -2039,7 +2039,7 @@ class Picker extends HTMLElement {
 		return [`  /* Active Black and White Reversed Variables */`, ...lines];
 	}
 
-	queryBlackAndWhiteActiveVars() {
+	queryBlackAndWhiteNormalActiveVars() {
 		const lines = [];
 		const modeName = this.getScrubbedActiveModeName();
 		this.getBlackAndWhiteNames().forEach((bwName) => {
@@ -2059,7 +2059,7 @@ class Picker extends HTMLElement {
 		return [`  /* Active Black and White Variables */`, ...lines];
 	}
 
-	queryActiveColorVars() {
+	queryColorActiveVars() {
 		const lines = [];
 		this.getActiveScrubbedColorNames().forEach((colorName) => {
 			const modeName = this.getActiveModeScrubbedName(p.activeMode);
@@ -2095,7 +2095,7 @@ class Picker extends HTMLElement {
 		return [`  /* Black and White Border Style Variables */`, ...lines];
 	}
 
-	queryBlackAndWhiteThemeVars() {
+	queryBlackAndWhiteNormalThemeVars() {
 		const lines = [];
 		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
 			this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
@@ -2127,7 +2127,7 @@ class Picker extends HTMLElement {
 		return [`  /* Black And White Theme Variables */`, ...lines];
 	}
 
-	queryReversedBlackAndWhiteThemeVars() {
+	queryBlackAndWhiteReversedThemeVars() {
 		const lines = [];
 		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
 			this.getBlackAndWhiteNamesReversed().forEach((bwName, bwIndex) => {
@@ -2170,9 +2170,9 @@ class Picker extends HTMLElement {
 		return [`  /* Border Radii Variables */`, ...lines];
 	}
 
-	queryBorderStyleColorVars() {
+	queryColorBorderStyleVars() {
 		const lines = [];
-		this.getActiveColors().forEach((colorName) => {
+		this.getColorActives().forEach((colorName) => {
 			this.getFadedValues().forEach((fadedName) => {
 				const name = `  --${colorName}-border-style${fadedName}`;
 				const value = `1px solid var(--${colorName}${fadedName})`;
@@ -2183,7 +2183,7 @@ class Picker extends HTMLElement {
 		return [`  /* Border Style Color Variables */`, ...lines];
 	}
 
-	queryThemeColorVars() {
+	queryColorThemeVars() {
 		const lines = [];
 		p.modes.forEach((modeData, modeIndex) => {
 			const modeName = scrubStyle(modeData.name);
@@ -2194,7 +2194,7 @@ class Picker extends HTMLElement {
 			const backgroundName = `  --${modeName}-theme__${p.backgroundColorName}`;
 			const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
 			lines.push(`${backgroundName}: ${backgroundValue};`);
-			this.getActiveColors().forEach((colorName, colorIndex) => {
+			this.getColorActives().forEach((colorName, colorIndex) => {
 				const l = this.getColorValueL(modeIndex, colorIndex);
 				const c = this.getColorValueC(modeIndex, colorIndex);
 				const h = this.getColorValueH(modeIndex, colorIndex);
@@ -2268,11 +2268,6 @@ class Picker extends HTMLElement {
 		return [`  /* Text Alignment Variables */`, ...lines];
 	}
 
-	// REMINDER: This is the internal one that
-	// matches the active mode. The one that's
-	// exported is the responsibility of
-	// another function that lets you pick
-	// the primary mode.
 	queryUiVarsStyleSheet() {
 		if (this.uiColorVarsStyleSheet === undefined) {
 			this.uiColorVarsStyleSheet = dc("style");
@@ -2302,8 +2297,8 @@ class Picker extends HTMLElement {
 				this.getLightnessValues(p.activeMode, p.activeColor).forEach(
 					(lightnessData, lightnessIndex) => {
 						if (
-							this.getActiveColorIndexH() === hueIndex &&
-							this.getActiveColorIndexL() === lightnessIndex
+							this.getColorActiveIndexH() === hueIndex &&
+							this.getColorActiveIndexL() === lightnessIndex
 						) {
 							lines.push(
 								makeVar(
@@ -2358,7 +2353,7 @@ class Picker extends HTMLElement {
 			backgroundName = `--ui__mode-${modeIndex}__background`;
 			backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
 			lines.push(`${backgroundName}: ${backgroundValue};`);
-			this.getActiveColors().forEach((colorName, colorIndex) => {
+			this.getColorActives().forEach((colorName, colorIndex) => {
 				const l = this.getColorValueL(modeIndex, colorIndex);
 				const c = this.getColorValueC(modeIndex, colorIndex);
 				const h = this.getColorValueH(modeIndex, colorIndex);
@@ -2386,7 +2381,7 @@ class Picker extends HTMLElement {
 		const backgroundName = `--ui__${p.backgroundColorName}`;
 		const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
 		lines.push(`${backgroundName}: ${backgroundValue};`);
-		this.getActiveColors().forEach((colorName, colorIndex) => {
+		this.getColorActives().forEach((colorName, colorIndex) => {
 			const l = this.getColorValueL(modeIndex, colorIndex);
 			const c = this.getColorValueC(modeIndex, colorIndex);
 			const h = this.getColorValueH(modeIndex, colorIndex);
@@ -2542,29 +2537,29 @@ class Picker extends HTMLElement {
 				"generateFlowClasses",
 			],
 			[
-				this.queryThemeColorVars()[1].trim(),
+				this.queryColorThemeVars()[1].trim(),
 				"--dark-theme__accent: oklch(68.00000% 0.06066 303.33600);",
-				"queryThemeColorVars",
+				"queryColorThemeVars",
 			],
 			[
-				this.queryBlackAndWhiteActiveVars()[1].trim(),
+				this.queryBlackAndWhiteNormalActiveVars()[1].trim(),
 				"--black: var(--light-theme__black);",
-				"queryBlackAndWhiteActiveVars",
+				"queryBlackAndWhiteNormalActiveVars",
 			],
 			[
-				this.queryReversedBlackAndWhiteActiveVars()[1].trim(),
+				this.queryBlackAndWhiteReversedActiveVars()[1].trim(),
 				"--matched: var(--light-theme__matched);",
-				"queryBlackAndWhiteActiveVars",
+				"queryBlackAndWhiteNormalActiveVars",
 			],
 			[
-				this.queryActiveColorVars()[1].trim(),
+				this.queryColorActiveVars()[1].trim(),
 				"--accent: var(--light-theme__accent);",
-				"queryActiveColorVars",
+				"queryColorActiveVars",
 			],
 			[
-				this.queryBlackAndWhiteThemeVars()[1].trim(),
+				this.queryBlackAndWhiteNormalThemeVars()[1].trim(),
 				"--dark-theme__black: oklch(0% 0 0);",
-				"queryBlackAndWhiteThemeVars",
+				"queryBlackAndWhiteNormalThemeVars",
 			],
 		];
 		tests.forEach((test) => {
@@ -2614,7 +2609,7 @@ class Picker extends HTMLElement {
 		}
 		const lines = [];
 		if (p.isolatedColor === -1) {
-			this.getActiveColors().forEach((colorName) => {
+			this.getColorActives().forEach((colorName) => {
 				lines.push(`--${colorName}: var(--background);`);
 				p.fadedNames.forEach((fadedName) => {
 					const name = `${colorName}-${fadedName}`;
@@ -2634,7 +2629,7 @@ class Picker extends HTMLElement {
 				e.classList.add("invisible");
 			});
 		} else if (p.isolatedColor >= 0) {
-			this.getActiveColors().forEach((colorName, colorIndex) => {
+			this.getColorActives().forEach((colorName, colorIndex) => {
 				if (colorIndex !== p.isolatedColor) {
 					lines.push(`--${colorName}: var(--background);`);
 					p.fadedNames.forEach((fadedName) => {
@@ -2673,9 +2668,9 @@ class Picker extends HTMLElement {
 		this.uiIsolationStyleSheet.innerHTML = out;
 	}
 
-	updateActiveColor(obj) {
+	updateColorActive(obj) {
 		const color = gdi("color", obj);
-		dbg(`updateActiveColor: ${color}`);
+		dbg(`updateColorActive: ${color}`);
 		p.activeColor = color;
 		if (p.isolatedColor >= 0) {
 			p.isolatedColor = color;
@@ -2747,18 +2742,20 @@ class Picker extends HTMLElement {
 
 	updateExportPage() {
 		// Variables
-		el("color-theme-vars").innerHTML = this.queryThemeColorVars().join("\n");
-		el("color-active-vars").innerHTML = this.queryActiveColorVars().join("\n");
+		el("color-theme-vars").innerHTML = this.queryColorThemeVars().join("\n");
+		el("color-active-vars").innerHTML = this.queryColorActiveVars().join("\n");
 		el("color-border-style-vars").innerHTML =
-			this.queryBorderStyleColorVars().join("\n");
+			this.queryColorBorderStyleVars().join("\n");
 		el("bw-normal-theme-vars").innerHTML =
-			this.queryBlackAndWhiteThemeVars().join("\n");
+			this.queryBlackAndWhiteNormalThemeVars().join("\n");
 		el("bw-normal-active-vars").innerHTML =
-			this.queryBlackAndWhiteActiveVars().join("\n");
+			this.queryBlackAndWhiteNormalBorderStyleVars().join("\n");
+		el("bw-normal-border-style-vars").innerHTML =
+			this.queryBlackAndWhiteNormalBorderStyleVars().join("\n");
 		el("bw-reversed-theme-vars").innerHTML =
-			this.queryReversedBlackAndWhiteThemeVars().join("\n");
+			this.queryBlackAndWhiteReversedThemeVars().join("\n");
 		el("bw-reversed-active-vars").innerHTML =
-			this.queryReversedBlackAndWhiteActiveVars().join("\n");
+			this.queryBlackAndWhiteReversedActiveVars().join("\n");
 
 		// Classes
 		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
@@ -2874,7 +2871,7 @@ class Picker extends HTMLElement {
 			const backgroundName = `.ui__mode-${modeIndex}__background`;
 			const backgroundValue = `var(--ui__mode-${modeIndex}__background)`;
 			lines.push(`${backgroundName} { background-color: ${backgroundValue}; }`);
-			this.getActiveColors().forEach((colorName, colorIndex) => {
+			this.getColorActives().forEach((colorName, colorIndex) => {
 				let textName = `.ui__mode-${modeIndex}__color-${colorIndex}-text`;
 				let textValue = `var(--ui__mode-${modeIndex}__color-${colorIndex})`;
 				lines.push(`${textName} { color: ${textValue} ; }`);
@@ -2897,7 +2894,7 @@ class Picker extends HTMLElement {
 		lines.push(
 			`${backgroundName}-background { background-color: ${backgroundValue}; }`,
 		);
-		this.getActiveColors().forEach((colorName) => {
+		this.getColorActives().forEach((colorName) => {
 			let textName = `.ui__${colorName}`;
 			let textValue = `var(--ui__${colorName})`;
 			lines.push(`${textName}-text { color: ${textValue}; }`);
@@ -2924,7 +2921,7 @@ class Picker extends HTMLElement {
 				} else if (kind === "color-box-set-button") {
 					this.updateLightnessHue(event.target);
 				} else if (kind === "color-selector-button") {
-					this.updateActiveColor(event.target);
+					this.updateColorActive(event.target);
 				} else if (kind === "top-nav-button") {
 					this.switchTopLevelTabs();
 				} else if (kind === "background-box-isolate-checkbox") {
@@ -2956,23 +2953,23 @@ class Picker extends HTMLElement {
 		}
 		const lines = [];
 		lines.push(`:root {`);
-		lines.push(this.queryBlackAndWhiteThemeVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteNormalThemeVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryBlackAndWhiteActiveVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteNormalActiveVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryReversedBlackAndWhiteThemeVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteReversedThemeVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryReversedBlackAndWhiteActiveVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteReversedActiveVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryActiveColorVars().join("\n"));
+		lines.push(this.queryColorActiveVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteNormalBorderStyleVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBorderRadiiVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryBorderStyleColorVars().join("\n"));
+		lines.push(this.queryColorBorderStyleVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryThemeColorVars().join("\n"));
+		lines.push(this.queryColorThemeVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryFlowVars().join("\n"));
 		lines.push("");

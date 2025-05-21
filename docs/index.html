@@ -157,7 +157,7 @@
         padding-top: var(--large-padding);
       }
       .top-nav-button {
-        border: 1px solid var(--background);
+        border: var(--background-border-style);
         color: var(--link);
         font-size: var(--small-font-size);
         font-weight: 900;
@@ -237,14 +237,13 @@
       }
       button {
         background-color: var(--reversed-faded2);
-        border: 1px solid var(--reversed-faded);
+        border: var(--reversed-border-style);
         border-radius: var(--xsmall-radius);
         color: var(--matched);
         cursor: pointer;
       }
       canvas {
-        display: block;
-        max-width: 100%;
+        border: var(--accent-border-style)
       }
       caption {
         caption-side: bottom;
@@ -286,8 +285,7 @@
         font-style: italic;
       }
       embed {
-        max-width: 100%;
-        display: block;
+        border: var(--accent-border-style)
       }
       fieldset {
         border-radius: var(--default-radius);
@@ -300,7 +298,7 @@
         text-align: var(--alight-center);
       }
       figure {
-        border: 1px solid var(--reversed-faded);
+        border: var(--reversed-border-style);
         display: flex;
         flex-flow: column;
         padding: var(--large-padding);
@@ -309,14 +307,14 @@
       }
       h1 {
         color: var(--heading);
-        border-bottom: 1px solid var(--content);
+        border-bottom: var(--content-border-style);
         font-size: var(--xxxlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
       }
       h2 {
         color: var(--heading);
-        border-bottom: 1px solid var(--content);
+        border-bottom: var(--content-border-style);
         font-size: var(--xxlarge-font-size);
         font-weight: 900;
         text-wrap: balance;
@@ -372,11 +370,10 @@
         font-style: italic;
       }
       iframe {
-        max-width: 100%;
-        display: block;
+        border: var(--accent-border-style)
       }
       img {
-        border: 1px solid var(--heading);
+        border: var(--accent-border-style)
       }
       input {
         margin-inline: var(--small-margin);
@@ -414,17 +411,16 @@
         background-color: var(--accent-faded2);
       }
       menu {
-        border: 1px solid var(--reversed-faded);
+        border: var(--reversed-border-style);
       }
       meter {
         padding-inline: var(--default-padding);
       }
       nav {
-        border: 1px solid var(--reversed-faded);
+        border: var(--reversed-border-style);
       }
       object {
-        max-width: 100%;
-        display: block;
+        border: var(--accent-border-style)
       }
       ol {
         font-style: normal;
@@ -483,8 +479,7 @@
         font-style: normal;
       }
       svg {
-        display: block;
-        max-width: 100%;
+        border: var(--accent-border-style)
       }
       table {
         margin: var(--default-margin);
@@ -524,8 +519,7 @@
         font-weight: 900;
       }
       video {
-        max-width: 100%;
-        display: block;
+        border: var(--accent-border-style)
       }
     </style>
   </head>
@@ -588,6 +582,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Export
             </button>
@@ -607,7 +602,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Debugging
             </button>
@@ -1191,8 +1185,15 @@ It was a dark and stormy night...
               </p>
             </hgroup>
             <div class="default-flow">
-              <h2>Export</h2>
-              <div class="export-content picker-text"></div>
+              <h2>CSS Export</h2>
+              <p>
+                Here's the CSS variables for your color palette:
+              </p>
+              <pre><code class="colors-only"></code></pre>
+
+              <div class="export-content picker-text">
+
+              </div>
             </div>
           </div>
 

@@ -3,7 +3,7 @@
   <head>
     <title>Alan's Color Picker</title>
     <meta charset="UTF-8" />
-    <style data-name="Reset Styles">
+    <style data-name="Reset Styles" class="reset-styles-input">
       *,
       ::after,
       ::before,
@@ -18,6 +18,9 @@
       ::file-selector-button {
         box-sizing: border-box;
       }
+      body {
+        line-height: 1.5;
+      }
       dt,
       dl,
       dd,
@@ -31,11 +34,18 @@
       embed,
       iframe,
       img,
+      map,
       object,
       svg,
       video {
-        max-width: calc(100vw - 1.4rem);
         display: block;
+        max-width: calc(100vw - 1.4rem);
+      }
+      input,
+      button,
+      textarea,
+      select {
+        font: inherit;
       }
     </style>
 
@@ -156,6 +166,10 @@
       .sidebar-controls {
         padding-top: var(--large-padding);
       }
+      .styles-grid {
+        display: grid;
+        grid-template-columns: 3ch 1fr;
+      }
       .top-nav-button {
         border: var(--background-border-style);
         color: var(--link);
@@ -233,7 +247,6 @@
         color: var(--content);
         font-family: system-ui;
         font-size: var(--default-font-size);
-        line-height: 1.4;
       }
       button {
         background-color: var(--reversed-faded2);
@@ -243,7 +256,7 @@
         cursor: pointer;
       }
       canvas {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
       caption {
         caption-side: bottom;
@@ -254,14 +267,14 @@
         font-style: italic;
       }
       data {
-        font-style: normal;
+        /* */
       }
       code {
         font-size: var(--small-font-size);
         color: var(--reverse-faded);
       }
       dd {
-        font-style: normal;
+        /* */
       }
       del {
         background-color: var(--accent-faded2);
@@ -276,16 +289,16 @@
         font-style: italic;
       }
       dl {
-        font-style: normal;
+        /* */
       }
       dt {
-        font-style: normal;
+        /* */
       }
       em {
         font-style: italic;
       }
       embed {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
       fieldset {
         border-radius: var(--default-radius);
@@ -345,7 +358,7 @@
         text-wrap: balance;
       }
       hgroup {
-        font-style: normal;
+        /* */
       }
       hr {
         border: none;
@@ -370,10 +383,10 @@
         font-style: italic;
       }
       iframe {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
       img {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
       input {
         margin-inline: var(--small-margin);
@@ -398,14 +411,13 @@
         font-weight: 900;
       }
       li {
-        font-style: normal;
+        /* */
       }
       main {
-        font-style: normal;
+        /* */
       }
       map {
-        max-width: 100%;
-        display: block;
+        /* */
       }
       mark {
         background-color: var(--accent-faded2);
@@ -420,16 +432,16 @@
         border: var(--reversed-border-style);
       }
       object {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
       ol {
-        font-style: normal;
+        /* */
       }
       output {
         font-weight: 900;
       }
       p {
-        font-style: normal;
+        /* */
       }
       picture {
         display: block;
@@ -446,7 +458,7 @@
         font-style: italic;
       }
       s {
-        font-style: normal;
+        /* */
       }
       samp {
         font-weight: bold;
@@ -455,7 +467,7 @@
         padding-inline: var(--small-padding);
       }
       section {
-        font-style: normal;
+        /* */
       }
       select {
         padding-inline: var(--small-padding);
@@ -464,44 +476,44 @@
         font-size: var(--xsmall-font-size);
       }
       span {
-        font-style: normal;
+        /* */
       }
       strong {
-        font-style: normal;
+        /* */
       }
       sub {
-        font-style: normal;
+        /* */
       }
       summary {
         font-weight: 900;
       }
       sup {
-        font-style: normal;
+        /* */
       }
       svg {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
       table {
         margin: var(--default-margin);
       }
       tbody {
-        font-style: normal;
+        /* */
       }
       td {
-        font-style: normal;
+        /* */
       }
       textarea {
         max-width: var(--large-width);
         margin: var(--default-margin);
       }
       tfoot {
-        font-style: normal;
+        /* */
       }
       th {
         font-weight: 900;
       }
       thead {
-        font-style: normal;
+        /* */
       }
       time {
         font-weight: 900;
@@ -513,13 +525,13 @@
         text-decoration: var(--accent-faded) wavy underline;
       }
       ul {
-        font-style: normal;
+        /* */
       }
       var {
         font-weight: 900;
       }
       video {
-        border: var(--accent-border-style)
+        border: var(--accent-border-style);
       }
     </style>
   </head>
@@ -597,7 +609,7 @@
             >
               TODO
             </button>
-            
+
             <button
               class="top-nav-button"
               role="tab"
@@ -605,7 +617,6 @@
             >
               Debugging
             </button>
-
           </div>
 
           <!--
@@ -1156,7 +1167,7 @@ It was a dark and stormy night...
             </hgroup>
             <div class="default-flow">
               <h2>Settings</h2>
-<!--
+              <!--
               <div class="number-of-colors-wrapper">
                 <label for="number-of-colors">Number of Colors:</label>
                 <select
@@ -1185,15 +1196,57 @@ It was a dark and stormy night...
               </p>
             </hgroup>
             <div class="default-flow">
-              <h2>CSS Export</h2>
+              <h2>Basic CSS Export</h2>
               <p>
-                Here's the CSS variables for your color palette:
+                Modern browsers and operating systems work together to
+                automatcially switch between light and dark modes based on a
+                person's preferences. Pick which of your themes you want to use
+                for the two automatic modes:
               </p>
+              <div class="light-mode-selector-wrapper">
+                <label for="light-mode-selector">Light mode:</label>
+                <select id="light-mode-picker"></select>
+              </div>
+              <div class="dark-mode-selector-wrapper">
+                <label for="dark-mode-selector">Dark mode:</label>
+                <select id="dark-mode-picker"></select>
+              </div>
+
+              <p>Here's the CSS variables for your color palette:</p>
               <pre><code class="colors-only"></code></pre>
 
-              <div class="export-content picker-text">
+              <p>If all you need is the colors, you're all set.</p>
+              <p>
+                Check out the next section if you'd like some bonus features.
+              </p>
 
+              <h2>Advanced CSS Export</h2>
+              <p>
+                I built this tool to make it quicker to get a new site up and
+                running. Colors are the key feature. There's a bunch of standard
+                uses for them too. This is the collection of my current
+                &quot;Quick-Start&quot; variables and classes.
+              </p>
+
+              <p>
+                Use these checkboxes to mix and match your own collection if you
+                want more than just the colors
+              </p>
+
+              <div class="styles-grid">
+                <input type="checkbox" id="reset-sytles-checkbox" />
+                <div>
+                  <details>
+                    <summary>Reset Defaults</summary>
+                  <p>
+                    Basic settings to make everything else easier to deal with.
+                  </p>
+                    <pre><code class="reset-styles"></code></pre>
+                  </details>
+                </div>
               </div>
+
+              <div class="export-content picker-text"></div>
             </div>
           </div>
 
@@ -1266,14 +1319,16 @@ It was a dark and stormy night...
                 names
               </li>
               <li>
-                <input type="checkbox" disabled /> Click Themes, Background, Colors to collapse boxes
+                <input type="checkbox" disabled /> Click Themes, Background,
+                Colors to collapse boxes
               </li>
               <li>
                 <input type="checkbox" disabled /> Control click on things to
                 get style info about them.
               </li>
               <li>
-                <input type="checkbox" disabled /> Customize `-style-border` name and value
+                <input type="checkbox" disabled /> Customize `-style-border`
+                name and value
               </li>
               <li>
                 <input type="checkbox" disabled /> Change Background color name
@@ -1397,7 +1452,6 @@ It was a dark and stormy night...
             </ul>
           </div>
 
-          
           <div role="tabpanel" hidden>
             <div class="default-flow picker-text">
               <h2>Debugging</h2>
@@ -1409,7 +1463,6 @@ It was a dark and stormy night...
               <pre class="debugging-content xsmall-font-size"></pre>
             </div>
           </div>
-
 
           <!-- end of line -->
         </tab-group>

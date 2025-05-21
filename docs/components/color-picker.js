@@ -2669,6 +2669,11 @@ class Picker extends HTMLElement {
 	}
 
 	updateExportPage() {
+		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
+
+		// TODO: Deprecate this stuff below.
+		// it was the initial stubs
+
 		const outputEl = elV2(".export-content");
 		const sheets = els("style[data-name]");
 		let payloads = [];

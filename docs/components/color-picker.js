@@ -215,7 +215,8 @@ const defaultPalette = {
 		l: { max: 100, name: "lightness" },
 	},
 	backgroundColorName: "background",
-	blackAndWhiteNames: ["black", "white", "matched", "reversed"],
+	blackAndWhiteNames: ["black", "white"],
+	blackAndWhiteNamesReversed: ["matched", "reversed"],
 	borderRadii: [
 		"1.2rem",
 		"1.0rem",
@@ -318,7 +319,9 @@ const defaultPalette = {
 		{
 			base: { c: 0.03081, h: 94.86, l: 86.94 },
 			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 100, 0],
+			blackAndWhiteValues: [0, 100],
+			blackAndWhiteValuesReversed: [100, 0],
+			blackAndWhiteFadedReversed: [0.4, 0.1],
 			colors: [
 				// 0-0
 				{
@@ -470,7 +473,9 @@ const defaultPalette = {
 		{
 			base: { c: 0.06066, h: 270, l: 94.92 },
 			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 100, 0],
+			blackAndWhiteValues: [0, 100],
+			blackAndWhiteFadedReversed: [0.4, 0.1],
+			blackAndWhiteValuesReversed: [100, 0],
 			colors: [
 				// 1-0
 				{
@@ -622,7 +627,9 @@ const defaultPalette = {
 		{
 			base: { c: 0.05262, h: 78.336, l: 25.71 },
 			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 0, 100],
+			blackAndWhiteValues: [0, 100],
+			blackAndWhiteFadedReversed: [0.4, 0.1],
+			blackAndWhiteValuesReversed: [0, 100],
 			colors: [
 				// 2-0
 				{
@@ -774,7 +781,9 @@ const defaultPalette = {
 		{
 			base: { c: 0.22155, h: 214.848, l: 0 },
 			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 0, 100],
+			blackAndWhiteValues: [0, 100],
+			blackAndWhiteFaded: [0.4, 0.1],
+			blackAndWhiteValues: [0, 100],
 			colors: [
 				// 3-0
 				{
@@ -991,68 +1000,68 @@ class Picker extends HTMLElement {
 		});
 	}
 
-	addExampleForBwBackground() {
-		const wrapper = el("bw-background-examples-wrapper");
-		this.getBwKinds().forEach((kind) => {
-			const kindEl = dc("div");
-			this.getFadedValues().forEach((value) => {
-				const token = `${kind[0]}${value}-background`;
-				const color = `${kind[1]}-text`;
-				const exampleEl = dc("div");
-				html(`.${token}`, exampleEl);
-				ac(`${token}`, exampleEl);
-				ac(`small-full-padding`, exampleEl);
-				ac(`small-full-margin`, exampleEl);
-				ac(color, exampleEl);
-				a(exampleEl, kindEl);
-			});
-			a(kindEl, wrapper);
-		});
-	}
+	// addExampleForBwBackground() {
+	// 	const wrapper = el("bw-background-examples-wrapper");
+	// 	this.getBwKinds().forEach((kind) => {
+	// 		const kindEl = dc("div");
+	// 		this.getFadedValues().forEach((value) => {
+	// 			const token = `${kind[0]}${value}-background`;
+	// 			const color = `${kind[1]}-text`;
+	// 			const exampleEl = dc("div");
+	// 			html(`.${token}`, exampleEl);
+	// 			ac(`${token}`, exampleEl);
+	// 			ac(`small-full-padding`, exampleEl);
+	// 			ac(`small-full-margin`, exampleEl);
+	// 			ac(color, exampleEl);
+	// 			a(exampleEl, kindEl);
+	// 		});
+	// 		a(kindEl, wrapper);
+	// 	});
+	// }
 
-	addExampleForBwBorder() {
-		const wrapper = el("bw-border-examples-wrapper");
-		this.getBwKinds().forEach((kind) => {
-			const kindEl = dc("div");
-			this.getDirections().forEach((data) => {
-				this.getFadedValues().forEach((bwValue) => {
-					const className = `${kind[0]}${bwValue}-${data[0]}-border`;
-					const background = `${kind[1]}-background`;
-					const color = `${kind[0]}-text`;
-					const cell = dc("div");
-					ac("default-inline-padding", cell);
-					ac("large-block-padding", cell);
-					ac(background, cell);
-					ac(color, cell);
-					const span = dc("span");
-					html(`.${className}`, span);
-					ac(className, span);
-					ac(`xxsmall-full-padding`, span);
-					a(span, cell);
-					a(cell, kindEl);
-				});
-			});
-			a(kindEl, wrapper);
-		});
-	}
+	// addExampleForBwBorder() {
+	// 	const wrapper = el("bw-border-examples-wrapper");
+	// 	this.getBwKinds().forEach((kind) => {
+	// 		const kindEl = dc("div");
+	// 		this.getDirections().forEach((data) => {
+	// 			this.getFadedValues().forEach((bwValue) => {
+	// 				const className = `${kind[0]}${bwValue}-${data[0]}-border`;
+	// 				const background = `${kind[1]}-background`;
+	// 				const color = `${kind[0]}-text`;
+	// 				const cell = dc("div");
+	// 				ac("default-inline-padding", cell);
+	// 				ac("large-block-padding", cell);
+	// 				ac(background, cell);
+	// 				ac(color, cell);
+	// 				const span = dc("span");
+	// 				html(`.${className}`, span);
+	// 				ac(className, span);
+	// 				ac(`xxsmall-full-padding`, span);
+	// 				a(span, cell);
+	// 				a(cell, kindEl);
+	// 			});
+	// 		});
+	// 		a(kindEl, wrapper);
+	// 	});
+	// }
 
-	addExampleForBwColor() {
-		const wrapper = el("bw-color-examples-wrapper");
-		this.getBwKinds().forEach((kind) => {
-			const kindEl = dc("div");
-			this.getFadedValues().forEach((bwValue) => {
-				const token = `${kind[0]}${bwValue}-text`;
-				const background = `${kind[1]}-background`;
-				const exampleEl = dc("div");
-				html(`.${token}`, exampleEl);
-				ac(`${token}`, exampleEl);
-				ac(`${background}`, exampleEl);
-				ac(`small-full-padding`, exampleEl);
-				a(exampleEl, kindEl);
-			});
-			a(kindEl, wrapper);
-		});
-	}
+	// addExampleForBwColor() {
+	// 	const wrapper = el("bw-color-examples-wrapper");
+	// 	this.getBwKinds().forEach((kind) => {
+	// 		const kindEl = dc("div");
+	// 		this.getFadedValues().forEach((bwValue) => {
+	// 			const token = `${kind[0]}${bwValue}-text`;
+	// 			const background = `${kind[1]}-background`;
+	// 			const exampleEl = dc("div");
+	// 			html(`.${token}`, exampleEl);
+	// 			ac(`${token}`, exampleEl);
+	// 			ac(`${background}`, exampleEl);
+	// 			ac(`small-full-padding`, exampleEl);
+	// 			a(exampleEl, kindEl);
+	// 		});
+	// 		a(kindEl, wrapper);
+	// 	});
+	// }
 
 	addExampleForFontSize() {
 		const wrapper = el("font-size-examples-wrapper");
@@ -1583,6 +1592,10 @@ class Picker extends HTMLElement {
 		return p.blackAndWhiteNames;
 	}
 
+	getBlackAndWhiteNamesReversed() {
+		return p.blackAndWhiteNamesReversed;
+	}
+
 	getBorderDirectionExtensions() {
 		return p.directions.map((direction) => {
 			if (direction[1] === true) {
@@ -1621,16 +1634,6 @@ class Picker extends HTMLElement {
 				return `${direction[0]}`;
 			}
 		});
-	}
-
-	// TODO: Deprecate this to getBlackAndWhiteNames
-	getBwKinds() {
-		return [
-			["black", "white"],
-			["white", "black"],
-			["match", "reverse"],
-			["reverse", "match"],
-		];
 	}
 
 	getColorFadedValue(mode, color, index) {
@@ -2014,16 +2017,38 @@ class Picker extends HTMLElement {
 		dbg("Loaded default colors");
 	}
 
-	queryActiveBlackAndWhiteVars() {
+	queryActiveBlackAndWhiteThemeReversedVars() {
 		const lines = [];
 		const modeName = this.getScrubbedActiveModeName();
-		this.getBlackAndWhiteNames().forEach((bwName) => {
-			lines.push(makeVar(`  --${bwName}`, `var(--${modeName}__${bwName})`));
+		this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+			lines.push(
+				makeVar(`  --${bwName}`, `var(--${modeName}-theme__${bwName})`),
+			);
 			this.getScrubbedFadedNames().forEach((fadedName) => {
 				lines.push(
 					makeVar(
 						`  --${bwName}-${fadedName}`,
-						`var(--${modeName}__${bwName}-${fadedName})`,
+						`var(--${modeName}-theme__${bwName}-${fadedName})`,
+					),
+				);
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Active Black and White Reversed Variables */`, ...lines];
+	}
+
+	queryActiveBlackAndWhiteThemeVars() {
+		const lines = [];
+		const modeName = this.getScrubbedActiveModeName();
+		this.getBlackAndWhiteNames().forEach((bwName) => {
+			lines.push(
+				makeVar(`  --${bwName}`, `var(--${modeName}-theme__${bwName})`),
+			);
+			this.getScrubbedFadedNames().forEach((fadedName) => {
+				lines.push(
+					makeVar(
+						`  --${bwName}-${fadedName}`,
+						`var(--${modeName}-theme__${bwName}-${fadedName})`,
 					),
 				);
 			});
@@ -2037,13 +2062,16 @@ class Picker extends HTMLElement {
 		this.getActiveScrubbedColorNames().forEach((colorName) => {
 			const modeName = this.getActiveModeScrubbedName(p.activeMode);
 			lines.push(
-				makeVar(`  --${colorName}`, `var(--${modeName}__${colorName})`),
+				makeVar(
+					`  --${scrubStyle(colorName)}`,
+					`var(--${modeName}-theme__${scrubStyle(colorName)})`,
+				),
 			);
 			this.getScrubbedFadedNames().forEach((fadedName) => {
 				lines.push(
 					makeVar(
-						`  --${colorName}-${fadedName}`,
-						`var(--${modeName}__${colorName}-${fadedName})`,
+						`  --${scrubStyle(colorName)}-${fadedName}`,
+						`var(--${modeName}-theme__${scrubStyle(colorName)}-${fadedName})`,
 					),
 				);
 			});
@@ -2065,7 +2093,7 @@ class Picker extends HTMLElement {
 		return [`  /* Black and White Border Style Variables */`, ...lines];
 	}
 
-	queryBlackAndWhiteVars() {
+	queryBlackAndWhiteThemeVars() {
 		const lines = [];
 		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
 			this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
@@ -2075,7 +2103,7 @@ class Picker extends HTMLElement {
 				);
 				lines.push(
 					makeVar(
-						`  --${modeName}__${bwName}`,
+						`  --${modeName}-theme__${bwName}`,
 						`oklch(${lightnessValue}% 0 0)`,
 					),
 				);
@@ -2086,7 +2114,7 @@ class Picker extends HTMLElement {
 					);
 					lines.push(
 						makeVar(
-							`  --${modeName}__${bwName}-${fadedName}`,
+							`  --${modeName}-theme__${bwName}-${fadedName}`,
 							`oklch(${lightnessValue}% 0 0 / ${fadedValue})`,
 						),
 					);
@@ -2129,19 +2157,19 @@ class Picker extends HTMLElement {
 			const backgroundC = this.getBackgroundValueC(modeIndex);
 			const backgroundH = this.getBackgroundValueH(modeIndex);
 
-			const backgroundName = `  --${modeName}__${p.backgroundColorName}`;
+			const backgroundName = `  --${modeName}-theme__${p.backgroundColorName}`;
 			const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
 			lines.push(`${backgroundName}: ${backgroundValue};`);
 			this.getActiveColors().forEach((colorName, colorIndex) => {
 				const l = this.getColorValueL(modeIndex, colorIndex);
 				const c = this.getColorValueC(modeIndex, colorIndex);
 				const h = this.getColorValueH(modeIndex, colorIndex);
-				const textName = `  --${modeName}__${colorName}`;
+				const textName = `  --${modeName}-theme__${colorName}`;
 				const textValue = `oklch(${l}% ${c} ${h})`;
 				lines.push(`${textName}: ${textValue};`);
 				p.fadedNames.forEach((fadedName) => {
 					const fade = 0.5;
-					const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
+					const fadedClassName = `  --${scrubStyle(modeName)}-theme__${scrubStyle(colorName)}-${fadedName}`;
 					const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
 					lines.push(`${fadedClassName}: ${fadedValue};`);
 				});
@@ -2220,7 +2248,7 @@ class Picker extends HTMLElement {
 		const lines = [];
 		// Background
 		lines.push(
-			`--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${
+			`--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}-theme__${
 				p.backgroundColorName
 			});`,
 		);
@@ -2290,7 +2318,7 @@ class Picker extends HTMLElement {
 			const backgroundL = this.getBackgroundValueL(modeIndex);
 			const backgroundC = this.getBackgroundValueC(modeIndex);
 			const backgroundH = this.getBackgroundValueH(modeIndex);
-			let backgroundName = `--ui__${modeName}__${p.backgroundColorName}`;
+			let backgroundName = `--ui__${modeName}-theme__${p.backgroundColorName}`;
 			let backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
 			lines.push(`${backgroundName}: ${backgroundValue};`);
 			backgroundName = `--ui__mode-${modeIndex}__background`;
@@ -2300,15 +2328,15 @@ class Picker extends HTMLElement {
 				const l = this.getColorValueL(modeIndex, colorIndex);
 				const c = this.getColorValueC(modeIndex, colorIndex);
 				const h = this.getColorValueH(modeIndex, colorIndex);
-				let textName = `--ui__${modeName}__${colorName}`;
+				let textName = `--ui__${modeName}-theme__${scrubStyle(colorName)}`;
 				let textValue = `oklch(${l}% ${c} ${h})`;
-				lines.push(`${textName}: ${textValue};`);
+				lines.push(makeVar(textName, textValue));
 				textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
 				textValue = `oklch(${l}% ${c} ${h})`;
 				lines.push(`${textName}: ${textValue};`);
 				p.fadedNames.forEach((fadedName) => {
 					const fade = 0.5;
-					let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`;
+					let fadedClassName = `--ui__${modeName}-theme__${colorName}-${fadedName}`;
 					let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
 					lines.push(`${fadedClassName}: ${fadedValue};`);
 					fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`;
@@ -2338,16 +2366,6 @@ class Picker extends HTMLElement {
 				lines.push(`${fadedClassName}: ${fadedValue};`);
 			});
 		});
-		this.getActiveColors().forEach((colorName) => {
-			const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
-			lines.push(`--${colorName}: var(--${value});`);
-			p.fadedNames.forEach((fadedName) => {
-				const name = `${colorName}-${fadedName}`;
-				const fadedValue = `${this.getActiveModeScrubbedName()}__${name}`;
-				lines.push(`--${name}: var(--${fadedValue});`);
-			});
-		});
-		//
 		this.getColorHueValues(p.activeMode, p.activeColor).forEach(
 			(hueValue, hueIndex) => {
 				this.getLightnessValues(p.activeMode, p.activeColor).forEach(
@@ -2488,6 +2506,31 @@ class Picker extends HTMLElement {
 				this.generateFlowClasses()[4],
 				".xlarge-flow > :where(:not(:first-child)) { margin-top: var(--flow-space, var(--xlarge-flow)); }",
 				"generateFlowClasses",
+			],
+			[
+				this.queryColorThemeVars()[1].trim(),
+				"--dark-theme__accent: oklch(68.00000% 0.06066 303.33600);",
+				"queryColorThemeVars",
+			],
+			[
+				this.queryActiveBlackAndWhiteThemeVars()[1].trim(),
+				"--black: var(--light-theme__black);",
+				"queryActiveBlackAndWhiteThemeVars",
+			],
+			[
+				this.queryActiveBlackAndWhiteThemeReversedVars()[1].trim(),
+				"--matched: var(--light-theme__matched);",
+				"queryActiveBlackAndWhiteThemeVars",
+			],
+			[
+				this.queryActiveColorVars()[1].trim(),
+				"--accent: var(--light-theme__accent);",
+				"queryActiveColorVars",
+			],
+			[
+				this.queryBlackAndWhiteThemeVars()[1].trim(),
+				"--dark-theme__black: oklch(0% 0 0);",
+				"queryBlackAndWhiteThemeVars",
 			],
 		];
 		tests.forEach((test) => {
@@ -2670,6 +2713,8 @@ class Picker extends HTMLElement {
 
 	updateExportPage() {
 		el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
+		el("bw-theme-vars").innerHTML =
+			this.queryBlackAndWhiteThemeVars().join("\n");
 
 		// TODO: Deprecate this stuff below.
 		// it was the initial stubs
@@ -2864,11 +2909,13 @@ class Picker extends HTMLElement {
 		}
 		const lines = [];
 		lines.push(`:root {`);
-		lines.push(this.queryActiveBlackAndWhiteVars().join("\n"));
+		lines.push(this.queryActiveBlackAndWhiteThemeVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryActiveBlackAndWhiteThemeReversedVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryActiveColorVars().join("\n"));
 		lines.push("");
-		lines.push(this.queryBlackAndWhiteVars().join("\n"));
+		lines.push(this.queryBlackAndWhiteThemeVars().join("\n"));
 		lines.push("");
 		lines.push(this.queryBlackAndWhiteBorderStyleVars().join("\n"));
 		lines.push("");

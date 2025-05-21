@@ -594,7 +594,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Export
             </button>
@@ -614,6 +613,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Debugging
             </button>
@@ -1230,21 +1230,67 @@ It was a dark and stormy night...
 
               <p>
                 Use these checkboxes to mix and match your own collection if you
-                want more than just the colors
+                want more than just the colors.
               </p>
 
+              <h3>Variables</h3>
+
               <div class="styles-grid">
-                <input type="checkbox" id="reset-sytles-checkbox" />
+                <input type="checkbox" id="reset-styles-checkbox" />
                 <div>
                   <details>
                     <summary>Reset Defaults</summary>
-                  <p>
-                    Basic settings to make everything else easier to deal with.
-                  </p>
-                    <pre><code class="reset-styles"></code></pre>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="reset-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <input type="checkbox" id="bw-theme-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>Black And White Theme Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-theme-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <input type="checkbox" id="bw-theme-vars-checkbox" />
+                <div>
+                  <details>
+                    <summary>Reversed Black And White Theme Variables: TODO Split out</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="reversed-bw-theme-vars"></code></pre>
+                    </details>
                   </details>
                 </div>
               </div>
+
+<pre>
+/* Active Black and White Variables */
+  /* Active Color Variables */
+  /* Black And White Theme Variables */
+/* Black and White Border Style Variables */
+/* Border Radii Variables */
+/* Color Border Style Variables */
+/* Color Theme Variables */
+/* Flow Variables */
+/* Font Size Variables */
+/* Margin Variables */
+ /* Padding Variables */
+/* Text Alignment Variables */
+/* Width Variables */
+</pre>
+
+
+<h3>Classes</h3>
+
+
 
               <div class="export-content picker-text"></div>
             </div>

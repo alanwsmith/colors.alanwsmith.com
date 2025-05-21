@@ -94,16 +94,16 @@ function el(className) {
 	return document.querySelector(`.${className}`);
 }
 
+// Get Elements By Class Name
+function els(selector) {
+	return document.querySelectorAll(selector);
+}
+
 // TODO: Rename to `el()` when transition
 // is complete.
 // Get Element By Selector
 function elV2(selector) {
 	return document.querySelector(selector);
-}
-
-// Get Elements By Class Name
-function els(selector) {
-	return document.querySelectorAll(selector);
 }
 
 // Focus (print to console regardless of debug
@@ -199,23 +199,34 @@ function sortVars(a, b) {
 }
 
 const defaultPalette = {
+	_debugging: {},
 	_tests: {
-		passed: 0,
 		failed: 0,
 		failureDetails: [],
+		passed: 0,
 	},
-	_debugging: {},
-	activeMode: 0,
 	activeColor: 0,
+	activeMode: 0,
 	alignments: ["left", "right", "start", "end", "justify", "center"],
 	aspectOrder: ["l", "c", "h"],
 	aspects: {
-		l: { name: "lightness", max: 100 },
-		c: { name: "chroma", max: 0.3 },
-		h: { name: "hue", max: 360 },
+		c: { max: 0.3, name: "chroma" },
+		h: { max: 360, name: "hue" },
+		l: { max: 100, name: "lightness" },
 	},
 	backgroundColorName: "background",
 	blackAndWhiteNames: ["black", "white", "matched", "reversed"],
+	borderRadii: [
+		"1.2rem",
+		"1.0rem",
+		"0.8rem",
+		"0.6rem",
+		"0.5rem",
+		"0.4rem",
+		"0.3rem",
+		"0.2rem",
+		"0.1rem",
+	],
 	borderRadiiDirections: [
 		["", false],
 		["block", true],
@@ -234,17 +245,6 @@ const defaultPalette = {
 		["top", true],
 		["top-left", true],
 		["top-right", true],
-	],
-	borderRadii: [
-		"1.2rem",
-		"1.0rem",
-		"0.8rem",
-		"0.6rem",
-		"0.5rem",
-		"0.4rem",
-		"0.3rem",
-		"0.2rem",
-		"0.1rem",
 	],
 	colorNames: [
 		"content",
@@ -300,619 +300,6 @@ const defaultPalette = {
 	hueOffsets: [45, 60],
 	isolatedColor: -2,
 	lightLevels: 6,
-	maxNumberOfColors: 8,
-	maxNumberOfFaded: 2,
-	maxLightValue: 100,
-	modes: [
-		{
-			base: { l: 86.94, c: 0.03081, h: 94.86 },
-			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 100, 0],
-			colors: [
-				// 0-0
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 0,
-							c: 0.28017,
-							h: 2,
-						},
-						{
-							l: 1,
-							c: 0.15879,
-							h: 1,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-1
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 2,
-							c: 0.18363,
-							h: 0,
-						},
-						{
-							l: 0,
-							c: 0.3,
-							h: 7,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-2
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 1,
-							c: 0.10434,
-							h: 1,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-3
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 1,
-							c: 0.0534,
-							h: 3,
-						},
-						{
-							l: 2,
-							c: 0.118,
-							h: 0,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-4
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 2,
-							c: 0.09171,
-							h: 3,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-5
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-6
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 0-7
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-			],
-			name: "Light",
-		},
-		{
-			base: { l: 94.92, c: 0.06066, h: 270 },
-			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 100, 0],
-			colors: [
-				// 1-0
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 0,
-							c: 0.118,
-							h: 5,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-1
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 2,
-							c: 0.24567,
-							h: 7,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-2
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 1,
-							c: 0.118,
-							h: 3,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-3
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 1,
-							c: 0.03885,
-							h: 6,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-4
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 1,
-							c: 0.06066,
-							h: 4,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-5
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-6
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 1-7
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-			],
-			name: "High-Contrast Light",
-		},
-		{
-			base: { l: 25.71, c: 0.05262, h: 78.336 },
-			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 0, 100],
-			colors: [
-				// 2-0
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 2,
-							c: 0.27672,
-							h: 3,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-1
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-2
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.22386,
-							h: 3,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-3
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.06066,
-							h: 5,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-4
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.03654,
-							h: 3,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-5
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-6
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 2-7
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-			],
-			name: "Dark",
-		},
-		{
-			base: { l: 0, c: 0.22155, h: 214.848 },
-			blackAndWhiteFaded: [0.4, 0.1],
-			blackAndWhiteValues: [0, 100, 0, 100],
-			colors: [
-				// 3-0
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 5,
-							c: 0.19398,
-							h: 5,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-1
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 2,
-							c: 0.24684,
-							h: 4,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-2
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.23304,
-							h: 5,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-3
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 4,
-							c: 0.25602,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-4
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 5,
-							c: 0.09053,
-							h: 3,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-5
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-6
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-				// 3-7
-				{
-					fadedValues: [40, 80],
-					hueOffsetIndex: 0,
-					hueOffsetValues: [
-						{
-							l: 3,
-							c: 0.118,
-							h: 2,
-						},
-						{
-							l: 4,
-							c: 0.2,
-							h: 3,
-						},
-					],
-					minLightLevel: 20,
-				},
-			],
-			name: "High-Contrast Dark",
-		},
-	],
 	margins: [
 		"2.4rem",
 		"1.9rem",
@@ -923,6 +310,619 @@ const defaultPalette = {
 		"0.3rem",
 		"0.2rem",
 		"0.1rem",
+	],
+	maxLightValue: 100,
+	maxNumberOfColors: 8,
+	maxNumberOfFaded: 2,
+	modes: [
+		{
+			base: { c: 0.03081, h: 94.86, l: 86.94 },
+			blackAndWhiteFaded: [0.4, 0.1],
+			blackAndWhiteValues: [0, 100, 100, 0],
+			colors: [
+				// 0-0
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.28017,
+							h: 2,
+							l: 0,
+						},
+						{
+							c: 0.15879,
+							h: 1,
+							l: 1,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-1
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.18363,
+							h: 0,
+							l: 2,
+						},
+						{
+							c: 0.3,
+							h: 7,
+							l: 0,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-2
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.10434,
+							h: 1,
+							l: 1,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-3
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.0534,
+							h: 3,
+							l: 1,
+						},
+						{
+							c: 0.118,
+							h: 0,
+							l: 2,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-4
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.09171,
+							h: 3,
+							l: 2,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-5
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-6
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 0-7
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+			],
+			name: "Light",
+		},
+		{
+			base: { c: 0.06066, h: 270, l: 94.92 },
+			blackAndWhiteFaded: [0.4, 0.1],
+			blackAndWhiteValues: [0, 100, 100, 0],
+			colors: [
+				// 1-0
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 5,
+							l: 0,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-1
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.24567,
+							h: 7,
+							l: 2,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-2
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 3,
+							l: 1,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-3
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.03885,
+							h: 6,
+							l: 1,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-4
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.06066,
+							h: 4,
+							l: 1,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-5
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-6
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 1-7
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+			],
+			name: "High-Contrast Light",
+		},
+		{
+			base: { c: 0.05262, h: 78.336, l: 25.71 },
+			blackAndWhiteFaded: [0.4, 0.1],
+			blackAndWhiteValues: [0, 100, 0, 100],
+			colors: [
+				// 2-0
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.27672,
+							h: 3,
+							l: 2,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-1
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-2
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.22386,
+							h: 3,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-3
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.06066,
+							h: 5,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-4
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.03654,
+							h: 3,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-5
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-6
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 2-7
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+			],
+			name: "Dark",
+		},
+		{
+			base: { c: 0.22155, h: 214.848, l: 0 },
+			blackAndWhiteFaded: [0.4, 0.1],
+			blackAndWhiteValues: [0, 100, 0, 100],
+			colors: [
+				// 3-0
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.19398,
+							h: 5,
+							l: 5,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-1
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.24684,
+							h: 4,
+							l: 2,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-2
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.23304,
+							h: 5,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-3
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.25602,
+							h: 2,
+							l: 4,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-4
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.09053,
+							h: 3,
+							l: 5,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-5
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-6
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+				// 3-7
+				{
+					fadedValues: [40, 80],
+					hueOffsetIndex: 0,
+					hueOffsetValues: [
+						{
+							c: 0.118,
+							h: 2,
+							l: 3,
+						},
+						{
+							c: 0.2,
+							h: 3,
+							l: 4,
+						},
+					],
+					minLightLevel: 20,
+				},
+			],
+			name: "High-Contrast Dark",
+		},
 	],
 	name: "Color Palette",
 	numberOfColors: 4,
@@ -966,44 +966,13 @@ const defaultPalette = {
 };
 
 const config = {
-	validSchemeVersions: [[1, 0, 0]],
 	storageName: "colorPickerData",
+	validSchemeVersions: [[1, 0, 0]],
 };
 
 class Picker extends HTMLElement {
 	constructor() {
 		super();
-	}
-
-	connectedCallback() {
-		fx("Connected Color Picker");
-		// Reminder: Default data needs to be loaded for tests
-		p = JSON.parse(JSON.stringify(defaultPalette));
-		this.runTests();
-		this.loadData();
-		/*
-    this.addExampleForBorderRadius();
-    this.addExampleForBwBackground();
-    this.addExampleForBwBorder();
-    this.addExampleForBwColor();
-    this.addExampleForSpacingAlignment();
-    this.addExampleForSpacingFlow();
-    this.addExampleForSpacingMargin();
-    this.addExampleForSpacingPadding();
-    this.addExampleForSpacingWidth();
-    this.addExampleForSpacingWrapper();
-    this.addExampleForFontSize();
-    */
-
-		this.initControls();
-		this.initUtilityClasses();
-		this.updateVarsStyleSheet();
-		this.queryUiVarsStyleSheet();
-		this.updateUiClassesStyleSheet();
-		this.requestUpdate = this.updateUiView.bind(this);
-		this.addListeners();
-		this.updateExportPage();
-		this.updateDebuggingTab();
 	}
 
 	addExampleForBorderRadius() {
@@ -1244,6 +1213,37 @@ class Picker extends HTMLElement {
 		});
 	}
 
+	connectedCallback() {
+		fx("Connected Color Picker");
+		// Reminder: Default data needs to be loaded for tests
+		p = JSON.parse(JSON.stringify(defaultPalette));
+		this.runTests();
+		this.loadData();
+		/*
+    this.addExampleForBorderRadius();
+    this.addExampleForBwBackground();
+    this.addExampleForBwBorder();
+    this.addExampleForBwColor();
+    this.addExampleForSpacingAlignment();
+    this.addExampleForSpacingFlow();
+    this.addExampleForSpacingMargin();
+    this.addExampleForSpacingPadding();
+    this.addExampleForSpacingWidth();
+    this.addExampleForSpacingWrapper();
+    this.addExampleForFontSize();
+    */
+
+		this.initControls();
+		this.initUtilityClasses();
+		this.updateVarsStyleSheet();
+		this.queryUiVarsStyleSheet();
+		this.updateUiClassesStyleSheet();
+		this.requestUpdate = this.updateUiView.bind(this);
+		this.addListeners();
+		this.updateExportPage();
+		this.updateDebuggingTab();
+	}
+
 	finishUpdate() {
 		dbg("finishUpdate");
 		this.updateVarsStyleSheet();
@@ -1254,45 +1254,6 @@ class Picker extends HTMLElement {
 		this.updateExportPage();
 		this.updateDebuggingTab();
 		this.toggleIsolation();
-	}
-
-	initUtilityClasses() {
-		this.utilityClassesStyleSheet = dc("style");
-		document.head.appendChild(this.utilityClassesStyleSheet);
-		ad("editable", "no", this.utilityClassesStyleSheet);
-		ad("deployable", "yes", this.utilityClassesStyleSheet);
-		ad("name", "Utility Classes", this.utilityClassesStyleSheet);
-		const lines = [];
-		lines.push("");
-		lines.push(this.generateBackgroundColorsClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateBlackAndWhiteBackgroundClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateBlackAndWhiteBorderClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateBlackAndWhiteTextClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateBorderRadiiClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateColorBorderClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateFlowClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateFontSizeClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateMarginClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generatePaddingClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateTextAlignmentClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateTextColorClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateWidthClasses().join("\n"));
-		lines.push("");
-		lines.push(this.generateWrapperClasses().join("\n"));
-		const out = lines.join("\n");
-		this.utilityClassesStyleSheet.innerHTML = out;
 	}
 
 	generateBackgroundColorsClasses() {
@@ -1519,222 +1480,6 @@ class Picker extends HTMLElement {
 		return [`/* Wrapper Classes */`, ...lines];
 	}
 
-	queryBlackAndWhiteBorderStyleVars() {
-		const lines = [];
-		this.getBlackAndWhiteNames().forEach((bwName) => {
-			this.getFadedValues().forEach((fadedName) => {
-				const name = `  --${bwName}-border-style${fadedName}`;
-				const value = `1px solid var(--${bwName}${fadedName})`;
-				lines.push(makeVar(name, value));
-			});
-		});
-		lines.sort(sortVars);
-		return [`  /* Black and White Border Style Variables */`, ...lines];
-	}
-
-	queryBlackAndWhiteVars() {
-		const lines = [];
-		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
-			this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
-				const lightnessValue = this.getBlackAndWhiteModeValue(
-					modeIndex,
-					bwIndex,
-				);
-				lines.push(
-					makeVar(
-						`  --${modeName}__${bwName}`,
-						`oklch(${lightnessValue}% 0 0)`,
-					),
-				);
-				this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-					const fadedValue = this.getBlackAndWhiteModeFadedValue(
-						modeIndex,
-						fadedIndex,
-					);
-					lines.push(
-						makeVar(
-							`  --${modeName}__${bwName}-${fadedName}`,
-							`oklch(${lightnessValue}% 0 0 / ${fadedValue})`,
-						),
-					);
-				});
-			});
-		});
-		lines.sort(sortVars);
-		return [`  /* Black And White Theme Variables */`, ...lines];
-	}
-
-	queryBorderRadiiVars() {
-		const lines = [];
-		this.getSizes().forEach((sizeName, sizeIndex) => {
-			const name = `  --${sizeName}-radius`;
-			const value = `${p.borderRadii[sizeIndex]}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Border Radii Variables */`, ...lines];
-	}
-
-	queryColorBorderStyleVars() {
-		const lines = [];
-		this.getActiveColors().forEach((colorName) => {
-			this.getFadedValues().forEach((fadedName) => {
-				const name = `  --${colorName}-border-style${fadedName}`;
-				const value = `1px solid var(--${colorName}${fadedName})`;
-				lines.push(makeVar(name, value));
-			});
-		});
-		lines.sort(sortVars);
-		return [`  /* Color Border Style Variables */`, ...lines];
-	}
-
-	queryFlowVars() {
-		const lines = [];
-		this.getSizes().forEach((sizeName, sizeIndex) => {
-			const name = `  --${sizeName}-flow`;
-			const value = `${p.flows[sizeIndex]}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Flow Variables */`, ...lines];
-	}
-
-	queryFontSizeVars() {
-		const lines = [];
-		this.getSizes().forEach((sizeName, sizeIndex) => {
-			const name = `  --${sizeName}-font-size`;
-			const value = `${p.fontSizes[sizeIndex]}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Font Size Variables */`, ...lines];
-	}
-
-	queryMarginVars() {
-		const lines = [];
-		this.getSizes().forEach((sizeName, sizeIndex) => {
-			const name = `  --${sizeName}-margin`;
-			const value = `${p.margins[sizeIndex]}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Margin Variables */`, ...lines];
-	}
-
-	queryPaddingVars() {
-		const lines = [];
-		this.getSizes().forEach((sizeName, sizeIndex) => {
-			const name = `  --${sizeName}-padding`;
-			const value = `${p.paddings[sizeIndex]}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Padding Variables */`, ...lines];
-	}
-
-	queryTextAlignmentVars() {
-		const lines = [];
-		this.getAlignments().forEach((alignment) => {
-			const name = `  --align-${alignment}`;
-			const value = `${alignment}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Text Alignment Variables */`, ...lines];
-	}
-
-	queryWidthVars() {
-		const lines = [];
-		this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
-			const name = `  --${sizeName}-width`;
-			const value = `${p.widths[sizeIndex]}`;
-			lines.push(makeVar(name, value));
-		});
-		lines.sort(sortVars);
-		return [`  /* Width Variables */`, ...lines];
-	}
-
-	queryColorThemeVars() {
-		const lines = [];
-		p.modes.forEach((modeData, modeIndex) => {
-			const modeName = scrubStyle(modeData.name);
-			const backgroundL = this.getBackgroundValueL(modeIndex);
-			const backgroundC = this.getBackgroundValueC(modeIndex);
-			const backgroundH = this.getBackgroundValueH(modeIndex);
-
-			const backgroundName = `  --${modeName}__${p.backgroundColorName}`;
-			const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-			lines.push(`${backgroundName}: ${backgroundValue};`);
-			this.getActiveColors().forEach((colorName, colorIndex) => {
-				const l = this.getColorValueL(modeIndex, colorIndex);
-				const c = this.getColorValueC(modeIndex, colorIndex);
-				const h = this.getColorValueH(modeIndex, colorIndex);
-				const textName = `  --${modeName}__${colorName}`;
-				const textValue = `oklch(${l}% ${c} ${h})`;
-				lines.push(`${textName}: ${textValue};`);
-				p.fadedNames.forEach((fadedName) => {
-					const fade = 0.5;
-					const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
-					const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
-					lines.push(`${fadedClassName}: ${fadedValue};`);
-				});
-			});
-		});
-		lines.sort(sortVars);
-		return [`  /* Color Theme Variables */`, ...lines];
-	}
-
-	updateMode(obj) {
-		const newMode = gdi("mode", obj);
-		if (newMode !== p.activeMode) {
-			p.activeMode = newMode;
-		}
-		this.initColorTabs();
-		this.updateBackgroundSliders("instructions");
-		// this.updateBackgroundSliders('picker');
-		this.finishUpdate();
-	}
-
-	updateVarsStyleSheet() {
-		if (this.varsStyleSheet === undefined) {
-			this.varsStyleSheet = dc("style");
-			document.head.appendChild(this.varsStyleSheet);
-			ad("editable", "no", this.varsStyleSheet);
-			ad("deployable", "yes", this.varsStyleSheet);
-			ad("name", "Variables", this.varsStyleSheet);
-		}
-		const lines = [];
-		lines.push(`:root {`);
-		lines.push(this.queryActiveBlackAndWhiteVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryActiveColorVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryBlackAndWhiteVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryBlackAndWhiteBorderStyleVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryBorderRadiiVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryColorBorderStyleVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryColorThemeVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryFlowVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryFontSizeVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryMarginVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryPaddingVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryTextAlignmentVars().join("\n"));
-		lines.push("");
-		lines.push(this.queryWidthVars().join("\n"));
-		lines.push(`}`);
-		const out = lines.join("\n");
-		this.varsStyleSheet.innerHTML = out;
-	}
-
 	getActiveBackgroundValueAspect(aspect) {
 		if (aspect === "l") {
 			return this.getActiveBackgroundValueL();
@@ -1769,14 +1514,14 @@ class Picker extends HTMLElement {
 		return this.getColorIndexL(p.activeMode, p.activeColor);
 	}
 
-	getActiveColorScrubbedName() {
-		return scrubStyle(p.colorNames[p.activeColor]);
-	}
-
 	getActiveColors() {
 		return p.colorNames.filter((name, index) => {
 			return index < p.numberOfColors;
 		});
+	}
+
+	getActiveColorScrubbedName() {
+		return scrubStyle(p.colorNames[p.activeColor]);
 	}
 
 	getActiveColorValueC() {
@@ -1793,6 +1538,12 @@ class Picker extends HTMLElement {
 
 	getActiveModeScrubbedName() {
 		return scrubStyle(p.modes[p.activeMode].name);
+	}
+
+	getActiveScrubbedColorNames() {
+		return this.getActiveColors().map((colorName) => {
+			return scrubStyle(colorName);
+		});
 	}
 
 	getAlignments() {
@@ -1820,12 +1571,12 @@ class Picker extends HTMLElement {
 		return p.modes[mode].base.l;
 	}
 
-	getBlackAndWhiteModeValue(mode, index) {
-		return p.modes[mode].blackAndWhiteValues[index];
-	}
-
 	getBlackAndWhiteModeFadedValue(mode, index) {
 		return p.modes[mode].blackAndWhiteFaded[index];
+	}
+
+	getBlackAndWhiteModeValue(mode, index) {
+		return p.modes[mode].blackAndWhiteValues[index];
 	}
 
 	getBlackAndWhiteNames() {
@@ -1886,14 +1637,10 @@ class Picker extends HTMLElement {
 		return p.modes[mode].colors[color].fadedValues[index];
 	}
 
-	getColorIndexC(mode, color) {
-		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-		return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
-	}
-
-	getColorIndexH(mode, color) {
-		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-		return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
+	// TODO: Figure out why these are magic numbers
+	// and make them not be
+	getColorHueRowValues() {
+		return [23, 34, 45, 234, 23, 12, 32, 51];
 	}
 
 	getColorHueValues(mode, color) {
@@ -1905,15 +1652,23 @@ class Picker extends HTMLElement {
 		return values;
 	}
 
-	// TODO: Figure out why these are magic numbers
-	// and make them not be
-	getColorHueRowValues() {
-		return [23, 34, 45, 234, 23, 12, 32, 51];
+	getColorIndexC(mode, color) {
+		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+		return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].c;
+	}
+
+	getColorIndexH(mode, color) {
+		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+		return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].h;
 	}
 
 	getColorIndexL(mode, color) {
 		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
 		return p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex].l;
+	}
+
+	getColorMinLightValue(mode, color) {
+		return p.modes[mode].colors[color].minLightLevel;
 	}
 
 	getColorValueC(mode, color) {
@@ -1931,28 +1686,27 @@ class Picker extends HTMLElement {
 		return this.getLightnessValues(mode, color)[l];
 	}
 
-	getColorMinLightValue(mode, color) {
-		return p.modes[mode].colors[color].minLightLevel;
-	}
-
 	// TODO: Deprecate and put in data object
 	getDirections() {
 		return p.directions;
 	}
 
-	getScrubbedActiveModeName() {
-		return scrubStyle(p.modes[p.activeMode].name);
-	}
-
-	getScrubbedFadedNames() {
-		return p.fadedNames.map((name) => {
-			return scrubStyle(name);
-		});
-	}
-
 	// TODO: Deprecate and put in data object
 	getFadedValues() {
 		return ["", "-faded", "-faded2"];
+	}
+
+	getHueOffsetAmount(mode, color) {
+		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
+		return p.hueOffsets[hueOffsetIndex];
+	}
+
+	getHueOffsetIndex(mode, color) {
+		return p.modes[mode].colors[color].hueOffsetIndex;
+	}
+
+	getHueRowCount(mode, color) {
+		return Math.round(360 / this.getHueOffsetAmount(mode, color));
 	}
 
 	getLightnessValues(mode, color) {
@@ -1963,19 +1717,6 @@ class Picker extends HTMLElement {
 			levels.push(level.toFixed(5));
 		}
 		return levels;
-	}
-
-	getHueOffsetIndex(mode, color) {
-		return p.modes[mode].colors[color].hueOffsetIndex;
-	}
-
-	getHueOffsetAmount(mode, color) {
-		const hueOffsetIndex = this.getHueOffsetIndex(mode, color);
-		return p.hueOffsets[hueOffsetIndex];
-	}
-
-	getHueRowCount(mode, color) {
-		return Math.round(360 / this.getHueOffsetAmount(mode, color));
 	}
 
 	getModeNames() {
@@ -1990,9 +1731,13 @@ class Picker extends HTMLElement {
 		});
 	}
 
-	getActiveScrubbedColorNames() {
-		return this.getActiveColors().map((colorName) => {
-			return scrubStyle(colorName);
+	getScrubbedActiveModeName() {
+		return scrubStyle(p.modes[p.activeMode].name);
+	}
+
+	getScrubbedFadedNames() {
+		return p.fadedNames.map((name) => {
+			return scrubStyle(name);
 		});
 	}
 
@@ -2209,6 +1954,45 @@ class Picker extends HTMLElement {
 		});
 	}
 
+	initUtilityClasses() {
+		this.utilityClassesStyleSheet = dc("style");
+		document.head.appendChild(this.utilityClassesStyleSheet);
+		ad("editable", "no", this.utilityClassesStyleSheet);
+		ad("deployable", "yes", this.utilityClassesStyleSheet);
+		ad("name", "Utility Classes", this.utilityClassesStyleSheet);
+		const lines = [];
+		lines.push("");
+		lines.push(this.generateBackgroundColorsClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateBlackAndWhiteBackgroundClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateBlackAndWhiteBorderClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateBlackAndWhiteTextClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateBorderRadiiClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateColorBorderClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateFlowClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateFontSizeClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateMarginClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generatePaddingClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateTextAlignmentClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateTextColorClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateWidthClasses().join("\n"));
+		lines.push("");
+		lines.push(this.generateWrapperClasses().join("\n"));
+		const out = lines.join("\n");
+		this.utilityClassesStyleSheet.innerHTML = out;
+	}
+
 	// TODO: Verify
 	loadData() {
 		const checkData = localStorage.getItem(config.storageName);
@@ -2228,6 +2012,367 @@ class Picker extends HTMLElement {
 			schemaVersion: [1, 0, 0],
 		};
 		dbg("Loaded default colors");
+	}
+
+	queryActiveBlackAndWhiteVars() {
+		const lines = [];
+		const modeName = this.getScrubbedActiveModeName();
+		this.getBlackAndWhiteNames().forEach((bwName) => {
+			lines.push(makeVar(`  --${bwName}`, `var(--${modeName}__${bwName})`));
+			this.getScrubbedFadedNames().forEach((fadedName) => {
+				lines.push(
+					makeVar(
+						`  --${bwName}-${fadedName}`,
+						`var(--${modeName}__${bwName}-${fadedName})`,
+					),
+				);
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Active Black and White Variables */`, ...lines];
+	}
+
+	queryActiveColorVars() {
+		const lines = [];
+		this.getActiveScrubbedColorNames().forEach((colorName) => {
+			const modeName = this.getActiveModeScrubbedName(p.activeMode);
+			lines.push(
+				makeVar(`  --${colorName}`, `var(--${modeName}__${colorName})`),
+			);
+			this.getScrubbedFadedNames().forEach((fadedName) => {
+				lines.push(
+					makeVar(
+						`  --${colorName}-${fadedName}`,
+						`var(--${modeName}__${colorName}-${fadedName})`,
+					),
+				);
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Active Color Variables */`, ...lines];
+	}
+
+	queryBlackAndWhiteBorderStyleVars() {
+		const lines = [];
+		this.getBlackAndWhiteNames().forEach((bwName) => {
+			this.getFadedValues().forEach((fadedName) => {
+				const name = `  --${bwName}-border-style${fadedName}`;
+				const value = `1px solid var(--${bwName}${fadedName})`;
+				lines.push(makeVar(name, value));
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Black and White Border Style Variables */`, ...lines];
+	}
+
+	queryBlackAndWhiteVars() {
+		const lines = [];
+		this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+			this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
+				const lightnessValue = this.getBlackAndWhiteModeValue(
+					modeIndex,
+					bwIndex,
+				);
+				lines.push(
+					makeVar(
+						`  --${modeName}__${bwName}`,
+						`oklch(${lightnessValue}% 0 0)`,
+					),
+				);
+				this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
+					const fadedValue = this.getBlackAndWhiteModeFadedValue(
+						modeIndex,
+						fadedIndex,
+					);
+					lines.push(
+						makeVar(
+							`  --${modeName}__${bwName}-${fadedName}`,
+							`oklch(${lightnessValue}% 0 0 / ${fadedValue})`,
+						),
+					);
+				});
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Black And White Theme Variables */`, ...lines];
+	}
+
+	queryBorderRadiiVars() {
+		const lines = [];
+		this.getSizes().forEach((sizeName, sizeIndex) => {
+			const name = `  --${sizeName}-radius`;
+			const value = `${p.borderRadii[sizeIndex]}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Border Radii Variables */`, ...lines];
+	}
+
+	queryColorBorderStyleVars() {
+		const lines = [];
+		this.getActiveColors().forEach((colorName) => {
+			this.getFadedValues().forEach((fadedName) => {
+				const name = `  --${colorName}-border-style${fadedName}`;
+				const value = `1px solid var(--${colorName}${fadedName})`;
+				lines.push(makeVar(name, value));
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Color Border Style Variables */`, ...lines];
+	}
+
+	queryColorThemeVars() {
+		const lines = [];
+		p.modes.forEach((modeData, modeIndex) => {
+			const modeName = scrubStyle(modeData.name);
+			const backgroundL = this.getBackgroundValueL(modeIndex);
+			const backgroundC = this.getBackgroundValueC(modeIndex);
+			const backgroundH = this.getBackgroundValueH(modeIndex);
+
+			const backgroundName = `  --${modeName}__${p.backgroundColorName}`;
+			const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+			lines.push(`${backgroundName}: ${backgroundValue};`);
+			this.getActiveColors().forEach((colorName, colorIndex) => {
+				const l = this.getColorValueL(modeIndex, colorIndex);
+				const c = this.getColorValueC(modeIndex, colorIndex);
+				const h = this.getColorValueH(modeIndex, colorIndex);
+				const textName = `  --${modeName}__${colorName}`;
+				const textValue = `oklch(${l}% ${c} ${h})`;
+				lines.push(`${textName}: ${textValue};`);
+				p.fadedNames.forEach((fadedName) => {
+					const fade = 0.5;
+					const fadedClassName = `  --${modeName}__${colorName}-${fadedName}`;
+					const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
+					lines.push(`${fadedClassName}: ${fadedValue};`);
+				});
+			});
+		});
+		lines.sort(sortVars);
+		return [`  /* Color Theme Variables */`, ...lines];
+	}
+
+	queryFlowVars() {
+		const lines = [];
+		this.getSizes().forEach((sizeName, sizeIndex) => {
+			const name = `  --${sizeName}-flow`;
+			const value = `${p.flows[sizeIndex]}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Flow Variables */`, ...lines];
+	}
+
+	queryFontSizeVars() {
+		const lines = [];
+		this.getSizes().forEach((sizeName, sizeIndex) => {
+			const name = `  --${sizeName}-font-size`;
+			const value = `${p.fontSizes[sizeIndex]}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Font Size Variables */`, ...lines];
+	}
+
+	queryMarginVars() {
+		const lines = [];
+		this.getSizes().forEach((sizeName, sizeIndex) => {
+			const name = `  --${sizeName}-margin`;
+			const value = `${p.margins[sizeIndex]}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Margin Variables */`, ...lines];
+	}
+
+	queryPaddingVars() {
+		const lines = [];
+		this.getSizes().forEach((sizeName, sizeIndex) => {
+			const name = `  --${sizeName}-padding`;
+			const value = `${p.paddings[sizeIndex]}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Padding Variables */`, ...lines];
+	}
+
+	queryTextAlignmentVars() {
+		const lines = [];
+		this.getAlignments().forEach((alignment) => {
+			const name = `  --align-${alignment}`;
+			const value = `${alignment}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Text Alignment Variables */`, ...lines];
+	}
+
+	// REMINDER: This is the internal one that
+	// matches the active mode. The one that's
+	// exported is the responsibility of
+	// another function that lets you pick
+	// the primary mode.
+	queryUiVarsStyleSheet() {
+		if (this.uiColorVarsStyleSheet === undefined) {
+			this.uiColorVarsStyleSheet = dc("style");
+			ad("name", "UI Vars", this.uiColorVarsStyleSheet);
+			document.head.appendChild(this.uiColorVarsStyleSheet);
+		}
+		const lines = [];
+		// Background
+		lines.push(
+			`--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${
+				p.backgroundColorName
+			});`,
+		);
+		// UI Color
+		if (this.getBackgroundValueL(p.activeMode) > 40) {
+			lines.push(`--ui__picker: oklch(0% 0 0);`);
+			lines.push(`--ui__picker-faded: oklch(0% 0 0 / .7);`);
+			lines.push(`--ui__picker-faded2: oklch(0% 0 0 / .7);`);
+		} else {
+			lines.push(`--ui__picker: oklch(100% 0 0);`);
+			lines.push(`--ui__picker-faded: oklch(100% 0 0 / .4);`);
+			lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`);
+		}
+		// color-box-set-button-underlines
+		this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+			(hueData, hueIndex) => {
+				this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+					(lightnessData, lightnessIndex) => {
+						if (
+							this.getActiveColorIndexH() === hueIndex &&
+							this.getActiveColorIndexL() === lightnessIndex
+						) {
+							lines.push(
+								makeVar(
+									`--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
+									`underline`,
+								),
+							);
+						}
+					},
+				);
+			},
+		);
+
+		// color mode selector buttons
+		p.modes.forEach((modeData, modeIndex) => {
+			if (modeIndex === p.activeMode) {
+				lines.push(
+					makeVar(
+						`  --mode-${modeIndex}-selector-button-color`,
+						`var(--content)`,
+					),
+				);
+				lines.push(
+					makeVar(
+						`  --mode-${modeIndex}-selector-button-background-color`,
+						`var(--white)`,
+					),
+				);
+			} else {
+				lines.push(
+					makeVar(
+						`  --mode-${modeIndex}-selector-button-color`,
+						`var(--black)`,
+					),
+				);
+				lines.push(
+					makeVar(
+						`  --mode-${modeIndex}-selector-button-background-color`,
+						`var(--white-faded)`,
+					),
+				);
+			}
+		});
+		p.modes.forEach((modeData, modeIndex) => {
+			const modeName = scrubStyle(modeData.name);
+			const backgroundL = this.getBackgroundValueL(modeIndex);
+			const backgroundC = this.getBackgroundValueC(modeIndex);
+			const backgroundH = this.getBackgroundValueH(modeIndex);
+			let backgroundName = `--ui__${modeName}__${p.backgroundColorName}`;
+			let backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+			lines.push(`${backgroundName}: ${backgroundValue};`);
+			backgroundName = `--ui__mode-${modeIndex}__background`;
+			backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+			lines.push(`${backgroundName}: ${backgroundValue};`);
+			this.getActiveColors().forEach((colorName, colorIndex) => {
+				const l = this.getColorValueL(modeIndex, colorIndex);
+				const c = this.getColorValueC(modeIndex, colorIndex);
+				const h = this.getColorValueH(modeIndex, colorIndex);
+				let textName = `--ui__${modeName}__${colorName}`;
+				let textValue = `oklch(${l}% ${c} ${h})`;
+				lines.push(`${textName}: ${textValue};`);
+				textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
+				textValue = `oklch(${l}% ${c} ${h})`;
+				lines.push(`${textName}: ${textValue};`);
+				p.fadedNames.forEach((fadedName) => {
+					const fade = 0.5;
+					let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`;
+					let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+					lines.push(`${fadedClassName}: ${fadedValue};`);
+					fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`;
+					fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+					lines.push(`${fadedClassName}: ${fadedValue};`);
+				});
+			});
+		});
+		const modeIndex = p.activeMode;
+		const backgroundL = this.getBackgroundValueL(modeIndex);
+		const backgroundC = this.getBackgroundValueC(modeIndex);
+		const backgroundH = this.getBackgroundValueH(modeIndex);
+		const backgroundName = `--ui__${p.backgroundColorName}`;
+		const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
+		lines.push(`${backgroundName}: ${backgroundValue};`);
+		this.getActiveColors().forEach((colorName, colorIndex) => {
+			const l = this.getColorValueL(modeIndex, colorIndex);
+			const c = this.getColorValueC(modeIndex, colorIndex);
+			const h = this.getColorValueH(modeIndex, colorIndex);
+			const textName = `--ui__${colorName}`;
+			const textValue = `oklch(${l}% ${c} ${h})`;
+			lines.push(`${textName}: ${textValue};`);
+			p.fadedNames.forEach((fadedName) => {
+				const fade = 0.5;
+				const fadedClassName = `--ui__${colorName}-${fadedName}`;
+				const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
+				lines.push(`${fadedClassName}: ${fadedValue};`);
+			});
+		});
+		this.getActiveColors().forEach((colorName) => {
+			const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
+			lines.push(`--${colorName}: var(--${value});`);
+			p.fadedNames.forEach((fadedName) => {
+				const name = `${colorName}-${fadedName}`;
+				const fadedValue = `${this.getActiveModeScrubbedName()}__${name}`;
+				lines.push(`--${name}: var(--${fadedValue});`);
+			});
+		});
+		//
+		this.getColorHueValues(p.activeMode, p.activeColor).forEach(
+			(hueValue, hueIndex) => {
+				this.getLightnessValues(p.activeMode, p.activeColor).forEach(
+					(lightnessValue, lightnessIndex) => {
+						const cValue = this.getColorValueC(p.activeMode, p.activeColor);
+						const name = `--ui__lightness-${lightnessIndex}__hue-${hueIndex}`;
+						const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
+						lines.push(`${name}: ${value};`);
+					},
+				);
+			},
+		);
+		const out = `:root { ${lines.join("\n")} }`;
+		this.uiColorVarsStyleSheet.innerHTML = out;
+	}
+
+	queryWidthVars() {
+		const lines = [];
+		this.getSizesWithFull().forEach((sizeName, sizeIndex) => {
+			const name = `  --${sizeName}-width`;
+			const value = `${p.widths[sizeIndex]}`;
+			lines.push(makeVar(name, value));
+		});
+		lines.sort(sortVars);
+		return [`  /* Width Variables */`, ...lines];
 	}
 
 	refreshColorGrid() {
@@ -2263,17 +2408,17 @@ class Picker extends HTMLElement {
 	runTest(payload) {
 		if (payload[0] === payload[1]) {
 			return {
-				status: "pass",
+				details: payload[2],
 				expected: payload[1],
 				got: payload[0],
-				details: payload[2],
+				status: "pass",
 			};
 		} else {
 			return {
-				status: "fail",
+				details: payload[2],
 				expected: payload[1],
 				got: payload[0],
-				details: payload[2],
+				status: "fail",
 			};
 		}
 	}
@@ -2462,64 +2607,10 @@ class Picker extends HTMLElement {
 		this.finishUpdate();
 	}
 
-	queryActiveBlackAndWhiteVars() {
-		const lines = [];
-		const modeName = this.getScrubbedActiveModeName();
-		this.getBlackAndWhiteNames().forEach((bwName) => {
-			lines.push(makeVar(`  --${bwName}`, `var(--${modeName}__${bwName})`));
-			this.getScrubbedFadedNames().forEach((fadedName) => {
-				lines.push(
-					makeVar(
-						`  --${bwName}-${fadedName}`,
-						`var(--${modeName}__${bwName}-${fadedName})`,
-					),
-				);
-			});
-		});
-		lines.sort(sortVars);
-		return [`  /* Active Black and White Variables */`, ...lines];
-	}
-
-	queryActiveColorVars() {
-		const lines = [];
-		this.getActiveScrubbedColorNames().forEach((colorName) => {
-			const modeName = this.getActiveModeScrubbedName(p.activeMode);
-			lines.push(
-				makeVar(`  --${colorName}`, `var(--${modeName}__${colorName})`),
-			);
-			this.getScrubbedFadedNames().forEach((fadedName) => {
-				lines.push(
-					makeVar(
-						`  --${colorName}-${fadedName}`,
-						`var(--${modeName}__${colorName}-${fadedName})`,
-					),
-				);
-			});
-		});
-		lines.sort(sortVars);
-		return [`  /* Active Color Variables */`, ...lines];
-	}
-
 	updateBackgroundColors(obj) {
 		const mode = p.activeMode;
 		const aspect = gds("aspect", obj);
 		p.modes[mode].base[aspect] = gvf(obj);
-		this.finishUpdate();
-	}
-
-	updateColorChroma(obj) {
-		const value = gvf(obj);
-		this.setColorAspect(p.activeMode, p.activeColor, "c", value);
-		this.finishUpdate();
-	}
-
-	updateLightnessHue(obj) {
-		const mode = gdi("mode", obj);
-		const color = gdi("color", obj);
-		const lightness = gdi("lightness", obj);
-		const hue = gdi("hue", obj);
-		this.setColorAspect(mode, color, "l", lightness);
-		this.setColorAspect(mode, color, "h", hue);
 		this.finishUpdate();
 	}
 
@@ -2531,6 +2622,12 @@ class Picker extends HTMLElement {
 			const aspect = gds("aspect", slider);
 			slider.value = this.getActiveBackgroundValueAspect(aspect);
 		});
+	}
+
+	updateColorChroma(obj) {
+		const value = gvf(obj);
+		this.setColorAspect(p.activeMode, p.activeColor, "c", value);
+		this.finishUpdate();
 	}
 
 	updateDebuggingTab() {
@@ -2546,15 +2643,15 @@ class Picker extends HTMLElement {
 			}
 		});
 		p["_tests"] = {
-			pass: pass,
 			fail: fail,
 			failureDetails: failDetails,
+			pass: pass,
 		};
 		p["_debugging"] = {
 			base: {
-				l: this.getBackgroundValueL(p.activeMode),
 				c: this.getBackgroundValueC(p.activeMode),
 				h: this.getBackgroundValueH(p.activeMode),
+				l: this.getBackgroundValueL(p.activeMode),
 			},
 			colors: [],
 		};
@@ -2577,8 +2674,8 @@ class Picker extends HTMLElement {
 		let payloads = [];
 		sheets.forEach((sheet) => {
 			payloads.push({
-				name: sheet.dataset.name,
 				content: sheet.innerHTML,
+				name: sheet.dataset.name,
 			});
 		});
 		outputEl.innerHTML = payloads
@@ -2595,6 +2692,27 @@ class Picker extends HTMLElement {
 `;
 			})
 			.join("\n\n");
+	}
+
+	updateLightnessHue(obj) {
+		const mode = gdi("mode", obj);
+		const color = gdi("color", obj);
+		const lightness = gdi("lightness", obj);
+		const hue = gdi("hue", obj);
+		this.setColorAspect(mode, color, "l", lightness);
+		this.setColorAspect(mode, color, "h", hue);
+		this.finishUpdate();
+	}
+
+	updateMode(obj) {
+		const newMode = gdi("mode", obj);
+		if (newMode !== p.activeMode) {
+			p.activeMode = newMode;
+		}
+		this.initColorTabs();
+		this.updateBackgroundSliders("instructions");
+		// this.updateBackgroundSliders('picker');
+		this.finishUpdate();
 	}
 
 	updateUiClassesStyleSheet() {
@@ -2700,164 +2818,6 @@ class Picker extends HTMLElement {
 		this.uiClassesStyleSheet.innerHTML = out;
 	}
 
-	// REMINDER: This is the internal one that
-	// matches the active mode. The one that's
-	// exported is the responsibility of
-	// another function that lets you pick
-	// the primary mode.
-	queryUiVarsStyleSheet() {
-		if (this.uiColorVarsStyleSheet === undefined) {
-			this.uiColorVarsStyleSheet = dc("style");
-			ad("name", "UI Vars", this.uiColorVarsStyleSheet);
-			document.head.appendChild(this.uiColorVarsStyleSheet);
-		}
-		const lines = [];
-		// Background
-		lines.push(
-			`--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}__${
-				p.backgroundColorName
-			});`,
-		);
-		// UI Color
-		if (this.getBackgroundValueL(p.activeMode) > 40) {
-			lines.push(`--ui__picker: oklch(0% 0 0);`);
-			lines.push(`--ui__picker-faded: oklch(0% 0 0 / .7);`);
-			lines.push(`--ui__picker-faded2: oklch(0% 0 0 / .7);`);
-		} else {
-			lines.push(`--ui__picker: oklch(100% 0 0);`);
-			lines.push(`--ui__picker-faded: oklch(100% 0 0 / .4);`);
-			lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`);
-		}
-		// color-box-set-button-underlines
-		this.getColorHueValues(p.activeMode, p.activeColor).forEach(
-			(hueData, hueIndex) => {
-				this.getLightnessValues(p.activeMode, p.activeColor).forEach(
-					(lightnessData, lightnessIndex) => {
-						if (
-							this.getActiveColorIndexH() === hueIndex &&
-							this.getActiveColorIndexL() === lightnessIndex
-						) {
-							lines.push(
-								makeVar(
-									`--ui__lightness-${lightnessIndex}__hue-${hueIndex}__decoration`,
-									`underline`,
-								),
-							);
-						}
-					},
-				);
-			},
-		);
-
-		// color mode selector buttons
-		p.modes.forEach((modeData, modeIndex) => {
-			if (modeIndex === p.activeMode) {
-				lines.push(
-					makeVar(
-						`  --mode-${modeIndex}-selector-button-color`,
-						`var(--content)`,
-					),
-				);
-				lines.push(
-					makeVar(
-						`  --mode-${modeIndex}-selector-button-background-color`,
-						`var(--white)`,
-					),
-				);
-			} else {
-				lines.push(
-					makeVar(
-						`  --mode-${modeIndex}-selector-button-color`,
-						`var(--black)`,
-					),
-				);
-				lines.push(
-					makeVar(
-						`  --mode-${modeIndex}-selector-button-background-color`,
-						`var(--white-faded)`,
-					),
-				);
-			}
-		});
-		p.modes.forEach((modeData, modeIndex) => {
-			const modeName = scrubStyle(modeData.name);
-			const backgroundL = this.getBackgroundValueL(modeIndex);
-			const backgroundC = this.getBackgroundValueC(modeIndex);
-			const backgroundH = this.getBackgroundValueH(modeIndex);
-			let backgroundName = `--ui__${modeName}__${p.backgroundColorName}`;
-			let backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-			lines.push(`${backgroundName}: ${backgroundValue};`);
-			backgroundName = `--ui__mode-${modeIndex}__background`;
-			backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-			lines.push(`${backgroundName}: ${backgroundValue};`);
-			this.getActiveColors().forEach((colorName, colorIndex) => {
-				const l = this.getColorValueL(modeIndex, colorIndex);
-				const c = this.getColorValueC(modeIndex, colorIndex);
-				const h = this.getColorValueH(modeIndex, colorIndex);
-				let textName = `--ui__${modeName}__${colorName}`;
-				let textValue = `oklch(${l}% ${c} ${h})`;
-				lines.push(`${textName}: ${textValue};`);
-				textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
-				textValue = `oklch(${l}% ${c} ${h})`;
-				lines.push(`${textName}: ${textValue};`);
-				p.fadedNames.forEach((fadedName) => {
-					const fade = 0.5;
-					let fadedClassName = `--ui__${modeName}__${colorName}-${fadedName}`;
-					let fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-					lines.push(`${fadedClassName}: ${fadedValue};`);
-					fadedClassName = `--ui__mode-${modeIndex}__color-${colorIndex}-${fadedName}`;
-					fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-					lines.push(`${fadedClassName}: ${fadedValue};`);
-				});
-			});
-		});
-		const modeIndex = p.activeMode;
-		const backgroundL = this.getBackgroundValueL(modeIndex);
-		const backgroundC = this.getBackgroundValueC(modeIndex);
-		const backgroundH = this.getBackgroundValueH(modeIndex);
-		const backgroundName = `--ui__${p.backgroundColorName}`;
-		const backgroundValue = `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
-		lines.push(`${backgroundName}: ${backgroundValue};`);
-		this.getActiveColors().forEach((colorName, colorIndex) => {
-			const l = this.getColorValueL(modeIndex, colorIndex);
-			const c = this.getColorValueC(modeIndex, colorIndex);
-			const h = this.getColorValueH(modeIndex, colorIndex);
-			const textName = `--ui__${colorName}`;
-			const textValue = `oklch(${l}% ${c} ${h})`;
-			lines.push(`${textName}: ${textValue};`);
-			p.fadedNames.forEach((fadedName) => {
-				const fade = 0.5;
-				const fadedClassName = `--ui__${colorName}-${fadedName}`;
-				const fadedValue = `oklch(${l}% ${c} ${h}) / ${fade})`;
-				lines.push(`${fadedClassName}: ${fadedValue};`);
-			});
-		});
-		this.getActiveColors().forEach((colorName) => {
-			const value = `${this.getActiveModeScrubbedName()}__${colorName}`;
-			lines.push(`--${colorName}: var(--${value});`);
-			p.fadedNames.forEach((fadedName) => {
-				const name = `${colorName}-${fadedName}`;
-				const fadedValue = `${this.getActiveModeScrubbedName()}__${name}`;
-				lines.push(`--${name}: var(--${fadedValue});`);
-			});
-		});
-		//
-		this.getColorHueValues(p.activeMode, p.activeColor).forEach(
-			(hueValue, hueIndex) => {
-				this.getLightnessValues(p.activeMode, p.activeColor).forEach(
-					(lightnessValue, lightnessIndex) => {
-						const cValue = this.getColorValueC(p.activeMode, p.activeColor);
-						const name = `--ui__lightness-${lightnessIndex}__hue-${hueIndex}`;
-						const value = `oklch(${lightnessValue}% ${cValue} ${hueValue})`;
-						lines.push(`${name}: ${value};`);
-					},
-				);
-			},
-		);
-		const out = `:root { ${lines.join("\n")} }`;
-		this.uiColorVarsStyleSheet.innerHTML = out;
-	}
-
 	updateUiView(event) {
 		if (event.target.dataset) {
 			const kind = event.target.dataset.kind;
@@ -2888,13 +2848,49 @@ class Picker extends HTMLElement {
 			}
 		}
 	}
+
+	updateVarsStyleSheet() {
+		if (this.varsStyleSheet === undefined) {
+			this.varsStyleSheet = dc("style");
+			document.head.appendChild(this.varsStyleSheet);
+			ad("editable", "no", this.varsStyleSheet);
+			ad("deployable", "yes", this.varsStyleSheet);
+			ad("name", "Variables", this.varsStyleSheet);
+		}
+		const lines = [];
+		lines.push(`:root {`);
+		lines.push(this.queryActiveBlackAndWhiteVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryActiveColorVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryBlackAndWhiteVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryBlackAndWhiteBorderStyleVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryBorderRadiiVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryColorBorderStyleVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryColorThemeVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryFlowVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryFontSizeVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryMarginVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryPaddingVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryTextAlignmentVars().join("\n"));
+		lines.push("");
+		lines.push(this.queryWidthVars().join("\n"));
+		lines.push(`}`);
+		const out = lines.join("\n");
+		this.varsStyleSheet.innerHTML = out;
+	}
 }
 
 class TabGroup extends HTMLElement {
-	get tabs() {
-		return [...this.querySelectorAll(":scope > div > [role=tab]")];
-	}
-
 	get panels() {
 		return [...this.querySelectorAll(":scope > [role=tabpanel]")];
 	}
@@ -2908,6 +2904,10 @@ class TabGroup extends HTMLElement {
 		element?.setAttribute("aria-selected", "true");
 		element?.focus();
 		this.updateSelection();
+	}
+
+	get tabs() {
+		return [...this.querySelectorAll(":scope > div > [role=tab]")];
 	}
 
 	connectedCallback() {
@@ -2927,17 +2927,6 @@ class TabGroup extends HTMLElement {
 		});
 	}
 
-	updateSelection() {
-		this.tabs.forEach((tab, index) => {
-			const panel = this.panels[index];
-			const isSelected = tab.getAttribute("aria-selected") === "true";
-			tab.setAttribute("aria-selected", isSelected ? "true" : "false");
-			tab.setAttribute("tabindex", isSelected ? "0" : "-1");
-			panel.setAttribute("tabindex", isSelected ? "0" : "-1");
-			panel.hidden = !isSelected;
-		});
-	}
-
 	setupEvents() {
 		this.tabs.forEach((tab) => {
 			tab.addEventListener("click", () => (this.selected = tab));
@@ -2948,6 +2937,17 @@ class TabGroup extends HTMLElement {
 					this.selected = tab.nextElementSibling ?? this.tabs.at(0);
 				}
 			});
+		});
+	}
+
+	updateSelection() {
+		this.tabs.forEach((tab, index) => {
+			const panel = this.panels[index];
+			const isSelected = tab.getAttribute("aria-selected") === "true";
+			tab.setAttribute("aria-selected", isSelected ? "true" : "false");
+			tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+			panel.setAttribute("tabindex", isSelected ? "0" : "-1");
+			panel.hidden = !isSelected;
 		});
 	}
 }

@@ -2996,17 +2996,6 @@ class TabGroup extends HTMLElement {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
 customElements.define('tab-group', TabGroup)
 customElements.define('color-picker', Picker)
 

@@ -1,3 +1,4 @@
+
 export default [
   {
     files: ['**/*.{js,mjs,cjs}'],
@@ -1215,6 +1216,10 @@ export default [
       'require-yield': 'error',
       'use-isnan': 'error',
       'valid-typeof': 'error',
+      'space-before-function-paren': 'error',
     }),
   },
+
+
 ]
+

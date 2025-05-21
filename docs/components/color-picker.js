@@ -1944,6 +1944,8 @@ class Picker extends HTMLElement {
     return values
   }
 
+  // TODO: Figure out why these are magic numbers 
+  // and make them not be
   getColorHueRowValues(mode, color) {
     return [23, 34, 45, 234, 23, 12, 32, 51]
   }
@@ -2977,6 +2979,8 @@ class TabGroup extends HTMLElement {
     })
   }
 
+
+
   setupEvents() {
     this.tabs.forEach((tab) => {
       tab.addEventListener('click', () => (this.selected = tab))
@@ -2991,5 +2995,18 @@ class TabGroup extends HTMLElement {
   }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
 customElements.define('tab-group', TabGroup)
 customElements.define('color-picker', Picker)
+

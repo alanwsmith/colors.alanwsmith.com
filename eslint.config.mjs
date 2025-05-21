@@ -1,5 +1,3 @@
-// import sortClassMembers from "eslint-plugin-sort-class-members";
-
 export default [
   {
     files: ['**/*.{js,mjs,cjs}'],
@@ -1221,7 +1219,5 @@ export default [
       //'no-var': 'error',
     }),
   },
-
-
 ]
 

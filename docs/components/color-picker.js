@@ -106,10 +106,10 @@ function els(selector) {
   return document.querySelectorAll(selector)
 }
 
-// // Focus (print to console regardless of debug
-// function fx(value) {
-//   console.log(value)
-// }
+// Focus (print to console regardless of debug
+function fx(value) {
+  console.log(value)
+}
 
 // Get Int from DataSet Key From Event
 function gdi(key, obj) {
@@ -153,16 +153,16 @@ function makeVar(name, value) {
   return `${name}: ${value};`
 }
 
-// // Remove classes from Object
-// function rc(data, obj) {
-//   if (typeof data === 'string') {
-//     obj.classList.remove(data)
-//   } else {
-//     data.forEach((c) => {
-//       obj.classList.remove(c)
-//     })
-//   }
-// }
+// Remove classes from Object
+function rc(data, obj) {
+  if (typeof data === 'string') {
+    obj.classList.remove(data)
+  } else {
+    data.forEach((c) => {
+      obj.classList.remove(c)
+    })
+  }
+}
 
 // Set Attribute
 function sa(key, value, obj) {
@@ -976,7 +976,7 @@ class Picker extends HTMLElement {
   }
 
   connectedCallback() {
-    dbg('Connected Color Picker')
+    fx('Connected Color Picker')
     // Reminder: Default data needs to be loaded for tests
     p = JSON.parse(JSON.stringify(defaultPalette))
     this.runTests()
@@ -2423,29 +2423,29 @@ class Picker extends HTMLElement {
         }
       })
       els('.content-body').forEach((e) => {
-        e.classList.remove('invisible')
+        rc('invisible', e)
       })
       els('.mode-buttons-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible')
+rc('invisible', wrapper)
       })
       els('.nav-tab-list').forEach((wrapper) => {
-        wrapper.classList.add('invisible')
+rc('invisible', wrapper)
       })
       els('.colors-box-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible')
+rc('invisible', wrapper)
       })
     } else {
       els('.content-body').forEach((e) => {
-        e.classList.remove('invisible')
+        rc('invisible', e)
       })
       els('.mode-buttons-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible')
+rc('invisible', wrapper)
       })
       els('.nav-tab-list').forEach((wrapper) => {
-        wrapper.classList.remove('invisible')
+rc('invisible', wrapper)
       })
       els('.colors-box-wrapper').forEach((wrapper) => {
-        wrapper.classList.remove('invisible')
+rc('invisible', wrapper)
       })
     }
     const out = `:root { ${lines.join('\n')} }`

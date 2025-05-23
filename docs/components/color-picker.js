@@ -1282,7 +1282,7 @@ class Picker extends HTMLElement {
     return [`/* Background Color Classes */`, ...lines];
   }
 
-  generateBlackAndWhiteBackgroundStyles() {
+  generateBlackAndWhiteNormalBackgroundStyles() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
@@ -1306,7 +1306,7 @@ class Picker extends HTMLElement {
     return [`/* Black And White Background Classes */`, ...lines];
   }
 
-  generateBlackAndWhiteBorderStyles() {
+  generateBlackAndWhiteNormalBorderStyles() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
@@ -1325,7 +1325,7 @@ class Picker extends HTMLElement {
     return [`/* Black And White Border Classes */`, ...lines];
   }
 
-  generateBlackAndWhiteTextClasses() {
+  generateBlackAndWhiteNormalTextStyles() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`));
@@ -1343,7 +1343,69 @@ class Picker extends HTMLElement {
     return [`/* Black And White Text Classes */`, ...lines];
   }
 
-  generateBorderRadiiClasses() {
+  generateBlackAndWhiteReversedBackgroundStyles() {
+    const lines = [];
+    this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+      lines.push(
+        makeClass(
+          `.${bwName}-background`,
+          `background-color`,
+          `var(--${bwName})`,
+        ),
+      );
+      this.getScrubbedFadedNames().forEach((fadedName) => {
+        lines.push(
+          makeClass(
+            `.${bwName}-background-${fadedName}`,
+            `background-color`,
+            `var(--${bwName}-${fadedName})`,
+          ),
+        );
+      });
+    });
+    lines.sort();
+    return [`/* Black And White Background Classes */`, ...lines];
+  }
+
+  generateBlackAndWhiteReversedBorderStyles() {
+    const lines = [];
+    this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+      this.getBorderDirectionNames().forEach((directionName) => {
+        let name = `.${bwName}${directionName}-border`;
+        const key = `border${directionName}`;
+        let value = `var(--${bwName}-border-style)`;
+        lines.push(makeClass(name, key, value));
+        this.getScrubbedFadedNames().forEach((fadedName) => {
+          name = `.${bwName}${directionName}-border-${fadedName}`;
+          let value = `var(--${bwName}-border-style-${fadedName})`;
+          lines.push(makeClass(name, key, value));
+        });
+      });
+    });
+    lines.sort();
+    return [`/* Black And White Border Classes */`, ...lines];
+  }
+
+  generateBlackAndWhiteReversedTextStyles() {
+    const lines = [];
+    this.getBlackAndWhiteNames().forEach((bwName) => {
+      lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`));
+      this.getScrubbedFadedNames().forEach((fadedName) => {
+        lines.push(
+          makeClass(
+            `.${bwName}-text-${fadedName}`,
+            `color`,
+            `var(--${bwName}-${fadedName})`,
+          ),
+        );
+      });
+    });
+    lines.sort();
+    return [`/* Black And White Text Classes */`, ...lines];
+  }
+
+
+  generateBorderRadiiStyles() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
       this.getBorderRadiiDirectionNames().forEach((directionName, index) => {
@@ -1377,7 +1439,7 @@ class Picker extends HTMLElement {
     return [`/* Border Style Color Classes */`, ...lines];
   }
 
-  generateFlowClasses() {
+  generateFlowStyles() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
       const name = `.${sizeName}-flow > :where(:not(:first-child))`;
@@ -1389,7 +1451,7 @@ class Picker extends HTMLElement {
     return [`/* Flow Classes */`, ...lines];
   }
 
-  generateFontSizeClasses() {
+  generateFontSizeStyles() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
       const name = `.${sizeName}-font-size`;
@@ -1401,7 +1463,7 @@ class Picker extends HTMLElement {
     return [`/* Font Size Classes */`, ...lines];
   }
 
-  generateMarginClasses() {
+  generateMarginStyles() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
       this.getDirections().forEach((direction) => {
@@ -1419,7 +1481,7 @@ class Picker extends HTMLElement {
     return [`/* Margin Classes */`, ...lines];
   }
 
-  generatePaddingClasses() {
+  generatePaddingStyles() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
       this.getDirections().forEach((direction) => {
@@ -1437,7 +1499,7 @@ class Picker extends HTMLElement {
     return [`/* Padding Classes */`, ...lines];
   }
 
-  generateTextAlignmentClasses() {
+  generateTextAlignmentStyles() {
     const lines = [];
     this.getAlignments().forEach((alignment) => {
       const name = `.align-${alignment}`;
@@ -1466,7 +1528,7 @@ class Picker extends HTMLElement {
     return [`/* Text Color Classes */`, ...lines];
   }
 
-  generateWidthClasses() {
+  generateWidthStyles() {
     const lines = [];
     this.getSizesWithFull().forEach((sizeName) => {
       const name = `.${sizeName}-width`;
@@ -1478,7 +1540,7 @@ class Picker extends HTMLElement {
     return [`/* Width Classes */`, ...lines];
   }
 
-  generateWrapperClasses() {
+  generateWrapperStyles() {
     const lines = [];
     this.getSizesWithFull().forEach((sizeName) => {
       const name = `.${sizeName}-wrapper`;
@@ -1973,27 +2035,27 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.generateColorBorderStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteBackgroundStyles().join("\n"));
+    lines.push(this.generateBlackAndWhiteNormalTextStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteBorderStyles().join("\n"));
+    lines.push(this.generateBlackAndWhiteNormalBackgroundStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteTextClasses().join("\n"));
+    lines.push(this.generateBlackAndWhiteNormalBorderStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateBorderRadiiClasses().join("\n"));
+    lines.push(this.generateBorderRadiiStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateFlowClasses().join("\n"));
+    lines.push(this.generateFlowStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateFontSizeClasses().join("\n"));
+    lines.push(this.generateFontSizeStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateMarginClasses().join("\n"));
+    lines.push(this.generateMarginStyles().join("\n"));
     lines.push("");
-    lines.push(this.generatePaddingClasses().join("\n"));
+    lines.push(this.generatePaddingStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateTextAlignmentClasses().join("\n"));
+    lines.push(this.generateTextAlignmentStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateWidthClasses().join("\n"));
+    lines.push(this.generateWidthStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateWrapperClasses().join("\n"));
+    lines.push(this.generateWrapperStyles().join("\n"));
     const out = lines.join("\n");
     this.utilityClassesStyleSheet.innerHTML = out;
   }
@@ -2510,34 +2572,34 @@ class Picker extends HTMLElement {
         "generateColorBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBackgroundStyles()[1],
+        this.generateBlackAndWhiteNormalBackgroundStyles()[1],
         ".black-background { background-color: var(--black); }",
-        "generateBlackAndWhiteBackgroundStyles",
+        "generateBlackAndWhiteNormalBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBackgroundStyles()[2],
+        this.generateBlackAndWhiteNormalBackgroundStyles()[2],
         ".black-background-faded { background-color: var(--black-faded); }",
-        "generateBlackAndWhiteBackgroundStyles",
+        "generateBlackAndWhiteNormalBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBackgroundStyles()[3],
+        this.generateBlackAndWhiteNormalBackgroundStyles()[3],
         ".black-background-faded2 { background-color: var(--black-faded2); }",
-        "generateBlackAndWhiteBackgroundStyles",
+        "generateBlackAndWhiteNormalBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBorderStyles()[4],
+        this.generateBlackAndWhiteNormalBorderStyles()[4],
         ".black-border { border: var(--black-border-style); }",
-        "generateBlackAndWhiteBorderStyles",
+        "generateBlackAndWhiteNormalBorderStyles",
       ],
       [
-        this.generateBorderRadiiClasses()[1],
+        this.generateBorderRadiiStyles()[1],
         ".default-block-bottom-radius { border-block-bottom-radius: var(--default-radius); }",
-        "generateBorderRadiiClasses",
+        "generateBorderRadiiStyles",
       ],
       [
-        this.generateBorderRadiiClasses()[11],
+        this.generateBorderRadiiStyles()[11],
         ".default-radius { border-radius: var(--default-radius); }",
-        "generateBorderRadiiClasses",
+        "generateBorderRadiiStyles",
       ],
       [
         this.generateColorBorderStyles()[2],
@@ -2550,9 +2612,9 @@ class Picker extends HTMLElement {
         "generateColorBorderStyles",
       ],
       [
-        this.generateFlowClasses()[4],
+        this.generateFlowStyles()[4],
         ".xlarge-flow > :where(:not(:first-child)) { margin-top: var(--flow-space, var(--xlarge-flow)); }",
-        "generateFlowClasses",
+        "generateFlowStyles",
       ],
       [
         this.queryColorThemeVars()[1].trim(),
@@ -2761,84 +2823,60 @@ class Picker extends HTMLElement {
   updateExportPage() {
     // Variables
     el("color-theme-vars").innerHTML = this.queryColorThemeVars().join("\n");
-
     el("color-active-vars").innerHTML = this.queryColorActiveVars().join("\n");
-
     el("color-border-style-vars").innerHTML = this.queryColorBorderStyleVars()
       .join("\n");
-
     el("bw-normal-theme-vars").innerHTML = this
       .queryBlackAndWhiteNormalThemeVars().join("\n");
-
     el("bw-normal-active-vars").innerHTML = this
       .queryBlackAndWhiteNormalActiveVars().join("\n");
-
     el("bw-normal-border-style-vars").innerHTML = this
       .queryBlackAndWhiteNormalBorderStyleVars().join("\n");
-
     el("bw-reversed-theme-vars").innerHTML = this
       .queryBlackAndWhiteReversedThemeVars().join("\n");
-
     el("bw-reversed-active-vars").innerHTML = this
       .queryBlackAndWhiteReversedActiveVars().join("\n");
-
     el("bw-reversed-border-style-vars").innerHTML = this
       .queryBlackAndWhiteReversedBorderStyleVars().join("\n");
-
     el("border-radii-vars").innerHTML = this.queryBorderRadiiVars().join("\n");
-
     el("font-size-vars").innerHTML = this.queryFontSizeVars().join("\n");
-
     el("margin-vars").innerHTML = this.queryMarginVars().join("\n");
-
     el("padding-vars").innerHTML = this.queryPaddingVars().join("\n");
-
     el("width-vars").innerHTML = this.queryWidthVars().join("\n");
-
     el("flow-vars").innerHTML = this.queryFlowVars().join("\n");
-
     el("text-alignment-vars").innerHTML = this.queryTextAlignmentVars().join(
       "\n",
     );
 
     // Classes aka Styles
     el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
-
-    el("color-text-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("color-background-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("color-border-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("bw-normal-text-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("bw-normal-background-styles").innerHTML = this.queryFlowVars().join(
+    el("color-text-styles").innerHTML = this.generateColorTextStyles().join("\n");
+    el("color-background-styles").innerHTML = this.generateColorBackgroundStyles().join("\n");
+    el("color-border-styles").innerHTML = this.generateColorBorderStyles().join("\n");
+    el("bw-normal-text-styles").innerHTML = this.generateBlackAndWhiteNormalTextStyles().join("\n");
+    el("bw-normal-background-styles").innerHTML = this.generateBlackAndWhiteNormalBackgroundStyles().join(
       "\n",
     );
-
-    el("bw-normal-border-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("bw-reversed-text-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("bw-reversed-background-styles").innerHTML = this.queryFlowVars().join(
+    el("bw-normal-border-styles").innerHTML = this.generateBlackAndWhiteNormalBorderStyles().join("\n");
+    el("bw-reversed-text-styles").innerHTML = this.generateBlackAndWhiteReversedTextStyles().join("\n");
+    el("bw-reversed-background-styles").innerHTML = this.generateBlackAndWhiteReversedBackgroundStyles().join(
       "\n",
     );
+    el("bw-reversed-border-styles").innerHTML = this.generateBlackAndWhiteReversedBorderStyles().join("\n");
+    el("border-radii-styles").innerHTML = this.queryBorderRadiiVars().join("\n");
 
-    el("bw-reversed-border-styles").innerHTML = this.queryFlowVars().join("\n");
+    el("flow-styles").innerHTML = this.generateFlowStyles().join("\n");
+    el("font-size-styles").innerHTML = this.generateFontSizeStyles().join("\n");
 
-    el("border-radii-styles").innerHTML = this.queryFlowVars().join("\n");
+    el("margin-styles").innerHTML = this.generateMarginStyles().join("\n");
 
-    el("flow-styles").innerHTML = this.queryFlowVars().join("\n");
+    el("padding-styles").innerHTML = this.generatePaddingStyles().join("\n");
 
-    el("margin-styles").innerHTML = this.queryFlowVars().join("\n");
+    el("text-alignment-styles").innerHTML = this.generateTextAlignmentStyles().join("\n");
 
-    el("padding-styles").innerHTML = this.queryFlowVars().join("\n");
+    el("width-styles").innerHTML = this.generateWidthStyles().join("\n");
 
-    el("text-alignment-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("width-styles").innerHTML = this.queryFlowVars().join("\n");
-
-    el("wrapper-styles").innerHTML = this.queryFlowVars().join("\n");
+    el("wrapper-styles").innerHTML = this.generateWrapperStyles().join("\n");
 
     // TODO: Deprecate this stuff below.
     // it was the initial stubs

@@ -1265,7 +1265,7 @@ class Picker extends HTMLElement {
     this.toggleIsolation();
   }
 
-  generateBackgroundColorsClasses() {
+  generateColorBackgroundStyles() {
     const lines = [];
     this.getColorActives().forEach((colorName) => {
       this.getFadedValues().forEach((fade) => {
@@ -1282,7 +1282,7 @@ class Picker extends HTMLElement {
     return [`/* Background Color Classes */`, ...lines];
   }
 
-  generateBlackAndWhiteBackgroundClasses() {
+  generateBlackAndWhiteBackgroundStyles() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
@@ -1306,7 +1306,7 @@ class Picker extends HTMLElement {
     return [`/* Black And White Background Classes */`, ...lines];
   }
 
-  generateBlackAndWhiteBorderClasses() {
+  generateBlackAndWhiteBorderStyles() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
@@ -1358,7 +1358,7 @@ class Picker extends HTMLElement {
     return [`/* Border Radii Classes */`, ...lines];
   }
 
-  generateColorBorderClasses() {
+  generateColorBorderStyles() {
     const lines = [];
     this.getColorActives().forEach((colorName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
@@ -1449,7 +1449,7 @@ class Picker extends HTMLElement {
     return [`/* Text Alignment Classes */`, ...lines];
   }
 
-  generateTextColorClasses() {
+  generateColorTextStyles() {
     const lines = [];
     this.getColorActives().forEach((colorName) => {
       this.getFadedValues().forEach((fade) => {
@@ -1967,17 +1967,19 @@ class Picker extends HTMLElement {
     ad("name", "Utility Classes", this.utilityClassesStyleSheet);
     const lines = [];
     lines.push("");
-    lines.push(this.generateBackgroundColorsClasses().join("\n"));
+    lines.push(this.generateColorTextStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteBackgroundClasses().join("\n"));
+    lines.push(this.generateColorBackgroundStyles().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteBorderClasses().join("\n"));
+    lines.push(this.generateColorBorderStyles().join("\n"));
+    lines.push("");
+    lines.push(this.generateBlackAndWhiteBackgroundStyles().join("\n"));
+    lines.push("");
+    lines.push(this.generateBlackAndWhiteBorderStyles().join("\n"));
     lines.push("");
     lines.push(this.generateBlackAndWhiteTextClasses().join("\n"));
     lines.push("");
     lines.push(this.generateBorderRadiiClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateColorBorderClasses().join("\n"));
     lines.push("");
     lines.push(this.generateFlowClasses().join("\n"));
     lines.push("");
@@ -1988,8 +1990,6 @@ class Picker extends HTMLElement {
     lines.push(this.generatePaddingClasses().join("\n"));
     lines.push("");
     lines.push(this.generateTextAlignmentClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateTextColorClasses().join("\n"));
     lines.push("");
     lines.push(this.generateWidthClasses().join("\n"));
     lines.push("");
@@ -2495,39 +2495,39 @@ class Picker extends HTMLElement {
     this.testResults = [];
     const tests = [
       [
-        this.generateBackgroundColorsClasses()[1],
+        this.generateColorBackgroundStyles()[1],
         ".accent-background { background-color: var(--accent); }",
-        "generateBackgroundColorsClasses",
+        "generateColorBackgroundStyles",
       ],
       [
-        this.generateBackgroundColorsClasses()[2],
+        this.generateColorBackgroundStyles()[2],
         ".accent-background-faded { background-color: var(--accent-faded); }",
-        "generateBackgroundColorsClasses",
+        "generateColorBackgroundStyles",
       ],
       [
-        this.generateBackgroundColorsClasses()[3],
+        this.generateColorBackgroundStyles()[3],
         ".accent-background-faded2 { background-color: var(--accent-faded2); }",
-        "generateBackgroundColorsClasses",
+        "generateColorBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBackgroundClasses()[1],
+        this.generateBlackAndWhiteBackgroundStyles()[1],
         ".black-background { background-color: var(--black); }",
-        "generateBlackAndWhiteBackgroundClasses",
+        "generateBlackAndWhiteBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBackgroundClasses()[2],
+        this.generateBlackAndWhiteBackgroundStyles()[2],
         ".black-background-faded { background-color: var(--black-faded); }",
-        "generateBlackAndWhiteBackgroundClasses",
+        "generateBlackAndWhiteBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBackgroundClasses()[3],
+        this.generateBlackAndWhiteBackgroundStyles()[3],
         ".black-background-faded2 { background-color: var(--black-faded2); }",
-        "generateBlackAndWhiteBackgroundClasses",
+        "generateBlackAndWhiteBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteBorderClasses()[4],
+        this.generateBlackAndWhiteBorderStyles()[4],
         ".black-border { border: var(--black-border-style); }",
-        "generateBlackAndWhiteBorderClasses",
+        "generateBlackAndWhiteBorderStyles",
       ],
       [
         this.generateBorderRadiiClasses()[1],
@@ -2540,14 +2540,14 @@ class Picker extends HTMLElement {
         "generateBorderRadiiClasses",
       ],
       [
-        this.generateColorBorderClasses()[2],
+        this.generateColorBorderStyles()[2],
         ".accent-block-border-faded { border-block: var(--accent-border-style-faded); }",
-        "generateColorBorderClasses",
+        "generateColorBorderStyles",
       ],
       [
-        this.generateColorBorderClasses()[4],
+        this.generateColorBorderStyles()[4],
         ".accent-border { border: var(--accent-border-style); }",
-        "generateColorBorderClasses",
+        "generateColorBorderStyles",
       ],
       [
         this.generateFlowClasses()[4],

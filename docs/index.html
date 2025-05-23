@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Alan's Color Picker</title>
@@ -48,7 +48,6 @@
         font: inherit;
       }
     </style>
-
     <style data-name="Interface Styles">
       .background-box-name {
         padding-block: var(--xsmall-padding);
@@ -188,7 +187,7 @@
         font-size: var(--small-font-size);
         font-weight: 900;
       }
-      .top-nav-button[aria-selected='true'] {
+      .top-nav-button[aria-selected="true"] {
         color: var(--accent);
       }
       .nav-tab-list {
@@ -201,26 +200,25 @@
         grid-template-columns: 1fr 13.4rem;
         gap: 2rem;
       }
-      [role='tab'] {
+      [role="tab"] {
         background: none;
         cursor: pointer;
         outline: inherit;
         border-radius: 0;
-        &[aria-selected='true'] {
+        &[aria-selected="true"] {
           font-style: normal;
         }
       }
-      [role='tablist'] {
+      [role="tablist"] {
         font-style: normal;
       }
-      [role='tabpanel'] {
+      [role="tabpanel"] {
         padding: 0;
       }
       .round-upper-right-corner {
         border-top-right-radius: 0.3rem;
       }
     </style>
-
     <style data-name="Layout Styles">
       ::marker {
         color: var(--content);
@@ -386,7 +384,7 @@
         I have a chance to look closer 
         background: #fff;
         */
-        content: '§';
+        content: "§";
         padding-inline: var(--small-padding);
         position: relative;
         top: -13px;
@@ -547,7 +545,6 @@
       }
     </style>
   </head>
-
   <body>
     <template id="picker-controls-template">
       <div class="mode-buttons-wrapper">
@@ -621,7 +618,6 @@
             >
               TODO
             </button>
-
             <button
               class="top-nav-button"
               role="tab"
@@ -648,14 +644,12 @@
                   dark blue background Go now and come here later
                 </p>
                 <abbr>CSS</abbr>
-
                 <aside>
                   <p>
                     The Rough-skinned Newt defends itself with a deadly
                     neurotoxin.
                   </p>
                 </aside>
-
                 <figure>
                   <figcaption>
                     Example of what this looks like. There is no actual audio
@@ -663,20 +657,16 @@
                   <audio controls src=""></audio>
                   <a href=""> Link to audio would go here </a>
                 </figure>
-
                 <b>Bring Attention</b>
-
                 <blockquote cite="https://www.huxley.net/bnw/four.html">
                   <p>
                     Words can be like X-rays, if you use them properly—they’ll
                     go through anything. You read and you’re pierced.
                   </p>
                 </blockquote>
-
                 <button class="favorite styled" type="button">
                   Add to favorites
                 </button>
-
                 <table>
                   <caption>
                     He-Man and Skeletor facts
@@ -702,49 +692,29 @@
                     <td>Cries at romcoms</td>
                   </tr>
                 </table>
-
-                <cite
-                  ><a href="http://www.george-orwell.org/1984/0.html"
-                    >Nineteen Eighty-Four</a
-                  ></cite
-                >
-
+                <cite><a href="http://www.george-orwell.org/1984/0.html">Nineteen Eighty-Four</a></cite>
                 <data value="398">Mini Ketchup</data>
-
                 do dl, dd, dt
-
                 <del>nothing</del>
-
                 <details>
                   <summary>Details</summary>
                   Something small enough to escape casual notice.
                 </details>
-
                 <dfn id="def-validator">validator</dfn>
-
                 <em>now</em>
-
                 <fieldset>
                   <legend>Choose your favorite monster</legend>
-
                   <input type="radio" id="kraken" name="monster" value="K" />
                   <label for="kraken">Kraken</label><br />
-
                   <input type="radio" id="sasquatch" name="monster" value="S" />
                   <label for="sasquatch">Sasquatch</label><br />
-
                   <input type="radio" id="mothman" name="monster" value="M" />
                   <label for="mothman">Mothman</label>
                 </fieldset>
-
                 <figure>
-                  <img
-                    src="https://placecats.com/millie/300/150"
-                    alt="The cat Millie from placecats"
-                  />
+                  <img src="https://placecats.com/millie/300/150" alt="The cat Millie from placecats" />
                   <figcaption>The cat Millie from placecats</figcaption>
                 </figure>
-
                 <hgroup>
                   <h1>Frankenstein</h1>
                   <p>Or: The Modern Prometheus</p>
@@ -756,41 +726,24 @@
                   by his master and shunned by everyone who sees it, follows Dr
                   Frankenstein to the very ends of the earth.
                 </p>
-
                 <hr />
-
                 <i>This can't be real!</i>
-
                 <ins cite="../how-to-be-a-wizard.html" datetime="2018-05">
                   <p>&ldquo;A wizard is never late &hellip;&rdquo;</p>
                 </ins>
-
                 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
-
                 <div class="preference">
                   <label for="cheese">Do you like cheese?</label>
                   <input type="checkbox" name="cheese" id="cheese" />
                 </div>
-
                 <mark>salamander</mark>
-
                 <menu>
                   <li><button id="save">Save for later</button></li>
                   <li><button id="share">Share this news</button></li>
                 </menu>
-
-                <meter
-                  id="fuel"
-                  min="0"
-                  max="100"
-                  low="33"
-                  high="66"
-                  optimum="80"
-                  value="50"
-                >
+                <meter id="fuel" min="0" max="100" low="33" high="66" optimum="80" value="50">
                   at 50/100
                 </meter>
-
                 <nav class="crumbs">
                   <ol>
                     <li class="crumb"><a href="#">Bikes</a></li>
@@ -798,44 +751,24 @@
                     <li class="crumb">Jump Bike 3000</li>
                   </ol>
                 </nav>
-
                 <object type="video/mp4" width="250" height="200"></object>
-
                 <output name="result" for="a b">60</output>
-
                 <p>para</p>
-
                 <picture>
-                  <source
-                    srcset="https://placecats.com/millie/300/150"
-                    media="Millie the cat from placecats"
-                  />
-                  <img
-                    src="https://placecats.com/millie/300/150"
-                    alt="Millie the cat from placecats"
-                  />
+                  <source srcset="https://placecats.com/millie/300/150" media="Millie the cat from placecats" />
+                  <img src="https://placecats.com/millie/300/150" alt="Millie the cat from placecats" />
                 </picture>
-
                 <pre>some pre text</pre>
-
-                <label for="file">File progress:</label>
-                <progress id="file" max="100" value="70">70%</progress>
-
-                <q
-                  cite="https://www.imdb.com/title/tt0062622/quotes/?item=qt0396921&ref_=ext_shr_lnk"
-                >
-                  I'm sorry, Dave. I'm afraid I can't do that.
+                                <label for="file">File progress:</label>
+                        <progress id="file" max="100" value="70">70%</progress>
+                        <q cite="https://www.imdb.com/title/tt0062622/quotes/?item=qt0396921&ref_=ext_shr_lnk">
+                          I'm sorry, Dave. I'm afraid I can't do that.
                 </q>
-
                 <p>
-                  <s
-                    >There will be a few tickets available at the box office
-                    tonight.</s
-                  >
+                  <s>There will be a few tickets available at the box office
+                    tonight.</s>
                 </p>
-
                 <samp>Keyboard not found <br />Press F1 to continue</samp>
-
                 <search>
                   <form action="./search/">
                     <label for="movie">Find a Movie</label>
@@ -843,7 +776,6 @@
                     <button type="submit">Search</button>
                   </form>
                 </search>
-
                 <select name="pets" id="pet-select">
                   <option value="">--Please choose an option--</option>
                   <option value="dog">Dog</option>
@@ -853,27 +785,20 @@
                   <option value="spider">Spider</option>
                   <option value="goldfish">Goldfish</option>
                 </select>
-
-                <small
-                  >The content is licensed under a Creative Commons
-                  Attribution-ShareAlike 2.5 Generic License.</small
-                >
-
+                <small>The content is licensed under a Creative Commons
+                  Attribution-ShareAlike 2.5 Generic License.</small>
                 <p>
                   Add the <span class="ingredient">basil</span>,
                   <span class="ingredient">pine nuts</span> and
                   <span class="ingredient">garlic</span> to a blender and blend
                   into a paste.
                 </p>
-
                 <strong>never feed him after midnight</strong>.
-
                 <p>
                   Almost every developer's favorite molecule is
                   C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>, also
                   known as "caffeine."
                 </p>
-
                 <details>
                   <summary>
                     I have keys but no doors. I have space but no room. You can
@@ -881,10 +806,8 @@
                   </summary>
                   A keyboard.
                 </details>
-
                 <var>a<sup>2</sup></var> + <var>b<sup>2</sup></var> =
                 <var>c<sup>2</sup></var>
-
                 <table>
                   <caption>
                     Front-end web developer course 2021
@@ -925,19 +848,14 @@
                     </tr>
                   </tfoot>
                 </table>
-
                 <textarea id="story" name="story" rows="5" cols="33">
 It was a dark and stormy night...
-</textarea
-                >
-
+</textarea>
                 <time datetime="2018-07-07">July 7</time>
-
                 <p>
                   You could use this element to highlight
                   <u>speling</u> mistakes, so the writer can <u>corect</u> them.
                 </p>
-
                 <ul>
                   <li>Milk</li>
                   <li>
@@ -948,13 +866,11 @@ It was a dark and stormy night...
                     </ul>
                   </li>
                 </ul>
-
                 <p>
                   The volume of a box is <var>l</var> × <var>w</var> ×
                   <var>h</var>, where <var>l</var> represents the length,
                   <var>w</var> the width and <var>h</var> the height of the box.
                 </p>
-
                 <p>
                   Greet the new guests and leave quickly Guess the results from
                   the first scores Hang tinsel from both branches
@@ -966,10 +882,7 @@ It was a dark and stormy night...
                   it up and take it away
                 </p>
               </div>
-              <div
-                class="sidebar-controls default-flow"
-                data-tab="picker"
-              ></main>
+              <div class="sidebar-controls default-flow" data-tab="picker"></main>
             </div>
           </div>
 -->
@@ -984,11 +897,10 @@ It was a dark and stormy night...
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>
                 </hgroup>
-
                 <div
                   class="xlarge-inline-margin large-inline-padding large-block-padding link-border default-radius default-flow"
                 >
-                  <h2>Head's Up: Work-In-Progres</h2>
+                  <h2>Head's Up: Work-In-Progress</h2>
                   <p>
                     Hi there! You're early, but that's cool. Just two things to
                     know:
@@ -1001,22 +913,19 @@ It was a dark and stormy night...
                     It's currently May 21st. I plan to have the export working
                     to launch a fully operationaly tool in the next few days.
                   </p>
-
                   <p>
                     Click around to get a sense of the picker. Check back to see
                     about the export. Or, follow me on
                     <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a>,
                     <a href="https://bsky.app/profile/alanwsmith.com">Bluesky</a
                     >, or
-                    <a href="https://www.alanwsmith.com/feeds/posts.xml">
-                      my RSS feed</a
+                    <a href="https://www.alanwsmith.com/feeds/posts.xml"
+                      >my RSS feed</a
                     >
                     for updates.
                   </p>
                 </div>
-
                 <h2>Content For Launch</h2>
-
                 <div
                   class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
                 >
@@ -1054,7 +963,6 @@ It was a dark and stormy night...
                   The buttons in the <em>Themes</em> box change between
                   them<sup>guidelines</sup>.
                 </p>
-
                 <h3>The Background Color</h3>
                 <p>
                   The three sliders in the <em>Background</em> box are
@@ -1066,14 +974,12 @@ It was a dark and stormy night...
                   You can use the <em>Isolate</em> checkbox to hide content. It
                   makes it easier to focus on the color.
                 </p>
-
                 <h3>The Colors</h3>
                 <p>
                   The picker has five colors: content, link, title, heading, and
                   accent<sup>more soon</sup>. Change between them with the
                   colored tabs in the <em>Colors</em> box.
                 </p>
-
                 <p>
                   Clicking/tapping a colored <em>set</em> from the grid changes
                   the selected color to match it. The <em>c</em> slider below
@@ -1084,12 +990,10 @@ It was a dark and stormy night...
                   The <em>Isolate</em> checkbox in the <em>Colors</em> box hides
                   everything that's not using the selected color.
                 </p>
-
                 <h3>Picking</h3>
                 <p>
                   That's it. There's not a lot too it. That's kinda the point.
                 </p>
-
                 <p>
                   I make
                   <a href="https://links.alanwsmith.com/">lots of websites</a>.
@@ -1099,13 +1003,9 @@ It was a dark and stormy night...
                   It's designed to generate a nice set of colors with as little
                   effort as possible.
                 </p>
-
                 <p>I hope you enjoy it,</p>
-
                 <p>-a</p>
-
-
-<!--
+                <!--
                 <h3>Set Color Mechanics</h3>
                 <p>
                   The picker users OKLCH<sup>2</sup>. The <em>L</em>,
@@ -1161,10 +1061,8 @@ It was a dark and stormy night...
                 <ul class="current-colors-list">
                   <li>
                     TODO: attempting to generate list...
-                    <noscript
-                      >This list needs JavaScript to work. It is not currently
-                      available</noscript
-                    >
+                    <noscript>This list needs JavaScript to work. It is not currently
+                      available</noscript>
                   </li>
                 </ul>
                 <h2>Isolating Colors</h2>
@@ -1182,7 +1080,6 @@ It was a dark and stormy night...
                   background without existing text colors influencing it.
                 </p>
 -->
-
                 <h2>Footnotes</h2>
                 <ol>
                   <li>
@@ -1216,10 +1113,7 @@ It was a dark and stormy night...
               <!--
               <div class="number-of-colors-wrapper">
                 <label for="number-of-colors">Number of Colors:</label>
-                <select
-                  id="number-of-colors"
-                  class="number-of-colors-selector"
-                ></select>
+                <select id="number-of-colors" class="number-of-colors-selector"></select>
               </div>
 -->
               <p>Customiztions are a work in progress. They'll include:</p>
@@ -1229,7 +1123,6 @@ It was a dark and stormy night...
                 <li>Customize CSS (e.g. to bring in fonts)</li>
                 <li>Customize HTML with your content</li>
               </ul>
-
               <p>Check out the TODO list for more.</p>
             </div>
           </div>
@@ -1257,30 +1150,27 @@ It was a dark and stormy night...
                 <label for="dark-mode-selector">Dark mode:</label>
                 <select id="dark-mode-picker"></select>
               </div>
-
               <p>Here's the CSS variables for your color palette:</p>
               <pre><code class="colors-only"></code></pre>
-
               <p>If all you need is the colors, you're all set.</p>
               <p>
                 Check out the next section if you'd like some bonus features.
               </p>
-
               <h2>Advanced CSS Export</h2>
+              <div class="alert-text">
+                TODO: Add SIZE-flex to default utility classes
+              </div>
               <p>
                 I built this tool to make it quicker to get a new site up and
                 running. Colors are the key feature. There's a bunch of standard
                 uses for them too. This is the collection of my current
                 &quot;Quick-Start&quot; variables and classes.
               </p>
-
               <p>
                 Use these checkboxes to mix and match your own collection if you
                 want more than just the colors.
               </p>
-
               <h3>Variables</h3>
-
               <div class="styles-grid">
                 <!-- Color Theme Variables -->
                 <input type="checkbox" id="color-theme-vars-checkbox" checked />
@@ -1294,7 +1184,6 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Color Active Variables -->
                 <input
                   type="checkbox"
@@ -1311,9 +1200,12 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Color Border Style Variables -->
-                <input type="checkbox" id="color-border-style-vars-checkbox" />
+                <input
+                  type="checkbox"
+                  id="color-border-style-vars-checkbox"
+                  checked
+                />
                 <div>
                   <details>
                     <summary>Color - Border Style Variables</summary>
@@ -1324,9 +1216,12 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Black and White Normal Theme Variables -->
-                <input type="checkbox" id="bw-normal-theme-vars-checkbox" />
+                <input
+                  type="checkbox"
+                  id="bw-normal-theme-vars-checkbox"
+                  checked
+                />
                 <div>
                   <details>
                     <summary>
@@ -1339,9 +1234,12 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!--  Black and White Normal Active Variables -->
-                <input type="checkbox" id="bw-normal-active-vars-checkbox" />
+                <input
+                  type="checkbox"
+                  id="bw-normal-active-vars-checkbox"
+                  checked
+                />
                 <div>
                   <details>
                     <summary>
@@ -1354,11 +1252,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Black and White Normal Border Style Variables -->
                 <input
                   type="checkbox"
                   id="bw-normal-border-style-vars-checkbox"
+                  checked
                 />
                 <div>
                   <details>
@@ -1372,9 +1270,12 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Black and White Reversed Theme Variables -->
-                <input type="checkbox" id="bw-reversed-theme-vars-checkbox" />
+                <input
+                  type="checkbox"
+                  id="bw-reversed-theme-vars-checkbox"
+                  checked
+                />
                 <div>
                   <details>
                     <summary>
@@ -1387,9 +1288,12 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Black and White Reversed Active Variables -->
-                <input type="checkbox" id="bw-reversed-active-vars-checkbox" />
+                <input
+                  type="checkbox"
+                  id="bw-reversed-active-vars-checkbox"
+                  checked
+                />
                 <div>
                   <details>
                     <summary>
@@ -1402,12 +1306,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
                 <!-- Black and White Reversed Border Style Variables -->
                 <input
                   type="checkbox"
                   id="bw-reversed-border-style-vars-checkbox"
+                  checked
                 />
                 <div>
                   <details>
@@ -1421,17 +1324,15 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Border Radii Variables -->
                 <input
                   type="checkbox"
                   id="border-radii-vars-checkbox"
+                  checked
                 />
                 <div>
                   <details>
-                    <summary>
-                      Border Radii Variables
-                    </summary>
+                    <summary>Border Radii Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1439,17 +1340,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
                 <!-- Font Size Variables -->
-                <input
-                  type="checkbox"
-                  id="font-size-vars-checkbox"
-                />
+                <input type="checkbox" id="font-size-vars-checkbox" checked />
                 <div>
                   <details>
-                    <summary>
-                      Font Size Variables
-                    </summary>
+                    <summary>Font Size Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1457,18 +1352,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
                 <!-- Margin Variables -->
-                <input
-                  type="checkbox"
-                  id="margin-vars-checkbox"
-                />
+                <input type="checkbox" id="margin-vars-checkbox" checked />
                 <div>
                   <details>
-                    <summary>
-                      Margin Variables
-                    </summary>
+                    <summary>Margin Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1476,19 +1364,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
-
                 <!-- Padding Variables -->
-                <input
-                  type="checkbox"
-                  id="padding-vars-checkbox"
-                />
+                <input type="checkbox" id="padding-vars-checkbox" checked />
                 <div>
                   <details>
-                    <summary>
-                      Padding Variables
-                    </summary>
+                    <summary>Padding Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1496,19 +1376,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
-
                 <!-- Width Variables -->
-                <input
-                  type="checkbox"
-                  id="width-vars-checkbox"
-                />
+                <input type="checkbox" id="width-vars-checkbox" checked />
                 <div>
                   <details>
-                    <summary>
-                      Width Variables
-                    </summary>
+                    <summary>Width Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1516,19 +1388,11 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
-
                 <!-- Flow Variables -->
-                <input
-                  type="checkbox"
-                  id="flow-vars-checkbox"
-                />
+                <input type="checkbox" id="flow-vars-checkbox" checked />
                 <div>
                   <details>
-                    <summary>
-                      Flow Variables
-                    </summary>
+                    <summary>Flow Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1536,19 +1400,15 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
-
                 <!-- Text Alignment Variables -->
                 <input
                   type="checkbox"
                   id="text-alignment-vars-checkbox"
+                  checked
                 />
                 <div>
                   <details>
-                    <summary>
-                      Text Alignment Variables
-                    </summary>
+                    <summary>Text Alignment Variables</summary>
                     <p>Description</p>
                     <details>
                       <summary>Preview</summary>
@@ -1556,16 +1416,13 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
-
-
-              <!-- end of variables -->
+                <!-- end of variables -->
               </div>
-
-
-
-              <h3>Classes</h3>
+              <h3>Styles</h3>
               <div class="styles-grid">
-                <input type="checkbox" id="reset-styles-checkbox" />
+                <!-- START: styles -->
+                <!-- Reset -->
+                <input type="checkbox" id="reset-styles-checkbox" checked />
                 <div>
                   <details>
                     <summary>Reset Defaults</summary>
@@ -1576,210 +1433,492 @@ It was a dark and stormy night...
                     </details>
                   </details>
                 </div>
+                <!-- Color Text -->
+                <input
+                  type="checkbox"
+                  id="color-text-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>TODO: Color Text Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="color-text-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Color Background -->
+                <input
+                  type="checkbox"
+                  id="color-background-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>TODO: Color Background Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="color-background-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Color Border -->
+                <input
+                  type="checkbox"
+                  id="color-border-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>TODO: Color Border Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="color-border-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Black &amp; White (Normal) Text -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-text-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      TODO: Black &amp; White (Normal) Text Styles
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-text-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Black &amp; White (Normal) Background -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-background-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      TODO: Black &amp; White (Normal) Background Styles
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-background-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Black &amp; White (Normal) Border -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-border-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      TODO: Black &amp; White (Normal) Border Styles
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-border-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Black &amp; White (Reversed) Text -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-text-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      TODO: Black &amp; White (Reversed) Text Styles
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-text-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Black &amp; White (Reversed) Background -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-background-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      TODO: Black &amp; White (Reversed) Background Styles
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-background-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- Black &amp; White (Reversed) Border -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-border-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      TODO: Black &amp; White (Reversed) Border Styles
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-border-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Border Radii Styles -->
+                <input
+                  type="checkbox"
+                  id="border-radii-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>TODO: Border Radii Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="border-radii-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Flow Styles -->
+                <input type="checkbox" id="flow-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>TODO: Flow Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="flow-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Font Size Styles -->
+                <input type="checkbox" id="font-size-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>TODO: Font Size Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="font-size-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Margin Styles -->
+                <input type="checkbox" id="margin-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>TODO: Margin Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="margin-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Padding Styles -->
+                <input type="checkbox" id="padding-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>TODO: Padding Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="padding-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Text Alignment Styles -->
+                <input
+                  type="checkbox"
+                  id="text-alignment-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>TODO: Text Alignment Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="text-alignment-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Width Styles -->
+                <input type="checkbox" id="width-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>TODO: Width Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="width-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- TODO: Wrapper Styles -->
+                <input type="checkbox" id="wrapper-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>TODO: Wrapper Styles</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="wrapper-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+                <!-- END: styles -->
               </div>
-
               <div class="export-content picker-text"></div>
             </div>
           </div>
 
-          <!--
-          <div class="default-flow" role="tabpanel" hidden>
-            <h2>Black And White Examples</h2>
-            <h3>Black And White Colors</h3>
-            <div class="bw-color-examples-wrapper"></div>
-            <h3>Black And White Backgrounds</h3>
-            <div class="bw-background-examples-wrapper"></div>
-            <h3>Black And White Borders</h3>
-            <div class="bw-border-examples-wrapper"></div>
-          </div>
-
-          <div class="default-flow" role="tabpanel" hidden>
-            <h2>Utility Varaibles and Classes</h2>
-            <h3>Font Sizes</h3>
-            <div class="font-size-examples-wrapper default-flow"></div>
-            <h3>Text Alignments</h3>
-            <div class="alignment-examples-wrapper default-flow"></div>
-            <h3>Margins</h3>
-            <div class="margin-examples-wrapper large-flow"></div>
-            <h3>Padding</h3>
-            <div class="padding-examples-wrapper large-flow"></div>
-            <h3>Flows</h3>
-            <div class="flow-examples-wrapper"></div>
-            <h3>Widths</h3>
-            <div class="width-examples-wrapper large-flow"></div>
-            <h3>Wrappers</h3>
-            <div class="wrapper-examples-wrapper large-flow"></div>
-            <h3>Border Radius</h3>
-            <div class="border-radius-examples-wrapper large-flow"></div>
-          </div>
-
--->
-
           <div class="picker-text" role="tabpanel" hidden>
             <h2>TODO</h2>
-
             <ul>
               <li>
-                <input type="checkbox" disabled /> Clear cache button to go back
-                to defaults
+                <input type="checkbox" disabled />
+                Clear cache button to go back to defaults
               </li>
               <li>
-                <input type="checkbox" disabled /> Mute colors so you can them
-                on individually
+                <input type="checkbox" disabled />
+                Mute colors so you can them on individually
               </li>
               <li>
-                <input type="checkbox" disabled /> Add example text under the
-                isoloate color button so you can see something even if the
-                actual text isn't in view
-              </li>
-              <li><input type="checkbox" disabled /> Mute all button</li>
-              <li><input type="checkbox" disabled /> Multiple sample pages</li>
-              <li>
-                <input type="checkbox" disabled /> Float controls so they are
-                always visible
+                <input type="checkbox" disabled />
+                Add example text under the isoloate color button so you can see
+                something even if the actual text isn't in view
               </li>
               <li>
-                <input type="checkbox" disabled /> Optimize so only changes get
-                updated in the stylesheet
+                <input type="checkbox" disabled />
+                Mute all button
               </li>
               <li>
-                <input type="checkbox" disabled /> Consolidate variable output
-                into single <code>:root</code>
+                <input type="checkbox" disabled />
+                Multiple sample pages
               </li>
               <li>
-                <input type="checkbox" disabled /> Change Black and White CSS
-                names
+                <input type="checkbox" disabled />
+                Float controls so they are always visible
               </li>
               <li>
-                <input type="checkbox" disabled /> Click Themes, Background,
-                Colors to collapse boxes
+                <input type="checkbox" disabled />
+                Optimize so only changes get updated in the stylesheet
               </li>
               <li>
-                <input type="checkbox" disabled /> Control click on things to
-                get style info about them.
+                <input type="checkbox" disabled />
+                Consolidate variable output into single <code>:root</code>
               </li>
               <li>
-                <input type="checkbox" disabled /> Customize `-style-border`
-                name and value
+                <input type="checkbox" disabled />
+                Change Black and White CSS names
               </li>
               <li>
-                <input type="checkbox" disabled /> Change Background color name
+                <input type="checkbox" disabled />
+                Click Themes, Background, Colors to collapse boxes
               </li>
               <li>
-                <input type="checkbox" disabled /> Change `border`, `radius`,
-                etc... string names
+                <input type="checkbox" disabled />
+                Control click on things to get style info about them.
               </li>
               <li>
-                <input type="checkbox" disabled /> Add faded Background values
+                <input type="checkbox" disabled />
+                Customize `-style-border` name and value
               </li>
               <li>
-                <input type="checkbox" disabled /> Change number of colors
+                <input type="checkbox" disabled />
+                Change Background color name
               </li>
               <li>
-                <input type="checkbox" disabled /> Templates for variable and
-                class names to format in custom orders
+                <input type="checkbox" disabled />
+                Change `border`, `radius`, etc... string names
               </li>
               <li>
-                <input type="checkbox" disabled /> Color picker on both
-                Instructions and Picker tabs
+                <input type="checkbox" disabled />
+                Add faded Background values
               </li>
               <li>
-                <input type="checkbox" disabled /> Only show instructions the
-                first time you load the page.
+                <input type="checkbox" disabled />
+                Change number of colors
               </li>
               <li>
-                <input type="checkbox" disabled /> Stay on the same tab after
-                page refresh
+                <input type="checkbox" disabled />
+                Templates for variable and class names to format in custom
+                orders
               </li>
               <li>
-                <input type="checkbox" disabled /> Set min light level for each
-                color
-              </li>
-              <li><input type="checkbox" disabled /> Example palettes</li>
-              <li><input type="checkbox" disabled /> Contrast calculations</li>
-              <li><input type="checkbox" disabled /> Undo/Redo</li>
-              <li><input type="checkbox" disabled /> Set faded alt values</li>
-              <li>
-                <input type="checkbox" disabled /> Include/Remove black and
-                white variables
+                <input type="checkbox" disabled />
+                Color picker on both Instructions and Picker tabs
               </li>
               <li>
-                <input type="checkbox" disabled /> Make back button work for tab
-                switching?
+                <input type="checkbox" disabled />
+                Only show instructions the first time you load the page.
               </li>
               <li>
-                <input type="checkbox" disabled /> Optional utility classes
+                <input type="checkbox" disabled />
+                Stay on the same tab after page refresh
               </li>
               <li>
-                <input type="checkbox" disabled /> Change CSS variable names
-              </li>
-              <li><input type="checkbox" disabled /> JSON schema for data</li>
-              <li><input type="checkbox" disabled /> Change mode names</li>
-              <li><input type="checkbox" disabled /> Add/subtract themes</li>
-              <li>
-                <input type="checkbox" disabled /> Refactor to use 'theme'
-                instead of 'mode'
-              </li>
-              <li><input type="checkbox" disabled /> Copy button for CSS</li>
-              <li><input type="checkbox" disabled /> Edit CSS</li>
-              <li><input type="checkbox" disabled /> Edit HTML</li>
-              <li><input type="checkbox" disabled /> Save/Load</li>
-              <li><input type="checkbox" disabled /> Shareable URLs</li>
-              <li><input type="checkbox" disabled /> Implementation example</li>
-              <li>
-                <input type="checkbox" disabled /> Web component for mode
-                switching
-              </li>
-              <li><input type="checkbox" disabled /> Randomizer</li>
-              <li>
-                <input type="checkbox" disabled /> Switch between 45 and 60
-                degrees
+                <input type="checkbox" disabled />
+                Set min light level for each color
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Show/Hide content to
-                focus on base color
+                <input type="checkbox" disabled />
+                Example palettes
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Issoldated color view
-                to look at them one at a time
+                <input type="checkbox" disabled />
+                Contrast calculations
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Use min light level
-                from each color
+                <input type="checkbox" disabled />
+                Undo/Redo
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Mode selection works
+                <input type="checkbox" disabled />
+                Set faded alt values
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Background sliders
-                work
+                <input type="checkbox" disabled />
+                Include/Remove black and white variables
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Isolating background
-                works
+                <input type="checkbox" disabled />
+                Make back button work for tab switching?
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Switching between
-                colors works
+                <input type="checkbox" disabled />
+                Optional utility classes
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Changing colors via
-                set buttons works
+                <input type="checkbox" disabled />
+                Change CSS variable names
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Changing colors via
-                chroma slider
+                <input type="checkbox" disabled />
+                JSON schema for data
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Isolating colors
-                works
+                <input type="checkbox" disabled />
+                Change mode names
               </li>
               <li>
-                <input type="checkbox" disabled checked /> Default faded
-                alternatives
+                <input type="checkbox" disabled />
+                Add/subtract themes
               </li>
               <li>
-                <input type="checkbox" disabled /> Save state in localstorage
+                <input type="checkbox" disabled />
+                Refactor to use 'theme' instead of 'mode'
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Copy button for CSS
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Edit CSS
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Edit HTML
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Save/Load
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Shareable URLs
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Implementation example
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Web component for mode switching
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Randomizer
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Switch between 45 and 60 degrees
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Show/Hide content to focus on base color
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Issoldated color view to look at them one at a time
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Use min light level from each color
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Mode selection works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Background sliders work
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Isolating background works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Switching between colors works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Changing colors via set buttons works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Changing colors via chroma slider
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Isolating colors works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Default faded alternatives
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Save state in localstorage
               </li>
             </ul>
           </div>
@@ -1800,7 +1939,9 @@ It was a dark and stormy night...
         </tab-group>
       </div>
     </color-picker>
+
     <script src="/components/color-picker.js" type="module"></script>
+
     <noscript>
       <p>Could not load the picker. It appears JavaScript is not available.</p>
     </noscript>

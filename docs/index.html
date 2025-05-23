@@ -137,6 +137,9 @@
         border-radius: var(--default-radius);
         font-size: var(--small-font-size);
       }
+      .default-theme-selection-wrapper {
+        display: grid;
+      }
       hgroup {
         padding-bottom: var(--large-padding);
       }
@@ -1136,10 +1139,10 @@ It was a dark and stormy night...
             </hgroup>
 
             <div class="default-flow">
-              <h2>Basic CSS Export</h2>
+              <h2>Colors CSS</h2>
               <p>
                 Modern browsers and operating systems work together to
-                automatcially switch between light and dark modes based on a
+                automatically switch between light and dark modes based on a
                 person's preferences. Pick which of your themes you want to use
                 for the two automatic modes:
               </p>
@@ -1151,14 +1154,46 @@ It was a dark and stormy night...
                 <label for="dark-theme-selector">Dark mode:</label>
                 <select id="dark-theme-picker"></select>
               </div>
+              <p>
+                Which one would you like to default to if it can't be determined
+                automatically?
+              </p>
+
+              <p></p>
+              <div class="default-theme-selection-wrapper">
+                <div>
+                  <input
+                    data-kind="default-theme-radio-button"
+                    type="radio"
+                    id="default-theme-light"
+                    name="default-theme"
+                    value="light"
+                    checked
+                  />
+                  <label for="default-theme-light">Light</label>
+                </div>
+                <div>
+                  <input
+                    data-kind="default-theme-radio-button"
+                    type="radio"
+                    id="default-theme-dark"
+                    name="default-theme"
+                    value="dark"
+                  />
+                  <label for="default-theme-dark">Dark</label>
+                </div>
+              </div>
               <p>Here's the CSS variables for your color palette:</p>
-              <pre><code class="colors-only"></code></pre>
+              <textarea
+                class="basic-css-output full-width xsmall-font-size"
+                rows="7"
+              ></textarea>
               <p>If all you need is the colors, you're all set.</p>
               <p>
                 Check out the next section if you'd like some bonus features.
               </p>
 
-              <h2>Advanced CSS Export</h2>
+              <h2>Utility CSS</h2>
               <div class="alert-text">
                 TODO: Add SIZE-flex to default utility classes
               </div>
@@ -1169,9 +1204,9 @@ It was a dark and stormy night...
                 &quot;Quick-Start&quot; variables and classes.
               </p>
 
-              <div class="advanced-export-wrapper">
+              <div class="utility-export-wrapper">
                 <textarea
-                  class="advanced-export-css full-width xsmall-font-size"
+                  class="utility-css-output full-width xsmall-font-size"
                   rows="6"
                 ></textarea>
               </div>

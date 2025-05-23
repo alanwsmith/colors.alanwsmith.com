@@ -1252,6 +1252,8 @@ class Picker extends HTMLElement {
     this.updateExportPage();
     this.updateDebuggingTab();
     this.updateThemeExportPickers();
+    this.outputColorStyles();
+    this.outputUtilityStyles();
   }
 
   finishUpdate() {
@@ -1265,7 +1267,8 @@ class Picker extends HTMLElement {
     this.updateDebuggingTab();
     this.toggleIsolation();
     this.updateThemeExportPickers();
-    this.outputCustomStyles();
+    this.outputColorStyles();
+    this.outputUtilityStyles();
   }
 
   generateColorBackgroundStyles() {
@@ -2083,8 +2086,21 @@ class Picker extends HTMLElement {
     dbg("Loaded default colors");
   }
 
-  outputCustomStyles() {
+  outputColorStyles() {
     const out = [];
+    out.push(":root {");
+    out.push("/* asdf */");
+    out.push(this.queryColorThemeVars().join("\n"));
+    out.push("}");
+    el("basic-css-output").innerHTML = out.join("\n");
+  }
+
+  outputUtilityStyles() {
+    const out = [];
+    out.push(":root {");
+    const defaultThemeKind = elV2(`input[name="default-theme"]:checked`);
+    fx(defaultThemeKind);
+    out.push("}");
   }
 
   queryBlackAndWhiteReversedActiveVars() {
@@ -2125,29 +2141,6 @@ class Picker extends HTMLElement {
     });
     lines.sort(sortVars);
     return [`  /* Active Black and White Variables */`, ...lines];
-  }
-
-  queryColorActiveVars() {
-    const lines = [];
-    this.getActiveScrubbedColorNames().forEach((colorName) => {
-      const modeName = this.getActiveModeScrubbedName(p.activeMode);
-      lines.push(
-        makeVar(
-          `  --${scrubStyle(colorName)}`,
-          `var(--${modeName}-theme__${scrubStyle(colorName)})`,
-        ),
-      );
-      this.getScrubbedFadedNames().forEach((fadedName) => {
-        lines.push(
-          makeVar(
-            `  --${scrubStyle(colorName)}-${fadedName}`,
-            `var(--${modeName}-theme__${scrubStyle(colorName)}-${fadedName})`,
-          ),
-        );
-      });
-    });
-    lines.sort(sortVars);
-    return [`  /* Active Color Variables */`, ...lines];
   }
 
   queryBlackAndWhiteNormalBorderStyleVars() {
@@ -2251,6 +2244,29 @@ class Picker extends HTMLElement {
     return [`  /* Border Radii Variables */`, ...lines];
   }
 
+  queryColorActiveVars() {
+    const lines = [];
+    this.getActiveScrubbedColorNames().forEach((colorName) => {
+      const modeName = this.getActiveModeScrubbedName(p.activeMode);
+      lines.push(
+        makeVar(
+          `  --${scrubStyle(colorName)}`,
+          `var(--${modeName}-theme__${scrubStyle(colorName)})`,
+        ),
+      );
+      this.getScrubbedFadedNames().forEach((fadedName) => {
+        lines.push(
+          makeVar(
+            `  --${scrubStyle(colorName)}-${fadedName}`,
+            `var(--${modeName}-theme__${scrubStyle(colorName)}-${fadedName})`,
+          ),
+        );
+      });
+    });
+    lines.sort(sortVars);
+    return [`  /* Active Color Variables */`, ...lines];
+  }
+
   queryColorBorderStyleVars() {
     const lines = [];
     this.getColorActives().forEach((colorName) => {
@@ -2294,7 +2310,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Theme Color Variables */`, ...lines];
+    return [`  /* Variables for Color Themes */`, ...lines];
   }
 
   queryFlowVars() {
@@ -3097,6 +3113,9 @@ class Picker extends HTMLElement {
       } else if (event.type === "change") {
         if (kind === "background-box-slider") {
           this.updateBackgroundColors(event.target);
+        } else if (kind === "default-theme-radio-button") {
+          this.outputColorStyles();
+          this.outputUtilityStyles();
         }
       } else if (event.type === "input") {
         if (kind === "background-box-slider") {

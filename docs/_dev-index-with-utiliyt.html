@@ -1,0 +1,2033 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Alan's Color Picker</title>
+    <meta charset="UTF-8" />
+    <style data-name="Reset Styles" class="reset-styles-input">
+      *,
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
+        margin: 0;
+      }
+      *,
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
+        box-sizing: border-box;
+      }
+      body {
+        line-height: 1.5;
+      }
+      dt,
+      dl,
+      dd,
+      li,
+      ol,
+      ul > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, 1em);
+      }
+      audio,
+      canvas,
+      embed,
+      iframe,
+      img,
+      map,
+      object,
+      svg,
+      video {
+        display: block;
+        max-width: calc(100vw - 1.4rem);
+      }
+      input,
+      button,
+      textarea,
+      select {
+        font: inherit;
+      }
+    </style>
+    <style data-name="Interface Styles">
+      .background-box-name {
+        padding-block: var(--xsmall-padding);
+        padding-inline: var(--default-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .background-box-isolate-wrapper {
+        text-align: end;
+        padding-block: var(--small-padding);
+        padding-inline: var(--default-padding);
+      }
+      .background-box-sliders {
+        padding-block: var(--default-padding);
+        padding-inline: var(--default-padding);
+      }
+      .background-box-slider-wrapper {
+        display: grid;
+        grid-template-columns: 1.6ch 1fr;
+      }
+      .background-box-wrapper {
+        border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        color: var(--ui__picker);
+        font-size: var(--small-font-size);
+      }
+      .background-box-isolate-wrapper {
+        border-top: 1px solid var(--ui__picker);
+        padding-top: var(--default-padding);
+      }
+      .colors-box-name {
+        padding-block: var(--xsmall-padding);
+        padding-inline: var(--default-padding);
+      }
+      .color-box-set-button {
+        background-color: inherit;
+        border: none;
+        border-radius: 0;
+        font-size: var(--small-font-size);
+        font-weight: bold;
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--xxsmall-padding);
+      }
+      .color-grid-wrapper {
+        display: grid;
+        justify-content: center;
+        margin-block: var(--default-margin);
+        padding-bottom: var(--large-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .color-selector-button {
+        border: 0;
+        border-right: 1px solid var(--ui__picker);
+        border-top: 1px solid var(--ui__picker);
+        cursor: pointer;
+        font-size: var(--default-font-size);
+        outline: inherit;
+        padding: 0;
+        width: 2.3ch;
+      }
+      .color-selector-tab-name {
+        border-bottom: 1px solid var(--ui__picker);
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--small-padding);
+      }
+      .colors-box-chroma-checkbox-wrapper {
+        padding: var(--default-padding);
+        text-align: end;
+      }
+      .colors-box-chroma-checkbox-label {
+        color: var(--ui__picker);
+      }
+      .colors-box-chroma-slider-label {
+        color: var(--ui__picker);
+      }
+      .colors-box-chroma-slider-wrapper {
+        display: grid;
+        grid-template-columns: 1.6ch 1fr;
+        padding-inline: var(--default-padding);
+        padding-bottom: var(--default-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .colors-box-name {
+        color: var(--ui__picker);
+      }
+      .colors-box-wrapper {
+        border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        font-size: var(--small-font-size);
+      }
+      .default-theme-selection-wrapper {
+        display: grid;
+      }
+      hgroup {
+        padding-bottom: var(--large-padding);
+      }
+      .invisible {
+        visibility: hidden;
+      }
+      .mode-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        padding: var(--default-padding);
+        justify-content: space-between;
+      }
+      .mode-buttons-name {
+        border-bottom: 1px solid var(--ui__picker);
+        color: var(--ui__picker);
+        padding-block: var(--xsmall-padding);
+        padding-inline: var(--default-padding);
+      }
+      .mode-buttons-wrapper {
+        border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        font-size: var(--small-font-size);
+        margin-top: var(--default-margin);
+      }
+      .sidebar-controls {
+        padding-top: var(--large-padding);
+      }
+      .styles-grid {
+        display: grid;
+        grid-template-columns: 3ch 1fr;
+      }
+      .styles-grid code {
+        font-size: var(--xxsmall-font-size);
+      }
+      .styles-grid details {
+        font-size: var(--small-font-size);
+      }
+      .styles-grid pre {
+        line-height: 1;
+      }
+      .styles-grid summary {
+        font-size: var(--small-font-size);
+      }
+      .top-nav-button {
+        border: var(--background-border-style);
+        color: var(--link);
+        font-size: var(--small-font-size);
+        font-weight: 900;
+      }
+      .top-nav-button[aria-selected="true"] {
+        color: var(--accent);
+      }
+      .nav-tab-list {
+        border-bottom: 1px solid var(--ui__picker);
+        margin-top: var(--xlarge-margin);
+        margin-bottom: var(--xlarge-margin);
+      }
+      .ui-two-column {
+        display: grid;
+        grid-template-columns: 1fr 13.4rem;
+        gap: 2rem;
+      }
+      [role="tab"] {
+        background: none;
+        cursor: pointer;
+        outline: inherit;
+        border-radius: 0;
+        &[aria-selected="true"] {
+          font-style: normal;
+        }
+      }
+      [role="tablist"] {
+        font-style: normal;
+      }
+      [role="tabpanel"] {
+        padding: 0;
+      }
+      .round-upper-right-corner {
+        border-top-right-radius: 0.3rem;
+      }
+    </style>
+    <style data-name="Layout Styles">
+      ::marker {
+        color: var(--content);
+      }
+      a {
+        color: var(--link);
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: var(--accent);
+      }
+      abbr {
+        color: var(--accent);
+        font-style: italic;
+      }
+      aside {
+        margin-left: 20vw;
+        font-style: italic;
+        border-left: 3px solid var(--reversed-faded);
+        padding: var(--default-padding);
+      }
+      audio {
+        border: var(--accent-border-style);
+      }
+      b {
+        font-weight: 900;
+      }
+      blockquote {
+        margin: var(--large-margin);
+        padding: var(--default-padding);
+        background-color: var(--reversed-faded2);
+      }
+      body {
+        background-color: var(--background);
+        color: var(--content);
+        font-family: system-ui;
+        font-size: var(--default-font-size);
+      }
+      button {
+        background-color: var(--reversed-faded2);
+        border: var(--reversed-border-style);
+        border-radius: var(--xsmall-radius);
+        color: var(--matched);
+        cursor: pointer;
+      }
+      canvas {
+        border: var(--accent-border-style);
+      }
+      caption {
+        caption-side: bottom;
+        padding: 10px;
+        font-weight: 900;
+      }
+      cite {
+        font-style: italic;
+      }
+      data {
+        /* */
+      }
+      code {
+        font-size: var(--small-font-size);
+        color: var(--reverse-faded);
+      }
+      dd {
+        /* */
+      }
+      del {
+        background-color: var(--accent-faded2);
+        text-decoration: line-through;
+      }
+      details {
+        border: var(--accent-border-style-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+      }
+      dfn {
+        font-style: italic;
+      }
+      dl {
+        /* */
+      }
+      dt {
+        /* */
+      }
+      em {
+        font-style: italic;
+      }
+      embed {
+        border: var(--accent-border-style);
+      }
+      fieldset {
+        border-radius: var(--default-radius);
+      }
+      figcaption {
+        background-color: var(--reversed);
+        color: var(--match);
+        font-size: var(--small-font-size);
+        padding: var(--default-padding);
+        text-align: var(--alight-center);
+      }
+      figure {
+        border: var(--reversed-border-style);
+        display: flex;
+        flex-flow: column;
+        padding: var(--large-padding);
+        max-width: var(--xsmall-width);
+        margin-inline: auto;
+      }
+      h1 {
+        color: var(--heading);
+        border-bottom: var(--content-border-style);
+        font-size: var(--xxxlarge-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h2 {
+        color: var(--heading);
+        border-bottom: var(--content-border-style);
+        font-size: var(--xxlarge-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h3 {
+        color: var(--heading);
+        font-size: var(--xlarge-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h4 {
+        color: var(--heading);
+        font-size: var(--large-font-size);
+        font-weight: 900;
+        text-wrap: balance;
+      }
+      h5 {
+        color: var(--heading);
+        font-size: var(--large-font-size);
+        font-weight: 400;
+        text-wrap: balance;
+      }
+      h6 {
+        color: var(--heading);
+        font-size: var(--large-font-size);
+        font-style: italic;
+        font-weight: 400;
+        text-wrap: balance;
+      }
+      hgroup {
+        /* */
+      }
+      hr {
+        border: none;
+        border-top: 3px double var(--reversed-faded);
+        color: var(--reversed);
+        overflow: visible;
+        text-align: var(--align-center);
+        height: 5px;
+      }
+      hr::after {
+        /* background was in the mdn example, 
+        I'm not sure whey. commenting out until
+        I have a chance to look closer 
+        background: #fff;
+        */
+        content: "§";
+        padding-inline: var(--small-padding);
+        position: relative;
+        top: -13px;
+      }
+      i {
+        font-style: italic;
+      }
+      iframe {
+        border: var(--accent-border-style);
+      }
+      img {
+        border: var(--accent-border-style);
+      }
+      input {
+        margin-inline: var(--small-margin);
+      }
+      ins {
+        background-color: var(--accent-faded);
+        font-style: italic;
+      }
+      kbd {
+        background-color: var(--reversed-faded2);
+        border: var(--reversed-faded);
+        border-radius: var(--xsmall-radius);
+        font-family: monospace;
+        font-size: var(--small-font-size);
+        padding-inline: var(--xxsmall-padding);
+      }
+      label {
+        color: var(--reversed);
+      }
+      legend {
+        color: var(--reversed);
+        font-weight: 900;
+      }
+      li {
+        /* */
+      }
+      main {
+        /* */
+      }
+      map {
+        /* */
+      }
+      mark {
+        background-color: var(--accent-faded2);
+      }
+      menu {
+        border: var(--reversed-border-style);
+      }
+      meter {
+        padding-inline: var(--default-padding);
+      }
+      nav {
+        border: var(--reversed-border-style);
+      }
+      object {
+        border: var(--accent-border-style);
+      }
+      ol {
+        /* */
+      }
+      output {
+        font-weight: 900;
+      }
+      p {
+        /* */
+      }
+      picture {
+        display: block;
+        margin: var(--default-margin);
+        max-width: 100%;
+      }
+      pre {
+        margin: var(--default-margin);
+      }
+      progress {
+        padding-inline: var(--small-padding);
+      }
+      q {
+        font-style: italic;
+      }
+      s {
+        /* */
+      }
+      samp {
+        font-weight: bold;
+      }
+      search {
+        padding-inline: var(--small-padding);
+      }
+      section {
+        /* */
+      }
+      select {
+        padding-inline: var(--small-padding);
+      }
+      small {
+        font-size: var(--xsmall-font-size);
+      }
+      span {
+        /* */
+      }
+      strong {
+        /* */
+      }
+      sub {
+        /* */
+      }
+      summary {
+        font-weight: 900;
+      }
+      sup {
+        /* */
+      }
+      svg {
+        border: var(--accent-border-style);
+      }
+      table {
+        margin: var(--default-margin);
+      }
+      tbody {
+        /* */
+      }
+      td {
+        /* */
+      }
+      textarea {
+        max-width: var(--large-width);
+        margin: var(--default-margin);
+      }
+      tfoot {
+        /* */
+      }
+      th {
+        font-weight: 900;
+      }
+      thead {
+        /* */
+      }
+      time {
+        font-weight: 900;
+      }
+      tr {
+        font-weight: 900;
+      }
+      u {
+        text-decoration: var(--accent-faded) wavy underline;
+      }
+      ul {
+        /* */
+      }
+      var {
+        font-weight: 900;
+      }
+      video {
+        border: var(--accent-border-style);
+      }
+    </style>
+  </head>
+  <body>
+    <template id="picker-controls-template">
+      <div class="mode-buttons-wrapper">
+        <div class="mode-buttons-name">Mode</div>
+        <div class="mode-buttons"></div>
+      </div>
+      <div class="background-box-wrapper">
+        <div class="background-box-name">Background</div>
+        <div class="background-box-sliders">
+          <div class="background-box-slider-wrapper" data-aspect="l">
+            <label></label>
+            <input type="range" data-kind="background-box-slider" />
+          </div>
+          <div class="background-box-slider-wrapper" data-aspect="c">
+            <label></label>
+            <input type="range" data-kind="background-box-slider" />
+          </div>
+          <div class="background-box-slider-wrapper" data-aspect="h">
+            <label></label>
+            <input type="range" data-kind="background-box-slider" />
+          </div>
+        </div>
+        <div class="background-box-isolate-wrapper">
+          <label>Isolate:</label>
+          <input type="checkbox" />
+        </div>
+      </div>
+      <div class="colors-box-wrapper">
+        <div class="colors-box-name">Colors</div>
+        <div class="colors-box-tabs-wrapper"></div>
+      </div>
+    </template>
+
+    <color-picker class="flow">
+      <div class="xlarge-wrapper">
+        <tab-group>
+          <div role="tablist" class="nav-tab-list">
+            <!--
+            <button class="top-nav-button" role="tab" data-kind="top-nav-button">Customize</button>
+-->
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              Picker
+            </button>
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              Customize
+            </button>
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+              aria-selected="true"
+            >
+              Export
+            </button>
+            <!--
+            <button class="top-nav-button" role="tab" data-kind="top-nav-button">B&amp;W</button>
+            <button class="top-nav-button" role="tab" data-kind="top-nav-button">Utilities</button>
+-->
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              TODO
+            </button>
+            <button
+              class="top-nav-button"
+              role="tab"
+              data-kind="top-nav-button"
+            >
+              Debugging
+            </button>
+          </div>
+
+          <!--
+          <div role="tabpanel" hidden>
+            <div class="content-wrapper ui-two-column">
+              <main class="content-body default-flow">
+                <hgroup class="large-bottom-margin">
+                  <h1>Alan's Color Picker</h1>
+                  <p class="align-end">
+                    made by
+                    <a href="https://www.alanwsmith.com/">alan w smith</a>
+                  </p>
+                </hgroup>
+                <h2 class="title">Basic Sample</h2>
+                <p>
+                  Fly by night, and you waste little time Glue the sheet to the
+                  dark blue background Go now and come here later
+                </p>
+                <abbr>CSS</abbr>
+                <aside>
+                  <p>
+                    The Rough-skinned Newt defends itself with a deadly
+                    neurotoxin.
+                  </p>
+                </aside>
+                <figure>
+                  <figcaption>
+                    Example of what this looks like. There is no actual audio
+                  </figcaption>
+                  <audio controls src=""></audio>
+                  <a href=""> Link to audio would go here </a>
+                </figure>
+                <b>Bring Attention</b>
+                <blockquote cite="https://www.huxley.net/bnw/four.html">
+                  <p>
+                    Words can be like X-rays, if you use them properly—they’ll
+                    go through anything. You read and you’re pierced.
+                  </p>
+                </blockquote>
+                <button class="favorite styled" type="button">
+                  Add to favorites
+                </button>
+                <table>
+                  <caption>
+                    He-Man and Skeletor facts
+                  </caption>
+                  <tr>
+                    <td></td>
+                    <th scope="col" class="heman">He-Man</th>
+                    <th scope="col" class="skeletor">Skeletor</th>
+                  </tr>
+                  <tr>
+                    <th scope="row">Role</th>
+                    <td>Hero</td>
+                    <td>Villain</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Weapon</th>
+                    <td>Power Sword</td>
+                    <td>Havoc Staff</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Dark secret</th>
+                    <td>Expert florist</td>
+                    <td>Cries at romcoms</td>
+                  </tr>
+                </table>
+                <cite><a href="http://www.george-orwell.org/1984/0.html">Nineteen Eighty-Four</a></cite>
+                <data value="398">Mini Ketchup</data>
+                do dl, dd, dt
+                <del>nothing</del>
+                <details>
+                  <summary>Details</summary>
+                  Something small enough to escape casual notice.
+                </details>
+                <dfn id="def-validator">validator</dfn>
+                <em>now</em>
+                <fieldset>
+                  <legend>Choose your favorite monster</legend>
+                  <input type="radio" id="kraken" name="monster" value="K" />
+                  <label for="kraken">Kraken</label><br />
+                  <input type="radio" id="sasquatch" name="monster" value="S" />
+                  <label for="sasquatch">Sasquatch</label><br />
+                  <input type="radio" id="mothman" name="monster" value="M" />
+                  <label for="mothman">Mothman</label>
+                </fieldset>
+                <figure>
+                  <img src="https://placecats.com/millie/300/150" alt="The cat Millie from placecats" />
+                  <figcaption>The cat Millie from placecats</figcaption>
+                </figure>
+                <hgroup>
+                  <h1>Frankenstein</h1>
+                  <p>Or: The Modern Prometheus</p>
+                </hgroup>
+                <p>
+                  Victor Frankenstein, a Swiss scientist, has a great ambition:
+                  to create intelligent life. But when his creature first stirs,
+                  he realizes he has made a monster. A monster which, abandoned
+                  by his master and shunned by everyone who sees it, follows Dr
+                  Frankenstein to the very ends of the earth.
+                </p>
+                <hr />
+                <i>This can't be real!</i>
+                <ins cite="../how-to-be-a-wizard.html" datetime="2018-05">
+                  <p>&ldquo;A wizard is never late &hellip;&rdquo;</p>
+                </ins>
+                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
+                <div class="preference">
+                  <label for="cheese">Do you like cheese?</label>
+                  <input type="checkbox" name="cheese" id="cheese" />
+                </div>
+                <mark>salamander</mark>
+                <menu>
+                  <li><button id="save">Save for later</button></li>
+                  <li><button id="share">Share this news</button></li>
+                </menu>
+                <meter id="fuel" min="0" max="100" low="33" high="66" optimum="80" value="50">
+                  at 50/100
+                </meter>
+                <nav class="crumbs">
+                  <ol>
+                    <li class="crumb"><a href="#">Bikes</a></li>
+                    <li class="crumb"><a href="#">BMX</a></li>
+                    <li class="crumb">Jump Bike 3000</li>
+                  </ol>
+                </nav>
+                <object type="video/mp4" width="250" height="200"></object>
+                <output name="result" for="a b">60</output>
+                <p>para</p>
+                <picture>
+                  <source srcset="https://placecats.com/millie/300/150" media="Millie the cat from placecats" />
+                  <img src="https://placecats.com/millie/300/150" alt="Millie the cat from placecats" />
+                </picture>
+                <pre>some pre text</pre>
+                                <label for="file">File progress:</label>
+                        <progress id="file" max="100" value="70">70%</progress>
+                        <q cite="https://www.imdb.com/title/tt0062622/quotes/?item=qt0396921&ref_=ext_shr_lnk">
+                          I'm sorry, Dave. I'm afraid I can't do that.
+                </q>
+                <p>
+                  <s>There will be a few tickets available at the box office
+                    tonight.</s>
+                </p>
+                <samp>Keyboard not found <br />Press F1 to continue</samp>
+                <search>
+                  <form action="./search/">
+                    <label for="movie">Find a Movie</label>
+                    <input type="search" id="movie" name="q" />
+                    <button type="submit">Search</button>
+                  </form>
+                </search>
+                <select name="pets" id="pet-select">
+                  <option value="">--Please choose an option--</option>
+                  <option value="dog">Dog</option>
+                  <option value="cat">Cat</option>
+                  <option value="hamster">Hamster</option>
+                  <option value="parrot">Parrot</option>
+                  <option value="spider">Spider</option>
+                  <option value="goldfish">Goldfish</option>
+                </select>
+                <small>The content is licensed under a Creative Commons
+                  Attribution-ShareAlike 2.5 Generic License.</small>
+                <p>
+                  Add the <span class="ingredient">basil</span>,
+                  <span class="ingredient">pine nuts</span> and
+                  <span class="ingredient">garlic</span> to a blender and blend
+                  into a paste.
+                </p>
+                <strong>never feed him after midnight</strong>.
+                <p>
+                  Almost every developer's favorite molecule is
+                  C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>, also
+                  known as "caffeine."
+                </p>
+                <details>
+                  <summary>
+                    I have keys but no doors. I have space but no room. You can
+                    enter but can’t leave. What am I?
+                  </summary>
+                  A keyboard.
+                </details>
+                <var>a<sup>2</sup></var> + <var>b<sup>2</sup></var> =
+                <var>c<sup>2</sup></var>
+                <table>
+                  <caption>
+                    Front-end web developer course 2021
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Person</th>
+                      <th scope="col">Most interest in</th>
+                      <th scope="col">Age</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Chris</th>
+                      <td>HTML tables</td>
+                      <td>22</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Dennis</th>
+                      <td>Web accessibility</td>
+                      <td>45</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Sarah</th>
+                      <td>JavaScript frameworks</td>
+                      <td>29</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Karen</th>
+                      <td>Web performance</td>
+                      <td>36</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <th scope="row" colspan="2">Average age</th>
+                      <td>33</td>
+                    </tr>
+                  </tfoot>
+                </table>
+                <textarea id="story" name="story" rows="5" cols="33">
+It was a dark and stormy night...
+</textarea>
+                <time datetime="2018-07-07">July 7</time>
+                <p>
+                  You could use this element to highlight
+                  <u>speling</u> mistakes, so the writer can <u>corect</u> them.
+                </p>
+                <ul>
+                  <li>Milk</li>
+                  <li>
+                    Cheese
+                    <ul>
+                      <li>Blue cheese</li>
+                      <li>Feta</li>
+                    </ul>
+                  </li>
+                </ul>
+                <p>
+                  The volume of a box is <var>l</var> × <var>w</var> ×
+                  <var>h</var>, where <var>l</var> represents the length,
+                  <var>w</var> the width and <var>h</var> the height of the box.
+                </p>
+                <p>
+                  Greet the new guests and leave quickly Guess the results from
+                  the first scores Hang tinsel from both branches
+                </p>
+                <h2>Ping</h2>
+                <h3>Heave the line over</h3>
+                <p>
+                  the port side Help the weak to preserve their strength Hoist
+                  it up and take it away
+                </p>
+              </div>
+              <div class="sidebar-controls default-flow" data-tab="picker"></main>
+            </div>
+          </div>
+-->
+
+          <div role="tabpanel">
+            <div class="content-wrapper ui-two-column">
+              <div class="content-body default-flow">
+                <hgroup class="large-bottom-margin">
+                  <h1>Alan's Color Picker</h1>
+                  <p class="align-end">
+                    made by
+                    <a href="https://www.alanwsmith.com/">alan w smith</a>
+                  </p>
+                </hgroup>
+                <div
+                  class="xlarge-inline-margin large-inline-padding large-block-padding link-border default-radius default-flow"
+                >
+                  <h2>Head's Up: Work-In-Progress</h2>
+                  <p>
+                    Hi there! You're early, but that's cool. Just two things to
+                    know:
+                  </p>
+                  <ol>
+                    <li>The color sliders and buttons work.</li>
+                    <li>The export doesn't (yet).</li>
+                  </ol>
+                  <p>
+                    It's currently May 21st. I plan to have the export working
+                    to launch a fully operationaly tool in the next few days.
+                  </p>
+                  <p>
+                    Click around to get a sense of the picker. Check back to see
+                    about the export. Or, follow me on
+                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a>,
+                    <a href="https://bsky.app/profile/alanwsmith.com">Bluesky</a
+                    >, or
+                    <a href="https://www.alanwsmith.com/feeds/posts.xml"
+                      >my RSS feed</a
+                    >
+                    for updates.
+                  </p>
+                </div>
+                <h2>Content For Launch</h2>
+                <div
+                  class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
+                >
+                  <div class="content-bottom-border">
+                    <strong>TL;DR</strong>
+                  </div>
+                  <p>
+                    Play around with the <em>Mode</em>, <em>Background</em>, and
+                    <em>Colors</em> controls in the sidebar to change colors.
+                  </p>
+                  <p>
+                    Hit <em>Export</em> above when you've got a palette you
+                    like. It'll give you a stylesheet with your colors.
+                  </p>
+                  <p>There is no step 3.</p>
+                  <p class="content-top-border large-top-padding">
+                    I'm working on more features. Follow me on
+                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a> or
+                    <a href="https://bsky.app/profile/alanwsmith.com"
+                      >Bluesky</a
+                    >
+                    for updates. Or,
+                    <a href="https://www.alanwsmith.com/feeds/posts.xml"
+                      >grab my RSS feed</a
+                    >.
+                  </p>
+                </div>
+                <h2>The Basics</h2>
+                <h3>Color Modes</h3>
+                <p>
+                  There are two color modes: <em>Light</em>, <em>Dark</em>, The
+                  buttons in the <em>Mode</em> box change between
+                  them<sup>guidelines</sup>.
+                </p>
+                <h3>The Background Color</h3>
+                <p>
+                  The three sliders in the <em>Background</em> box are
+                  <em>l</em>, <em>c</em>, and <em>h</em> (aka lightness, chroma,
+                  and hue). Changing them changes the background color. Fiddle
+                  with them to get an idea of how they work.
+                </p>
+                <p>
+                  You can use the <em>Isolate</em> checkbox to hide content. It
+                  makes it easier to focus on the color.
+                </p>
+                <h3>The Colors</h3>
+                <p>
+                  The picker has five colors: content, link, title, heading, and
+                  accent<sup>more soon</sup>. Change between them with the
+                  colored tabs in the <em>Colors</em> box.
+                </p>
+                <p>
+                  Clicking/tapping a colored <em>set</em> from the grid changes
+                  the selected color to match it. The <em>c</em> slider below
+                  the <em>set</em> grid changes the <em>chroma</em> of the
+                  color<sup>more later</sup>. Basically, its intensity.
+                </p>
+                <p>
+                  The <em>Isolate</em> checkbox in the <em>Colors</em> box hides
+                  everything that's not using the selected color.
+                </p>
+                <h3>Picking</h3>
+                <p>
+                  That's it. There's not a lot too it. That's kinda the point.
+                </p>
+                <p>
+                  I make
+                  <a href="https://links.alanwsmith.com/">lots of websites</a>.
+                  Picking colors for them was always a pain with existing
+                  tools<sup>note about other tools</sup>. A friction that slowed
+                  me down with no payoff. I built this picker to address that.
+                  It's designed to generate a nice set of colors with as little
+                  effort as possible.
+                </p>
+                <p>I hope you enjoy it,</p>
+                <p>-a</p>
+                <!--
+                <h3>Set Color Mechanics</h3>
+                <p>
+                  The picker users OKLCH<sup>2</sup>. The <em>L</em>,
+                  <em>C</em>, and <em>H</em> being our lightness, chroma, and
+                  hue. Each of the <em>set</em> colors is based off the the
+                  <em>h/hue</em> value from the <em>Background</em>.
+                </p>
+                <p>
+                  Behind the scenes, the <em>Background</em>
+                  <em>h/hue</em> value is between 0 and 360. The first from of
+                  the <em>set</em> colors adds 45 to it. Each subsequent row
+                  adds another 45<sup>flips</sup>.
+                </p>
+                <ol>
+                  <li>
+                    Move the &quot;l&quot;, &quot;c&quot;, and &quot;h&quot;
+                    sliders in the &quot;Background&quot; box around to find a
+                    background color you like
+                  </li>
+                  <li>
+                    Click/Tap some of the &quot;set&quot; buttons in the
+                    &quot;Colors&quot; box to choose a text color
+                  </li>
+                  <li>
+                    Move the &quot;c&quot; slider around in the
+                    &quot;Colors&quot; box around to change the intensity of the
+                    color
+                  </li>
+                  <li>
+                    Check out the other features below to learn more about how
+                    things work
+                  </li>
+                  <li>
+                    Click/Tap the &quot;Export Colors&quot; tab above to get
+                    your colors
+                  </li>
+                </ol>
+                <h2>Previewing</h2>
+                <p>
+                  Click/Tap any of the content in the main part of the page to
+                  hide the color picker controls. This is designed to make it
+                  easier to evaluate palettes without the other options
+                  influencing the way things look.
+                </p>
+                <h2>Other Colors</h2>
+                <p>
+                  Click the single letter tabs at the top of the
+                  &quot;Colors&quot; box to change which text the
+                  &quot;set&quot; colors effect (e.g. the main content, the
+                  title, links, etc.).
+                </p>
+                <p>The current set is:</p>
+                <ul class="current-colors-list">
+                  <li>
+                    TODO: attempting to generate list...
+                    <noscript>This list needs JavaScript to work. It is not currently
+                      available</noscript>
+                  </li>
+                </ul>
+                <h2>Isolating Colors</h2>
+                <p>
+                  The &quot;Isolate&quot; button at the bottom of the
+                  &quot;Color&quot; box hides all the content except for what
+                  the selected color applies to. I added it to make it easier to
+                  find links and accents which might only appear on a page a few
+                  times.
+                </p>
+                <h2>Isolating The Background</h2>
+                <p>
+                  The &quot;Background&quot; box also has an &quot;Isolate&quot;
+                  checkbox. Ticking it hides all the content so you can pick the
+                  background without existing text colors influencing it.
+                </p>
+-->
+                <h2>Footnotes</h2>
+                <ol>
+                  <li>
+                    Changing the number of colors and what they are called is a
+                    work in progress.
+                  </li>
+                  <li>
+                    OKLCH is a &quot;color space&quot; which is a fancy way of
+                    saying it's a way for computers to deal with colors. There's
+                    lots of science behind it. I'll write more about it in
+                    future updates.
+                  </li>
+                </ol>
+              </div>
+              <div
+                class="sidebar-controls default-flow"
+                data-tab="instructions"
+              ></div>
+            </div>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <hgroup class="large-bottom-margin">
+              <h1>Alan's Color Picker</h1>
+              <p class="align-end">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+              </p>
+            </hgroup>
+            <div class="default-flow">
+              <h2>Settings</h2>
+              <!--
+              <div class="number-of-colors-wrapper">
+                <label for="number-of-colors">Number of Colors:</label>
+                <select id="number-of-colors" class="number-of-colors-selector"></select>
+              </div>
+-->
+              <p>Customiztions are a work in progress. They'll include:</p>
+              <ul>
+                <li>Change the number of colors</li>
+                <li>Change the names off the styles</li>
+                <li>Customize CSS (e.g. to bring in fonts)</li>
+                <li>Customize HTML with your content</li>
+              </ul>
+              <p>Check out the TODO list for more.</p>
+            </div>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <hgroup class="large-bottom-margin">
+              <h1>Alan's Color Picker</h1>
+              <p class="align-end">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+              </p>
+            </hgroup>
+
+            <div class="default-flow">
+              <h2>Colors CSS</h2>
+
+              <!-- this is not currently necessary. will 
+only be necessary if other themes (e.g. high contrast) are added
+              <p>
+                Modern browsers and operating systems work together to
+                automatically switch between light and dark modes based on a
+                person's preferences. Pick which of your themes you want to use
+                for the two automatic modes:
+              </p>
+              <div class="light-theme-selector-wrapper">
+                <label for="light-theme-selector">Light mode:</label>
+                <select id="light-theme-picker"></select>
+              </div>
+              <div class="dark-theme-selector-wrapper">
+                <label for="dark-theme-selector">Dark mode:</label>
+                <select id="dark-theme-picker"></select>
+              </div>
+-->
+
+              <p>
+                Browsers can often determine if someone visiting your site
+                prefers light or dark mode. That's not always possible. Which
+                mode would you like to present if a preference can't be
+                determined?
+              </p>
+              <div class="default-theme-selection-wrapper">
+                <div>
+                  <input
+                    data-kind="default-theme-radio-button"
+                    type="radio"
+                    id="default-theme-light"
+                    name="default-theme"
+                    value="light"
+                    checked
+                  />
+                  <label for="default-theme-light">Light</label>
+                </div>
+                <div>
+                  <input
+                    data-kind="default-theme-radio-button"
+                    type="radio"
+                    id="default-theme-dark"
+                    name="default-theme"
+                    value="dark"
+                  />
+                  <label for="default-theme-dark">Dark</label>
+                </div>
+              </div>
+              <p>Here's the CSS variables for your color palette:</p>
+              <textarea
+                class="basic-css-output full-width xsmall-font-size"
+                rows="7"
+              ></textarea>
+              <p>If all you need is the colors, you're all set.</p>
+              <p>
+                Check out the next section if you'd like some bonus features.
+              </p>
+
+              <h2>Utility CSS</h2>
+              <div class="alert-text">
+                TODO: Add SIZE-flex to default utility classes
+              </div>
+              <p>
+                I built this tool to make it quicker to get a new site up and
+                running. Colors are the key feature. There's a bunch of standard
+                uses for them too. This is the collection of my current
+                &quot;Quick-Start&quot; variables and classes.
+              </p>
+
+              <div class="utility-export-wrapper">
+                <textarea
+                  class="utility-css-output full-width xsmall-font-size"
+                  rows="6"
+                ></textarea>
+              </div>
+
+              <p>
+                Use these checkboxes to mix and match your own collection if you
+                want more than just the colors.
+              </p>
+              <h3>Variables</h3>
+              <div class="styles-grid">
+                <!-- Color Theme Variables -->
+                <input type="checkbox" id="color-theme-vars-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Color - Theme Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="color-theme-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Color Active Variables -->
+                <input
+                  type="checkbox"
+                  id="color-active-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>Color - Active Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="color-active-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Color Border Style Variables -->
+                <input
+                  type="checkbox"
+                  id="color-border-style-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>Color - Border Style Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="color-border-style-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Normal Theme Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-theme-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      Black &amp; White (Normal) - Theme Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-theme-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!--  Black and White Normal Active Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-active-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      Black &amp; White (Normal) - Active Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-active-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Normal Border Style Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-border-style-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      Black &amp; White (Normal) - Border Style Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-border-style-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Reversed Theme Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-theme-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      Black &amp; White (Reversed) - Theme Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-theme-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Reversed Active Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-active-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      Black &amp; White (Reversed) - Active Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-active-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black and White Reversed Border Style Variables -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-border-style-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>
+                      Black &amp; White (Reversed) - Border Style Variables
+                    </summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-border-style-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Border Radii Variables -->
+                <input
+                  type="checkbox"
+                  id="border-radii-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>Border Radii Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="border-radii-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Font Size Variables -->
+                <input type="checkbox" id="font-size-vars-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Font Size Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="font-size-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Margin Variables -->
+                <input type="checkbox" id="margin-vars-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Margin Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="margin-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Padding Variables -->
+                <input type="checkbox" id="padding-vars-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Padding Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="padding-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Width Variables -->
+                <input type="checkbox" id="width-vars-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Width Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="width-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Flow Variables -->
+                <input type="checkbox" id="flow-vars-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Flow Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="flow-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Text Alignment Variables -->
+                <input
+                  type="checkbox"
+                  id="text-alignment-vars-checkbox"
+                  checked
+                />
+                <div>
+                  <details>
+                    <summary>Text Alignment Variables</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="text-alignment-vars"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- end of variables -->
+              </div>
+
+              <h3>Styles</h3>
+
+              <div class="styles-grid">
+                <!-- START: styles -->
+
+                <!-- Reset -->
+                <input type="checkbox" id="reset-styles-checkbox" checked />
+                <div>
+                  <details>
+                    <summary>Reset Defaults</summary>
+                    <p>Description</p>
+                    <details>
+                      <summary>Preview</summary>
+                      <pre><code class="reset-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Color Text -->
+                <input
+                  type="checkbox"
+                  id="color-text-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>TODO: Color Text Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="color-text-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Color Background -->
+                <input
+                  type="checkbox"
+                  id="color-background-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>TODO: Color Background Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="color-background-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Color Border -->
+                <input
+                  type="checkbox"
+                  id="color-border-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>TODO: Color Border Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="color-border-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black &amp; White (Normal) Text -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-text-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>
+                      TODO: Black &amp; White (Normal) Text Styles
+                    </summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-text-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black &amp; White (Normal) Background -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-background-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>
+                      TODO: Black &amp; White (Normal) Background Styles
+                    </summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-background-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black &amp; White (Normal) Border -->
+                <input
+                  type="checkbox"
+                  id="bw-normal-border-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>
+                      TODO: Black &amp; White (Normal) Border Styles
+                    </summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-normal-border-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black &amp; White (Reversed) Text -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-text-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>
+                      TODO: Black &amp; White (Reversed) Text Styles
+                    </summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-text-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black &amp; White (Reversed) Background -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-background-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>
+                      TODO: Black &amp; White (Reversed) Background Styles
+                    </summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-background-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- Black &amp; White (Reversed) Border -->
+                <input
+                  type="checkbox"
+                  id="bw-reversed-border-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>
+                      TODO: Black &amp; White (Reversed) Border Styles
+                    </summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="bw-reversed-border-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Border Radii Styles -->
+                <input
+                  type="checkbox"
+                  id="border-radii-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>TODO: Border Radii Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="border-radii-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Flow Styles -->
+                <input type="checkbox" id="flow-styles-checkbox" checked />
+                <div>
+                  <details open>
+                    <summary>TODO: Flow Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="flow-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Font Size Styles -->
+                <input type="checkbox" id="font-size-styles-checkbox" checked />
+                <div>
+                  <details open>
+                    <summary>TODO: Font Size Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="font-size-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Margin Styles -->
+                <input type="checkbox" id="margin-styles-checkbox" checked />
+                <div>
+                  <details open>
+                    <summary>TODO: Margin Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="margin-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Padding Styles -->
+                <input type="checkbox" id="padding-styles-checkbox" checked />
+                <div>
+                  <details open>
+                    <summary>TODO: Padding Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="padding-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Text Alignment Styles -->
+                <input
+                  type="checkbox"
+                  id="text-alignment-styles-checkbox"
+                  checked
+                />
+                <div>
+                  <details open>
+                    <summary>TODO: Text Alignment Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="text-alignment-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Width Styles -->
+                <input type="checkbox" id="width-styles-checkbox" checked />
+                <div>
+                  <details open>
+                    <summary>TODO: Width Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="width-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- TODO: Wrapper Styles -->
+                <input type="checkbox" id="wrapper-styles-checkbox" checked />
+                <div>
+                  <details open>
+                    <summary>TODO: Wrapper Styles</summary>
+                    <p>Description</p>
+                    <details open>
+                      <summary>Preview</summary>
+                      <pre><code class="wrapper-styles"></code></pre>
+                    </details>
+                  </details>
+                </div>
+
+                <!-- END: styles -->
+              </div>
+              <div class="export-content picker-text"></div>
+            </div>
+          </div>
+
+          <div class="picker-text" role="tabpanel" hidden>
+            <h2>TODO</h2>
+            <ul>
+              <li>
+                <input type="checkbox" disabled />
+                Clear cache button to go back to defaults
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Mute colors so you can them on individually
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Add example text under the isoloate color button so you can see
+                something even if the actual text isn't in view
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Mute all button
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Multiple sample pages
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Float controls so they are always visible
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Optimize so only changes get updated in the stylesheet
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Consolidate variable output into single <code>:root</code>
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Change Black and White CSS names
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Click Themes, Background, Colors to collapse boxes
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Control click on things to get style info about them.
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Customize `-style-border` name and value
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Change Background color name
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Change `border`, `radius`, etc... string names
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Add faded Background values
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Change number of colors
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Templates for variable and class names to format in custom
+                orders
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Color picker on both Instructions and Picker tabs
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Only show instructions the first time you load the page.
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Stay on the same tab after page refresh
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Set min light level for each color
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Example palettes
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Contrast calculations
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Undo/Redo
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Set faded alt values
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Include/Remove black and white variables
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Make back button work for tab switching?
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Optional utility classes
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Change CSS variable names
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                JSON schema for data
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Change mode names
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Add/subtract themes
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Refactor to use 'theme' instead of 'mode'
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Copy button for CSS
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Edit CSS
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Edit HTML
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Save/Load
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Shareable URLs
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Implementation example
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Web component for mode switching
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Randomizer
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Switch between 45 and 60 degrees
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Show/Hide content to focus on base color
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Issoldated color view to look at them one at a time
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Use min light level from each color
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Mode selection works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Background sliders work
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Isolating background works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Switching between colors works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Changing colors via set buttons works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Changing colors via chroma slider
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Isolating colors works
+              </li>
+              <li>
+                <input type="checkbox" disabled checked />
+                Default faded alternatives
+              </li>
+              <li>
+                <input type="checkbox" disabled />
+                Save state in localstorage
+              </li>
+            </ul>
+          </div>
+
+          <div role="tabpanel" hidden>
+            <div class="default-flow picker-text">
+              <h2>Debugging</h2>
+              <p>
+                I'm working on the next round of features. This page is here to
+                help me with that.
+              </p>
+              <h3>Here Be Dragons</h3>
+              <pre class="debugging-content xsmall-font-size"></pre>
+            </div>
+          </div>
+
+          <!-- end of line -->
+        </tab-group>
+      </div>
+    </color-picker>
+
+    <script src="/components/color-picker.js" type="module"></script>
+
+    <noscript>
+      <p>Could not load the picker. It appears JavaScript is not available.</p>
+    </noscript>
+  </body>
+</html>

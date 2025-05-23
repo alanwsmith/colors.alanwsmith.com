@@ -2801,8 +2801,44 @@ class Picker extends HTMLElement {
       "\n",
     );
 
-    // Classes
+    // Classes aka Styles
     el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
+
+    el("color-text-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("color-background-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("color-border-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("bw-normal-text-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("bw-normal-background-styles").innerHTML = this.queryFlowVars().join(
+      "\n",
+    );
+
+    el("bw-normal-border-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("bw-reversed-text-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("bw-reversed-background-styles").innerHTML = this.queryFlowVars().join(
+      "\n",
+    );
+
+    el("bw-reversed-border-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("border-radii-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("flow-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("margin-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("padding-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("text-alignment-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("width-styles").innerHTML = this.queryFlowVars().join("\n");
+
+    el("wrapper-styles").innerHTML = this.queryFlowVars().join("\n");
 
     // TODO: Deprecate this stuff below.
     // it was the initial stubs

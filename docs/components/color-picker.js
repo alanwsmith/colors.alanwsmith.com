@@ -942,7 +942,7 @@ class Picker extends HTMLElement {
     this.updateUiClassesStyleSheet();
     this.requestUpdate = this.updateUiView.bind(this);
     this.addListeners();
-    this.updateExportPage();
+    //    this.updateExportPage();
     this.updateDebuggingTab();
     this.outputColorStyles();
     this.outputUtilityStyles();
@@ -955,7 +955,7 @@ class Picker extends HTMLElement {
     // TODO: move the classes things so it only has
     // to fire once
     this.updateUiClassesStyleSheet();
-    this.updateExportPage();
+    //    this.updateExportPage();
     this.updateDebuggingTab();
     this.toggleIsolation();
     this.outputColorStyles();

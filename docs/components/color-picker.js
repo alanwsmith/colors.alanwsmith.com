@@ -470,160 +470,7 @@ const defaultPalette = {
       ],
       name: "Light",
     },
-    {
-      base: { c: 0.06066, h: 270, l: 94.92 },
-      blackAndWhiteFaded: [0.4, 0.1],
-      blackAndWhiteValues: [0, 100],
-      blackAndWhiteReversedFaded: [0.4, 0.1],
-      blackAndWhiteReversedValues: [100, 0],
-      colors: [
-        // 1-0
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 5,
-              l: 0,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-1
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.24567,
-              h: 7,
-              l: 2,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-2
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 3,
-              l: 1,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-3
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.03885,
-              h: 6,
-              l: 1,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-4
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.06066,
-              h: 4,
-              l: 1,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-5
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 2,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-6
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 2,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 1-7
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 2,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-      ],
-      name: "High-Contrast Light",
-    },
+
     {
       base: { c: 0.05262, h: 78.336, l: 25.71 },
       blackAndWhiteFaded: [0.4, 0.1],
@@ -777,160 +624,6 @@ const defaultPalette = {
         },
       ],
       name: "Dark",
-    },
-    {
-      base: { c: 0.22155, h: 214.848, l: 0 },
-      blackAndWhiteFaded: [0.4, 0.1],
-      blackAndWhiteValues: [0, 100],
-      blackAndWhiteReversedFaded: [0.4, 0.1],
-      blackAndWhiteReversedValues: [0, 100],
-      colors: [
-        // 3-0
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.19398,
-              h: 5,
-              l: 5,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-1
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.24684,
-              h: 4,
-              l: 2,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-2
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.23304,
-              h: 5,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-3
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.25602,
-              h: 2,
-              l: 4,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-4
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.09053,
-              h: 3,
-              l: 5,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-5
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 2,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-6
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 2,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-        // 3-7
-        {
-          fadedValues: [40, 80],
-          hueOffsetIndex: 0,
-          hueOffsetValues: [
-            {
-              c: 0.118,
-              h: 2,
-              l: 3,
-            },
-            {
-              c: 0.2,
-              h: 3,
-              l: 4,
-            },
-          ],
-          minLightLevel: 20,
-        },
-      ],
-      name: "High-Contrast Dark",
     },
   ],
   name: "Color Palette",
@@ -1251,7 +944,6 @@ class Picker extends HTMLElement {
     this.addListeners();
     this.updateExportPage();
     this.updateDebuggingTab();
-    this.updateThemeExportPickers();
     this.outputColorStyles();
     this.outputUtilityStyles();
   }
@@ -1266,7 +958,6 @@ class Picker extends HTMLElement {
     this.updateExportPage();
     this.updateDebuggingTab();
     this.toggleIsolation();
-    this.updateThemeExportPickers();
     this.outputColorStyles();
     this.outputUtilityStyles();
   }
@@ -1821,6 +1512,10 @@ class Picker extends HTMLElement {
     return ["full", ...this.getSizes()];
   }
 
+  getSpecificModeScrubbedName(modeIndex) {
+    return this.getModeScrubbedNames()[modeIndex];
+  }
+
   initBackgroundCheckboxes() {
     dbg("initBackgroundCheckboxes()");
     const sidebars = els(".sidebar-controls");
@@ -2089,8 +1784,19 @@ class Picker extends HTMLElement {
   outputColorStyles() {
     const out = [];
     out.push(":root {");
-    out.push("/* asdf */");
     out.push(this.queryColorThemeVars().join("\n"));
+    const defaultThemeKind = elV2(`input[name="default-theme"]:checked`).value;
+    if (defaultThemeKind === "light") {
+      out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push("}");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+    } else {
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push(this.queryColorPreferredVars(0).join("\n"));
+    }
     out.push("}");
     el("basic-css-output").innerHTML = out.join("\n");
   }
@@ -2099,8 +1805,6 @@ class Picker extends HTMLElement {
     const out = [];
     out.push(":root {");
     const defaultThemeKind = elV2(`input[name="default-theme"]:checked`);
-    fx(defaultThemeKind);
-    out.push("}");
   }
 
   queryBlackAndWhiteReversedActiveVars() {
@@ -2244,6 +1948,29 @@ class Picker extends HTMLElement {
     return [`  /* Border Radii Variables */`, ...lines];
   }
 
+  queryColorPreferredVars(modeIndex) {
+    const lines = [];
+    const modeName = this.getSpecificModeScrubbedName(modeIndex);
+    this.getActiveScrubbedColorNames().forEach((colorName) => {
+      lines.push(
+        makeVar(
+          `  --${scrubStyle(colorName)}`,
+          `var(--${modeName}-theme__${scrubStyle(colorName)})`,
+        ),
+      );
+      this.getScrubbedFadedNames().forEach((fadedName) => {
+        lines.push(
+          makeVar(
+            `  --${scrubStyle(colorName)}-${fadedName}`,
+            `var(--${modeName}-theme__${scrubStyle(colorName)}-${fadedName})`,
+          ),
+        );
+      });
+    });
+    lines.sort(sortVars);
+    return [`  /* ${modeName} Mode Color Variables */`, ...lines];
+  }
+
   queryColorActiveVars() {
     const lines = [];
     this.getActiveScrubbedColorNames().forEach((colorName) => {
@@ -2310,7 +2037,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Variables for Color Themes */`, ...lines];
+    return [`  /* Variables for Color Modes */`, ...lines];
   }
 
   queryFlowVars() {
@@ -2842,28 +2569,29 @@ class Picker extends HTMLElement {
     el("debugging-content").innerHTML = JSON.stringify(p, null, 2);
   }
 
-  updateThemeExportPickers() {
-    const lightPicker = elV2("#light-theme-picker");
-    this.getModeNames().forEach((name, index) => {
-      const opt = dc("option");
-      opt.innerHTML = name;
-      opt.value = index;
-      if (index === 0) {
-        opt.selected = true;
-      }
-      a(opt, lightPicker);
-    });
-    const darkPicker = elV2("#dark-theme-picker");
-    this.getModeNames().forEach((name, index) => {
-      const opt = dc("option");
-      opt.innerHTML = name;
-      opt.value = index;
-      if (index === 2) {
-        opt.selected = true;
-      }
-      a(opt, darkPicker);
-    });
-  }
+  // This isn't necessary until custom themes are added.
+  // updateThemeExportPickers() {
+  //   const lightPicker = elV2("#light-theme-picker");
+  //   this.getModeNames().forEach((name, index) => {
+  //     const opt = dc("option");
+  //     opt.innerHTML = name;
+  //     opt.value = index;
+  //     if (index === 0) {
+  //       opt.selected = true;
+  //     }
+  //     a(opt, lightPicker);
+  //   });
+  //   const darkPicker = elV2("#dark-theme-picker");
+  //   this.getModeNames().forEach((name, index) => {
+  //     const opt = dc("option");
+  //     opt.innerHTML = name;
+  //     opt.value = index;
+  //     if (index === 2) {
+  //       opt.selected = true;
+  //     }
+  //     a(opt, darkPicker);
+  //   });
+  // }
 
   updateExportPage() {
     // Variables

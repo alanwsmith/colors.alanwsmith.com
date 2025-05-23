@@ -551,7 +551,7 @@
   <body>
     <template id="picker-controls-template">
       <div class="mode-buttons-wrapper">
-        <div class="mode-buttons-name">Themes</div>
+        <div class="mode-buttons-name">Mode</div>
         <div class="mode-buttons"></div>
       </div>
       <div class="background-box-wrapper">
@@ -936,9 +936,8 @@ It was a dark and stormy night...
                     <strong>TL;DR</strong>
                   </div>
                   <p>
-                    Play around with the <em>Themes</em>, <em>Background</em>,
-                    and <em>Colors</em> controls in the sidebar to change
-                    colors.
+                    Play around with the <em>Mode</em>, <em>Background</em>, and
+                    <em>Colors</em> controls in the sidebar to change colors.
                   </p>
                   <p>
                     Hit <em>Export</em> above when you've got a palette you
@@ -958,12 +957,10 @@ It was a dark and stormy night...
                   </p>
                 </div>
                 <h2>The Basics</h2>
-                <h3>Color Themes</h3>
+                <h3>Color Modes</h3>
                 <p>
-                  There are four themes: <em>Light</em>,
-                  <em>High-Contrast Light</em>, <em>Dark</em>,
-                  <em>High-Constast Dark</em><sup>pitch for more themes</sup>.
-                  The buttons in the <em>Themes</em> box change between
+                  There are two color modes: <em>Light</em>, <em>Dark</em>, The
+                  buttons in the <em>Mode</em> box change between
                   them<sup>guidelines</sup>.
                 </p>
                 <h3>The Background Color</h3>
@@ -1140,6 +1137,9 @@ It was a dark and stormy night...
 
             <div class="default-flow">
               <h2>Colors CSS</h2>
+
+              <!-- this is not currently necessary. will 
+only be necessary if other themes (e.g. high contrast) are added
               <p>
                 Modern browsers and operating systems work together to
                 automatically switch between light and dark modes based on a
@@ -1154,12 +1154,14 @@ It was a dark and stormy night...
                 <label for="dark-theme-selector">Dark mode:</label>
                 <select id="dark-theme-picker"></select>
               </div>
-              <p>
-                Which one would you like to default to if it can't be determined
-                automatically?
-              </p>
+-->
 
-              <p></p>
+              <p>
+                Browsers can often determine if someone visiting your site
+                prefers light or dark mode. That's not always possible. Which
+                mode would you like to present if a preference can't be
+                determined?
+              </p>
               <div class="default-theme-selection-wrapper">
                 <div>
                   <input

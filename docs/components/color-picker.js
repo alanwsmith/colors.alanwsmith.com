@@ -1488,7 +1488,7 @@ class Picker extends HTMLElement {
     });
   }
 
-  getModeScrubbedNames() {
+  getScrubbedModeNames() {
     return p.modes.map((mode) => {
       return scrubStyle(mode.name);
     });
@@ -1513,7 +1513,7 @@ class Picker extends HTMLElement {
   }
 
   getSpecificModeScrubbedName(modeIndex) {
-    return this.getModeScrubbedNames()[modeIndex];
+    return this.getScrubbedModeNames()[modeIndex];
   }
 
   initBackgroundCheckboxes() {
@@ -1547,6 +1547,7 @@ class Picker extends HTMLElement {
         label.innerHTML = `${aspect}:`;
         sa("for", connector, label);
         ac("picker-text", label);
+        const sliderWrapper = dc("div");
         const slider = getEl("input", wrapper);
         sa("name", connector, slider);
         sa("min", "0", slider);
@@ -1637,13 +1638,15 @@ class Picker extends HTMLElement {
                   button,
                 );
                 ac(`color-box-set-button`, button);
-                a(button, row);
+                // a(button, row);
+                a(button, tabGrid);
               },
             );
-            a(row, tabGrid);
+            //    a(row, tabGrid);
           },
         );
         a(tabGrid, panel);
+
         const chromaWrapper = dc("div");
         ac("colors-box-chroma-slider-wrapper", chromaWrapper);
         const connector = `colors-box-chroma-slider-${tabKey}`;
@@ -1706,17 +1709,32 @@ class Picker extends HTMLElement {
     const sidebars = els(".sidebar-controls");
     sidebars.forEach((sidebar) => {
       const tab = gds("tab", sidebar);
-      const wrapper = getEl(".mode-buttons", sidebar);
-      ad("tab", tab, wrapper);
-      html("", wrapper);
-      p.modes.forEach((modeData, modeIndex) => {
-        const button = dc("button");
-        html(modeData.name, button);
-        ac(`mode-${modeIndex}-selector-button`, button);
-        ad("tab", tab, button);
-        ad("mode", modeIndex, button);
-        ad("kind", "mode-button", button);
-        a(button, wrapper);
+      const modeWrapper = getEl(".mode-buttons", sidebar);
+      ad("tab", tab, modeWrapper);
+      html("", modeWrapper);
+      this.getModeNames().forEach((modeName, modeIndex) => {
+        const modeDiv = dc("div");
+        ac(`mode-button-wrapper`, modeDiv);
+        const scrubbedName = scrubStyle(modeName);
+        const inputWrapper = dc("div");
+        const input = dc("input");
+        sa("type", "radio", input);
+        if (modeIndex === p.activeMode) {
+          input.checked = true;
+        }
+        ac(`mode-${modeIndex}-selector-button`, input);
+        ad("tab", tab, input);
+        ad("mode", modeIndex, input);
+        ad("kind", "mode-button", input);
+        sa("name", "mode-selector-button", input);
+        input.id = `mode-${scrubbedName}-selector-button`;
+        a(input, inputWrapper);
+        a(inputWrapper, modeDiv);
+        a(modeDiv, modeWrapper);
+        const label = dc("label");
+        label.innerHTML = modeName;
+        sa("for", `mode-${scrubbedName}-selector-button`, label);
+        a(label, modeDiv);
       });
     });
   }
@@ -1862,7 +1880,7 @@ class Picker extends HTMLElement {
 
   queryBlackAndWhiteNormalThemeVars() {
     const lines = [];
-    this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+    this.getScrubbedModeNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNames().forEach((bwName, bwIndex) => {
         const lightnessValue = this.getBlackAndWhiteModeValue(
           modeIndex,
@@ -1907,7 +1925,7 @@ class Picker extends HTMLElement {
 
   queryBlackAndWhiteReversedThemeVars() {
     const lines = [];
-    this.getModeScrubbedNames().forEach((modeName, modeIndex) => {
+    this.getScrubbedModeNames().forEach((modeName, modeIndex) => {
       this.getBlackAndWhiteNamesReversed().forEach((bwName, bwIndex) => {
         const lightnessValue = this.getBlackAndWhiteModeReversedValue(
           modeIndex,

@@ -45,7 +45,9 @@
       button,
       textarea,
       select {
+        /*
         font: inherit;
+        */
       }
     </style>
     <style data-name="Interface Styles">
@@ -65,7 +67,7 @@
       }
       .background-box-slider-wrapper {
         display: grid;
-        grid-template-columns: 1.6ch 1fr;
+        grid-template-columns: 2ch 1fr;
       }
       .background-box-wrapper {
         border: 1px solid var(--ui__picker);
@@ -76,10 +78,6 @@
       .background-box-isolate-wrapper {
         border-top: 1px solid var(--ui__picker);
         padding-top: var(--default-padding);
-      }
-      .colors-box-name {
-        padding-block: var(--xsmall-padding);
-        padding-inline: var(--default-padding);
       }
       .color-box-set-button {
         background-color: inherit;
@@ -92,9 +90,10 @@
       }
       .color-grid-wrapper {
         display: grid;
-        justify-content: center;
-        margin-block: var(--default-margin);
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        margin-block: var(--large-margin);
         padding-bottom: var(--large-padding);
+        padding-inline: var(--small-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .color-selector-button {
@@ -106,6 +105,17 @@
         outline: inherit;
         padding: 0;
         width: 2.3ch;
+        line-height: 1.3;
+      }
+      .colors-box-name {
+        padding-block: var(--xsmall-padding);
+        padding-inline: var(--default-padding);
+      }
+      .colors-box-tab-list {
+        padding: 0;
+      }
+      .reversed-bottom-border {
+        border-bottom: 1px solid var(--reversed);
       }
       .color-selector-tab-name {
         border-bottom: 1px solid var(--ui__picker);
@@ -143,21 +153,34 @@
       hgroup {
         padding-bottom: var(--large-padding);
       }
+      input[type="range"] {
+        width: 100%;
+      }
       .invisible {
         visibility: hidden;
       }
       .mode-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
+        gap: 1rem;
         padding: var(--default-padding);
-        justify-content: space-between;
+        justify-content: space-evenly;
       }
       .mode-buttons-name {
         border-bottom: 1px solid var(--ui__picker);
         color: var(--ui__picker);
         padding-block: var(--xsmall-padding);
         padding-inline: var(--default-padding);
+      }
+      .mode-button-wrapper {
+        display: grid;
+        grid-template-columns: 2.2ch 1fr;
+        /*
+          border: 1px solid var(--ui__picker);
+          border-radius: var(--default-radius);
+          font-size: var(--small-font-size);
+          margin-top: var(--default-margin);
+        */
       }
       .mode-buttons-wrapper {
         border: 1px solid var(--ui__picker);
@@ -402,7 +425,9 @@
         border: var(--accent-border-style);
       }
       input {
+        /*
         margin-inline: var(--small-margin);
+        */
       }
       ins {
         background-color: var(--accent-faded);
@@ -559,15 +584,21 @@
         <div class="background-box-sliders">
           <div class="background-box-slider-wrapper" data-aspect="l">
             <label></label>
-            <input type="range" data-kind="background-box-slider" />
+            <div>
+              <input type="range" data-kind="background-box-slider" />
+            </div>
           </div>
           <div class="background-box-slider-wrapper" data-aspect="c">
             <label></label>
-            <input type="range" data-kind="background-box-slider" />
+            <div>
+              <input type="range" data-kind="background-box-slider" />
+            </div>
           </div>
           <div class="background-box-slider-wrapper" data-aspect="h">
             <label></label>
-            <input type="range" data-kind="background-box-slider" />
+            <div>
+              <input type="range" data-kind="background-box-slider" />
+            </div>
           </div>
         </div>
         <div class="background-box-isolate-wrapper">
@@ -592,6 +623,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Picker
             </button>
@@ -606,7 +638,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Export
             </button>
@@ -895,7 +926,7 @@ It was a dark and stormy night...
               <div class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
                   <h1>Alan's Color Picker</h1>
-                  <p class="align-end">
+                  <p class="align-end small-font-size">
                     made by
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>

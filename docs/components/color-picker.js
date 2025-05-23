@@ -1251,6 +1251,7 @@ class Picker extends HTMLElement {
     this.addListeners();
     this.updateExportPage();
     this.updateDebuggingTab();
+    this.updateThemeExportPickers();
   }
 
   finishUpdate() {
@@ -1263,6 +1264,8 @@ class Picker extends HTMLElement {
     this.updateExportPage();
     this.updateDebuggingTab();
     this.toggleIsolation();
+    this.updateThemeExportPickers();
+    this.outputCustomStyles();
   }
 
   generateColorBackgroundStyles() {
@@ -1403,7 +1406,6 @@ class Picker extends HTMLElement {
     lines.sort();
     return [`/* Black And White Text Classes */`, ...lines];
   }
-
 
   generateBorderRadiiStyles() {
     const lines = [];
@@ -2079,6 +2081,10 @@ class Picker extends HTMLElement {
       schemaVersion: [1, 0, 0],
     };
     dbg("Loaded default colors");
+  }
+
+  outputCustomStyles() {
+    const out = [];
   }
 
   queryBlackAndWhiteReversedActiveVars() {
@@ -2820,6 +2826,29 @@ class Picker extends HTMLElement {
     el("debugging-content").innerHTML = JSON.stringify(p, null, 2);
   }
 
+  updateThemeExportPickers() {
+    const lightPicker = elV2("#light-theme-picker");
+    this.getModeNames().forEach((name, index) => {
+      const opt = dc("option");
+      opt.innerHTML = name;
+      opt.value = index;
+      if (index === 0) {
+        opt.selected = true;
+      }
+      a(opt, lightPicker);
+    });
+    const darkPicker = elV2("#dark-theme-picker");
+    this.getModeNames().forEach((name, index) => {
+      const opt = dc("option");
+      opt.innerHTML = name;
+      opt.value = index;
+      if (index === 2) {
+        opt.selected = true;
+      }
+      a(opt, darkPicker);
+    });
+  }
+
   updateExportPage() {
     // Variables
     el("color-theme-vars").innerHTML = this.queryColorThemeVars().join("\n");
@@ -2850,20 +2879,33 @@ class Picker extends HTMLElement {
 
     // Classes aka Styles
     el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
-    el("color-text-styles").innerHTML = this.generateColorTextStyles().join("\n");
-    el("color-background-styles").innerHTML = this.generateColorBackgroundStyles().join("\n");
-    el("color-border-styles").innerHTML = this.generateColorBorderStyles().join("\n");
-    el("bw-normal-text-styles").innerHTML = this.generateBlackAndWhiteNormalTextStyles().join("\n");
-    el("bw-normal-background-styles").innerHTML = this.generateBlackAndWhiteNormalBackgroundStyles().join(
+    el("color-text-styles").innerHTML = this.generateColorTextStyles().join(
       "\n",
     );
-    el("bw-normal-border-styles").innerHTML = this.generateBlackAndWhiteNormalBorderStyles().join("\n");
-    el("bw-reversed-text-styles").innerHTML = this.generateBlackAndWhiteReversedTextStyles().join("\n");
-    el("bw-reversed-background-styles").innerHTML = this.generateBlackAndWhiteReversedBackgroundStyles().join(
+    el("color-background-styles").innerHTML = this
+      .generateColorBackgroundStyles().join("\n");
+    el("color-border-styles").innerHTML = this.generateColorBorderStyles().join(
       "\n",
     );
-    el("bw-reversed-border-styles").innerHTML = this.generateBlackAndWhiteReversedBorderStyles().join("\n");
-    el("border-radii-styles").innerHTML = this.queryBorderRadiiVars().join("\n");
+    el("bw-normal-text-styles").innerHTML = this
+      .generateBlackAndWhiteNormalTextStyles().join("\n");
+    el("bw-normal-background-styles").innerHTML = this
+      .generateBlackAndWhiteNormalBackgroundStyles().join(
+        "\n",
+      );
+    el("bw-normal-border-styles").innerHTML = this
+      .generateBlackAndWhiteNormalBorderStyles().join("\n");
+    el("bw-reversed-text-styles").innerHTML = this
+      .generateBlackAndWhiteReversedTextStyles().join("\n");
+    el("bw-reversed-background-styles").innerHTML = this
+      .generateBlackAndWhiteReversedBackgroundStyles().join(
+        "\n",
+      );
+    el("bw-reversed-border-styles").innerHTML = this
+      .generateBlackAndWhiteReversedBorderStyles().join("\n");
+    el("border-radii-styles").innerHTML = this.queryBorderRadiiVars().join(
+      "\n",
+    );
 
     el("flow-styles").innerHTML = this.generateFlowStyles().join("\n");
     el("font-size-styles").innerHTML = this.generateFontSizeStyles().join("\n");
@@ -2872,7 +2914,8 @@ class Picker extends HTMLElement {
 
     el("padding-styles").innerHTML = this.generatePaddingStyles().join("\n");
 
-    el("text-alignment-styles").innerHTML = this.generateTextAlignmentStyles().join("\n");
+    el("text-alignment-styles").innerHTML = this.generateTextAlignmentStyles()
+      .join("\n");
 
     el("width-styles").innerHTML = this.generateWidthStyles().join("\n");
 

@@ -1868,18 +1868,6 @@ class Picker extends HTMLElement {
     }
 
     /*
-     * TODO: Deprecate in favor of versions with mode ids
-    out.push(
-      this
-        .queryBlackAndWhiteModeVars().join("\n"),
-    );
-    out.push(
-      this
-        .queryReversedModeVars().join("\n"),
-    );
-    /*
-
-    /*
     out.push(el("reset-styles-input").innerHTML);
 
     out.push(

@@ -1061,7 +1061,7 @@ class Picker extends HTMLElement {
 
   generateReversedBackgroundClasses() {
     const lines = [];
-    this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+    this.getReversedNames().forEach((bwName) => {
       lines.push(
         makeClass(
           `.${bwName}-background`,
@@ -1085,7 +1085,7 @@ class Picker extends HTMLElement {
 
   generateReversedBorderClasses() {
     const lines = [];
-    this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+    this.getReversedNames().forEach((bwName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
         let name = `.${bwName}${directionName}-border`;
         const key = `border${directionName}`;
@@ -1104,7 +1104,7 @@ class Picker extends HTMLElement {
 
   generateReversedTextClasses() {
     const lines = [];
-    this.getBlackAndWhiteNames().forEach((bwName) => {
+    this.getReversedNames().forEach((bwName) => {
       lines.push(makeClass(`.${bwName}`, `color`, `var(--${bwName})`));
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
@@ -1169,9 +1169,9 @@ class Picker extends HTMLElement {
   generateFontSizeClasses() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
-      const name = `.${sizeName}-font-size`;
+      const name = `.${sizeName}-font`;
       const key = `font-size`;
-      const value = `var(--${sizeName}-font-size)`;
+      const value = `var(--${sizeName}-font)`;
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
@@ -1377,11 +1377,11 @@ class Picker extends HTMLElement {
     return p.modes[mode].blackAndWhiteValues[index];
   }
 
-  getBlackAndWhiteModeReversedFadedValue(mode, index) {
+  getReversedVadedValue(mode, index) {
     return p.modes[mode].blackAndWhiteReversedFaded[index];
   }
 
-  getBlackAndWhiteModeReversedValue(mode, index) {
+  getReversedValue(mode, index) {
     return p.modes[mode].blackAndWhiteReversedValues[index];
   }
 
@@ -1389,7 +1389,7 @@ class Picker extends HTMLElement {
     return p.blackAndWhiteNames;
   }
 
-  getBlackAndWhiteNamesReversed() {
+  getReversedNames() {
     return p.blackAndWhiteNamesReversed;
   }
 
@@ -1991,6 +1991,7 @@ class Picker extends HTMLElement {
         "\n",
       ),
     );
+    out.push("\n");
     // Color Background Classes
     out.push(
       this
@@ -2061,7 +2062,7 @@ class Picker extends HTMLElement {
     const lines = [];
     const modeName = this.getModeNames()[modeIndex];
     const scrubbedModeName = scrubStyle(modeName);
-    this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+    this.getReversedNames().forEach((bwName) => {
       lines.push(
         makeVar(`  --${bwName}`, `var(--${scrubbedModeName}-mode__${bwName})`),
       );
@@ -2146,7 +2147,7 @@ class Picker extends HTMLElement {
 
   queryReversedBorderVars() {
     const lines = [];
-    this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
+    this.getReversedNames().forEach((bwName) => {
       this.getFadedValues().forEach((fadedName) => {
         const name = `  --${bwName}-border${fadedName}`;
         const value = `1px solid var(--${bwName}${fadedName})`;
@@ -2160,8 +2161,8 @@ class Picker extends HTMLElement {
   queryReversedBaseVars() {
     const lines = [];
     this.getScrubbedModeNames().forEach((modeName, modeIndex) => {
-      this.getBlackAndWhiteNamesReversed().forEach((bwName, bwIndex) => {
-        const lightnessValue = this.getBlackAndWhiteModeReversedValue(
+      this.getReversedNames().forEach((bwName, bwIndex) => {
+        const lightnessValue = this.getReversedValue(
           modeIndex,
           bwIndex,
         );
@@ -2172,7 +2173,7 @@ class Picker extends HTMLElement {
           ),
         );
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-          const fadedValue = this.getBlackAndWhiteModeReversedFadedValue(
+          const fadedValue = this.getReversedVadedValue(
             modeIndex,
             fadedIndex,
           );
@@ -2310,7 +2311,7 @@ class Picker extends HTMLElement {
   queryFontSizeVars() {
     const lines = [];
     this.getSizes().forEach((sizeName, sizeIndex) => {
-      const name = `  --${sizeName}-font-size`;
+      const name = `  --${sizeName}-font`;
       const value = `${p.fontSizes[sizeIndex]}`;
       lines.push(makeVar(name, value));
     });

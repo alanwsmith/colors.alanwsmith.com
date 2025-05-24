@@ -1178,7 +1178,7 @@ class Picker extends HTMLElement {
     return [`/* Font Size Classes */`, ...lines];
   }
 
-  generateLineHeightsClasses() {
+  generateLineHeightClasses() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
       const name = `.${sizeName}-line-height`;
@@ -1958,68 +1958,82 @@ class Picker extends HTMLElement {
 
     out.push(shiftReset(el("reset-styles-input").innerHTML));
 
-    /*
-
-
-
     out.push(
       this.generateColorTextClasses().join(
         "\n",
       ),
     );
+    out.push("\n");
     out.push(
       this
         .generateColorBackgroundClasses().join("\n"),
     );
+    out.push("\n");
     out.push(
       this.generateColorBorderClasses().join(
         "\n",
       ),
     );
+    out.push("\n");
     out.push(
       this
         .generateBlackAndWhiteNormalTextClasses().join("\n"),
     );
+    out.push("\n");
     out.push(
       this
         .generateBlackAndWhiteNormalBackgroundClasses().join(
           "\n",
         ),
     );
+    out.push("\n");
     out.push(
       this
         .generateBlackAndWhiteNormalBorderClasses().join("\n"),
     );
+    out.push("\n");
     out.push(
       this
         .generateBlackAndWhiteReversedTextClasses().join("\n"),
     );
+    out.push("\n");
     out.push(
       this
         .generateBlackAndWhiteReversedBackgroundClasses().join(
           "\n",
         ),
     );
+    out.push("\n");
     out.push(
       this
         .generateBlackAndWhiteReversedBorderClasses().join("\n"),
     );
+    out.push("\n");
     out.push(
-      this.queryBorderRadiiVars().join(
+      this.generateBorderRadiiClasses().join(
         "\n",
       ),
     );
+    out.push("\n");
     out.push(this.generateFlowClasses().join("\n"));
+    out.push("\n");
     out.push(this.generateFontSizeClasses().join("\n"));
+    out.push("\n");
+    out.push(this.generateLineHeightClasses().join("\n"));
+    out.push("\n");
     out.push(this.generateMarginClasses().join("\n"));
+    out.push("\n");
     out.push(this.generatePaddingClasses().join("\n"));
+    out.push("\n");
     out.push(
       this.generateTextAlignmentClasses()
         .join("\n"),
     );
+    out.push("\n");
     out.push(this.generateWidthClasses().join("\n"));
+    out.push("\n");
     out.push(this.generateWrapperClasses().join("\n"));
-    */
+    out.push("\n");
 
     html(out.join("\n"), ".utility-styles");
   }

@@ -2229,6 +2229,12 @@ class Picker extends HTMLElement {
     const lines = [];
     const modeBaseName = this.getSpecificModeName(modeIndex);
     const modeScrubbedName = scrubStyle(modeBaseName);
+    lines.push(
+      makeVar(
+        `  --background`,
+        `var(--${modeScrubbedName}-mode__background)`,
+      ),
+    );
     this.getActiveScrubbedColorNames().forEach((colorName) => {
       lines.push(
         makeVar(

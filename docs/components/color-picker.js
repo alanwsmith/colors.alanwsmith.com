@@ -1836,59 +1836,70 @@ class Picker extends HTMLElement {
   outputUtilityStyles() {
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     const out = [];
+    // B&W Variables
     out.push(":root {");
-
     out.push(
       this
         .queryBlackAndWhiteBaseVars().join("\n"),
     );
     out.push("\n");
+    if (defaultThemeKind === "light") {
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+    } else {
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+    }
+    out.push("}\n");
+    // Reversed Variables
+    out.push(":root {");
     out.push(
       this
         .queryReversedBaseVars().join("\n"),
     );
     out.push("\n");
-
     if (defaultThemeKind === "light") {
-      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-      out.push("\n");
       out.push(this.queryReversedModeVars(0).join("\n"));
-      out.push("}");
-      out.push("\n");
+      out.push("}\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
-      out.push("\n");
       out.push(this.queryReversedModeVars(1).join("\n"));
     } else {
-      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
-      out.push("\n");
       out.push(this.queryReversedModeVars(1).join("\n"));
-      out.push("}");
-      out.push("\n");
+      out.push("}\n");
       out.push(`@media (prefers-color-scheme: light) {`);
-      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-      out.push("\n");
       out.push(this.queryReversedModeVars(0).join("\n"));
     }
+    out.push("}\n");
 
-    /*
-    out.push(el("reset-styles-input").innerHTML);
-
-    out.push(
-      this
-        .queryBlackAndWhiteNormalBorderStyleVars().join("\n"),
-    );
-
-    out.push(
-      this
-        .queryBlackAndWhiteReversedBorderStyleVars().join("\n"),
-    );
-
+    // Utility Styles
+    out.push(":root {");
     out.push(
       this.queryColorBorderStyleVars()
         .join("\n"),
     );
+    out.push("\n");
+    out.push(
+      this
+        .queryBlackAndWhiteBorderVars().join("\n"),
+    );
+    out.push("\n");
+    out.push(
+      this
+        .queryReversedBorderVars().join("\n"),
+    );
+    out.push("}");
 
+    out.push("\n");
+
+    /*
+
+
+
+    out.push(el("reset-styles-input").innerHTML);
     out.push(this.queryBorderRadiiVars().join("\n"));
     out.push(this.queryFontSizeVars().join("\n"));
     out.push(this.queryMarginVars().join("\n"));
@@ -1959,8 +1970,6 @@ class Picker extends HTMLElement {
     out.push(this.generateWrapperStyles().join("\n"));
     */
 
-    out.push("}");
-
     html(out.join("\n"), ".utility-styles");
   }
 
@@ -1982,7 +1991,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${modeName} Reversed */`, ...lines];
+    return [`  /* ${modeName} Mode Reversed Variables */`, ...lines];
   }
 
   queryBlackAndWhiteModeVars(modeIndex) {
@@ -2003,10 +2012,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${baseModeName} B&W */`, ...lines];
+    return [`  /* ${baseModeName} Mode B&W Variables */`, ...lines];
   }
 
-  queryBlackAndWhiteNormalBorderStyleVars() {
+  queryBlackAndWhiteBorderVars() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       this.getFadedValues().forEach((fadedName) => {
@@ -2016,7 +2025,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Black and White Border Style Variables */`, ...lines];
+    return [`  /* B&W Border Variables */`, ...lines];
   }
 
   queryBlackAndWhiteBaseVars() {
@@ -2048,10 +2057,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base B&W */`, ...lines];
+    return [`  /* Base B&W Variables */`, ...lines];
   }
 
-  queryBlackAndWhiteReversedBorderStyleVars() {
+  queryReversedBorderVars() {
     const lines = [];
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
       this.getFadedValues().forEach((fadedName) => {
@@ -2061,7 +2070,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Black and White Border Style Variables */`, ...lines];
+    return [`  /* Reversed Border Variables */`, ...lines];
   }
 
   queryReversedBaseVars() {
@@ -2093,7 +2102,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base Reversed */`, ...lines];
+    return [`  /* Base Reversed Variables */`, ...lines];
   }
 
   queryBorderRadiiVars() {
@@ -2130,9 +2139,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${modeBaseName} Mode Colors */`, ...lines];
+    return [`  /* ${modeBaseName} Mode Color Variables */`, ...lines];
   }
 
+  // TODO: Deprecate in favor of mode indexed version
   queryColorActiveVars() {
     const lines = [];
     this.getActiveScrubbedColorNames().forEach((colorName) => {
@@ -2166,7 +2176,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Border Styles */`, ...lines];
+    return [`  /* Color Border Styles */`, ...lines];
   }
 
   queryColorThemeVars() {
@@ -2199,7 +2209,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base Colors */`, ...lines];
+    return [`  /* Base Color Variables */`, ...lines];
   }
 
   queryFlowVars() {
@@ -2766,13 +2776,13 @@ class Picker extends HTMLElement {
     el("bw-normal-active-vars").innerHTML = this
       .queryBlackAndWhiteModeVars(0).join("\n");
     el("bw-normal-border-style-vars").innerHTML = this
-      .queryBlackAndWhiteNormalBorderStyleVars().join("\n");
+      .queryBlackAndWhiteBorderVars().join("\n");
     el("bw-reversed-mode-vars").innerHTML = this
       .queryReversedBaseVars().join("\n");
     el("bw-reversed-active-vars").innerHTML = this
       .queryReversedModeVars(0).join("\n");
     el("bw-reversed-border-style-vars").innerHTML = this
-      .queryBlackAndWhiteReversedBorderStyleVars().join("\n");
+      .queryReversedBorderVars().join("\n");
     el("border-radii-vars").innerHTML = this.queryBorderRadiiVars().join("\n");
     el("font-size-vars").innerHTML = this.queryFontSizeVars().join("\n");
     el("margin-vars").innerHTML = this.queryMarginVars().join("\n");
@@ -3029,7 +3039,7 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
     lines.push("");
-    lines.push(this.queryBlackAndWhiteNormalBorderStyleVars().join("\n"));
+    lines.push(this.queryBlackAndWhiteBorderVars().join("\n"));
     lines.push("");
     lines.push(this.queryReversedBaseVars().join("\n"));
     lines.push("");

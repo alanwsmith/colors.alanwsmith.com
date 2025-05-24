@@ -1980,8 +1980,8 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryWidthVars().join("\n"));
     out.push("}\n");
-    // Reset Style
-    out.push(shiftReset(el("reset-styles-input").innerHTML));
+    // Reset Styles
+    out.push(shiftReset(el("reset-styles").innerHTML));
     // Alignment Classes
     out.push(
       this.generateTextAlignmentClasses()
@@ -2077,7 +2077,8 @@ class Picker extends HTMLElement {
     // Wrapper Classes
     out.push(this.generateWrapperClasses().join("\n"));
     out.push("\n");
-
+    // Skeleton Styles
+    out.push(shiftReset(el("skeleton-styles").innerHTML));
     html(out.join("\n"), ".utility-styles");
   }
 
@@ -2911,8 +2912,8 @@ class Picker extends HTMLElement {
     el("text-alignment-vars").innerHTML = this.queryTextAlignmentVars().join(
       "\n",
     );
-    // Classes aka Styles
-    el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
+    // Classes
+    el("reset-styles").innerHTML = el("reset-styles").innerHTML;
     el("color-text-styles").innerHTML = this.generateColorTextClasses().join(
       "\n",
     );

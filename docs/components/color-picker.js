@@ -1860,11 +1860,15 @@ class Picker extends HTMLElement {
       out.push("\n");
       out.push(this.queryReversedModeVars(1).join("\n"));
     } else {
-      //out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("\n");
+      out.push(this.queryReversedModeVars(1).join("\n"));
       out.push("}");
       out.push("\n");
       out.push(`@media (prefers-color-scheme: light) {`);
-      // out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("\n");
+      out.push(this.queryReversedModeVars(0).join("\n"));
     }
 
     /*

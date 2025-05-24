@@ -1271,11 +1271,11 @@ class Picker extends HTMLElement {
     this.getWeights().forEach((weight) => {
       const name = `.weight-${weight}`;
       const key = `font-weight`;
-      const value = `var(--weight-${weight}`;
+      const value = `var(--weight-${weight})`;
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Widths */`, ...lines];
+    return [`/* Weights */`, ...lines];
   }
 
   generateWidthClasses() {
@@ -1865,24 +1865,30 @@ class Picker extends HTMLElement {
 
   outputColorClasses() {
     const out = [];
-    out.push(":root {");
-    out.push(this.queryColorThemeVars().join("\n"));
-    out.push("\n");
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     if (defaultThemeKind === "light") {
+      out.push(":root {");
+      out.push("  color-scheme: light dark;");
+      out.push(this.queryColorModeVars().join("\n"));
       out.push(this.queryColorPreferredVars(0).join("\n"));
-      out.push("}");
-      out.push("\n");
+      out.push("}\n\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push(this.queryColorPreferredVars(1).join("\n"));
-    } else {
+      out.push(":root {");
       out.push(this.queryColorPreferredVars(1).join("\n"));
       out.push("}");
-      out.push("\n");
+      out.push("}");
+    } else {
+      out.push(":root {");
+      out.push("  color-scheme: light dark;");
+      out.push(this.queryColorModeVars().join("\n"));
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}\n\n");
       out.push(`@media (prefers-color-scheme: light) {`);
+      out.push(":root {");
       out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push("}");
+      out.push("}");
     }
-    out.push("}");
     el("basic-css-output").innerHTML = out.join("\n");
   }
 
@@ -1950,6 +1956,41 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryBorderRadiiVars().join("\n"));
     out.push("}\n");
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    // Color payload: TODO: Move this to a function and
+    // use it here and for the basic output
+    out.push("\n");
+    const defaultThemeKindForColors =
+      elV2(`input[name="default-mode"]:checked`).value;
+    if (defaultThemeKindForColors === "light") {
+      out.push(":root {");
+      out.push("  color-scheme: light dark;");
+      out.push(this.queryColorModeVars().join("\n"));
+      out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push("}\n\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(":root {");
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}");
+      out.push("}");
+    } else {
+      out.push(":root {");
+      out.push("  color-scheme: light dark;");
+      out.push(this.queryColorModeVars().join("\n"));
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}\n\n");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push(":root {");
+      out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push("}");
+      out.push("}");
+    }
+    out.push("\n");
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
     // Color Border Variables
     out.push(":root {");
     out.push(
@@ -1977,7 +2018,7 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryPaddingVars().join("\n"));
     out.push("}\n");
-    // reverse Base and Mode Variables
+    // Reverse Base and Mode Variables
     out.push(":root {");
     out.push(
       this
@@ -2328,7 +2369,7 @@ class Picker extends HTMLElement {
     return [`  /* Color Border Variables */`, ...lines];
   }
 
-  queryColorThemeVars() {
+  queryColorModeVars() {
     const lines = [];
     p.modes.forEach((modeData, modeIndex) => {
       const modeName = scrubStyle(modeData.name);
@@ -2709,9 +2750,9 @@ class Picker extends HTMLElement {
         "generateFlowStyles",
       ],
       [
-        this.queryColorThemeVars()[1].trim(),
+        this.queryColorModeVars()[1].trim(),
         "--dark-mode__accent: oklch(68.00000% 0.06066 303.33600);",
-        "queryColorThemeVars",
+        "queryColorModeVars",
       ],
       [
         this.queryBlackAndWhiteModeVars(0)[1].trim(),
@@ -2938,7 +2979,7 @@ class Picker extends HTMLElement {
 
   updateExportPage() {
     // Variables
-    el("color-mode-vars").innerHTML = this.queryColorThemeVars().join("\n");
+    el("color-mode-vars").innerHTML = this.queryColorModeVars().join("\n");
     el("color-active-vars").innerHTML = this.queryColorActiveVars().join("\n");
     el("color-border-style-vars").innerHTML = this.queryColorBorderStyleVars()
       .join("\n");
@@ -3203,7 +3244,7 @@ class Picker extends HTMLElement {
     }
     const lines = [];
     lines.push(`:root {`);
-    lines.push(this.queryColorThemeVars().join("\n"));
+    lines.push(this.queryColorModeVars().join("\n"));
     lines.push("");
     lines.push(this.queryColorActiveVars().join("\n"));
     lines.push("");

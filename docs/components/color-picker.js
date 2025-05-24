@@ -1853,10 +1853,14 @@ class Picker extends HTMLElement {
 
     if (defaultThemeKind === "light") {
       out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("\n");
+      out.push(this.queryReversedModeVars(0).join("\n"));
       out.push("}");
       out.push("\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
       out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("\n");
+      out.push(this.queryReversedModeVars(1).join("\n"));
     } else {
       //out.push(this.queryColorPreferredVars(1).join("\n"));
       out.push("}");
@@ -1970,32 +1974,32 @@ class Picker extends HTMLElement {
     html(out.join("\n"), ".utility-styles");
   }
 
-  queryReversedModeVars() {
+  queryReversedModeVars(modeIndex) {
     const lines = [];
-    const modeName = this.getScrubbedActiveModeName();
+    const modeName = this.getModeNames()[modeIndex];
+    const scrubbedModeName = scrubStyle(modeName);
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
       lines.push(
-        makeVar(`  --${bwName}`, `var(--${modeName}-mode__${bwName})`),
+        makeVar(`  --${bwName}`, `var(--${scrubbedModeName}-mode__${bwName})`),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${bwName}-${fadedName}`,
-            `var(--${modeName}-mode__${bwName}-${fadedName})`,
+            `var(--${scrubbedModeName}-mode__${bwName}-${fadedName})`,
           ),
         );
       });
     });
     lines.sort(sortVars);
-    return [`  /* MODE Reversed */`, ...lines];
+    return [`  /* ${modeName} Reversed */`, ...lines];
   }
 
   queryBlackAndWhiteModeVars(modeIndex) {
     const lines = [];
     const baseModeName = this.getModeNames()[modeIndex];
     fx(baseModeName);
-    //const scrubbedModeName = scrubStyle(baseModeName);
-    const scrubbedModeName = "asdf";
+    const scrubbedModeName = scrubStyle(baseModeName);
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
         makeVar(`  --${bwName}`, `var(--${scrubbedModeName}-mode__${bwName})`),
@@ -2545,7 +2549,7 @@ class Picker extends HTMLElement {
         "queryBlackAndWhiteModeVars",
       ],
       [
-        this.queryReversedModeVars()[1].trim(),
+        this.queryReversedModeVars(0)[1].trim(),
         "--matched: var(--light-mode__matched);",
         "queryBlackAndWhiteModeVars",
       ],
@@ -2777,7 +2781,7 @@ class Picker extends HTMLElement {
     el("bw-reversed-mode-vars").innerHTML = this
       .queryBlackAndWhiteReversedThemeVars().join("\n");
     el("bw-reversed-active-vars").innerHTML = this
-      .queryReversedModeVars().join("\n");
+      .queryReversedModeVars(0).join("\n");
     el("bw-reversed-border-style-vars").innerHTML = this
       .queryBlackAndWhiteReversedBorderStyleVars().join("\n");
     el("border-radii-vars").innerHTML = this.queryBorderRadiiVars().join("\n");
@@ -3040,7 +3044,7 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.queryBlackAndWhiteReversedThemeVars().join("\n"));
     lines.push("");
-    lines.push(this.queryReversedModeVars().join("\n"));
+    lines.push(this.queryReversedModeVars(0).join("\n"));
     lines.push("");
     lines.push(this.queryBorderRadiiVars().join("\n"));
     lines.push("");

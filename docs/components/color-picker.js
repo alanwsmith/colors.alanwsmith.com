@@ -1834,9 +1834,11 @@ class Picker extends HTMLElement {
   }
 
   outputUtilityStyles() {
+    const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     const out = [];
     out.push(":root {");
 
+    /*
     out.push(
       this
         .queryBlackAndWhiteNormalThemeVars().join("\n"),
@@ -1847,26 +1849,46 @@ class Picker extends HTMLElement {
         .queryBlackAndWhiteReversedThemeVars().join("\n"),
     );
     out.push("\n");
+    */
 
+    if (defaultThemeKind === "light") {
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("}");
+      out.push("\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+    } else {
+      //out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}");
+      out.push("\n");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      // out.push(this.queryColorPreferredVars(0).join("\n"));
+    }
+
+    /*
+     * TODO: Deprecate in favor of versions with mode ids
     out.push(
       this
-        .queryBlackAndWhiteNormalActiveVars().join("\n"),
+        .queryBlackAndWhiteModeVars().join("\n"),
     );
+    out.push(
+      this
+        .queryReversedModeVars().join("\n"),
+    );
+    /*
+
+    /*
+    out.push(el("reset-styles-input").innerHTML);
+
     out.push(
       this
         .queryBlackAndWhiteNormalBorderStyleVars().join("\n"),
     );
-    out.push(
-      this
-        .queryBlackAndWhiteReversedActiveVars().join("\n"),
-    );
+
     out.push(
       this
         .queryBlackAndWhiteReversedBorderStyleVars().join("\n"),
     );
-
-    /*
-    out.push(el("reset-styles-input").innerHTML);
 
     out.push(
       this.queryColorBorderStyleVars()
@@ -1948,7 +1970,7 @@ class Picker extends HTMLElement {
     html(out.join("\n"), ".utility-styles");
   }
 
-  queryBlackAndWhiteReversedActiveVars() {
+  queryReversedModeVars() {
     const lines = [];
     const modeName = this.getScrubbedActiveModeName();
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
@@ -1965,27 +1987,30 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Active Black and White Reversed Variables */`, ...lines];
+    return [`  /* MODE Reversed */`, ...lines];
   }
 
-  queryBlackAndWhiteNormalActiveVars() {
+  queryBlackAndWhiteModeVars(modeIndex) {
     const lines = [];
-    const modeName = this.getScrubbedActiveModeName();
+    const baseModeName = this.getModeNames()[modeIndex];
+    fx(baseModeName);
+    //const scrubbedModeName = scrubStyle(baseModeName);
+    const scrubbedModeName = "asdf";
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
-        makeVar(`  --${bwName}`, `var(--${modeName}-mode__${bwName})`),
+        makeVar(`  --${bwName}`, `var(--${scrubbedModeName}-mode__${bwName})`),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${bwName}-${fadedName}`,
-            `var(--${modeName}-mode__${bwName}-${fadedName})`,
+            `var(--${scrubbedModeName}-mode__${bwName}-${fadedName})`,
           ),
         );
       });
     });
     lines.sort(sortVars);
-    return [`  /* Active Black and White Variables */`, ...lines];
+    return [`  /* ${baseModeName} B&W */`, ...lines];
   }
 
   queryBlackAndWhiteNormalBorderStyleVars() {
@@ -2030,7 +2055,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base B&W Normal Variables */`, ...lines];
+    return [`  /* Base B&W */`, ...lines];
   }
 
   queryBlackAndWhiteReversedBorderStyleVars() {
@@ -2075,7 +2100,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base B&W Reversed Variables */`, ...lines];
+    return [`  /* Base Reversed */`, ...lines];
   }
 
   queryBorderRadiiVars() {
@@ -2515,14 +2540,14 @@ class Picker extends HTMLElement {
         "queryColorThemeVars",
       ],
       [
-        this.queryBlackAndWhiteNormalActiveVars()[1].trim(),
+        this.queryBlackAndWhiteModeVars(0)[1].trim(),
         "--black: var(--light-mode__black);",
-        "queryBlackAndWhiteNormalActiveVars",
+        "queryBlackAndWhiteModeVars",
       ],
       [
-        this.queryBlackAndWhiteReversedActiveVars()[1].trim(),
+        this.queryReversedModeVars()[1].trim(),
         "--matched: var(--light-mode__matched);",
-        "queryBlackAndWhiteNormalActiveVars",
+        "queryBlackAndWhiteModeVars",
       ],
       [
         this.queryColorActiveVars()[1].trim(),
@@ -2746,13 +2771,13 @@ class Picker extends HTMLElement {
     el("bw-normal-mode-vars").innerHTML = this
       .queryBlackAndWhiteNormalThemeVars().join("\n");
     el("bw-normal-active-vars").innerHTML = this
-      .queryBlackAndWhiteNormalActiveVars().join("\n");
+      .queryBlackAndWhiteModeVars(0).join("\n");
     el("bw-normal-border-style-vars").innerHTML = this
       .queryBlackAndWhiteNormalBorderStyleVars().join("\n");
     el("bw-reversed-mode-vars").innerHTML = this
       .queryBlackAndWhiteReversedThemeVars().join("\n");
     el("bw-reversed-active-vars").innerHTML = this
-      .queryBlackAndWhiteReversedActiveVars().join("\n");
+      .queryReversedModeVars().join("\n");
     el("bw-reversed-border-style-vars").innerHTML = this
       .queryBlackAndWhiteReversedBorderStyleVars().join("\n");
     el("border-radii-vars").innerHTML = this.queryBorderRadiiVars().join("\n");
@@ -3009,13 +3034,13 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.queryBlackAndWhiteNormalThemeVars().join("\n"));
     lines.push("");
-    lines.push(this.queryBlackAndWhiteNormalActiveVars().join("\n"));
+    lines.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
     lines.push("");
     lines.push(this.queryBlackAndWhiteNormalBorderStyleVars().join("\n"));
     lines.push("");
     lines.push(this.queryBlackAndWhiteReversedThemeVars().join("\n"));
     lines.push("");
-    lines.push(this.queryBlackAndWhiteReversedActiveVars().join("\n"));
+    lines.push(this.queryReversedModeVars().join("\n"));
     lines.push("");
     lines.push(this.queryBorderRadiiVars().join("\n"));
     lines.push("");

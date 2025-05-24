@@ -1836,7 +1836,7 @@ class Picker extends HTMLElement {
   outputUtilityStyles() {
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     const out = [];
-    // B&W Variables
+    // B&W Base and Mode Variables
     out.push(":root {");
     out.push(
       this
@@ -1855,7 +1855,7 @@ class Picker extends HTMLElement {
       out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
     }
     out.push("}\n");
-    // Reversed Variables
+    // Reversed Base and Mode Variables
     out.push(":root {");
     out.push(
       this
@@ -1874,8 +1874,19 @@ class Picker extends HTMLElement {
       out.push(this.queryReversedModeVars(0).join("\n"));
     }
     out.push("}\n");
-
-    // Utility Styles
+    // Font Size Variables
+    out.push(":root {");
+    out.push(this.queryFontSizeVars().join("\n"));
+    out.push("}\n");
+    // Margin Variables
+    out.push(":root {");
+    out.push(this.queryMarginVars().join("\n"));
+    out.push("}\n");
+    // Padding Variables
+    out.push(":root {");
+    out.push(this.queryPaddingVars().join("\n"));
+    out.push("}\n");
+    // Border Variables
     out.push(":root {");
     out.push(
       this.queryColorBorderStyleVars()
@@ -1894,16 +1905,16 @@ class Picker extends HTMLElement {
         .queryReversedBorderVars().join("\n"),
     );
     out.push("}\n");
+    // Border Radii Variables
+    out.push(":root {");
+    out.push(this.queryBorderRadiiVars().join("\n"));
+    out.push("}\n");
 
     /*
 
 
 
     out.push(el("reset-styles-input").innerHTML);
-    out.push(this.queryBorderRadiiVars().join("\n"));
-    out.push(this.queryFontSizeVars().join("\n"));
-    out.push(this.queryMarginVars().join("\n"));
-    out.push(this.queryPaddingVars().join("\n"));
     out.push(this.queryWidthVars().join("\n"));
     out.push(this.queryFlowVars().join("\n"));
     out.push(

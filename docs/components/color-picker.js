@@ -256,9 +256,9 @@ const defaultPalette = {
     ["top-right", true],
   ],
   colorNames: [
-    "content",
-    "link",
+    "default",
     "heading",
+    "link",
     "accent",
     "info",
     "warning",

@@ -4,6 +4,7 @@
     <title>Alan's Color Picker</title>
     <meta charset="UTF-8" />
     <style data-name="Reset Styles" class="reset-styles-input">
+      /* Base Reset */
       *,
       ::after,
       ::before,
@@ -27,7 +28,7 @@
       li,
       ol,
       ul > :where(:not(:first-child)) {
-        margin-top: var(--flow-space, 1em);
+        margin-top: var(--flow-space, var(--default-flow));
       }
       audio,
       canvas,
@@ -39,7 +40,7 @@
       svg,
       video {
         display: block;
-        max-width: calc(100vw - 1.4rem);
+        max-width: calc(100vw - var(--default-margin));
       }
     </style>
     <style data-name="Interface Styles">

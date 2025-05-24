@@ -139,8 +139,13 @@ function gvf(obj) {
 }
 
 // Set InnerHTML
-function html(str, obj) {
-  obj.innerHTML = str;
+function html(str, parent) {
+  if (typeof parent === "string") {
+    const el = document.querySelector(parent);
+    el.innerHTML = str;
+  } else {
+    parent.innerHTML = str;
+  }
 }
 
 // Returns a CSS class
@@ -1512,6 +1517,10 @@ class Picker extends HTMLElement {
     return ["full", ...this.getSizes()];
   }
 
+  getSpecificModeName(modeIndex) {
+    return this.getModeNames()[modeIndex];
+  }
+
   getSpecificModeScrubbedName(modeIndex) {
     return this.getScrubbedModeNames()[modeIndex];
   }
@@ -1547,7 +1556,6 @@ class Picker extends HTMLElement {
         label.innerHTML = `${aspect}:`;
         sa("for", connector, label);
         ac("picker-text", label);
-        const sliderWrapper = dc("div");
         const slider = getEl("input", wrapper);
         sa("name", connector, slider);
         sa("min", "0", slider);
@@ -1655,6 +1663,8 @@ class Picker extends HTMLElement {
         sa("for", connector, label);
         html("c:", label);
         a(label, chromaWrapper);
+        const sliderWrapper = dc("div");
+        ac("slider-wrapper", sliderWrapper);
         const slider = dc("input");
         sa("type", "range", slider);
         sa("name", connector, slider);
@@ -1664,7 +1674,8 @@ class Picker extends HTMLElement {
         ad("kind", "color-chroma-slider", slider);
         ad("color", nameIndex, slider);
         slider.value = this.getColorValueC(p.activeMode, nameIndex);
-        a(slider, chromaWrapper);
+        a(slider, sliderWrapper);
+        a(sliderWrapper, chromaWrapper);
         a(chromaWrapper, panel);
         const checkboxWrapper = dc("div");
         ac("colors-box-chroma-checkbox-wrapper", checkboxWrapper);
@@ -1803,15 +1814,18 @@ class Picker extends HTMLElement {
     const out = [];
     out.push(":root {");
     out.push(this.queryColorThemeVars().join("\n"));
+    out.push("\n");
     const defaultThemeKind = elV2(`input[name="default-theme"]:checked`).value;
     if (defaultThemeKind === "light") {
       out.push(this.queryColorPreferredVars(0).join("\n"));
       out.push("}");
+      out.push("\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
       out.push(this.queryColorPreferredVars(1).join("\n"));
     } else {
       out.push(this.queryColorPreferredVars(1).join("\n"));
       out.push("}");
+      out.push("\n");
       out.push(`@media (prefers-color-scheme: light) {`);
       out.push(this.queryColorPreferredVars(0).join("\n"));
     }
@@ -1822,7 +1836,116 @@ class Picker extends HTMLElement {
   outputUtilityStyles() {
     const out = [];
     out.push(":root {");
-    const defaultThemeKind = elV2(`input[name="default-theme"]:checked`);
+
+    out.push(
+      this
+        .queryBlackAndWhiteNormalThemeVars().join("\n"),
+    );
+    out.push("\n");
+    out.push(
+      this
+        .queryBlackAndWhiteReversedThemeVars().join("\n"),
+    );
+    out.push("\n");
+
+    out.push(
+      this
+        .queryBlackAndWhiteNormalActiveVars().join("\n"),
+    );
+    out.push(
+      this
+        .queryBlackAndWhiteNormalBorderStyleVars().join("\n"),
+    );
+    out.push(
+      this
+        .queryBlackAndWhiteReversedActiveVars().join("\n"),
+    );
+    out.push(
+      this
+        .queryBlackAndWhiteReversedBorderStyleVars().join("\n"),
+    );
+
+    /*
+    out.push(el("reset-styles-input").innerHTML);
+
+    out.push(
+      this.queryColorBorderStyleVars()
+        .join("\n"),
+    );
+
+    out.push(this.queryBorderRadiiVars().join("\n"));
+    out.push(this.queryFontSizeVars().join("\n"));
+    out.push(this.queryMarginVars().join("\n"));
+    out.push(this.queryPaddingVars().join("\n"));
+    out.push(this.queryWidthVars().join("\n"));
+    out.push(this.queryFlowVars().join("\n"));
+    out.push(
+      this.queryTextAlignmentVars().join(
+        "\n",
+      ),
+    );
+    out.push(
+      this.generateColorTextStyles().join(
+        "\n",
+      ),
+    );
+    out.push(
+      this
+        .generateColorBackgroundStyles().join("\n"),
+    );
+    out.push(
+      this.generateColorBorderStyles().join(
+        "\n",
+      ),
+    );
+    out.push(
+      this
+        .generateBlackAndWhiteNormalTextStyles().join("\n"),
+    );
+    out.push(
+      this
+        .generateBlackAndWhiteNormalBackgroundStyles().join(
+          "\n",
+        ),
+    );
+    out.push(
+      this
+        .generateBlackAndWhiteNormalBorderStyles().join("\n"),
+    );
+    out.push(
+      this
+        .generateBlackAndWhiteReversedTextStyles().join("\n"),
+    );
+    out.push(
+      this
+        .generateBlackAndWhiteReversedBackgroundStyles().join(
+          "\n",
+        ),
+    );
+    out.push(
+      this
+        .generateBlackAndWhiteReversedBorderStyles().join("\n"),
+    );
+    out.push(
+      this.queryBorderRadiiVars().join(
+        "\n",
+      ),
+    );
+    out.push(this.generateFlowStyles().join("\n"));
+    out.push(this.generateFontSizeStyles().join("\n"));
+    out.push(this.generateMarginStyles().join("\n"));
+    out.push(this.generatePaddingStyles().join("\n"));
+    out.push(
+      this.generateTextAlignmentStyles()
+        .join("\n"),
+    );
+    out.push(this.generateWidthStyles().join("\n"));
+    out.push(this.generateWrapperStyles().join("\n"));
+    */
+
+    out.push("}");
+
+    html(out.join("\n"), ".utility-styles");
   }
 
   queryBlackAndWhiteReversedActiveVars() {
@@ -1907,7 +2030,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Black And White Theme Variables */`, ...lines];
+    return [`  /* Base B&W Normal Variables */`, ...lines];
   }
 
   queryBlackAndWhiteReversedBorderStyleVars() {
@@ -1952,7 +2075,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Black And White Theme Variables */`, ...lines];
+    return [`  /* Base B&W Reversed Variables */`, ...lines];
   }
 
   queryBorderRadiiVars() {
@@ -1968,25 +2091,28 @@ class Picker extends HTMLElement {
 
   queryColorPreferredVars(modeIndex) {
     const lines = [];
-    const modeName = this.getSpecificModeScrubbedName(modeIndex);
+    const modeBaseName = this.getSpecificModeName(modeIndex);
+    const modeScrubbedName = scrubStyle(modeBaseName);
     this.getActiveScrubbedColorNames().forEach((colorName) => {
       lines.push(
         makeVar(
           `  --${scrubStyle(colorName)}`,
-          `var(--${modeName}-theme__${scrubStyle(colorName)})`,
+          `var(--${modeScrubbedName}-theme__${scrubStyle(colorName)})`,
         ),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${scrubStyle(colorName)}-${fadedName}`,
-            `var(--${modeName}-theme__${scrubStyle(colorName)}-${fadedName})`,
+            `var(--${modeScrubbedName}-theme__${
+              scrubStyle(colorName)
+            }-${fadedName})`,
           ),
         );
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${modeName} Mode Color Variables */`, ...lines];
+    return [`  /* ${modeBaseName} Mode Colors */`, ...lines];
   }
 
   queryColorActiveVars() {
@@ -2022,7 +2148,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Border Style Color Variables */`, ...lines];
+    return [`  /* Border Styles */`, ...lines];
   }
 
   queryColorThemeVars() {
@@ -2055,7 +2181,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Variables for Color Modes */`, ...lines];
+    return [`  /* Base Colors */`, ...lines];
   }
 
   queryFlowVars() {
@@ -2638,7 +2764,6 @@ class Picker extends HTMLElement {
     el("text-alignment-vars").innerHTML = this.queryTextAlignmentVars().join(
       "\n",
     );
-
     // Classes aka Styles
     el("reset-styles").innerHTML = el("reset-styles-input").innerHTML;
     el("color-text-styles").innerHTML = this.generateColorTextStyles().join(
@@ -2668,19 +2793,13 @@ class Picker extends HTMLElement {
     el("border-radii-styles").innerHTML = this.queryBorderRadiiVars().join(
       "\n",
     );
-
     el("flow-styles").innerHTML = this.generateFlowStyles().join("\n");
     el("font-size-styles").innerHTML = this.generateFontSizeStyles().join("\n");
-
     el("margin-styles").innerHTML = this.generateMarginStyles().join("\n");
-
     el("padding-styles").innerHTML = this.generatePaddingStyles().join("\n");
-
     el("text-alignment-styles").innerHTML = this.generateTextAlignmentStyles()
       .join("\n");
-
     el("width-styles").innerHTML = this.generateWidthStyles().join("\n");
-
     el("wrapper-styles").innerHTML = this.generateWrapperStyles().join("\n");
 
     // TODO: Deprecate this stuff below.

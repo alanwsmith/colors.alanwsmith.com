@@ -41,14 +41,6 @@
         display: block;
         max-width: calc(100vw - 1.4rem);
       }
-      input,
-      button,
-      textarea,
-      select {
-        /*
-        font: inherit;
-        */
-      }
     </style>
     <style data-name="Interface Styles">
       .background-box-name {
@@ -77,7 +69,6 @@
       }
       .background-box-isolate-wrapper {
         border-top: 1px solid var(--ui__picker);
-        padding-top: var(--default-padding);
       }
       .color-box-set-button {
         background-color: inherit;
@@ -123,7 +114,8 @@
         padding-inline: var(--small-padding);
       }
       .colors-box-chroma-checkbox-wrapper {
-        padding: var(--default-padding);
+        padding-block: var(--small-padding);
+        padding-inline: var(--default-padding);
         text-align: end;
       }
       .colors-box-chroma-checkbox-label {
@@ -136,7 +128,7 @@
         display: grid;
         grid-template-columns: 1.6ch 1fr;
         padding-inline: var(--default-padding);
-        padding-bottom: var(--default-padding);
+        padding-bottom: var(--small-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .colors-box-name {
@@ -190,6 +182,9 @@
       }
       .sidebar-controls {
         padding-top: var(--large-padding);
+      }
+      .slider-wrapper {
+        padding-top: 0.1rem;
       }
       .styles-grid {
         display: grid;
@@ -584,19 +579,19 @@
         <div class="background-box-sliders">
           <div class="background-box-slider-wrapper" data-aspect="l">
             <label></label>
-            <div>
+            <div class="slider-wrapper">
               <input type="range" data-kind="background-box-slider" />
             </div>
           </div>
           <div class="background-box-slider-wrapper" data-aspect="c">
             <label></label>
-            <div>
+            <div class="slider-wrapper">
               <input type="range" data-kind="background-box-slider" />
             </div>
           </div>
           <div class="background-box-slider-wrapper" data-aspect="h">
             <label></label>
-            <div>
+            <div class="slider-wrapper">
               <input type="range" data-kind="background-box-slider" />
             </div>
           </div>
@@ -623,7 +618,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Picker
             </button>
@@ -638,6 +632,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Export
             </button>
@@ -931,6 +926,8 @@ It was a dark and stormy night...
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>
                 </hgroup>
+
+                <!--
                 <div
                   class="xlarge-inline-margin large-inline-padding large-block-padding link-border default-radius default-flow"
                 >
@@ -959,7 +956,10 @@ It was a dark and stormy night...
                     for updates.
                   </p>
                 </div>
+
                 <h2>Content For Launch</h2>
+-->
+
                 <div
                   class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
                 >
@@ -1147,6 +1147,9 @@ It was a dark and stormy night...
                 <select id="number-of-colors" class="number-of-colors-selector"></select>
               </div>
 -->
+
+              <div class="number-of-colors-wrapper"></div>
+
               <p>Customiztions are a work in progress. They'll include:</p>
               <ul>
                 <li>Change the number of colors</li>
@@ -1219,14 +1222,22 @@ only be necessary if other themes (e.g. high contrast) are added
               <p>Here's the CSS variables for your color palette:</p>
               <textarea
                 class="basic-css-output full-width xsmall-font-size"
-                rows="7"
+                rows="16"
               ></textarea>
 
               <p>Enjoy!</p>
               <p>-a</p>
 
-              <!-- END: styles -->
+              <h3>Utility Styles</h3>
+              <p>TODO: Write these up</p>
+              <textarea
+                class="basic-css-output full-width xsmall-font-size utility-styles"
+                rows="18"
+              ></textarea>
+
+              <!--
               <div class="export-content picker-text"></div>
+-->
             </div>
           </div>
 

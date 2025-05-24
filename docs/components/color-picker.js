@@ -1886,6 +1886,22 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryPaddingVars().join("\n"));
     out.push("}\n");
+    // Width Variables
+    out.push(":root {");
+    out.push(this.queryWidthVars().join("\n"));
+    out.push("}\n");
+    // Text Alignment Variables
+    out.push(":root {");
+    out.push(
+      this.queryTextAlignmentVars().join(
+        "\n",
+      ),
+    );
+    out.push("}\n");
+    // Flow Variables
+    out.push(":root {");
+    out.push(this.queryFlowVars().join("\n"));
+    out.push("}\n");
     // Border Variables
     out.push(":root {");
     out.push(
@@ -1915,13 +1931,6 @@ class Picker extends HTMLElement {
 
 
     out.push(el("reset-styles-input").innerHTML);
-    out.push(this.queryWidthVars().join("\n"));
-    out.push(this.queryFlowVars().join("\n"));
-    out.push(
-      this.queryTextAlignmentVars().join(
-        "\n",
-      ),
-    );
     out.push(
       this.generateColorTextStyles().join(
         "\n",

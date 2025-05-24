@@ -1044,11 +1044,11 @@ class Picker extends HTMLElement {
   generateBlackAndWhiteTextClasses() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
-      lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`));
+      lines.push(makeClass(`.${bwName}`, `color`, `var(--${bwName})`));
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeClass(
-            `.${bwName}-text-${fadedName}`,
+            `.${bwName}-${fadedName}`,
             `color`,
             `var(--${bwName}-${fadedName})`,
           ),
@@ -1105,11 +1105,11 @@ class Picker extends HTMLElement {
   generateReversedTextClasses() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
-      lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`));
+      lines.push(makeClass(`.${bwName}`, `color`, `var(--${bwName})`));
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeClass(
-            `.${bwName}-text-${fadedName}`,
+            `.${bwName}-${fadedName}`,
             `color`,
             `var(--${bwName}-${fadedName})`,
           ),
@@ -1244,7 +1244,7 @@ class Picker extends HTMLElement {
       this.getFadedValues().forEach((fade) => {
         lines.push(
           makeClass(
-            `.${colorName}-text${fade}`,
+            `.${colorName}${fade}`,
             `color`,
             `var(--${colorName}${fade})`,
           ),

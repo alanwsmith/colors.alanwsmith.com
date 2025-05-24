@@ -1881,19 +1881,19 @@ class Picker extends HTMLElement {
       this.queryColorBorderStyleVars()
         .join("\n"),
     );
-    out.push("\n");
+    out.push("}\n");
+    out.push(":root {");
     out.push(
       this
         .queryBlackAndWhiteBorderVars().join("\n"),
     );
-    out.push("\n");
+    out.push("}\n");
+    out.push(":root {");
     out.push(
       this
         .queryReversedBorderVars().join("\n"),
     );
-    out.push("}");
-
-    out.push("\n");
+    out.push("}\n");
 
     /*
 
@@ -2019,7 +2019,7 @@ class Picker extends HTMLElement {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       this.getFadedValues().forEach((fadedName) => {
-        const name = `  --${bwName}-border-style${fadedName}`;
+        const name = `  --${bwName}-border${fadedName}`;
         const value = `1px solid var(--${bwName}${fadedName})`;
         lines.push(makeVar(name, value));
       });
@@ -2064,7 +2064,7 @@ class Picker extends HTMLElement {
     const lines = [];
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
       this.getFadedValues().forEach((fadedName) => {
-        const name = `  --${bwName}-border-style${fadedName}`;
+        const name = `  --${bwName}-border${fadedName}`;
         const value = `1px solid var(--${bwName}${fadedName})`;
         lines.push(makeVar(name, value));
       });
@@ -2170,13 +2170,13 @@ class Picker extends HTMLElement {
     const lines = [];
     this.getColorActives().forEach((colorName) => {
       this.getFadedValues().forEach((fadedName) => {
-        const name = `  --${colorName}-border-style${fadedName}`;
+        const name = `  --${colorName}-border${fadedName}`;
         const value = `1px solid var(--${colorName}${fadedName})`;
         lines.push(makeVar(name, value));
       });
     });
     lines.sort(sortVars);
-    return [`  /* Color Border Styles */`, ...lines];
+    return [`  /* Color Border Variables */`, ...lines];
   }
 
   queryColorThemeVars() {

@@ -1936,12 +1936,16 @@ class Picker extends HTMLElement {
     if (defaultThemeKind === "light") {
       out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
       out.push("}\n");
+      out.push(":root {");
       out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push("}");
       out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
     } else {
       out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
       out.push("}\n");
+      out.push(":root {");
       out.push(`@media (prefers-color-scheme: light) {`);
+      out.push("}");
       out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
     }
     out.push("}\n");
@@ -2029,11 +2033,15 @@ class Picker extends HTMLElement {
       out.push(this.queryReverseModeVars(0).join("\n"));
       out.push("}\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(":root {");
       out.push(this.queryReverseModeVars(1).join("\n"));
+      out.push("}");
     } else {
       out.push(this.queryReverseModeVars(1).join("\n"));
       out.push("}\n");
+      out.push(":root {");
       out.push(`@media (prefers-color-scheme: light) {`);
+      out.push("}");
       out.push(this.queryReverseModeVars(0).join("\n"));
     }
     out.push("}\n");

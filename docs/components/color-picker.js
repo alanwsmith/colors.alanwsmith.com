@@ -310,15 +310,15 @@ const defaultPalette = {
   isolatedColor: -2,
   lightLevels: 6,
   lineHeights: [
-    1.1,
-    1.2,
-    1.3,
-    1.4,
-    1.5,
-    1.6,
-    1.7,
-    1.8,
     1.9,
+    1.8,
+    1.7,
+    1.6,
+    1.5,
+    1.4,
+    1.3,
+    1.2,
+    1.1,
   ],
   margins: [
     "2.4rem",
@@ -672,13 +672,24 @@ const defaultPalette = {
     "xxsmall",
     "xxxsmall",
   ],
+  weights: [
+    900,
+    800,
+    700,
+    600,
+    500,
+    400,
+    300,
+    200,
+    100,
+  ],
   widths: [
     "calc(100vw - 1.4rem)",
     "min(100vw - 1.4rem, 64rem)",
-    "min(100vw - 1.4rem, 56rem)",
-    "min(100vw - 1.4rem, 48rem)",
+    "min(100vw - 1.4rem, 58rem)",
+    "min(100vw - 1.4rem, 54rem)",
+    "min(100vw - 1.4rem, 50rem)",
     "min(100vw - 1.4rem, 42rem)",
-    "min(100vw - 1.4rem, 36rem)",
     "min(100vw - 1.4rem, 33rem)",
     "min(100vw - 1.4rem, 16rem)",
     "min(100vw - 1.4rem, 7rem)",
@@ -1255,6 +1266,18 @@ class Picker extends HTMLElement {
     return [`/* Color Text */`, ...lines];
   }
 
+  generateWeightClasses() {
+    const lines = [];
+    this.getWeights().forEach((weight) => {
+      const name = `.weight-${weight}`;
+      const key = `font-weight`;
+      const value = `var(--weight-${weight}`;
+      lines.push(makeClass(name, key, value));
+    });
+    lines.sort();
+    return [`/* Widths */`, ...lines];
+  }
+
   generateWidthClasses() {
     const lines = [];
     this.getSizesWithFull().forEach((sizeName) => {
@@ -1549,6 +1572,10 @@ class Picker extends HTMLElement {
 
   getSpecificModeScrubbedName(modeIndex) {
     return this.getScrubbedModeNames()[modeIndex];
+  }
+
+  getWeights() {
+    return p.weights;
   }
 
   initBackgroundCheckboxes() {
@@ -1969,12 +1996,16 @@ class Picker extends HTMLElement {
       out.push(this.queryReverseModeVars(0).join("\n"));
     }
     out.push("}\n");
-    // reverse Border Variables
+    // Reverse Border Variables
     out.push(":root {");
     out.push(
       this
         .queryReverseBorderVars().join("\n"),
     );
+    out.push("}\n");
+    // Weight Variables
+    out.push(":root {");
+    out.push(this.queryWeightVars().join("\n"));
     out.push("}\n");
     // Width Variables
     out.push(":root {");
@@ -2070,6 +2101,9 @@ class Picker extends HTMLElement {
       this
         .generatereverseTextClasses().join("\n"),
     );
+    out.push("\n");
+    // Weight Classes
+    out.push(this.generateWeightClasses().join("\n"));
     out.push("\n");
     // Width Classes
     out.push(this.generateWidthClasses().join("\n"));
@@ -2536,6 +2570,17 @@ class Picker extends HTMLElement {
     );
     const out = `:root { ${lines.join("\n")} }`;
     this.uiColorVarsStyleSheet.innerHTML = out;
+  }
+
+  queryWeightVars() {
+    const lines = [];
+    this.getWeights().forEach((weight) => {
+      const name = `  --weight-${weight}`;
+      const value = weight;
+      lines.push(makeVar(name, value));
+    });
+    lines.sort(sortVars);
+    return [`  /* Weight Variables */`, ...lines];
   }
 
   queryWidthVars() {

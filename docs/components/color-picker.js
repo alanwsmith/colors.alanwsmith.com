@@ -995,10 +995,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Background Color Classes */`, ...lines];
+    return [`/* Color Backgrounds */`, ...lines];
   }
 
-  generateBlackAndWhiteNormalBackgroundClasses() {
+  generateBlackAndWhiteBackgroundClasses() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
@@ -1019,10 +1019,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Black And White Background Classes */`, ...lines];
+    return [`/* B&W Backgrounds */`, ...lines];
   }
 
-  generateBlackAndWhiteNormalBorderClasses() {
+  generateBlackAndWhiteBorderClasses() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
@@ -1038,10 +1038,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Black And White Border Classes */`, ...lines];
+    return [`/* B&W Borders */`, ...lines];
   }
 
-  generateBlackAndWhiteNormalTextClasses() {
+  generateBlackAndWhiteTextClasses() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`));
@@ -1056,10 +1056,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Black And White Text Classes */`, ...lines];
+    return [`/* B&W Text */`, ...lines];
   }
 
-  generateBlackAndWhiteReversedBackgroundClasses() {
+  generateReversedBackgroundClasses() {
     const lines = [];
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
       lines.push(
@@ -1080,10 +1080,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Black And White Background Classes */`, ...lines];
+    return [`/* Reversed Background */`, ...lines];
   }
 
-  generateBlackAndWhiteReversedBorderClasses() {
+  generateReversedBorderClasses() {
     const lines = [];
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
@@ -1099,10 +1099,10 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Black And White Border Classes */`, ...lines];
+    return [`/* Reversed Border */`, ...lines];
   }
 
-  generateBlackAndWhiteReversedTextClasses() {
+  generateReversedTextClasses() {
     const lines = [];
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(makeClass(`.${bwName}-text`, `color`, `var(--${bwName})`));
@@ -1117,7 +1117,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Black And White Text Classes */`, ...lines];
+    return [`/* Reversed Text */`, ...lines];
   }
 
   generateBorderRadiiClasses() {
@@ -1132,7 +1132,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Border Radii Classes */`, ...lines];
+    return [`/* Border Radii */`, ...lines];
   }
 
   generateColorBorderClasses() {
@@ -1151,7 +1151,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Border Style Color Classes */`, ...lines];
+    return [`/* Color Borders */`, ...lines];
   }
 
   generateFlowClasses() {
@@ -1163,7 +1163,7 @@ class Picker extends HTMLElement {
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Flow Classes */`, ...lines];
+    return [`/* Flows */`, ...lines];
   }
 
   generateFontSizeClasses() {
@@ -1175,7 +1175,7 @@ class Picker extends HTMLElement {
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Font Size Classes */`, ...lines];
+    return [`/* Font Sizes */`, ...lines];
   }
 
   generateLineHeightClasses() {
@@ -1187,7 +1187,7 @@ class Picker extends HTMLElement {
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Line Height Classes */`, ...lines];
+    return [`/* Line Heights */`, ...lines];
   }
 
   generateMarginClasses() {
@@ -1198,14 +1198,14 @@ class Picker extends HTMLElement {
         if (direction[1] === false) {
           ext = "";
         }
-        const name = `.${sizeName}-${direction[0]}-margin`;
+        const name = `.${sizeName}${ext}-margin`;
         const key = `margin${ext}`;
         const value = `var(--${sizeName}-margin)`;
         lines.push(makeClass(name, key, value));
       });
     });
     lines.sort();
-    return [`/* Margin Classes */`, ...lines];
+    return [`/* Margins */`, ...lines];
   }
 
   generatePaddingClasses() {
@@ -1216,14 +1216,14 @@ class Picker extends HTMLElement {
         if (direction[1] === false) {
           ext = "";
         }
-        const name = `.${sizeName}-${direction[0]}-padding`;
+        const name = `.${sizeName}-${ext}-padding`;
         const key = `padding${ext}`;
         const value = `var(--${sizeName}-padding)`;
         lines.push(makeClass(name, key, value));
       });
     });
     lines.sort();
-    return [`/* Padding Classes */`, ...lines];
+    return [`/* Paddings */`, ...lines];
   }
 
   generateTextAlignmentClasses() {
@@ -1235,7 +1235,7 @@ class Picker extends HTMLElement {
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Text Alignment Classes */`, ...lines];
+    return [`/* Text Alignments */`, ...lines];
   }
 
   generateColorTextClasses() {
@@ -1252,7 +1252,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Text Color Classes */`, ...lines];
+    return [`/* Color Text */`, ...lines];
   }
 
   generateWidthClasses() {
@@ -1264,7 +1264,7 @@ class Picker extends HTMLElement {
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Width Classes */`, ...lines];
+    return [`/* Widths */`, ...lines];
   }
 
   generateWrapperClasses() {
@@ -1275,7 +1275,7 @@ class Picker extends HTMLElement {
       lines.push(`${name} { ${values} }`);
     });
     lines.sort();
-    return [`/* Wrapper Classes */`, ...lines];
+    return [`/* Wrappers */`, ...lines];
   }
 
   getActiveBackgroundValueAspect(aspect) {
@@ -1790,11 +1790,11 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.generateColorBorderClasses().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteNormalTextClasses().join("\n"));
+    lines.push(this.generateBlackAndWhiteTextClasses().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteNormalBackgroundClasses().join("\n"));
+    lines.push(this.generateBlackAndWhiteBackgroundClasses().join("\n"));
     lines.push("");
-    lines.push(this.generateBlackAndWhiteNormalBorderClasses().join("\n"));
+    lines.push(this.generateBlackAndWhiteBorderClasses().join("\n"));
     lines.push("");
     lines.push(this.generateBorderRadiiClasses().join("\n"));
     lines.push("");
@@ -1881,6 +1881,44 @@ class Picker extends HTMLElement {
       out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
     }
     out.push("}\n");
+    // B&W Border Variables
+    out.push(":root {");
+    out.push(
+      this
+        .queryBlackAndWhiteBorderVars().join("\n"),
+    );
+    out.push("}\n");
+    // Border Radii Variables
+    out.push(":root {");
+    out.push(this.queryBorderRadiiVars().join("\n"));
+    out.push("}\n");
+    // Color Border Variables
+    out.push(":root {");
+    out.push(
+      this.queryColorBorderStyleVars()
+        .join("\n"),
+    );
+    out.push("}\n");
+    // Flow Variables
+    out.push(":root {");
+    out.push(this.queryFlowVars().join("\n"));
+    out.push("}\n");
+    // Font Size Variables
+    out.push(":root {");
+    out.push(this.queryFontSizeVars().join("\n"));
+    out.push("}\n");
+    // Line Height Variables
+    out.push(":root {");
+    out.push(this.queryLineHeightVars().join("\n"));
+    out.push("}\n");
+    // Margin Variables
+    out.push(":root {");
+    out.push(this.queryMarginVars().join("\n"));
+    out.push("}\n");
+    // Padding Variables
+    out.push(":root {");
+    out.push(this.queryPaddingVars().join("\n"));
+    out.push("}\n");
     // Reversed Base and Mode Variables
     out.push(":root {");
     out.push(
@@ -1900,25 +1938,12 @@ class Picker extends HTMLElement {
       out.push(this.queryReversedModeVars(0).join("\n"));
     }
     out.push("}\n");
-    // Font Size Variables
+    // Reversed Border Variables
     out.push(":root {");
-    out.push(this.queryFontSizeVars().join("\n"));
-    out.push("}\n");
-    // Line Height Variables
-    out.push(":root {");
-    out.push(this.queryLineHeightVars().join("\n"));
-    out.push("}\n");
-    // Margin Variables
-    out.push(":root {");
-    out.push(this.queryMarginVars().join("\n"));
-    out.push("}\n");
-    // Padding Variables
-    out.push(":root {");
-    out.push(this.queryPaddingVars().join("\n"));
-    out.push("}\n");
-    // Width Variables
-    out.push(":root {");
-    out.push(this.queryWidthVars().join("\n"));
+    out.push(
+      this
+        .queryReversedBorderVars().join("\n"),
+    );
     out.push("}\n");
     // Text Alignment Variables
     out.push(":root {");
@@ -1928,110 +1953,104 @@ class Picker extends HTMLElement {
       ),
     );
     out.push("}\n");
-    // Flow Variables
+    // Width Variables
     out.push(":root {");
-    out.push(this.queryFlowVars().join("\n"));
+    out.push(this.queryWidthVars().join("\n"));
     out.push("}\n");
-    // Border Variables
-    out.push(":root {");
+    // Reset Style
+    out.push(shiftReset(el("reset-styles-input").innerHTML));
+    // Alignment Classes
     out.push(
-      this.queryColorBorderStyleVars()
+      this.generateTextAlignmentClasses()
         .join("\n"),
     );
-    out.push("}\n");
-    out.push(":root {");
+    // B&W Text Classes
     out.push(
       this
-        .queryBlackAndWhiteBorderVars().join("\n"),
+        .generateBlackAndWhiteTextClasses().join("\n"),
     );
-    out.push("}\n");
-    out.push(":root {");
+    out.push("\n");
+    // B&W Background Classes
     out.push(
       this
-        .queryReversedBorderVars().join("\n"),
+        .generateBlackAndWhiteBackgroundClasses().join(
+          "\n",
+        ),
     );
-    out.push("}\n");
-    // Border Radii Variables
-    out.push(":root {");
-    out.push(this.queryBorderRadiiVars().join("\n"));
-    out.push("}\n");
-
-    out.push(shiftReset(el("reset-styles-input").innerHTML));
-
+    out.push("\n");
+    // B&W Border Classes
     out.push(
-      this.generateColorTextClasses().join(
+      this
+        .generateBlackAndWhiteBorderClasses().join("\n"),
+    );
+    out.push("\n");
+    out.push("\n");
+    // Border Radii Classes
+    out.push(
+      this.generateBorderRadiiClasses().join(
         "\n",
       ),
     );
-    out.push("\n");
+    // Color Background Classes
     out.push(
       this
         .generateColorBackgroundClasses().join("\n"),
     );
     out.push("\n");
+    // Color Border Classes
     out.push(
       this.generateColorBorderClasses().join(
         "\n",
       ),
     );
     out.push("\n");
+    // Color Text Classes
     out.push(
-      this
-        .generateBlackAndWhiteNormalTextClasses().join("\n"),
-    );
-    out.push("\n");
-    out.push(
-      this
-        .generateBlackAndWhiteNormalBackgroundClasses().join(
-          "\n",
-        ),
-    );
-    out.push("\n");
-    out.push(
-      this
-        .generateBlackAndWhiteNormalBorderClasses().join("\n"),
-    );
-    out.push("\n");
-    out.push(
-      this
-        .generateBlackAndWhiteReversedTextClasses().join("\n"),
-    );
-    out.push("\n");
-    out.push(
-      this
-        .generateBlackAndWhiteReversedBackgroundClasses().join(
-          "\n",
-        ),
-    );
-    out.push("\n");
-    out.push(
-      this
-        .generateBlackAndWhiteReversedBorderClasses().join("\n"),
-    );
-    out.push("\n");
-    out.push(
-      this.generateBorderRadiiClasses().join(
+      this.generateColorTextClasses().join(
         "\n",
       ),
     );
     out.push("\n");
+    out.push("\n");
+    // Flow Classes
     out.push(this.generateFlowClasses().join("\n"));
     out.push("\n");
+    // Font Size Classes
     out.push(this.generateFontSizeClasses().join("\n"));
     out.push("\n");
+    // Line Height Classes
     out.push(this.generateLineHeightClasses().join("\n"));
     out.push("\n");
+    // Margin Classes
     out.push(this.generateMarginClasses().join("\n"));
     out.push("\n");
+    // Padding Classes
     out.push(this.generatePaddingClasses().join("\n"));
     out.push("\n");
+    out.push("\n");
+    // Reversed Background Classes
     out.push(
-      this.generateTextAlignmentClasses()
-        .join("\n"),
+      this
+        .generateReversedBackgroundClasses().join(
+          "\n",
+        ),
     );
     out.push("\n");
+    // Reversed Border Classes
+    out.push(
+      this
+        .generateReversedBorderClasses().join("\n"),
+    );
+    // Reversed Text Classes
+    out.push(
+      this
+        .generateReversedTextClasses().join("\n"),
+    );
+    out.push("\n");
+    // Width Classes
     out.push(this.generateWidthClasses().join("\n"));
     out.push("\n");
+    // Wrapper Classes
     out.push(this.generateWrapperClasses().join("\n"));
     out.push("\n");
 
@@ -2056,7 +2075,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${modeName} Mode Reversed Variables */`, ...lines];
+    return [`  /* Reversed ${modeName} Mode Variables */`, ...lines];
   }
 
   queryBlackAndWhiteModeVars(modeIndex) {
@@ -2077,7 +2096,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${baseModeName} Mode B&W Variables */`, ...lines];
+    return [`  /* B&W ${baseModeName} Mode Variables */`, ...lines];
   }
 
   queryBlackAndWhiteBorderVars() {
@@ -2122,7 +2141,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base B&W Variables */`, ...lines];
+    return [`  /* B&W Base Variables */`, ...lines];
   }
 
   queryReversedBorderVars() {
@@ -2167,7 +2186,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base Reversed Variables */`, ...lines];
+    return [`  /* Reversed Base Variables */`, ...lines];
   }
 
   queryBorderRadiiVars() {
@@ -2204,7 +2223,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* ${modeBaseName} Mode Color Variables */`, ...lines];
+    return [`  /* Color ${modeBaseName} Mode Variables */`, ...lines];
   }
 
   // TODO: Deprecate in favor of mode indexed version
@@ -2274,7 +2293,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Base Color Variables */`, ...lines];
+    return [`  /* Color Base Variables */`, ...lines];
   }
 
   queryFlowVars() {
@@ -2569,24 +2588,24 @@ class Picker extends HTMLElement {
         "generateColorBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteNormalBackgroundClasses()[1],
+        this.generateBlackAndWhiteBackgroundClasses()[1],
         ".black-background { background-color: var(--black); }",
-        "generateBlackAndWhiteNormalBackgroundStyles",
+        "generateBlackAndWhiteBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteNormalBackgroundClasses()[2],
+        this.generateBlackAndWhiteBackgroundClasses()[2],
         ".black-background-faded { background-color: var(--black-faded); }",
-        "generateBlackAndWhiteNormalBackgroundStyles",
+        "generateBlackAndWhiteBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteNormalBackgroundClasses()[3],
+        this.generateBlackAndWhiteBackgroundClasses()[3],
         ".black-background-faded2 { background-color: var(--black-faded2); }",
-        "generateBlackAndWhiteNormalBackgroundStyles",
+        "generateBlackAndWhiteBackgroundStyles",
       ],
       [
-        this.generateBlackAndWhiteNormalBorderClasses()[4],
+        this.generateBlackAndWhiteBorderClasses()[4],
         ".black-border { border: var(--black-border-style); }",
-        "generateBlackAndWhiteNormalBorderStyles",
+        "generateBlackAndWhiteBorderStyles",
       ],
       [
         this.generateBorderRadiiClasses()[1],
@@ -2880,21 +2899,21 @@ class Picker extends HTMLElement {
         "\n",
       );
     el("bw-normal-text-styles").innerHTML = this
-      .generateBlackAndWhiteNormalTextClasses().join("\n");
+      .generateBlackAndWhiteTextClasses().join("\n");
     el("bw-normal-background-styles").innerHTML = this
-      .generateBlackAndWhiteNormalBackgroundClasses().join(
+      .generateBlackAndWhiteBackgroundClasses().join(
         "\n",
       );
     el("bw-normal-border-styles").innerHTML = this
-      .generateBlackAndWhiteNormalBorderClasses().join("\n");
+      .generateBlackAndWhiteBorderClasses().join("\n");
     el("bw-reversed-text-styles").innerHTML = this
-      .generateBlackAndWhiteReversedTextClasses().join("\n");
+      .generateReversedTextClasses().join("\n");
     el("bw-reversed-background-styles").innerHTML = this
-      .generateBlackAndWhiteReversedBackgroundClasses().join(
+      .generateReversedBackgroundClasses().join(
         "\n",
       );
     el("bw-reversed-border-styles").innerHTML = this
-      .generateBlackAndWhiteReversedBorderClasses().join("\n");
+      .generateReversedBorderClasses().join("\n");
     el("border-radii-styles").innerHTML = this.queryBorderRadiiVars().join(
       "\n",
     );

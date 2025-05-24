@@ -1815,7 +1815,7 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryColorThemeVars().join("\n"));
     out.push("\n");
-    const defaultThemeKind = elV2(`input[name="default-theme"]:checked`).value;
+    const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     if (defaultThemeKind === "light") {
       out.push(this.queryColorPreferredVars(0).join("\n"));
       out.push("}");
@@ -1953,13 +1953,13 @@ class Picker extends HTMLElement {
     const modeName = this.getScrubbedActiveModeName();
     this.getBlackAndWhiteNamesReversed().forEach((bwName) => {
       lines.push(
-        makeVar(`  --${bwName}`, `var(--${modeName}-theme__${bwName})`),
+        makeVar(`  --${bwName}`, `var(--${modeName}-mode__${bwName})`),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${bwName}-${fadedName}`,
-            `var(--${modeName}-theme__${bwName}-${fadedName})`,
+            `var(--${modeName}-mode__${bwName}-${fadedName})`,
           ),
         );
       });
@@ -1973,13 +1973,13 @@ class Picker extends HTMLElement {
     const modeName = this.getScrubbedActiveModeName();
     this.getBlackAndWhiteNames().forEach((bwName) => {
       lines.push(
-        makeVar(`  --${bwName}`, `var(--${modeName}-theme__${bwName})`),
+        makeVar(`  --${bwName}`, `var(--${modeName}-mode__${bwName})`),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${bwName}-${fadedName}`,
-            `var(--${modeName}-theme__${bwName}-${fadedName})`,
+            `var(--${modeName}-mode__${bwName}-${fadedName})`,
           ),
         );
       });
@@ -2011,7 +2011,7 @@ class Picker extends HTMLElement {
         );
         lines.push(
           makeVar(
-            `  --${modeName}-theme__${bwName}`,
+            `  --${modeName}-mode__${bwName}`,
             `oklch(${lightnessValue}% 0 0)`,
           ),
         );
@@ -2022,7 +2022,7 @@ class Picker extends HTMLElement {
           );
           lines.push(
             makeVar(
-              `  --${modeName}-theme__${bwName}-${fadedName}`,
+              `  --${modeName}-mode__${bwName}-${fadedName}`,
               `oklch(${lightnessValue}% 0 0 / ${fadedValue})`,
             ),
           );
@@ -2056,7 +2056,7 @@ class Picker extends HTMLElement {
         );
         lines.push(
           makeVar(
-            `  --${modeName}-theme__${bwName}`,
+            `  --${modeName}-mode__${bwName}`,
             `oklch(${lightnessValue}% 0 0)`,
           ),
         );
@@ -2067,7 +2067,7 @@ class Picker extends HTMLElement {
           );
           lines.push(
             makeVar(
-              `  --${modeName}-theme__${bwName}-${fadedName}`,
+              `  --${modeName}-mode__${bwName}-${fadedName}`,
               `oklch(${lightnessValue}% 0 0 / ${fadedValue})`,
             ),
           );
@@ -2097,14 +2097,14 @@ class Picker extends HTMLElement {
       lines.push(
         makeVar(
           `  --${scrubStyle(colorName)}`,
-          `var(--${modeScrubbedName}-theme__${scrubStyle(colorName)})`,
+          `var(--${modeScrubbedName}-mode__${scrubStyle(colorName)})`,
         ),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${scrubStyle(colorName)}-${fadedName}`,
-            `var(--${modeScrubbedName}-theme__${
+            `var(--${modeScrubbedName}-mode__${
               scrubStyle(colorName)
             }-${fadedName})`,
           ),
@@ -2122,14 +2122,14 @@ class Picker extends HTMLElement {
       lines.push(
         makeVar(
           `  --${scrubStyle(colorName)}`,
-          `var(--${modeName}-theme__${scrubStyle(colorName)})`,
+          `var(--${modeName}-mode__${scrubStyle(colorName)})`,
         ),
       );
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
           makeVar(
             `  --${scrubStyle(colorName)}-${fadedName}`,
-            `var(--${modeName}-theme__${scrubStyle(colorName)}-${fadedName})`,
+            `var(--${modeName}-mode__${scrubStyle(colorName)}-${fadedName})`,
           ),
         );
       });
@@ -2159,7 +2159,7 @@ class Picker extends HTMLElement {
       const backgroundC = this.getBackgroundValueC(modeIndex);
       const backgroundH = this.getBackgroundValueH(modeIndex);
 
-      const backgroundName = `  --${modeName}-theme__${p.backgroundColorName}`;
+      const backgroundName = `  --${modeName}-mode__${p.backgroundColorName}`;
       const backgroundValue =
         `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
       lines.push(`${backgroundName}: ${backgroundValue};`);
@@ -2167,12 +2167,12 @@ class Picker extends HTMLElement {
         const l = this.getColorValueL(modeIndex, colorIndex);
         const c = this.getColorValueC(modeIndex, colorIndex);
         const h = this.getColorValueH(modeIndex, colorIndex);
-        const textName = `  --${modeName}-theme__${colorName}`;
+        const textName = `  --${modeName}-mode__${colorName}`;
         const textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(`${textName}: ${textValue};`);
         p.fadedNames.forEach((fadedName) => {
           const fade = 0.5;
-          const fadedClassName = `  --${scrubStyle(modeName)}-theme__${
+          const fadedClassName = `  --${scrubStyle(modeName)}-mode__${
             scrubStyle(colorName)
           }-${fadedName}`;
           const fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
@@ -2248,7 +2248,7 @@ class Picker extends HTMLElement {
     const lines = [];
     // Background
     lines.push(
-      `--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}-theme__${p.backgroundColorName});`,
+      `--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}-mode__${p.backgroundColorName});`,
     );
     // UI Color
     if (this.getBackgroundValueL(p.activeMode) > 40) {
@@ -2316,7 +2316,7 @@ class Picker extends HTMLElement {
       const backgroundL = this.getBackgroundValueL(modeIndex);
       const backgroundC = this.getBackgroundValueC(modeIndex);
       const backgroundH = this.getBackgroundValueH(modeIndex);
-      let backgroundName = `--ui__${modeName}-theme__${p.backgroundColorName}`;
+      let backgroundName = `--ui__${modeName}-mode__${p.backgroundColorName}`;
       let backgroundValue =
         `oklch(${backgroundL}% ${backgroundC} ${backgroundH})`;
       lines.push(`${backgroundName}: ${backgroundValue};`);
@@ -2327,7 +2327,7 @@ class Picker extends HTMLElement {
         const l = this.getColorValueL(modeIndex, colorIndex);
         const c = this.getColorValueC(modeIndex, colorIndex);
         const h = this.getColorValueH(modeIndex, colorIndex);
-        let textName = `--ui__${modeName}-theme__${scrubStyle(colorName)}`;
+        let textName = `--ui__${modeName}-mode__${scrubStyle(colorName)}`;
         let textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(makeVar(textName, textValue));
         textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
@@ -2336,7 +2336,7 @@ class Picker extends HTMLElement {
         p.fadedNames.forEach((fadedName) => {
           const fade = 0.5;
           let fadedClassName =
-            `--ui__${modeName}-theme__${colorName}-${fadedName}`;
+            `--ui__${modeName}-mode__${colorName}-${fadedName}`;
           let fadedValue = `oklch(${l}% ${c} ${h} / ${fade})`;
           lines.push(`${fadedClassName}: ${fadedValue};`);
           fadedClassName =
@@ -2511,27 +2511,27 @@ class Picker extends HTMLElement {
       ],
       [
         this.queryColorThemeVars()[1].trim(),
-        "--dark-theme__accent: oklch(68.00000% 0.06066 303.33600);",
+        "--dark-mode__accent: oklch(68.00000% 0.06066 303.33600);",
         "queryColorThemeVars",
       ],
       [
         this.queryBlackAndWhiteNormalActiveVars()[1].trim(),
-        "--black: var(--light-theme__black);",
+        "--black: var(--light-mode__black);",
         "queryBlackAndWhiteNormalActiveVars",
       ],
       [
         this.queryBlackAndWhiteReversedActiveVars()[1].trim(),
-        "--matched: var(--light-theme__matched);",
+        "--matched: var(--light-mode__matched);",
         "queryBlackAndWhiteNormalActiveVars",
       ],
       [
         this.queryColorActiveVars()[1].trim(),
-        "--accent: var(--light-theme__accent);",
+        "--accent: var(--light-mode__accent);",
         "queryColorActiveVars",
       ],
       [
         this.queryBlackAndWhiteNormalThemeVars()[1].trim(),
-        "--dark-theme__black: oklch(0% 0 0);",
+        "--dark-mode__black: oklch(0% 0 0);",
         "queryBlackAndWhiteNormalThemeVars",
       ],
     ];
@@ -2715,7 +2715,7 @@ class Picker extends HTMLElement {
 
   // This isn't necessary until custom themes are added.
   // updateThemeExportPickers() {
-  //   const lightPicker = elV2("#light-theme-picker");
+  //   const lightPicker = elV2("#light-mode-picker");
   //   this.getModeNames().forEach((name, index) => {
   //     const opt = dc("option");
   //     opt.innerHTML = name;
@@ -2725,7 +2725,7 @@ class Picker extends HTMLElement {
   //     }
   //     a(opt, lightPicker);
   //   });
-  //   const darkPicker = elV2("#dark-theme-picker");
+  //   const darkPicker = elV2("#dark-mode-picker");
   //   this.getModeNames().forEach((name, index) => {
   //     const opt = dc("option");
   //     opt.innerHTML = name;
@@ -2739,17 +2739,17 @@ class Picker extends HTMLElement {
 
   updateExportPage() {
     // Variables
-    el("color-theme-vars").innerHTML = this.queryColorThemeVars().join("\n");
+    el("color-mode-vars").innerHTML = this.queryColorThemeVars().join("\n");
     el("color-active-vars").innerHTML = this.queryColorActiveVars().join("\n");
     el("color-border-style-vars").innerHTML = this.queryColorBorderStyleVars()
       .join("\n");
-    el("bw-normal-theme-vars").innerHTML = this
+    el("bw-normal-mode-vars").innerHTML = this
       .queryBlackAndWhiteNormalThemeVars().join("\n");
     el("bw-normal-active-vars").innerHTML = this
       .queryBlackAndWhiteNormalActiveVars().join("\n");
     el("bw-normal-border-style-vars").innerHTML = this
       .queryBlackAndWhiteNormalBorderStyleVars().join("\n");
-    el("bw-reversed-theme-vars").innerHTML = this
+    el("bw-reversed-mode-vars").innerHTML = this
       .queryBlackAndWhiteReversedThemeVars().join("\n");
     el("bw-reversed-active-vars").innerHTML = this
       .queryBlackAndWhiteReversedActiveVars().join("\n");
@@ -2978,7 +2978,7 @@ class Picker extends HTMLElement {
       } else if (event.type === "change") {
         if (kind === "background-box-slider") {
           this.updateBackgroundColors(event.target);
-        } else if (kind === "default-theme-radio-button") {
+        } else if (kind === "default-mode-radio-button") {
           this.outputColorStyles();
           this.outputUtilityStyles();
         }

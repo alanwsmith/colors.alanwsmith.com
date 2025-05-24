@@ -139,7 +139,7 @@
         border-radius: var(--default-radius);
         font-size: var(--small-font-size);
       }
-      .default-theme-selection-wrapper {
+      .default-mode-selection-wrapper {
         display: grid;
       }
       hgroup {
@@ -1180,13 +1180,13 @@ only be necessary if other themes (e.g. high contrast) are added
                 person's preferences. Pick which of your themes you want to use
                 for the two automatic modes:
               </p>
-              <div class="light-theme-selector-wrapper">
-                <label for="light-theme-selector">Light mode:</label>
-                <select id="light-theme-picker"></select>
+              <div class="light-mode-selector-wrapper">
+                <label for="light-mode-selector">Light mode:</label>
+                <select id="light-mode-picker"></select>
               </div>
-              <div class="dark-theme-selector-wrapper">
-                <label for="dark-theme-selector">Dark mode:</label>
-                <select id="dark-theme-picker"></select>
+              <div class="dark-mode-selector-wrapper">
+                <label for="dark-mode-selector">Dark mode:</label>
+                <select id="dark-mode-picker"></select>
               </div>
 -->
 
@@ -1196,27 +1196,27 @@ only be necessary if other themes (e.g. high contrast) are added
                 mode would you like to present if a preference can't be
                 determined?
               </p>
-              <div class="default-theme-selection-wrapper">
+              <div class="default-mode-selection-wrapper">
                 <div>
                   <input
-                    data-kind="default-theme-radio-button"
+                    data-kind="default-mode-radio-button"
                     type="radio"
-                    id="default-theme-light"
-                    name="default-theme"
+                    id="default-mode-light"
+                    name="default-mode"
                     value="light"
                     checked
                   />
-                  <label for="default-theme-light">Light</label>
+                  <label for="default-mode-light">Light</label>
                 </div>
                 <div>
                   <input
-                    data-kind="default-theme-radio-button"
+                    data-kind="default-mode-radio-button"
                     type="radio"
-                    id="default-theme-dark"
-                    name="default-theme"
+                    id="default-mode-dark"
+                    name="default-mode"
                     value="dark"
                   />
-                  <label for="default-theme-dark">Dark</label>
+                  <label for="default-mode-dark">Dark</label>
                 </div>
               </div>
               <p>Here's the CSS variables for your color palette:</p>

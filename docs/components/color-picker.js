@@ -1218,6 +1218,10 @@ class Picker extends HTMLElement {
         lines.push(makeClass(name, key, value));
       });
     });
+    const name = `.auto-inline-margin`;
+    const key = `margin-inline`;
+    const value = `auto`;
+    lines.push(makeClass(name, key, value));
     lines.sort();
     return [`/* Margins */`, ...lines];
   }
@@ -1284,13 +1288,22 @@ class Picker extends HTMLElement {
   generateWidthClasses() {
     const lines = [];
     this.getSizesWithFull().forEach((sizeName) => {
-      const name = `.${sizeName}-width`;
-      const key = `width`;
-      const value = `var(--${sizeName}-width)`;
+      let name = `.${sizeName}-width`;
+      let key = `width`;
+      let value = `var(--${sizeName}-width)`;
+      lines.push(makeClass(name, key, value));
+      name = `.${sizeName}-max-width`;
+      key = `max-width`;
+      value = `var(--${sizeName}-width)`;
+      lines.push(makeClass(name, key, value));
+      name = `.${sizeName}-min-width`;
+      key = `min-width`;
+      value = `var(--${sizeName}-width)`;
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Widths */`, ...lines];
+    // TODO: Split out Max/Min Widths to their own thing
+    return [`/* Widths and Max/Min Widths */`, ...lines];
   }
 
   generateWrapperClasses() {
@@ -1908,6 +1921,15 @@ class Picker extends HTMLElement {
     );
     out.push(
       "TODO: add weight (use numbers)",
+    );
+    out.push(
+      "TODO: heights or min heights?",
+    );
+    out.push(
+      "TODO: auto-inline-margin",
+    );
+    out.push(
+      "TODO: fixed width?",
     );
     out.push("TODO: add flexes and maybe grids?");
     out.push(

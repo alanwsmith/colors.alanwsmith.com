@@ -260,10 +260,10 @@ const defaultPalette = {
     "heading",
     "link",
     "accent",
-    "info",
+    "alternate",
     "warning",
+    "info",
     "extra",
-    "bonus",
   ],
   directions: [
     ["block", true],

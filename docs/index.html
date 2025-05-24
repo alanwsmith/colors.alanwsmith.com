@@ -40,7 +40,6 @@
       svg,
       video {
         display: block;
-        max-width: calc(100vw - var(--default-margin));
       }
     </style>
     <style data-name="Interface Styles">
@@ -66,7 +65,7 @@
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
         color: var(--ui__picker);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
       .background-box-isolate-wrapper {
         border-top: 1px solid var(--ui__picker);
@@ -75,7 +74,7 @@
         background-color: inherit;
         border: none;
         border-radius: 0;
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         font-weight: bold;
         padding-block: var(--xxxsmall-padding);
         padding-inline: var(--xxsmall-padding);
@@ -93,7 +92,7 @@
         border-right: 1px solid var(--ui__picker);
         border-top: 1px solid var(--ui__picker);
         cursor: pointer;
-        font-size: var(--default-font-size);
+        font-size: var(--default-font);
         outline: inherit;
         padding: 0;
         width: 2.3ch;
@@ -138,7 +137,7 @@
       .colors-box-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
       .default-mode-selection-wrapper {
         display: grid;
@@ -171,14 +170,14 @@
         /*
           border: 1px solid var(--ui__picker);
           border-radius: var(--default-radius);
-          font-size: var(--small-font-size);
+          font-size: var(--small-font);
           margin-top: var(--default-margin);
         */
       }
       .mode-buttons-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         margin-top: var(--default-margin);
       }
       .sidebar-controls {
@@ -192,21 +191,21 @@
         grid-template-columns: 3ch 1fr;
       }
       .styles-grid code {
-        font-size: var(--xxsmall-font-size);
+        font-size: var(--xxsmall-font);
       }
       .styles-grid details {
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
       .styles-grid pre {
         line-height: 1;
       }
       .styles-grid summary {
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
       .top-nav-button {
         border: var(--background-border-style);
         color: var(--link);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         font-weight: 900;
       }
       .top-nav-button[aria-selected="true"] {
@@ -278,17 +277,17 @@
         background-color: var(--background);
         color: var(--content);
         font-family: system-ui;
-        font-size: var(--default-font-size);
+        font-size: var(--default-font);
       }
       button {
         background-color: var(--reversed-faded2);
         border: var(--reversed-border-style);
         border-radius: var(--xsmall-radius);
-        color: var(--matched);
+        color: var(--match);
         cursor: pointer;
       }
       canvas {
-        border: var(--accent-border-style);
+        /* */
       }
       caption {
         caption-side: bottom;
@@ -302,7 +301,7 @@
         /* */
       }
       code {
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         color: var(--reverse-faded);
       }
       dd {
@@ -338,7 +337,7 @@
       figcaption {
         background-color: var(--reversed);
         color: var(--match);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         padding: var(--default-padding);
         text-align: var(--alight-center);
       }
@@ -353,38 +352,38 @@
       h1 {
         color: var(--heading);
         border-bottom: var(--content-border-style);
-        font-size: var(--xxxlarge-font-size);
+        font-size: var(--xxxlarge-font);
         font-weight: 900;
         text-wrap: balance;
       }
       h2 {
         color: var(--heading);
         border-bottom: var(--content-border-style);
-        font-size: var(--xxlarge-font-size);
+        font-size: var(--xxlarge-font);
         font-weight: 900;
         text-wrap: balance;
       }
       h3 {
         color: var(--heading);
-        font-size: var(--xlarge-font-size);
+        font-size: var(--xlarge-font);
         font-weight: 900;
         text-wrap: balance;
       }
       h4 {
         color: var(--heading);
-        font-size: var(--large-font-size);
+        font-size: var(--large-font);
         font-weight: 900;
         text-wrap: balance;
       }
       h5 {
         color: var(--heading);
-        font-size: var(--large-font-size);
+        font-size: var(--large-font);
         font-weight: 400;
         text-wrap: balance;
       }
       h6 {
         color: var(--heading);
-        font-size: var(--large-font-size);
+        font-size: var(--large-font);
         font-style: italic;
         font-weight: 400;
         text-wrap: balance;
@@ -434,7 +433,7 @@
         border: var(--reversed-faded);
         border-radius: var(--xsmall-radius);
         font-family: monospace;
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         padding-inline: var(--xxsmall-padding);
       }
       label {
@@ -507,7 +506,7 @@
         padding-inline: var(--small-padding);
       }
       small {
-        font-size: var(--xsmall-font-size);
+        font-size: var(--xsmall-font);
       }
       span {
         /* */
@@ -922,7 +921,7 @@ It was a dark and stormy night...
               <div class="content-body default-flow">
                 <hgroup class="large-bottom-margin">
                   <h1>Alan's Color Picker</h1>
-                  <p class="align-end small-font-size">
+                  <p class="align-end small-font">
                     made by
                     <a href="https://www.alanwsmith.com/">alan w smith</a>
                   </p>
@@ -1222,7 +1221,7 @@ only be necessary if other themes (e.g. high contrast) are added
               </div>
               <p>Here's the CSS variables for your color palette:</p>
               <textarea
-                class="basic-css-output full-width xsmall-font-size"
+                class="basic-css-output full-width xsmall-font"
                 rows="16"
               ></textarea>
 
@@ -1232,7 +1231,7 @@ only be necessary if other themes (e.g. high contrast) are added
               <h3>Utility Styles</h3>
               <p>TODO: Write these up</p>
               <textarea
-                class="basic-css-output full-width xsmall-font-size utility-styles"
+                class="basic-css-output full-width xsmall-font utility-styles"
                 rows="18"
               ></textarea>
 
@@ -1474,7 +1473,7 @@ only be necessary if other themes (e.g. high contrast) are added
                 help me with that.
               </p>
               <h3>Here Be Dragons</h3>
-              <pre class="debugging-content xsmall-font-size"></pre>
+              <pre class="debugging-content xsmall-font"></pre>
             </div>
           </div>
 

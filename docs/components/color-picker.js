@@ -224,7 +224,7 @@ const defaultPalette = {
   },
   backgroundColorName: "background",
   blackAndWhiteNames: ["black", "white"],
-  blackAndWhiteNamesReversed: ["matched", "reversed"],
+  blackAndWhiteNamesreverse: ["match", "reverse"],
   borderRadii: [
     "1.2rem",
     "1.0rem",
@@ -339,8 +339,8 @@ const defaultPalette = {
       base: { c: 0.03081, h: 94.86, l: 86.94 },
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100],
-      blackAndWhiteReversedValues: [100, 0],
-      blackAndWhiteReversedFaded: [0.4, 0.1],
+      blackAndWhitereverseValues: [100, 0],
+      blackAndWhitereverseFaded: [0.4, 0.1],
       colors: [
         // 0-0
         {
@@ -494,8 +494,8 @@ const defaultPalette = {
       base: { c: 0.05262, h: 78.336, l: 25.71 },
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100],
-      blackAndWhiteReversedFaded: [0.4, 0.1],
-      blackAndWhiteReversedValues: [0, 100],
+      blackAndWhitereverseFaded: [0.4, 0.1],
+      blackAndWhitereverseValues: [0, 100],
       colors: [
         // 2-0
         {
@@ -702,8 +702,8 @@ class Picker extends HTMLElement {
     this.getSizes().forEach((size) => {
       const example = dc("div");
       const token = `${size}-radius`;
-      ac(`matched-text`, example);
-      ac(`reversed-background`, example);
+      ac(`match-text`, example);
+      ac(`reverse-background`, example);
       ac(`xlarge-full-padding`, example);
       ac(`large-inline-margin`, example);
       ac(token, example);
@@ -780,8 +780,8 @@ class Picker extends HTMLElement {
     this.getSizes().forEach((size) => {
       const token = `${size}-font`;
       const example = dc("div");
-      ac(`reversed-background`, example);
-      ac(`matched-text`, example);
+      ac(`reverse-background`, example);
+      ac(`match-text`, example);
       ac(`large-inline-margin`, example);
       ac(`default-inline-padding`, example);
       ac(token, example);
@@ -795,8 +795,8 @@ class Picker extends HTMLElement {
     this.getAlignments().forEach((alignment) => {
       const example = dc("div");
       ac(`large-inline-margin`, example);
-      ac(`reversed-background`, example);
-      ac(`matched-text`, example);
+      ac(`reverse-background`, example);
+      ac(`match-text`, example);
       ac(`default-full-padding`, example);
       const token = `align-${alignment}`;
       html(
@@ -812,8 +812,8 @@ class Picker extends HTMLElement {
     const wrapper = el("flow-examples-wrapper");
     this.getSizes().forEach((size) => {
       const example = dc("div");
-      ac(`matched-text`, example);
-      ac(`reversed-background`, example);
+      ac(`match-text`, example);
+      ac(`reverse-background`, example);
       ac(`large-full-margin`, example);
       const token = `${size}-flow`;
       ac(token, example);
@@ -835,27 +835,27 @@ class Picker extends HTMLElement {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-margin`;
         const example = dc("div");
-        ac("reversed-faded-background", example);
+        ac("reverse-faded-background", example);
         ac("large-inline-margin", example);
         const name = dc("div");
-        ac(`matched-text`, name);
+        ac(`match-text`, name);
         ac(`small-full-padding`, name);
         html(`.${token}`, name);
         a(name, example);
         const line1 = dc("div");
-        ac("matched-text", line1);
-        ac("reversed-background", line1);
+        ac("match-text", line1);
+        ac("reverse-background", line1);
         html("&nbsp;", line1);
         a(line1, example);
         const line2 = dc("div");
-        ac("matched-background", line2);
-        ac("reversed-text", line2);
+        ac("match-background", line2);
+        ac("reverse-text", line2);
         ac(token, line2);
         html("&nbsp;", line2);
         a(line2, example);
         const line3 = dc("div");
-        ac("matched-text", line3);
-        ac("reversed-background", line3);
+        ac("match-text", line3);
+        ac("reverse-background", line3);
         html("&nbsp;", line3);
         a(line3, example);
         a(example, wrapper);
@@ -869,11 +869,11 @@ class Picker extends HTMLElement {
       this.getDirections().forEach((dir) => {
         const token = `${size}-${dir[0]}-padding`;
         const example = dc("div");
-        ac("reversed-background", example);
+        ac("reverse-background", example);
         ac("large-inline-margin", example);
         ac(token, example);
         const inside = dc("div");
-        ac("matched-background", inside);
+        ac("match-background", inside);
         html(`.${token}`, inside);
         a(inside, example);
         a(example, wrapper);
@@ -889,11 +889,11 @@ class Picker extends HTMLElement {
       const name = dc("div");
       html(`.${token}`, name);
       a(name, example);
-      ac("reversed-background", example);
-      ac("matched-text", example);
+      ac("reverse-background", example);
+      ac("match-text", example);
       ac("large-inline-margin", example);
       const item = dc("div");
-      ac("matched-background", item);
+      ac("match-background", item);
       ac(token, item);
       html(`&nbsp;`, item);
       a(item, example);
@@ -909,11 +909,11 @@ class Picker extends HTMLElement {
       const name = dc("div");
       html(`.${token}`, name);
       a(name, example);
-      ac("reversed-background", example);
-      ac("matched-text", example);
+      ac("reverse-background", example);
+      ac("match-text", example);
       ac("large-inline-margin", example);
       const item = dc("div");
-      ac("matched-background", item);
+      ac("match-background", item);
       ac(token, item);
       html(`&nbsp;`, item);
       a(item, example);
@@ -1059,9 +1059,9 @@ class Picker extends HTMLElement {
     return [`/* B&W Text */`, ...lines];
   }
 
-  generateReversedBackgroundClasses() {
+  generatereverseBackgroundClasses() {
     const lines = [];
-    this.getReversedNames().forEach((bwName) => {
+    this.getreverseNames().forEach((bwName) => {
       lines.push(
         makeClass(
           `.${bwName}-background`,
@@ -1080,12 +1080,12 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Reversed Background */`, ...lines];
+    return [`/* reverse Background */`, ...lines];
   }
 
-  generateReversedBorderClasses() {
+  generatereverseBorderClasses() {
     const lines = [];
-    this.getReversedNames().forEach((bwName) => {
+    this.getreverseNames().forEach((bwName) => {
       this.getBorderDirectionNames().forEach((directionName) => {
         let name = `.${bwName}${directionName}-border`;
         const key = `border${directionName}`;
@@ -1099,12 +1099,12 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Reversed Border */`, ...lines];
+    return [`/* reverse Border */`, ...lines];
   }
 
-  generateReversedTextClasses() {
+  generatereverseTextClasses() {
     const lines = [];
-    this.getReversedNames().forEach((bwName) => {
+    this.getreverseNames().forEach((bwName) => {
       lines.push(makeClass(`.${bwName}`, `color`, `var(--${bwName})`));
       this.getScrubbedFadedNames().forEach((fadedName) => {
         lines.push(
@@ -1117,7 +1117,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort();
-    return [`/* Reversed Text */`, ...lines];
+    return [`/* reverse Text */`, ...lines];
   }
 
   generateBorderRadiiClasses() {
@@ -1377,20 +1377,20 @@ class Picker extends HTMLElement {
     return p.modes[mode].blackAndWhiteValues[index];
   }
 
-  getReversedVadedValue(mode, index) {
-    return p.modes[mode].blackAndWhiteReversedFaded[index];
+  getreverseVadedValue(mode, index) {
+    return p.modes[mode].blackAndWhitereverseFaded[index];
   }
 
-  getReversedValue(mode, index) {
-    return p.modes[mode].blackAndWhiteReversedValues[index];
+  getreverseValue(mode, index) {
+    return p.modes[mode].blackAndWhitereverseValues[index];
   }
 
   getBlackAndWhiteNames() {
     return p.blackAndWhiteNames;
   }
 
-  getReversedNames() {
-    return p.blackAndWhiteNamesReversed;
+  getreverseNames() {
+    return p.blackAndWhiteNamesreverse;
   }
 
   getBorderDirectionExtensions() {
@@ -1613,14 +1613,14 @@ class Picker extends HTMLElement {
           sa("aria-selected", "true", tabButton);
           ac(`ui__background-text`, tabButton);
           // ac(`ui__mode-${p.activeMode}__color-${nameIndex}-background`, tabButton);
-          // ac(`reversed`, tabButton);
+          // ac(`reverse`, tabButton);
           ac(
             `ui__mode-${p.activeMode}__color-${nameIndex}-background`,
             tabButton,
           );
           ac(`${this.getColorActiveScrubbedName()}-bottom-border`, tabButton);
         } else {
-          ac(`reversed-bottom-border`, tabButton);
+          ac(`reverse-bottom-border`, tabButton);
           ac(`ui__background-text`, tabButton);
           // ac(`background-text`, tabButton);
           //ac(`ui__mode-${p.activeMode}__color-${nameIndex}-text`, tabButton);
@@ -1927,30 +1927,30 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryPaddingVars().join("\n"));
     out.push("}\n");
-    // Reversed Base and Mode Variables
+    // reverse Base and Mode Variables
     out.push(":root {");
     out.push(
       this
-        .queryReversedBaseVars().join("\n"),
+        .queryReverseBaseVars().join("\n"),
     );
     out.push("\n");
     if (defaultThemeKind === "light") {
-      out.push(this.queryReversedModeVars(0).join("\n"));
+      out.push(this.queryReverseModeVars(0).join("\n"));
       out.push("}\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push(this.queryReversedModeVars(1).join("\n"));
+      out.push(this.queryReverseModeVars(1).join("\n"));
     } else {
-      out.push(this.queryReversedModeVars(1).join("\n"));
+      out.push(this.queryReverseModeVars(1).join("\n"));
       out.push("}\n");
       out.push(`@media (prefers-color-scheme: light) {`);
-      out.push(this.queryReversedModeVars(0).join("\n"));
+      out.push(this.queryReverseModeVars(0).join("\n"));
     }
     out.push("}\n");
-    // Reversed Border Variables
+    // reverse Border Variables
     out.push(":root {");
     out.push(
       this
-        .queryReversedBorderVars().join("\n"),
+        .queryReverseBorderVars().join("\n"),
     );
     out.push("}\n");
     // Width Variables
@@ -2028,24 +2028,24 @@ class Picker extends HTMLElement {
     out.push(this.generatePaddingClasses().join("\n"));
     out.push("\n");
     out.push("\n");
-    // Reversed Background Classes
+    // reverse Background Classes
     out.push(
       this
-        .generateReversedBackgroundClasses().join(
+        .generatereverseBackgroundClasses().join(
           "\n",
         ),
     );
     out.push("\n");
-    // Reversed Border Classes
+    // reverse Border Classes
     out.push(
       this
-        .generateReversedBorderClasses().join("\n"),
+        .generatereverseBorderClasses().join("\n"),
     );
     out.push("\n");
-    // Reversed Text Classes
+    // reverse Text Classes
     out.push(
       this
-        .generateReversedTextClasses().join("\n"),
+        .generatereverseTextClasses().join("\n"),
     );
     out.push("\n");
     // Width Classes
@@ -2058,11 +2058,11 @@ class Picker extends HTMLElement {
     html(out.join("\n"), ".utility-styles");
   }
 
-  queryReversedModeVars(modeIndex) {
+  queryReverseModeVars(modeIndex) {
     const lines = [];
     const modeName = this.getModeNames()[modeIndex];
     const scrubbedModeName = scrubStyle(modeName);
-    this.getReversedNames().forEach((bwName) => {
+    this.getreverseNames().forEach((bwName) => {
       lines.push(
         makeVar(`  --${bwName}`, `var(--${scrubbedModeName}-mode__${bwName})`),
       );
@@ -2076,7 +2076,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Reversed ${modeName} Mode Variables */`, ...lines];
+    return [`  /* reverse ${modeName} Mode Variables */`, ...lines];
   }
 
   queryBlackAndWhiteModeVars(modeIndex) {
@@ -2145,9 +2145,9 @@ class Picker extends HTMLElement {
     return [`  /* B&W Base Variables */`, ...lines];
   }
 
-  queryReversedBorderVars() {
+  queryReverseBorderVars() {
     const lines = [];
-    this.getReversedNames().forEach((bwName) => {
+    this.getreverseNames().forEach((bwName) => {
       this.getFadedValues().forEach((fadedName) => {
         const name = `  --${bwName}-border${fadedName}`;
         const value = `1px solid var(--${bwName}${fadedName})`;
@@ -2155,14 +2155,14 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Reversed Border Variables */`, ...lines];
+    return [`  /* reverse Border Variables */`, ...lines];
   }
 
-  queryReversedBaseVars() {
+  queryReverseBaseVars() {
     const lines = [];
     this.getScrubbedModeNames().forEach((modeName, modeIndex) => {
-      this.getReversedNames().forEach((bwName, bwIndex) => {
-        const lightnessValue = this.getReversedValue(
+      this.getreverseNames().forEach((bwName, bwIndex) => {
+        const lightnessValue = this.getreverseValue(
           modeIndex,
           bwIndex,
         );
@@ -2173,7 +2173,7 @@ class Picker extends HTMLElement {
           ),
         );
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-          const fadedValue = this.getReversedVadedValue(
+          const fadedValue = this.getreverseVadedValue(
             modeIndex,
             fadedIndex,
           );
@@ -2187,7 +2187,7 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Reversed Base Variables */`, ...lines];
+    return [`  /* reverse Base Variables */`, ...lines];
   }
 
   queryBorderRadiiVars() {
@@ -2644,8 +2644,8 @@ class Picker extends HTMLElement {
         "queryBlackAndWhiteModeVars",
       ],
       [
-        this.queryReversedModeVars(0)[1].trim(),
-        "--matched: var(--light-mode__matched);",
+        this.queryReverseModeVars(0)[1].trim(),
+        "--match: var(--light-mode__match);",
         "queryBlackAndWhiteModeVars",
       ],
       [
@@ -2873,12 +2873,12 @@ class Picker extends HTMLElement {
       .queryBlackAndWhiteModeVars(0).join("\n");
     el("bw-normal-border-style-vars").innerHTML = this
       .queryBlackAndWhiteBorderVars().join("\n");
-    el("bw-reversed-mode-vars").innerHTML = this
-      .queryReversedBaseVars().join("\n");
-    el("bw-reversed-active-vars").innerHTML = this
-      .queryReversedModeVars(0).join("\n");
-    el("bw-reversed-border-style-vars").innerHTML = this
-      .queryReversedBorderVars().join("\n");
+    el("bw-reverse-mode-vars").innerHTML = this
+      .queryReverseBaseVars().join("\n");
+    el("bw-reverse-active-vars").innerHTML = this
+      .queryReverseModeVars(0).join("\n");
+    el("bw-reverse-border-style-vars").innerHTML = this
+      .queryReverseBorderVars().join("\n");
     el("border-radii-vars").innerHTML = this.queryBorderRadiiVars().join("\n");
     el("font-size-vars").innerHTML = this.queryFontSizeVars().join("\n");
     el("margin-vars").innerHTML = this.queryMarginVars().join("\n");
@@ -2907,14 +2907,14 @@ class Picker extends HTMLElement {
       );
     el("bw-normal-border-styles").innerHTML = this
       .generateBlackAndWhiteBorderClasses().join("\n");
-    el("bw-reversed-text-styles").innerHTML = this
-      .generateReversedTextClasses().join("\n");
-    el("bw-reversed-background-styles").innerHTML = this
-      .generateReversedBackgroundClasses().join(
+    el("bw-reverse-text-styles").innerHTML = this
+      .generatereverseTextClasses().join("\n");
+    el("bw-reverse-background-styles").innerHTML = this
+      .generatereverseBackgroundClasses().join(
         "\n",
       );
-    el("bw-reversed-border-styles").innerHTML = this
-      .generateReversedBorderClasses().join("\n");
+    el("bw-reverse-border-styles").innerHTML = this
+      .generatereverseBorderClasses().join("\n");
     el("border-radii-styles").innerHTML = this.queryBorderRadiiVars().join(
       "\n",
     );
@@ -3140,9 +3140,9 @@ class Picker extends HTMLElement {
     lines.push("");
     lines.push(this.queryBlackAndWhiteBorderVars().join("\n"));
     lines.push("");
-    lines.push(this.queryReversedBaseVars().join("\n"));
+    lines.push(this.queryReverseBaseVars().join("\n"));
     lines.push("");
-    lines.push(this.queryReversedModeVars(0).join("\n"));
+    lines.push(this.queryReverseModeVars(0).join("\n"));
     lines.push("");
     lines.push(this.queryBorderRadiiVars().join("\n"));
     lines.push("");

@@ -1216,7 +1216,7 @@ class Picker extends HTMLElement {
         if (direction[1] === false) {
           ext = "";
         }
-        const name = `.${sizeName}-${ext}-padding`;
+        const name = `.${sizeName}${ext}-padding`;
         const key = `padding${ext}`;
         const value = `var(--${sizeName}-padding)`;
         lines.push(makeClass(name, key, value));
@@ -1235,7 +1235,7 @@ class Picker extends HTMLElement {
       lines.push(makeClass(name, key, value));
     });
     lines.sort();
-    return [`/* Text Alignments */`, ...lines];
+    return [`/* Alignments */`, ...lines];
   }
 
   generateColorTextClasses() {
@@ -1862,6 +1862,14 @@ class Picker extends HTMLElement {
   outputUtilityClasses() {
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     const out = [];
+    // Alignment Variables
+    out.push(":root {");
+    out.push(
+      this.queryTextAlignmentVars().join(
+        "\n",
+      ),
+    );
+    out.push("}\n");
     // B&W Base and Mode Variables
     out.push(":root {");
     out.push(
@@ -1945,14 +1953,6 @@ class Picker extends HTMLElement {
         .queryReversedBorderVars().join("\n"),
     );
     out.push("}\n");
-    // Text Alignment Variables
-    out.push(":root {");
-    out.push(
-      this.queryTextAlignmentVars().join(
-        "\n",
-      ),
-    );
-    out.push("}\n");
     // Width Variables
     out.push(":root {");
     out.push(this.queryWidthVars().join("\n"));
@@ -1963,11 +1963,6 @@ class Picker extends HTMLElement {
     out.push(
       this.generateTextAlignmentClasses()
         .join("\n"),
-    );
-    // B&W Text Classes
-    out.push(
-      this
-        .generateBlackAndWhiteTextClasses().join("\n"),
     );
     out.push("\n");
     // B&W Background Classes
@@ -1984,6 +1979,11 @@ class Picker extends HTMLElement {
         .generateBlackAndWhiteBorderClasses().join("\n"),
     );
     out.push("\n");
+    // B&W Text Classes
+    out.push(
+      this
+        .generateBlackAndWhiteTextClasses().join("\n"),
+    );
     out.push("\n");
     // Border Radii Classes
     out.push(
@@ -2010,7 +2010,6 @@ class Picker extends HTMLElement {
         "\n",
       ),
     );
-    out.push("\n");
     out.push("\n");
     // Flow Classes
     out.push(this.generateFlowClasses().join("\n"));
@@ -2041,6 +2040,7 @@ class Picker extends HTMLElement {
       this
         .generateReversedBorderClasses().join("\n"),
     );
+    out.push("\n");
     // Reversed Text Classes
     out.push(
       this
@@ -2359,7 +2359,7 @@ class Picker extends HTMLElement {
       lines.push(makeVar(name, value));
     });
     lines.sort(sortVars);
-    return [`  /* Text Alignment Variables */`, ...lines];
+    return [`  /* Alignment Variables */`, ...lines];
   }
 
   queryUiVarsStyleSheet() {

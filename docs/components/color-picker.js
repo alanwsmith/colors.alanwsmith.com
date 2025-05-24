@@ -191,6 +191,9 @@ function scrubStyle(input) {
     .toLowerCase();
 }
 
+function shiftReset(input) {
+  return (input.replaceAll("      ", ""));
+}
 function sortVars(a, b) {
   const x = a.split(":")[0];
   const y = b.split(":")[0];
@@ -306,6 +309,17 @@ const defaultPalette = {
   hueOffsets: [45, 60],
   isolatedColor: -2,
   lightLevels: 6,
+  lineHeights: [
+    1.1,
+    1.2,
+    1.3,
+    1.4,
+    1.5,
+    1.6,
+    1.7,
+    1.8,
+    1.9,
+  ],
   margins: [
     "2.4rem",
     "1.9rem",
@@ -1164,6 +1178,18 @@ class Picker extends HTMLElement {
     return [`/* Font Size Classes */`, ...lines];
   }
 
+  generateLineHeightsClasses() {
+    const lines = [];
+    this.getSizes().forEach((sizeName) => {
+      const name = `.${sizeName}-line-height`;
+      const key = `line-height`;
+      const value = `var(--${sizeName}-line-height)`;
+      lines.push(makeClass(name, key, value));
+    });
+    lines.sort();
+    return [`/* Line Height Classes */`, ...lines];
+  }
+
   generateMarginClasses() {
     const lines = [];
     this.getSizes().forEach((sizeName) => {
@@ -1878,6 +1904,10 @@ class Picker extends HTMLElement {
     out.push(":root {");
     out.push(this.queryFontSizeVars().join("\n"));
     out.push("}\n");
+    // Line Height Variables
+    out.push(":root {");
+    out.push(this.queryLineHeightVars().join("\n"));
+    out.push("}\n");
     // Margin Variables
     out.push(":root {");
     out.push(this.queryMarginVars().join("\n"));
@@ -1926,7 +1956,7 @@ class Picker extends HTMLElement {
     out.push(this.queryBorderRadiiVars().join("\n"));
     out.push("}\n");
 
-    out.push(el("reset-styles-input").innerHTML);
+    out.push(shiftReset(el("reset-styles-input").innerHTML));
 
     /*
 
@@ -2253,6 +2283,17 @@ class Picker extends HTMLElement {
     });
     lines.sort(sortVars);
     return [`  /* Font Size Variables */`, ...lines];
+  }
+
+  queryLineHeightVars() {
+    const lines = [];
+    this.getSizes().forEach((sizeName, sizeIndex) => {
+      const name = `  --${sizeName}-line-height`;
+      const value = `${p.lineHeights[sizeIndex]}`;
+      lines.push(makeVar(name, value));
+    });
+    lines.sort(sortVars);
+    return [`  /* Line Height Variables */`, ...lines];
   }
 
   queryMarginVars() {

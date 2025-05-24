@@ -401,7 +401,7 @@
         text-wrap: balance;
       }
       header {
-        margin-bottom: var(--default-margin);
+        margin-bottom: var(--small-margin);
         margin-inline: auto;
         margin-top: var(--xsmall-margin);
         width: var(--default-width);
@@ -466,6 +466,9 @@
       main {
         margin-inline: auto;
         width: var(--default-width);
+      }
+      main  > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
       }
       map {
         max-width: 100%;

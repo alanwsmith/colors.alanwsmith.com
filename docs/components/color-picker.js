@@ -238,22 +238,18 @@ const defaultPalette = {
   ],
   borderRadiiDirections: [
     ["", false],
-    ["block", true],
-    ["block-end", true],
-    ["block-start", true],
-    ["block-bottom", true],
-    ["end-end", true],
-    ["end-start", true],
-    ["inline", true],
-    ["inline-end", true],
-    ["inline-start", true],
-    ["left", true],
-    ["right", true],
-    ["start-end", true],
-    ["start-start", true],
-    ["top", true],
+    ["top-left-and-bottom-right", true],
+    ["top-right-and-bottom-left", true],
     ["top-left", true],
     ["top-right", true],
+    ["bottom-left", true],
+    ["bottom-right", true],
+  ],
+  borderRadiiDirectionHelpers: [
+    ["top", "top-left", "top-right"],
+    ["bottom", "bottom-left", "bottom-right"],
+    ["left", "top-left", "bottom-left"],
+    ["right", "top-right", "bottom-right"],
   ],
   colorNames: [
     "default",
@@ -1039,11 +1035,11 @@ class Picker extends HTMLElement {
       this.getBorderDirectionNames().forEach((directionName) => {
         let name = `.${bwName}${directionName}-border`;
         const key = `border${directionName}`;
-        let value = `var(--${bwName}-border-style)`;
+        let value = `var(--${bwName}-border)`;
         lines.push(makeClass(name, key, value));
         this.getScrubbedFadedNames().forEach((fadedName) => {
           name = `.${bwName}${directionName}-border-${fadedName}`;
-          let value = `var(--${bwName}-border-style-${fadedName})`;
+          let value = `var(--${bwName}-border-${fadedName})`;
           lines.push(makeClass(name, key, value));
         });
       });
@@ -1100,11 +1096,11 @@ class Picker extends HTMLElement {
       this.getBorderDirectionNames().forEach((directionName) => {
         let name = `.${bwName}${directionName}-border`;
         const key = `border${directionName}`;
-        let value = `var(--${bwName}-border-style)`;
+        let value = `var(--${bwName}-border)`;
         lines.push(makeClass(name, key, value));
         this.getScrubbedFadedNames().forEach((fadedName) => {
           name = `.${bwName}${directionName}-border-${fadedName}`;
-          let value = `var(--${bwName}-border-style-${fadedName})`;
+          let value = `var(--${bwName}-border-${fadedName})`;
           lines.push(makeClass(name, key, value));
         });
       });
@@ -1141,6 +1137,13 @@ class Picker extends HTMLElement {
         const value = `var(--${sizeName}-radius)`;
         lines.push(makeClass(name, key, value));
       });
+      p.borderRadiiDirectionHelpers.forEach((helper) => {
+        let help = `.${sizeName}-${helper[0]}-radius {
+  border-${helper[1]}-radius: var(--${sizeName}-radius);
+  border-${helper[2]}-radius: var(--${sizeName}-radius);
+}`;
+        lines.push(help);
+      });
     });
     lines.sort();
     return [`/* Border Radii */`, ...lines];
@@ -1152,11 +1155,11 @@ class Picker extends HTMLElement {
       this.getBorderDirectionNames().forEach((directionName) => {
         let name = `.${colorName}${directionName}-border`;
         const key = `border${directionName}`;
-        let value = `var(--${colorName}-border-style)`;
+        let value = `var(--${colorName}-border)`;
         lines.push(makeClass(name, key, value));
         this.getScrubbedFadedNames().forEach((fadedName) => {
           name = `.${colorName}${directionName}-border-${fadedName}`;
-          let value = `var(--${colorName}-border-style-${fadedName})`;
+          let value = `var(--${colorName}-border-${fadedName})`;
           lines.push(makeClass(name, key, value));
         });
       });
@@ -1294,7 +1297,8 @@ class Picker extends HTMLElement {
     const lines = [];
     this.getSizesWithFull().forEach((sizeName) => {
       const name = `.${sizeName}-wrapper`;
-      const values = `width: var(--${sizeName}-width); margin-inline: auto;`;
+      const values =
+        `width: var(--${sizeName}-width); margin-inline: auto; & > :where(:not(:first-child)) { margin-top: var(--flow-space, var(--default-flow)); } `;
       lines.push(`${name} { ${values} }`);
     });
     lines.sort();
@@ -2729,7 +2733,7 @@ class Picker extends HTMLElement {
       ],
       [
         this.generateBlackAndWhiteBorderClasses()[4],
-        ".black-border { border: var(--black-border-style); }",
+        ".black-border { border: var(--black-border); }",
         "generateBlackAndWhiteBorderStyles",
       ],
       [
@@ -2744,12 +2748,12 @@ class Picker extends HTMLElement {
       ],
       [
         this.generateColorBorderClasses()[2],
-        ".accent-block-border-faded { border-block: var(--accent-border-style-faded); }",
+        ".accent-block-border-faded { border-block: var(--accent-border-faded); }",
         "generateColorBorderStyles",
       ],
       [
         this.generateColorBorderClasses()[4],
-        ".accent-border { border: var(--accent-border-style); }",
+        ".accent-border { border: var(--accent-border); }",
         "generateColorBorderStyles",
       ],
       [

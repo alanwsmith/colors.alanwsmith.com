@@ -418,13 +418,9 @@
         height: 5px;
       }
       hr::after {
-        /* background was in the mdn example, 
-        I'm not sure whey. commenting out until
-        I have a chance to look closer 
-        background: #fff;
-        */
+        background: var(--background);
         content: "§";
-        padding-inline: var(--small-padding);
+        padding-inline: var(--large-padding);
         position: relative;
         top: -13px;
       }

@@ -131,6 +131,10 @@ function getEls(selector, obj) {
   return obj.querySelectorAll(selector);
 }
 
+function gvi(obj) {
+  return parseInt(obj.value, 10);
+}
+
 // TODO: Deprecate in favor of V2
 // Get Float Value from an Event
 
@@ -970,6 +974,7 @@ class Picker extends HTMLElement {
     this.addListeners();
     //    this.updateExportPage();
     this.updateDebuggingTab();
+    this.updateCustomizeTab();
     this.outputColorClasses();
     this.outputUtilityClasses();
   }
@@ -983,6 +988,7 @@ class Picker extends HTMLElement {
     this.updateUiClassesStyleSheet();
     //    this.updateExportPage();
     this.updateDebuggingTab();
+    this.updateCustomizeTab();
     this.toggleIsolation();
     this.outputColorClasses();
     this.outputUtilityClasses();
@@ -2819,6 +2825,10 @@ class Picker extends HTMLElement {
     p.modes[mode].colors[color].hueOffsetValues[hueOffsetIndex][aspect] = value;
   }
 
+  setNumberOfColors(obj) {
+    p.numberOfColors = gvi(obj);
+  }
+
   switchTopLevelTabs() {
     this.initColorTabs();
     this.initBackgroundSliders();
@@ -2947,6 +2957,21 @@ class Picker extends HTMLElement {
     const value = gvf(obj);
     this.setColorAspect(p.activeMode, p.activeColor, "c", value);
     this.finishUpdate();
+  }
+
+  updateCustomizeTab() {
+    const selector = el("number-of-colors-selector");
+    html("", selector);
+    ad("kind", "number-of-colors-selector", selector);
+    for (let num = 0; num < p.maxNumberOfColors; num++) {
+      const opt = dc("option");
+      opt.value = num + 1;
+      opt.innerHTML = num + 1;
+      if (num + 1 === p.numberOfColors) {
+        opt.selected = true;
+      }
+      a(opt, selector);
+    }
   }
 
   updateDebuggingTab() {
@@ -3258,6 +3283,8 @@ class Picker extends HTMLElement {
         } else if (kind === "default-mode-radio-button") {
           this.outputColorClasses();
           this.outputUtilityClasses();
+        } else if (kind === "number-of-colors-selector") {
+          this.setNumberOfColors(event.target);
         }
       } else if (event.type === "input") {
         if (kind === "background-box-slider") {

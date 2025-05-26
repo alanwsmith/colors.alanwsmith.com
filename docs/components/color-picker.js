@@ -2276,6 +2276,8 @@ class Picker extends HTMLElement {
     );
 
     lines.push(this.queryColorPreferredVars(p.activeMode).join("\n"));
+    lines.push(this.queryBlackAndWhiteModeVars(p.activeMode).join("\n"));
+    lines.push(this.queryReverseModeVars(p.activeMode).join("\n"));
 
     // UI Color
     if (this.getBackgroundValueL(p.activeMode) > 40) {

@@ -299,6 +299,10 @@
       cite {
         font-style: italic;
       }
+      .color-names-wrapper {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+      }
       data {
         /* */
       }
@@ -583,6 +587,11 @@
     </style>
   </head>
   <body>
+    <template id="customize-color-name">
+      <label></label>
+      <input type="text" />
+    </template>
+
     <template id="picker-controls-template">
       <div class="mode-buttons-wrapper">
         <div class="mode-buttons-name">Mode</div>
@@ -639,6 +648,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Customize
             </button>
@@ -646,7 +656,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Export
             </button>
@@ -974,12 +983,11 @@ It was a dark and stormy night...
                 <h2>Content For Launch</h2>
 -->
 
-                <div
+                <details
+                  open
                   class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
                 >
-                  <div class="content-bottom-border">
-                    <strong>TL;DR</strong>
-                  </div>
+                  <summary>TL;DR</summary>
                   <p>
                     Play around with the <em>Mode</em>, <em>Background</em>, and
                     <em>Colors</em> controls in the sidebar to change colors.
@@ -1000,7 +1008,7 @@ It was a dark and stormy night...
                       >grab my RSS feed</a
                     >.
                   </p>
-                </div>
+                </details>
                 <h2>The Basics</h2>
                 <h3>Color Modes</h3>
                 <p>
@@ -1171,9 +1179,9 @@ It was a dark and stormy night...
               </div>
 
               <h5>Color Names</h5>
-              <div class="color-names-list"></div>
+              <div class="color-names-wrapper"></div>
 
-              <p>Customiztions are a work in progress. They'll include:</p>
+              <p>Customizations are a work in progress. They'll include:</p>
               <ul>
                 <li>Change the number of colors</li>
                 <li>Change the names off the styles</li>

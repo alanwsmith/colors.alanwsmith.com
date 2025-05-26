@@ -50,6 +50,10 @@ let debug = true;
 
 let p = {};
 
+const templates = {
+  "colorName": `<label></label><div></div>`,
+};
+
 // Append Object To Target
 function a(child, parent) {
   if (typeof parent === "string") {
@@ -129,6 +133,12 @@ function getEl(selector, obj) {
 // Get elements from an object
 function getEls(selector, obj) {
   return obj.querySelectorAll(selector);
+}
+
+// Get a template
+function getTemplate(selector) {
+  const template = document.querySelector(selector);
+  return template.content.cloneNode(true);
 }
 
 function gvi(obj) {
@@ -744,6 +754,7 @@ class Picker extends HTMLElement {
 
   finishUpdate() {
     dbg("finishUpdate");
+    this.initUtilityClasses();
     this.updateVarsStyleSheet();
     this.queryUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
@@ -1269,6 +1280,14 @@ class Picker extends HTMLElement {
 
   getColorMinLightValue(mode, color) {
     return p.modes[mode].colors[color].minLightLevel;
+  }
+
+  getColorNames() {
+    return p.colorNames.filter((name, index) => {
+      if (index < p.numberOfColors) {
+        return name;
+      }
+    });
   }
 
   getColorValueC(mode, color) {
@@ -2584,6 +2603,7 @@ class Picker extends HTMLElement {
 
   setNumberOfColors(obj) {
     p.numberOfColors = gvi(obj);
+    this.finishUpdate();
   }
 
   switchTopLevelTabs() {
@@ -2729,6 +2749,25 @@ class Picker extends HTMLElement {
       }
       a(opt, selector);
     }
+    this.updateColorNamesCustomizer();
+  }
+
+  updateColorNamesCustomizer() {
+    const colorNamesWrapper = el("color-names-wrapper");
+    html("", colorNamesWrapper);
+    this.getColorNames().forEach((colorName, colorIndex) => {
+      const connector = `customize-color-name-${colorIndex}`;
+      const nameEls = getTemplate("#customize-color-name");
+      const label = getEl("label", nameEls);
+      html(`Color ${colorIndex + 1}:`, label);
+      ac(scrubStyle(colorName), label);
+      sa("for", connector, label);
+      a(label, colorNamesWrapper);
+      const input = getEl("input", nameEls);
+      input.id = connector;
+      input.value = colorName;
+      a(input, colorNamesWrapper);
+    });
   }
 
   updateDebuggingTab() {

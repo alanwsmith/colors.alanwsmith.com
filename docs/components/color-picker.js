@@ -2736,6 +2736,11 @@ class Picker extends HTMLElement {
     this.finishUpdate();
   }
 
+  updateColorName(obj) {
+    const color = gdi("color", obj);
+    p.colorNames[color] = obj.value;
+  }
+
   updateCustomizeTab() {
     const selector = el("number-of-colors-selector");
     html("", selector);
@@ -2764,6 +2769,8 @@ class Picker extends HTMLElement {
       sa("for", connector, label);
       a(label, colorNamesWrapper);
       const input = getEl("input", nameEls);
+      ad("kind", "customize-color-name", input);
+      ad("color", colorIndex, input);
       input.id = connector;
       input.value = colorName;
       a(input, colorNamesWrapper);
@@ -2967,6 +2974,8 @@ class Picker extends HTMLElement {
           this.updateBackgroundColors(event.target);
         } else if (kind === "color-chroma-slider") {
           this.updateColorChroma(event.target);
+        } else if (kind === "customize-color-name") {
+          this.updateColorName(event.target);
         }
       }
     }

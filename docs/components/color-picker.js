@@ -1597,6 +1597,112 @@ class Picker extends HTMLElement {
     return this.getScrubbedModeNames()[modeIndex];
   }
 
+  getUtilityClasses() {
+    const out = [];
+    const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
+    // Alignment Classes
+    out.push(
+      this.generateTextAlignmentClasses()
+        .join("\n"),
+    );
+    out.push("\n");
+    // B&W Background Classes
+    out.push(
+      this
+        .generateBlackAndWhiteBackgroundClasses().join(
+          "\n",
+        ),
+    );
+    out.push("\n");
+    // B&W Border Classes
+    out.push(
+      this
+        .generateBlackAndWhiteBorderClasses().join("\n"),
+    );
+    out.push("\n");
+    // B&W Text Classes
+    out.push(
+      this
+        .generateBlackAndWhiteTextClasses().join("\n"),
+    );
+    out.push("\n");
+    // Border Radii Classes
+    out.push(
+      this.generateBorderRadiiClasses().join(
+        "\n",
+      ),
+    );
+    out.push("\n");
+    // Color Background Classes
+    out.push(
+      this
+        .generateColorBackgroundClasses().join("\n"),
+    );
+    out.push("\n");
+    // Color Border Classes
+    out.push(
+      this.generateColorBorderClasses().join(
+        "\n",
+      ),
+    );
+    out.push("\n");
+    // Color Text Classes
+    out.push(
+      this.generateColorTextClasses().join(
+        "\n",
+      ),
+    );
+    out.push("\n");
+    // Flow Classes
+    out.push(this.generateFlowClasses().join("\n"));
+    out.push("\n");
+    // Font Size Classes
+    out.push(this.generateFontSizeClasses().join("\n"));
+    out.push("\n");
+    // Line Height Classes
+    out.push(this.generateLineHeightClasses().join("\n"));
+    out.push("\n");
+    // Margin Classes
+    out.push(this.generateMarginClasses().join("\n"));
+    out.push("\n");
+    // Padding Classes
+    out.push(this.generatePaddingClasses().join("\n"));
+    out.push("\n");
+    out.push("\n");
+    // reverse Background Classes
+    out.push(
+      this
+        .generatereverseBackgroundClasses().join(
+          "\n",
+        ),
+    );
+    out.push("\n");
+    // reverse Border Classes
+    out.push(
+      this
+        .generatereverseBorderClasses().join("\n"),
+    );
+    out.push("\n");
+    // reverse Text Classes
+    out.push(
+      this
+        .generatereverseTextClasses().join("\n"),
+    );
+    out.push("\n");
+    // Weight Classes
+    out.push(this.generateWeightClasses().join("\n"));
+    out.push("\n");
+    // Width Classes
+    out.push(this.generateWidthClasses().join("\n"));
+    out.push("\n");
+    // Wrapper Classes
+    out.push(this.generateWrapperClasses().join("\n"));
+    out.push("\n");
+    // Skeleton Styles
+    out.push(shiftReset(el("skeleton-styles").innerHTML));
+    return out.join("\n");
+  }
+
   getWeights() {
     return p.weights;
   }
@@ -1829,40 +1935,7 @@ class Picker extends HTMLElement {
   initUtilityClasses() {
     this.utilityClassesStyleSheet = dc("style");
     document.head.appendChild(this.utilityClassesStyleSheet);
-    ad("editable", "no", this.utilityClassesStyleSheet);
-    ad("deployable", "yes", this.utilityClassesStyleSheet);
-    ad("name", "Utility Classes", this.utilityClassesStyleSheet);
-    const lines = [];
-    lines.push("");
-    lines.push(this.generateColorTextClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateColorBackgroundClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateColorBorderClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateBlackAndWhiteTextClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateBlackAndWhiteBackgroundClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateBlackAndWhiteBorderClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateBorderRadiiClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateFlowClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateFontSizeClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateMarginClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generatePaddingClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateTextAlignmentClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateWidthClasses().join("\n"));
-    lines.push("");
-    lines.push(this.generateWrapperClasses().join("\n"));
-    const out = lines.join("\n");
-    this.utilityClassesStyleSheet.innerHTML = out;
+    this.utilityClassesStyleSheet.innerHTML = this.getUtilityClasses();
   }
 
   // TODO: Verify
@@ -1889,27 +1962,28 @@ class Picker extends HTMLElement {
   outputColorClasses() {
     const out = [];
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
+    out.push(":root {");
+    out.push("  /* Color Scheme Signal */");
+    out.push("  color-scheme: light dark;");
+    out.push("}\n");
+    out.push(":root {");
+    out.push(this.queryColorModeVars().join("\n"));
+    out.push("}\n");
     if (defaultThemeKind === "light") {
       out.push(":root {");
-      out.push("  color-scheme: light dark;");
-      out.push(this.queryColorModeVars().join("\n"));
       out.push(this.queryColorPreferredVars(0).join("\n"));
       out.push("}\n\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
       out.push(":root {");
       out.push(this.queryColorPreferredVars(1).join("\n"));
       out.push("}");
-      out.push("}");
     } else {
       out.push(":root {");
-      out.push("  color-scheme: light dark;");
-      out.push(this.queryColorModeVars().join("\n"));
       out.push(this.queryColorPreferredVars(1).join("\n"));
       out.push("}\n\n");
       out.push(`@media (prefers-color-scheme: light) {`);
       out.push(":root {");
       out.push(this.queryColorPreferredVars(0).join("\n"));
-      out.push("}");
       out.push("}");
     }
     el("basic-css-output").innerHTML = out.join("\n");
@@ -1950,6 +2024,11 @@ class Picker extends HTMLElement {
     );
     out.push("*/");
     out.push("\n");
+    // Color Scheme light dark
+    out.push(":root {");
+    out.push("  /* Color Scheme Signal */");
+    out.push("  color-scheme: light dark;");
+    out.push("}\n");
     // Alignment Variables
     out.push(":root {");
     out.push(
@@ -1964,23 +2043,27 @@ class Picker extends HTMLElement {
       this
         .queryBlackAndWhiteBaseVars().join("\n"),
     );
-    out.push("\n");
-    if (defaultThemeKind === "light") {
-      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-      out.push("}\n");
-      out.push(":root {");
-      out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push("}");
-      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
-    } else {
-      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
-      out.push("}\n");
-      out.push(":root {");
-      out.push(`@media (prefers-color-scheme: light) {`);
-      out.push("}");
-      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-    }
     out.push("}\n");
+    if (defaultThemeKind === "light") {
+      out.push(":root {");
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push("  :root {");
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("  }");
+      out.push("}");
+    } else {
+      out.push(":root {");
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push("  :root {");
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("  }");
+      out.push("}");
+    }
+    out.push("\n");
     // B&W Border Variables
     out.push(":root {");
     out.push(
@@ -1997,15 +2080,15 @@ class Picker extends HTMLElement {
     /////////////////////////////////////////////////////////
     // Color payload: TODO: Move this to a function and
     // use it here and for the basic output
-    out.push("\n");
     const defaultThemeKindForColors =
       elV2(`input[name="default-mode"]:checked`).value;
+    out.push(":root {");
+    out.push(this.queryColorModeVars().join("\n"));
+    out.push("}\n");
     if (defaultThemeKindForColors === "light") {
       out.push(":root {");
-      out.push("  color-scheme: light dark;");
-      out.push(this.queryColorModeVars().join("\n"));
       out.push(this.queryColorPreferredVars(0).join("\n"));
-      out.push("}\n\n");
+      out.push("}\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
       out.push(":root {");
       out.push(this.queryColorPreferredVars(1).join("\n"));
@@ -2013,10 +2096,8 @@ class Picker extends HTMLElement {
       out.push("}");
     } else {
       out.push(":root {");
-      out.push("  color-scheme: light dark;");
-      out.push(this.queryColorModeVars().join("\n"));
       out.push(this.queryColorPreferredVars(1).join("\n"));
-      out.push("}\n\n");
+      out.push("}\n");
       out.push(`@media (prefers-color-scheme: light) {`);
       out.push(":root {");
       out.push(this.queryColorPreferredVars(0).join("\n"));
@@ -2060,23 +2141,27 @@ class Picker extends HTMLElement {
       this
         .queryReverseBaseVars().join("\n"),
     );
-    out.push("\n");
+    out.push("}\n");
     if (defaultThemeKind === "light") {
+      out.push(":root {");
       out.push(this.queryReverseModeVars(0).join("\n"));
       out.push("}\n");
       out.push(`@media (prefers-color-scheme: dark) {`);
       out.push(":root {");
       out.push(this.queryReverseModeVars(1).join("\n"));
       out.push("}");
+      out.push("}\n");
     } else {
+      out.push(":root {");
       out.push(this.queryReverseModeVars(1).join("\n"));
       out.push("}\n");
       out.push(":root {");
       out.push(`@media (prefers-color-scheme: light) {`);
       out.push("}");
       out.push(this.queryReverseModeVars(0).join("\n"));
+      out.push("}");
+      out.push("}\n");
     }
-    out.push("}\n");
     // Reverse Border Variables
     out.push(":root {");
     out.push(
@@ -2094,104 +2179,7 @@ class Picker extends HTMLElement {
     out.push("}\n");
     // Reset Styles
     out.push(shiftReset(el("reset-styles").innerHTML));
-    // Alignment Classes
-    out.push(
-      this.generateTextAlignmentClasses()
-        .join("\n"),
-    );
-    out.push("\n");
-    // B&W Background Classes
-    out.push(
-      this
-        .generateBlackAndWhiteBackgroundClasses().join(
-          "\n",
-        ),
-    );
-    out.push("\n");
-    // B&W Border Classes
-    out.push(
-      this
-        .generateBlackAndWhiteBorderClasses().join("\n"),
-    );
-    out.push("\n");
-    // B&W Text Classes
-    out.push(
-      this
-        .generateBlackAndWhiteTextClasses().join("\n"),
-    );
-    out.push("\n");
-    // Border Radii Classes
-    out.push(
-      this.generateBorderRadiiClasses().join(
-        "\n",
-      ),
-    );
-    out.push("\n");
-    // Color Background Classes
-    out.push(
-      this
-        .generateColorBackgroundClasses().join("\n"),
-    );
-    out.push("\n");
-    // Color Border Classes
-    out.push(
-      this.generateColorBorderClasses().join(
-        "\n",
-      ),
-    );
-    out.push("\n");
-    // Color Text Classes
-    out.push(
-      this.generateColorTextClasses().join(
-        "\n",
-      ),
-    );
-    out.push("\n");
-    // Flow Classes
-    out.push(this.generateFlowClasses().join("\n"));
-    out.push("\n");
-    // Font Size Classes
-    out.push(this.generateFontSizeClasses().join("\n"));
-    out.push("\n");
-    // Line Height Classes
-    out.push(this.generateLineHeightClasses().join("\n"));
-    out.push("\n");
-    // Margin Classes
-    out.push(this.generateMarginClasses().join("\n"));
-    out.push("\n");
-    // Padding Classes
-    out.push(this.generatePaddingClasses().join("\n"));
-    out.push("\n");
-    out.push("\n");
-    // reverse Background Classes
-    out.push(
-      this
-        .generatereverseBackgroundClasses().join(
-          "\n",
-        ),
-    );
-    out.push("\n");
-    // reverse Border Classes
-    out.push(
-      this
-        .generatereverseBorderClasses().join("\n"),
-    );
-    out.push("\n");
-    // reverse Text Classes
-    out.push(
-      this
-        .generatereverseTextClasses().join("\n"),
-    );
-    out.push("\n");
-    // Weight Classes
-    out.push(this.generateWeightClasses().join("\n"));
-    out.push("\n");
-    // Width Classes
-    out.push(this.generateWidthClasses().join("\n"));
-    out.push("\n");
-    // Wrapper Classes
-    out.push(this.generateWrapperClasses().join("\n"));
-    out.push("\n");
+    out.push(this.getUtilityClasses());
     // Skeleton Styles
     out.push(shiftReset(el("skeleton-styles").innerHTML));
     html(out.join("\n"), ".utility-styles");

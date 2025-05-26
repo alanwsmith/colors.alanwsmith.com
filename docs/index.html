@@ -463,7 +463,7 @@
         margin-inline: auto;
         width: var(--default-width);
       }
-      main  > :where(:not(:first-child)) {
+      main > :where(:not(:first-child)) {
         margin-top: var(--flow-space, var(--default-flow));
       }
       map {
@@ -639,7 +639,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Customize
             </button>
@@ -647,6 +646,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Export
             </button>
@@ -1163,8 +1163,11 @@ It was a dark and stormy night...
 -->
 
               <div class="number-of-colors-wrapper">
-<label for="number-of-colors-selector">Number of Colors:</label>
-<select id="number-of-colors-selector" class="number-of-colors-selector"></select>
+                <label for="number-of-colors-selector">Number of Colors:</label>
+                <select
+                  id="number-of-colors-selector"
+                  class="number-of-colors-selector"
+                ></select>
               </div>
 
               <h5>Color Names</h5>

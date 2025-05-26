@@ -210,6 +210,10 @@ function sortVars(a, b) {
   }
 }
 
+function wrapInRoot(input) {
+  return `:root {\n${input}\n}`;
+}
+
 const defaultPalette = {
   _debugging: {},
   _tests: {
@@ -706,232 +710,6 @@ class Picker extends HTMLElement {
   constructor() {
     super();
   }
-
-  addExampleForBorderRadius() {
-    dbg("addExampleForBorderRadius");
-    const wrapper = el("border-radius-examples-wrapper");
-    this.getSizes().forEach((size) => {
-      const example = dc("div");
-      const token = `${size}-radius`;
-      ac(`match-text`, example);
-      ac(`reverse-background`, example);
-      ac(`xlarge-full-padding`, example);
-      ac(`large-inline-margin`, example);
-      ac(token, example);
-      html(`.${token}`, example);
-      a(example, wrapper);
-    });
-  }
-
-  // addExampleForBwBackground() {
-  // 	const wrapper = el("bw-background-examples-wrapper");
-  // 	this.getBwKinds().forEach((kind) => {
-  // 		const kindEl = dc("div");
-  // 		this.getFadedValues().forEach((value) => {
-  // 			const token = `${kind[0]}${value}-background`;
-  // 			const color = `${kind[1]}-text`;
-  // 			const exampleEl = dc("div");
-  // 			html(`.${token}`, exampleEl);
-  // 			ac(`${token}`, exampleEl);
-  // 			ac(`small-full-padding`, exampleEl);
-  // 			ac(`small-full-margin`, exampleEl);
-  // 			ac(color, exampleEl);
-  // 			a(exampleEl, kindEl);
-  // 		});
-  // 		a(kindEl, wrapper);
-  // 	});
-  // }
-
-  // addExampleForBwBorder() {
-  // 	const wrapper = el("bw-border-examples-wrapper");
-  // 	this.getBwKinds().forEach((kind) => {
-  // 		const kindEl = dc("div");
-  // 		this.getDirections().forEach((data) => {
-  // 			this.getFadedValues().forEach((bwValue) => {
-  // 				const className = `${kind[0]}${bwValue}-${data[0]}-border`;
-  // 				const background = `${kind[1]}-background`;
-  // 				const color = `${kind[0]}-text`;
-  // 				const cell = dc("div");
-  // 				ac("default-inline-padding", cell);
-  // 				ac("large-block-padding", cell);
-  // 				ac(background, cell);
-  // 				ac(color, cell);
-  // 				const span = dc("span");
-  // 				html(`.${className}`, span);
-  // 				ac(className, span);
-  // 				ac(`xxsmall-full-padding`, span);
-  // 				a(span, cell);
-  // 				a(cell, kindEl);
-  // 			});
-  // 		});
-  // 		a(kindEl, wrapper);
-  // 	});
-  // }
-
-  // addExampleForBwColor() {
-  // 	const wrapper = el("bw-color-examples-wrapper");
-  // 	this.getBwKinds().forEach((kind) => {
-  // 		const kindEl = dc("div");
-  // 		this.getFadedValues().forEach((bwValue) => {
-  // 			const token = `${kind[0]}${bwValue}-text`;
-  // 			const background = `${kind[1]}-background`;
-  // 			const exampleEl = dc("div");
-  // 			html(`.${token}`, exampleEl);
-  // 			ac(`${token}`, exampleEl);
-  // 			ac(`${background}`, exampleEl);
-  // 			ac(`small-full-padding`, exampleEl);
-  // 			a(exampleEl, kindEl);
-  // 		});
-  // 		a(kindEl, wrapper);
-  // 	});
-  // }
-
-  addExampleForFontSize() {
-    const wrapper = el("font-size-examples-wrapper");
-    this.getSizes().forEach((size) => {
-      const token = `${size}-font`;
-      const example = dc("div");
-      ac(`reverse-background`, example);
-      ac(`match-text`, example);
-      ac(`large-inline-margin`, example);
-      ac(`default-inline-padding`, example);
-      ac(token, example);
-      html(`.${token}`, example);
-      a(example, wrapper);
-    });
-  }
-
-  addExampleForSpacingAlignment() {
-    const wrapper = el("alignment-examples-wrapper");
-    this.getAlignments().forEach((alignment) => {
-      const example = dc("div");
-      ac(`large-inline-margin`, example);
-      ac(`reverse-background`, example);
-      ac(`match-text`, example);
-      ac(`default-full-padding`, example);
-      const token = `align-${alignment}`;
-      html(
-        `this is an example of text that will be positioned based on how they line up via .${token}`,
-        example,
-      );
-      ac(token, example);
-      a(example, wrapper);
-    });
-  }
-
-  addExampleForSpacingFlow() {
-    const wrapper = el("flow-examples-wrapper");
-    this.getSizes().forEach((size) => {
-      const example = dc("div");
-      ac(`match-text`, example);
-      ac(`reverse-background`, example);
-      ac(`large-full-margin`, example);
-      const token = `${size}-flow`;
-      ac(token, example);
-      const name = dc(`div`);
-      html(`.${token}`, name);
-      a(name, example);
-      for (let p = 0; p < 4; p++) {
-        const p = dc("p");
-        html("item", p);
-        a(p, example);
-      }
-      a(example, wrapper);
-    });
-  }
-
-  addExampleForSpacingMargin() {
-    const wrapper = el("margin-examples-wrapper");
-    this.getSizes().forEach((size) => {
-      this.getDirections().forEach((dir) => {
-        const token = `${size}-${dir[0]}-margin`;
-        const example = dc("div");
-        ac("reverse-faded-background", example);
-        ac("large-inline-margin", example);
-        const name = dc("div");
-        ac(`match-text`, name);
-        ac(`small-full-padding`, name);
-        html(`.${token}`, name);
-        a(name, example);
-        const line1 = dc("div");
-        ac("match-text", line1);
-        ac("reverse-background", line1);
-        html("&nbsp;", line1);
-        a(line1, example);
-        const line2 = dc("div");
-        ac("match-background", line2);
-        ac("reverse-text", line2);
-        ac(token, line2);
-        html("&nbsp;", line2);
-        a(line2, example);
-        const line3 = dc("div");
-        ac("match-text", line3);
-        ac("reverse-background", line3);
-        html("&nbsp;", line3);
-        a(line3, example);
-        a(example, wrapper);
-      });
-    });
-  }
-
-  addExampleForSpacingPadding() {
-    const wrapper = el("paddExampleForing--wrapper");
-    this.getSizes().forEach((size) => {
-      this.getDirections().forEach((dir) => {
-        const token = `${size}-${dir[0]}-padding`;
-        const example = dc("div");
-        ac("reverse-background", example);
-        ac("large-inline-margin", example);
-        ac(token, example);
-        const inside = dc("div");
-        ac("match-background", inside);
-        html(`.${token}`, inside);
-        a(inside, example);
-        a(example, wrapper);
-      });
-    });
-  }
-
-  addExampleForSpacingWidth() {
-    const wrapper = el("width-examples-wrapper");
-    this.getSizesWithFull().forEach((size) => {
-      const token = `${size}-width`;
-      const example = dc("div");
-      const name = dc("div");
-      html(`.${token}`, name);
-      a(name, example);
-      ac("reverse-background", example);
-      ac("match-text", example);
-      ac("large-inline-margin", example);
-      const item = dc("div");
-      ac("match-background", item);
-      ac(token, item);
-      html(`&nbsp;`, item);
-      a(item, example);
-      a(example, wrapper);
-    });
-  }
-
-  addExampleForSpacingWrapper() {
-    const wrapper = el("wrapper-examples-wrapper");
-    this.getSizesWithFull().forEach((size) => {
-      const token = `${size}-wrapper`;
-      const example = dc("div");
-      const name = dc("div");
-      html(`.${token}`, name);
-      a(name, example);
-      ac("reverse-background", example);
-      ac("match-text", example);
-      ac("large-inline-margin", example);
-      const item = dc("div");
-      ac("match-background", item);
-      ac(token, item);
-      html(`&nbsp;`, item);
-      a(item, example);
-      a(example, wrapper);
-    });
-  }
-
   addListeners() {
     dbg("addListeners");
     this.addEventListener("click", (event) => {
@@ -1703,6 +1481,160 @@ class Picker extends HTMLElement {
     return out.join("\n");
   }
 
+  getUtilityVars() {
+    const out = [];
+    const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
+    // Alignment Variables
+    out.push(":root {");
+    out.push(
+      this.queryTextAlignmentVars().join(
+        "\n",
+      ),
+    );
+    out.push("}\n");
+    // B&W Base and Mode Variables
+    out.push(":root {");
+    out.push(
+      this
+        .queryBlackAndWhiteBaseVars().join("\n"),
+    );
+    out.push("}\n");
+    if (defaultThemeKind === "light") {
+      out.push(":root {");
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push("  :root {");
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("  }");
+      out.push("}");
+    } else {
+      out.push(":root {");
+      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push("  :root {");
+      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
+      out.push("  }");
+      out.push("}");
+    }
+    out.push("\n");
+    // B&W Border Variables
+    out.push(":root {");
+    out.push(
+      this
+        .queryBlackAndWhiteBorderVars().join("\n"),
+    );
+    out.push("}\n");
+    // Border Radii Variables
+    out.push(":root {");
+    out.push(this.queryBorderRadiiVars().join("\n"));
+    out.push("}\n");
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    // Color payload: TODO: Move this to a function and
+    // use it here and for the basic output
+    const defaultThemeKindForColors =
+      elV2(`input[name="default-mode"]:checked`).value;
+    out.push(":root {");
+    out.push(this.queryColorModeVars().join("\n"));
+    out.push("}\n");
+    if (defaultThemeKindForColors === "light") {
+      out.push(":root {");
+      out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(":root {");
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}");
+      out.push("}");
+    } else {
+      out.push(":root {");
+      out.push(this.queryColorPreferredVars(1).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push(":root {");
+      out.push(this.queryColorPreferredVars(0).join("\n"));
+      out.push("}");
+      out.push("}");
+    }
+    out.push("\n");
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
+    // Color Border Variables
+    out.push(":root {");
+    out.push(
+      this.queryColorBorderStyleVars()
+        .join("\n"),
+    );
+    out.push("}\n");
+    // Flow Variables
+    out.push(":root {");
+    out.push(this.queryFlowVars().join("\n"));
+    out.push("}\n");
+    // Font Size Variables
+    out.push(":root {");
+    out.push(this.queryFontSizeVars().join("\n"));
+    out.push("}\n");
+    // Line Height Variables
+    out.push(":root {");
+    out.push(this.queryLineHeightVars().join("\n"));
+    out.push("}\n");
+    // Margin Variables
+    out.push(":root {");
+    out.push(this.queryMarginVars().join("\n"));
+    out.push("}\n");
+    // Padding Variables
+    out.push(":root {");
+    out.push(this.queryPaddingVars().join("\n"));
+    out.push("}\n");
+    // Reverse Base and Mode Variables
+    out.push(":root {");
+    out.push(
+      this
+        .queryReverseBaseVars().join("\n"),
+    );
+    out.push("}\n");
+    if (defaultThemeKind === "light") {
+      out.push(":root {");
+      out.push(this.queryReverseModeVars(0).join("\n"));
+      out.push("}\n");
+      out.push(`@media (prefers-color-scheme: dark) {`);
+      out.push(":root {");
+      out.push(this.queryReverseModeVars(1).join("\n"));
+      out.push("}");
+      out.push("}\n");
+    } else {
+      out.push(":root {");
+      out.push(this.queryReverseModeVars(1).join("\n"));
+      out.push("}\n");
+      out.push(":root {");
+      out.push(`@media (prefers-color-scheme: light) {`);
+      out.push("}");
+      out.push(this.queryReverseModeVars(0).join("\n"));
+      out.push("}");
+      out.push("}\n");
+    }
+    // Reverse Border Variables
+    out.push(":root {");
+    out.push(
+      this
+        .queryReverseBorderVars().join("\n"),
+    );
+    out.push("}\n");
+    // Weight Variables
+    out.push(":root {");
+    out.push(this.queryWeightVars().join("\n"));
+    out.push("}\n");
+    // Width Variables
+    out.push(":root {");
+    out.push(this.queryWidthVars().join("\n"));
+    out.push("}\n");
+    return out.join("\n");
+  }
+
   getWeights() {
     return p.weights;
   }
@@ -2029,156 +1961,10 @@ class Picker extends HTMLElement {
     out.push("  /* Color Scheme Signal */");
     out.push("  color-scheme: light dark;");
     out.push("}\n");
-    // Alignment Variables
-    out.push(":root {");
-    out.push(
-      this.queryTextAlignmentVars().join(
-        "\n",
-      ),
-    );
-    out.push("}\n");
-    // B&W Base and Mode Variables
-    out.push(":root {");
-    out.push(
-      this
-        .queryBlackAndWhiteBaseVars().join("\n"),
-    );
-    out.push("}\n");
-    if (defaultThemeKind === "light") {
-      out.push(":root {");
-      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-      out.push("}\n");
-      out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push("  :root {");
-      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
-      out.push("  }");
-      out.push("}");
-    } else {
-      out.push(":root {");
-      out.push(this.queryBlackAndWhiteModeVars(1).join("\n"));
-      out.push("}\n");
-      out.push(`@media (prefers-color-scheme: light) {`);
-      out.push("  :root {");
-      out.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-      out.push("  }");
-      out.push("}");
-    }
-    out.push("\n");
-    // B&W Border Variables
-    out.push(":root {");
-    out.push(
-      this
-        .queryBlackAndWhiteBorderVars().join("\n"),
-    );
-    out.push("}\n");
-    // Border Radii Variables
-    out.push(":root {");
-    out.push(this.queryBorderRadiiVars().join("\n"));
-    out.push("}\n");
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    // Color payload: TODO: Move this to a function and
-    // use it here and for the basic output
-    const defaultThemeKindForColors =
-      elV2(`input[name="default-mode"]:checked`).value;
-    out.push(":root {");
-    out.push(this.queryColorModeVars().join("\n"));
-    out.push("}\n");
-    if (defaultThemeKindForColors === "light") {
-      out.push(":root {");
-      out.push(this.queryColorPreferredVars(0).join("\n"));
-      out.push("}\n");
-      out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push(":root {");
-      out.push(this.queryColorPreferredVars(1).join("\n"));
-      out.push("}");
-      out.push("}");
-    } else {
-      out.push(":root {");
-      out.push(this.queryColorPreferredVars(1).join("\n"));
-      out.push("}\n");
-      out.push(`@media (prefers-color-scheme: light) {`);
-      out.push(":root {");
-      out.push(this.queryColorPreferredVars(0).join("\n"));
-      out.push("}");
-      out.push("}");
-    }
-    out.push("\n");
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////
-    // Color Border Variables
-    out.push(":root {");
-    out.push(
-      this.queryColorBorderStyleVars()
-        .join("\n"),
-    );
-    out.push("}\n");
-    // Flow Variables
-    out.push(":root {");
-    out.push(this.queryFlowVars().join("\n"));
-    out.push("}\n");
-    // Font Size Variables
-    out.push(":root {");
-    out.push(this.queryFontSizeVars().join("\n"));
-    out.push("}\n");
-    // Line Height Variables
-    out.push(":root {");
-    out.push(this.queryLineHeightVars().join("\n"));
-    out.push("}\n");
-    // Margin Variables
-    out.push(":root {");
-    out.push(this.queryMarginVars().join("\n"));
-    out.push("}\n");
-    // Padding Variables
-    out.push(":root {");
-    out.push(this.queryPaddingVars().join("\n"));
-    out.push("}\n");
-    // Reverse Base and Mode Variables
-    out.push(":root {");
-    out.push(
-      this
-        .queryReverseBaseVars().join("\n"),
-    );
-    out.push("}\n");
-    if (defaultThemeKind === "light") {
-      out.push(":root {");
-      out.push(this.queryReverseModeVars(0).join("\n"));
-      out.push("}\n");
-      out.push(`@media (prefers-color-scheme: dark) {`);
-      out.push(":root {");
-      out.push(this.queryReverseModeVars(1).join("\n"));
-      out.push("}");
-      out.push("}\n");
-    } else {
-      out.push(":root {");
-      out.push(this.queryReverseModeVars(1).join("\n"));
-      out.push("}\n");
-      out.push(":root {");
-      out.push(`@media (prefers-color-scheme: light) {`);
-      out.push("}");
-      out.push(this.queryReverseModeVars(0).join("\n"));
-      out.push("}");
-      out.push("}\n");
-    }
-    // Reverse Border Variables
-    out.push(":root {");
-    out.push(
-      this
-        .queryReverseBorderVars().join("\n"),
-    );
-    out.push("}\n");
-    // Weight Variables
-    out.push(":root {");
-    out.push(this.queryWeightVars().join("\n"));
-    out.push("}\n");
-    // Width Variables
-    out.push(":root {");
-    out.push(this.queryWidthVars().join("\n"));
-    out.push("}\n");
+
     // Reset Styles
     out.push(shiftReset(el("reset-styles").innerHTML));
+    out.push(this.getUtilityVars());
     out.push(this.getUtilityClasses());
     // Skeleton Styles
     out.push(shiftReset(el("skeleton-styles").innerHTML));
@@ -3284,47 +3070,12 @@ class Picker extends HTMLElement {
     }
   }
 
-  // Reminder: this is the live style sheet.
-  // Exports and handled elsewhere.
   updateVarsStyleSheet() {
     if (this.varsStyleSheet === undefined) {
       this.varsStyleSheet = dc("style");
       document.head.appendChild(this.varsStyleSheet);
     }
-    const lines = [];
-    lines.push(`:root {`);
-    lines.push(this.queryColorModeVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryColorActiveVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryColorBorderStyleVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryBlackAndWhiteBaseVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryBlackAndWhiteModeVars(0).join("\n"));
-    lines.push("");
-    lines.push(this.queryBlackAndWhiteBorderVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryReverseBaseVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryReverseModeVars(0).join("\n"));
-    lines.push("");
-    lines.push(this.queryBorderRadiiVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryFlowVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryFontSizeVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryMarginVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryPaddingVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryTextAlignmentVars().join("\n"));
-    lines.push("");
-    lines.push(this.queryWidthVars().join("\n"));
-    lines.push(`}`);
-    const out = lines.join("\n");
-    this.varsStyleSheet.innerHTML = out;
+    this.varsStyleSheet.innerHTML = this.getUtilityVars();
   }
 }
 

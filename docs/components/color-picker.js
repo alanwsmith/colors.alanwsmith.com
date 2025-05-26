@@ -729,20 +729,6 @@ class Picker extends HTMLElement {
     p = JSON.parse(JSON.stringify(defaultPalette));
     this.runTests();
     this.loadData();
-    /*
-    this.addExampleForBorderRadius();
-    this.addExampleForBwBackground();
-    this.addExampleForBwBorder();
-    this.addExampleForBwColor();
-    this.addExampleForSpacingAlignment();
-    this.addExampleForSpacingFlow();
-    this.addExampleForSpacingMargin();
-    this.addExampleForSpacingPadding();
-    this.addExampleForSpacingWidth();
-    this.addExampleForSpacingWrapper();
-    this.addExampleForFontSize();
-    */
-
     this.initControls();
     this.initUtilityClasses();
     this.updateVarsStyleSheet();
@@ -750,7 +736,6 @@ class Picker extends HTMLElement {
     this.updateUiClassesStyleSheet();
     this.requestUpdate = this.updateUiView.bind(this);
     this.addListeners();
-    //    this.updateExportPage();
     this.updateDebuggingTab();
     this.updateCustomizeTab();
     this.outputColorClasses();
@@ -761,10 +746,7 @@ class Picker extends HTMLElement {
     dbg("finishUpdate");
     this.updateVarsStyleSheet();
     this.queryUiVarsStyleSheet();
-    // TODO: move the classes things so it only has
-    // to fire once
     this.updateUiClassesStyleSheet();
-    //    this.updateExportPage();
     this.updateDebuggingTab();
     this.updateCustomizeTab();
     this.toggleIsolation();
@@ -1476,8 +1458,6 @@ class Picker extends HTMLElement {
     // Wrapper Classes
     out.push(this.generateWrapperClasses().join("\n"));
     out.push("\n");
-    // Skeleton Styles
-    out.push(shiftReset(el("skeleton-styles").innerHTML));
     return out.join("\n");
   }
 
@@ -1956,18 +1936,19 @@ class Picker extends HTMLElement {
     );
     out.push("*/");
     out.push("\n");
-    // Color Scheme light dark
+    // Color Scheme Signal
     out.push(":root {");
     out.push("  /* Color Scheme Signal */");
     out.push("  color-scheme: light dark;");
     out.push("}\n");
-
+    // Vars
+    out.push(this.getUtilityVars());
     // Reset Styles
     out.push(shiftReset(el("reset-styles").innerHTML));
-    out.push(this.getUtilityVars());
+    // Classes
     out.push(this.getUtilityClasses());
-    // Skeleton Styles
-    out.push(shiftReset(el("skeleton-styles").innerHTML));
+    // Layout Styles
+    out.push(shiftReset(el("layout-styles").innerHTML));
     html(out.join("\n"), ".utility-styles");
   }
 
@@ -2293,6 +2274,9 @@ class Picker extends HTMLElement {
     lines.push(
       `--${p.backgroundColorName}: var(--${this.getActiveModeScrubbedName()}-mode__${p.backgroundColorName});`,
     );
+
+    lines.push(this.queryColorPreferredVars(p.activeMode).join("\n"));
+
     // UI Color
     if (this.getBackgroundValueL(p.activeMode) > 40) {
       lines.push(`--ui__picker: oklch(0% 0 0);`);

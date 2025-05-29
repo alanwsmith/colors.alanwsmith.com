@@ -383,8 +383,9 @@
         /* */
       }
       code {
-        font-size: var(--small-font);
         color: var(--reverse);
+        font-size: var(--small-font);
+        padding-inline: var(--xsmall-padding);
       }
       dd {
         margin-left: var(--default-margin);
@@ -733,7 +734,7 @@
               </p>
 
               <p>
-                Each color has three version. The full color and two faded
+                Each color has three versions. The full color and two faded
                 styles. Here's what they look like:
               </p>
 
@@ -798,7 +799,44 @@
               <pre
                 class="basic-css-output xxsmall-font accent-border-faded default-radius default-padding"
               ></pre>
-              <p>That's it.</p>
+              <h2>Wrap Up</h2>
+              <p>
+                That's it. You're all set to use these for colors in your
+                stylesheets:
+              </p>
+
+              <ul>
+                <li>
+                  <code class="nowrap">var(--default)</code>
+                </li>
+
+                <li><code class="nowrap">var(--heading)</code></li>
+                <li><code class="nowrap">var(--link)</code></li>
+                <li>
+                  <code class="nowrap">var(--accent)</code>
+                </li>
+                <li>
+                  <code class="nowrap">var(--warning)</code>
+                </li>
+              </ul>
+
+              <p>
+                They'll automatically switch between Light and Dark mode based
+                on a person's preference whenever possible. You can also append
+                each one with either
+                <code class="nowrap">-faded</code> or
+                <code class="nowrap">-faded2</code> to get the faded versions of
+                the colors. For example:
+              </p>
+              <pre
+                class="small-font reverse-border-faded default-radius default-padding"
+              >
+h1 {
+  background-color: var(--default-faded2);
+  border-bottom: 1px solid var(--accent);
+  color: var(--heading);
+}</pre
+              >
               <p>Enjoy!</p>
               <p>-a</p>
               <h3>Starter Styles</h3>

@@ -2653,6 +2653,9 @@ class Picker extends HTMLElement {
       els(".content-body").forEach((e) => {
         e.classList.add("invisible");
       });
+      els(".scroll-wrapper").forEach((e) => {
+        e.classList.add("invisible");
+      });
     } else if (p.isolatedColor >= 0) {
       this.getColorActives().forEach((colorName, colorIndex) => {
         if (colorIndex !== p.isolatedColor) {
@@ -2686,6 +2689,9 @@ class Picker extends HTMLElement {
         rc("invisible", wrapper);
       });
       els(".colors-box-wrapper").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
+      els(".scroll-wrapper").forEach((wrapper) => {
         rc("invisible", wrapper);
       });
     }

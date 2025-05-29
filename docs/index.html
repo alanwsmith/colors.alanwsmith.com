@@ -233,7 +233,7 @@
         font-size: var(--small-font);
       }
       .scroll-wrapper {
-        border: 1px solid var(--reverse-faded2);
+        border: 1px solid var(--reverse-faded);
         border-radius: var(--default-radius);
         height: 94vh;
         margin-top: var(--default-margin);
@@ -429,7 +429,7 @@
       }
       h2 {
         color: var(--heading);
-        border-bottom: var(--default-border);
+        border-bottom: var(--accent-border);
         font-size: var(--xxlarge-font);
         font-weight: var(--weight-900);
         line-height: var(--xsmall-line-height);
@@ -698,23 +698,6 @@
               <h1>Alan's Color Picker</h1>
             </hgroup>
             <div class="small-flow">
-              <h2>Preview</h2>
-              <div class="preview-wrapper">
-                <div class="preview-light">
-                  <div class="preview-light-1">Light default</div>
-                  <div class="preview-light-2">Light heading</div>
-                  <div class="preview-light-3">Light link</div>
-                  <div class="preview-light-4">Light accent</div>
-                  <div class="preview-light-5">Light warning</div>
-                </div>
-                <div class="preview-dark">
-                  <div class="preview-dark-1">Dark default</div>
-                  <div class="preview-dark-2">Dark heading</div>
-                  <div class="preview-dark-3">Dark link</div>
-                  <div class="preview-dark-4">Dark accent</div>
-                  <div class="preview-dark-5">Dark warning</div>
-                </div>
-              </div>
               <h2>The Basics</h2>
               <ol>
                 <li>
@@ -722,8 +705,11 @@
                   <em>Colors</em>
                   controls in the sidebar to pick your colors
                 </li>
-                <li>Pick if you want to default to light or dark mode below</li>
-                <li>Copy the color variables for you palette into your CSS.</li>
+                <li>
+                  Choose between light or dark mode in the
+                  <em>Default Mode</em> section below
+                </li>
+                <li>Copy the color variables for you palette into your CSS</li>
               </ol>
 
               <h2>Default Mode</h2>
@@ -733,34 +719,52 @@
                 mode would you like to present if a preference can't be
                 determined?
               </p>
-              <div class="default-mode-selection-wrapper">
+              <div class="preview-wrapper">
                 <div>
-                  <input
-                    data-kind="default-mode-radio-button"
-                    type="radio"
-                    id="default-mode-light"
-                    name="default-mode"
-                    value="light"
-                    checked
-                  />
-                  <label for="default-mode-light">Light</label>
+                  <div class="preview-light">
+                    <div class="preview-light-1">Light default</div>
+                    <div class="preview-light-2">Light heading</div>
+                    <div class="preview-light-3">Light link</div>
+                    <div class="preview-light-4">Light accent</div>
+                    <div class="preview-light-5">Light warning</div>
+                  </div>
+                  <div>
+                    <input
+                      data-kind="default-mode-radio-button"
+                      type="radio"
+                      id="default-mode-light"
+                      name="default-mode"
+                      value="light"
+                      checked
+                    />
+                    <label for="default-mode-light">Light</label>
+                  </div>
                 </div>
                 <div>
-                  <input
-                    data-kind="default-mode-radio-button"
-                    type="radio"
-                    id="default-mode-dark"
-                    name="default-mode"
-                    value="dark"
-                  />
-                  <label for="default-mode-dark">Dark</label>
+                  <div class="preview-dark">
+                    <div class="preview-dark-1">Dark default</div>
+                    <div class="preview-dark-2">Dark heading</div>
+                    <div class="preview-dark-3">Dark link</div>
+                    <div class="preview-dark-4">Dark accent</div>
+                    <div class="preview-dark-5">Dark warning</div>
+                  </div>
+                  <div>
+                    <input
+                      data-kind="default-mode-radio-button"
+                      type="radio"
+                      id="default-mode-dark"
+                      name="default-mode"
+                      value="dark"
+                    />
+                    <label for="default-mode-dark">Dark</label>
+                  </div>
                 </div>
               </div>
+              <div class="default-mode-selection-wrapper"></div>
               <p>Here's the CSS variables for your color palette:</p>
-              <textarea
-                class="basic-css-output large-width xsmall-font"
-                rows="16"
-              ></textarea>
+              <pre
+                class="basic-css-output xxsmall-font reverse-border-faded default-radius default-padding"
+              ></pre>
               <p>Enjoy!</p>
               <p>-a</p>
               <h3>Starter Styles</h3>

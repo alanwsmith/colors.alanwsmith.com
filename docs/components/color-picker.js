@@ -2640,6 +2640,9 @@ class Picker extends HTMLElement {
           lines.push(`--${name}: var(--background);`);
         });
       });
+      els(".background-box-wrapper").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
       els(".mode-buttons-wrapper").forEach((wrapper) => {
         wrapper.classList.add("invisible");
       });
@@ -2658,18 +2661,39 @@ class Picker extends HTMLElement {
     } else if (p.isolatedColor >= 0) {
       this.getColorActives().forEach((colorName, colorIndex) => {
         if (colorIndex !== p.isolatedColor) {
-          lines.push(`--${colorName}: var(--background);`);
+          lines.push(`--light-mode__${colorName}: var(--background);`);
+          lines.push(`--dark-mode__${colorName}: var(--background);`);
           p.fadedNames.forEach((fadedName) => {
             const name = `${colorName}-${fadedName}`;
             lines.push(`--${name}: var(--background);`);
           });
         }
       });
+      if (p.activeMode === 0) {
+        els(".preview-dark").forEach((wrapper) => {
+          ac("invisible", wrapper);
+        });
+      } else {
+        els(".preview-light").forEach((wrapper) => {
+          ac("invisible", wrapper);
+        });
+      }
+      lines.push(`--reverse-faded: var(--background);`);
+      lines.push(`--reverse-faded2: var(--background);`);
+      els(".mode-buttons-wrapper").forEach((wrapper) => {
+        ac("invisible", wrapper);
+      });
+      els(".colors-box-tab-list").forEach((wrapper) => {
+        ac("invisible", wrapper);
+      });
+      els(".color-selector-tab-name").forEach((wrapper) => {
+        ac("invisible", wrapper);
+      });
+      els(".background-box-wrapper").forEach((wrapper) => {
+        ac("invisible", wrapper);
+      });
       els(".content-body").forEach((e) => {
         rc("invisible", e);
-      });
-      els(".mode-buttons-wrapper").forEach((wrapper) => {
-        rc("invisible", wrapper);
       });
       els(".nav-tab-list").forEach((wrapper) => {
         rc("invisible", wrapper);
@@ -2678,6 +2702,15 @@ class Picker extends HTMLElement {
         rc("invisible", wrapper);
       });
     } else {
+      els(".preview-light").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
+      els(".preview-dark").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
+      els(".background-box-wrapper").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
       els(".content-body").forEach((e) => {
         rc("invisible", e);
       });
@@ -2691,6 +2724,12 @@ class Picker extends HTMLElement {
         rc("invisible", wrapper);
       });
       els(".scroll-wrapper").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
+      els(".colors-box-tab-list").forEach((wrapper) => {
+        rc("invisible", wrapper);
+      });
+      els(".color-selector-tab-name").forEach((wrapper) => {
         rc("invisible", wrapper);
       });
     }

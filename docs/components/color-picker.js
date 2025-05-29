@@ -52,6 +52,14 @@ let p = {};
 
 const templates = {
   "colorName": `<label></label><div></div>`,
+  "colorExample": `
+<div class="color-example-wrapper">
+<div class="color-example-name"></div>
+<div class="no-fade"></div>
+<div class="faded"></div>
+<div class="faded2"></div>
+</div>
+`,
 };
 
 // Append Object To Target
@@ -138,6 +146,14 @@ function getEls(selector, obj) {
 // Get a template
 function getTemplate(selector) {
   const template = document.querySelector(selector);
+  return template.content.cloneNode(true);
+}
+
+// Get local template from const above
+function getLocalTemplate(name) {
+  const template = dc("template");
+  template.innerHTML = templates[name];
+  //template.innerHTML = "<div></div>";
   return template.content.cloneNode(true);
 }
 
@@ -1683,10 +1699,26 @@ class Picker extends HTMLElement {
 
   initColorExamples() {
     const wrapper = el("color-examples-wrapper");
-    this.getColorNames().forEach((name, nameIndex) => {
-      const exampleWrapper = dc("div");
-      html("asdf", exampleWrapper);
-      a(exampleWrapper, wrapper);
+    this.getColorNames().forEach((colorName, colorIndex) => {
+      const template = getLocalTemplate("colorExample");
+      const name = getEl(".color-example-name", template);
+      html(colorName, name);
+      ac(colorName, name);
+      ac("weight-900", name);
+      const noFade = getEl(".no-fade", template);
+      html("This is the full color with no fade", noFade);
+      ac(colorName, noFade);
+      const faded = getEl(".faded", template);
+      html("This is the faded color", faded);
+      ac(`${colorName}-faded`, faded);
+      const faded2 = getEl(".faded2", template);
+      html("This is the faded2 color", faded2);
+      ac(`${colorName}-faded2`, faded2);
+
+      a(template, wrapper);
+      //ac(name, wrapper);
+
+      //html(name, getEl("color-example-name", example);
     });
   }
 
@@ -2300,11 +2332,11 @@ class Picker extends HTMLElement {
 
     // UI Color
     if (this.getBackgroundValueL(p.activeMode) > 40) {
-      lines.push(`--ui__picker: oklch(0% 0 0);`);
+      lines.push(`--ui__picker: oklch(0% 0 0 / 0.7);`);
       lines.push(`--ui__picker-faded: oklch(0% 0 0 / .7);`);
       lines.push(`--ui__picker-faded2: oklch(0% 0 0 / .7);`);
     } else {
-      lines.push(`--ui__picker: oklch(100% 0 0);`);
+      lines.push(`--ui__picker: oklch(100% 0 0 / 0.5);`);
       lines.push(`--ui__picker-faded: oklch(100% 0 0 / .4);`);
       lines.push(`--ui__picker-faded2: oklch(100% 0 0 / .4);`);
     }

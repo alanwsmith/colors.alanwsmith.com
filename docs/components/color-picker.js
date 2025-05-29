@@ -741,6 +741,7 @@ class Picker extends HTMLElement {
     this.loadData();
     this.initControls();
     this.initUtilityClasses();
+    this.initColorExamples();
     this.updateVarsStyleSheet();
     this.queryUiVarsStyleSheet();
     this.updateUiClassesStyleSheet();
@@ -1680,8 +1681,17 @@ class Picker extends HTMLElement {
     });
   }
 
+  initColorExamples() {
+    const wrapper = el("color-examples-wrapper");
+    this.getColorNames().forEach((name, nameIndex) => {
+      const exampleWrapper = dc("div");
+      html("asdf", exampleWrapper);
+      a(exampleWrapper, wrapper);
+    });
+  }
+
   initColorTabs() {
-    dbg("initColorTabs");
+    //dbg("initColorTabs");
     const sidebars = els(".sidebar-controls");
     sidebars.forEach((sidebar) => {
       const tabKey = gds("tab", sidebar);

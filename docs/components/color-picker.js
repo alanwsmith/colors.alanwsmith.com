@@ -55,17 +55,20 @@ const templates = {
   "colorExample": `
 <div class="color-example-wrapper small-flow">
   <div class="color-example-name"></div>
-  <div class="two-column">
+  <div class="three-column">
     <div class="no-fade"></div>
-    <div class="no-fade-border default-inline-padding default-radius">border example</div>
+    <div class="no-fade-border default-inline-padding default-radius">border</div>
+    <div class="no-fade-background default-inline-padding default-radius">background</div>
   </div>
-  <div class="two-column">
+  <div class="three-column">
     <div class="faded"></div>
-    <div class="faded-border default-inline-padding default-radius">border example</div>
+    <div class="faded-border default-inline-padding default-radius">border</div>
+    <div class="faded-background default-inline-padding default-radius">background</div>
   </div>
-  <div class="two-column">
+  <div class="three-column">
     <div class="faded2"></div>
-    <div class="faded2-border default-inline-padding default-radius">border example</div>
+    <div class="faded2-border default-inline-padding default-radius">border</div>
+    <div class="faded2-background default-inline-padding default-radius">background</div>
   </div>
 </div>
 `,
@@ -314,6 +317,7 @@ const defaultPalette = {
     ["top", true],
   ],
   fadedNames: ["faded", "faded2"],
+  fadedValues: [.5, .2],
   // i've got back and forth between
   // 45 and 60 here. going with 45 for
   // now since it offers more colors. The
@@ -383,7 +387,6 @@ const defaultPalette = {
       colors: [
         // 0-0
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -401,7 +404,6 @@ const defaultPalette = {
         },
         // 0-1
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -419,7 +421,6 @@ const defaultPalette = {
         },
         // 0-2
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -437,7 +438,6 @@ const defaultPalette = {
         },
         // 0-3
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -455,7 +455,6 @@ const defaultPalette = {
         },
         // 0-4
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -473,7 +472,6 @@ const defaultPalette = {
         },
         // 0-5
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -491,7 +489,6 @@ const defaultPalette = {
         },
         // 0-6
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -509,7 +506,6 @@ const defaultPalette = {
         },
         // 0-7
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -538,7 +534,6 @@ const defaultPalette = {
       colors: [
         // 2-0
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -556,7 +551,6 @@ const defaultPalette = {
         },
         // 2-1
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -574,7 +568,6 @@ const defaultPalette = {
         },
         // 2-2
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -592,7 +585,6 @@ const defaultPalette = {
         },
         // 2-3
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -610,7 +602,6 @@ const defaultPalette = {
         },
         // 2-4
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -628,7 +619,6 @@ const defaultPalette = {
         },
         // 2-5
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -646,7 +636,6 @@ const defaultPalette = {
         },
         // 2-6
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -664,7 +653,6 @@ const defaultPalette = {
         },
         // 2-7
         {
-          fadedValues: [40, 80],
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
@@ -1219,7 +1207,7 @@ class Picker extends HTMLElement {
     return p.modes[mode].blackAndWhiteValues[index];
   }
 
-  getreverseVadedValue(mode, index) {
+  getReverseFadedValue(mode, index) {
     return p.modes[mode].blackAndWhitereverseFaded[index];
   }
 
@@ -1719,16 +1707,22 @@ class Picker extends HTMLElement {
       ac(colorName, noFade);
       const noFadeBorder = getEl(".no-fade-border", template);
       ac(`${colorName}-border`, noFadeBorder);
+      const noFadebackground = getEl(".no-fade-background", template);
+      ac(`${colorName}-background`, noFadebackground);
       const faded = getEl(".faded", template);
       html("This is the faded color", faded);
       ac(`${colorName}-faded`, faded);
       const fadedBorder = getEl(".faded-border", template);
       ac(`${colorName}-border-faded`, fadedBorder);
+      const fadedbackground = getEl(".faded-background", template);
+      ac(`${colorName}-background-faded`, fadedbackground);
       const faded2 = getEl(".faded2", template);
       html("This is the faded2 color", faded2);
       ac(`${colorName}-faded2`, faded2);
       const faded2Border = getEl(".faded2-border", template);
       ac(`${colorName}-border-faded2`, faded2Border);
+      const faded2background = getEl(".faded2-background", template);
+      ac(`${colorName}-background-faded2`, faded2background);
       a(template, wrapper);
     });
   }
@@ -1946,10 +1940,9 @@ class Picker extends HTMLElement {
     const out = [];
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     out.push(":root {");
-    out.push("  /* Color Scheme Signal */");
-    out.push("  color-scheme: light dark;");
-    out.push("}\n");
-    out.push(":root {");
+    out.push(
+      `  color-scheme: light dark; /* Default: ${defaultThemeKind} */\n`,
+    );
     out.push(this.queryColorModeVars().join("\n"));
     out.push("}\n");
     if (defaultThemeKind === "light") {
@@ -2129,7 +2122,7 @@ class Picker extends HTMLElement {
           ),
         );
         this.getScrubbedFadedNames().forEach((fadedName, fadedIndex) => {
-          const fadedValue = this.getreverseVadedValue(
+          const fadedValue = this.getReverseFadedValue(
             modeIndex,
             fadedIndex,
           );
@@ -2245,8 +2238,9 @@ class Picker extends HTMLElement {
         const textName = `  --${modeName}-mode__${colorName}`;
         const textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(`${textName}: ${textValue};`);
-        p.fadedNames.forEach((fadedName) => {
-          const fade = 0.5;
+        p.fadedNames.forEach((fadedName, fadedIndex) => {
+          // const fade = 0.5;
+          const fade = p.fadedValues[fadedIndex];
           const fadedClassName = `  --${scrubStyle(modeName)}-mode__${
             scrubStyle(colorName)
           }-${fadedName}`;
@@ -2424,7 +2418,7 @@ class Picker extends HTMLElement {
         textName = `--ui__mode-${modeIndex}__color-${colorIndex}`;
         textValue = `oklch(${l}% ${c} ${h})`;
         lines.push(`${textName}: ${textValue};`);
-        p.fadedNames.forEach((fadedName) => {
+        p.fadedNames.forEach((fadedName, fadedIndex) => {
           const fade = 0.5;
           let fadedClassName =
             `--ui__${modeName}-mode__${colorName}-${fadedName}`;

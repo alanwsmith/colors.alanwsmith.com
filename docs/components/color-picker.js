@@ -1931,16 +1931,7 @@ class Picker extends HTMLElement {
       "thinking the color names? probably they just need to be custom names)",
     );
     out.push(
-      "TODO: add weight (use numbers)",
-    );
-    out.push(
       "TODO: heights or min heights?",
-    );
-    out.push(
-      "TODO: auto-inline-margin",
-    );
-    out.push(
-      "TODO: fixed width?",
     );
     out.push("TODO: add flexes and maybe grids?");
     out.push(

@@ -440,7 +440,7 @@
         border: var(--accent-border);
       }
       input {
-        margin-inline: var(--small-margin);
+        margin: var(--xxxsmall-margin);
       }
       ins {
         background-color: var(--accent-faded);
@@ -641,6 +641,7 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
+              aria-selected="true"
             >
               Picker
             </button>
@@ -648,7 +649,6 @@
               class="top-nav-button"
               role="tab"
               data-kind="top-nav-button"
-              aria-selected="true"
             >
               Customize
             </button>
@@ -983,33 +983,18 @@ It was a dark and stormy night...
                 <h2>Content For Launch</h2>
 -->
 
-                <details
-                  open
-                  class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
-                >
-                  <summary>TL;DR</summary>
-                  <p>
-                    Play around with the <em>Mode</em>, <em>Background</em>, and
-                    <em>Colors</em> controls in the sidebar to change colors.
-                  </p>
-                  <p>
-                    Hit <em>Export</em> above when you've got a palette you
-                    like. It'll give you a stylesheet with your colors.
-                  </p>
-                  <p>There is no step 3.</p>
-                  <p class="content-top-border large-top-padding">
-                    I'm working on more features. Follow me on
-                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a> or
-                    <a href="https://bsky.app/profile/alanwsmith.com"
-                      >Bluesky</a
-                    >
-                    for updates. Or,
-                    <a href="https://www.alanwsmith.com/feeds/posts.xml"
-                      >grab my RSS feed</a
-                    >.
-                  </p>
-                </details>
                 <h2>The Basics</h2>
+                <p>
+                  Play around with the <em>Mode</em>, <em>Background</em>, and
+                  <em>Colors</em> controls in the sidebar to change colors.
+                </p>
+                <p>
+                  Hit <em>Export</em> above when you've got a palette you like
+                  to get your stylesheet.
+                </p>
+                <p>There is no step 3.</p>
+
+                <h2>Some Details</h2>
                 <h3>Color Modes</h3>
                 <p>
                   There are two color modes: <em>Light</em>, <em>Dark</em>, The

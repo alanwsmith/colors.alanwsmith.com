@@ -660,7 +660,7 @@ const defaultPalette = {
     },
   ],
   name: "Color Palette",
-  numberOfColors: 4,
+  numberOfColors: 5,
   numberOfFaded: 2,
   paddings: [
     "2.4rem",

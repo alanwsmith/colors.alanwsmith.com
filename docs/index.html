@@ -46,13 +46,13 @@
 
     <style data-name="Interface Styles" class="interface-styles">
       .background-box-name {
-        padding-block: var(--xsmall-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .background-box-isolate-wrapper {
         text-align: end;
-        padding-block: var(--small-padding);
+        padding-block: var(--xxsmall-padding);
         padding-inline: var(--default-padding);
       }
       .background-box-sliders {
@@ -101,7 +101,7 @@
         line-height: 1.3;
       }
       .colors-box-name {
-        padding-block: var(--xsmall-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
       }
       .colors-box-tab-list {
@@ -116,7 +116,7 @@
         padding-inline: var(--small-padding);
       }
       .colors-box-chroma-checkbox-wrapper {
-        padding-block: var(--small-padding);
+        padding-block: var(--xxsmall-padding);
         padding-inline: var(--default-padding);
         text-align: end;
       }
@@ -144,8 +144,8 @@
       .default-mode-selection-wrapper {
         display: grid;
       }
-      hgroup {
-        padding-bottom: var(--large-padding);
+      hgroup p {
+        font-size: var(--small-font);
       }
       input[type="range"] {
         width: 100%;
@@ -157,14 +157,16 @@
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
-        padding: var(--default-padding);
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--default-padding);
         justify-content: space-evenly;
       }
       .mode-buttons-name {
         border-bottom: 1px solid var(--ui__picker);
         color: var(--ui__picker);
-        padding-block: var(--xsmall-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
+        font-size: var(--small-font);
       }
       .mode-button-wrapper {
         display: grid;
@@ -180,7 +182,6 @@
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
         font-size: var(--small-font);
-        margin-top: var(--default-margin);
       }
       .scroll-wrapper {
         border: 1px solid var(--reverse-faded2);
@@ -191,7 +192,7 @@
         padding: var(--default-padding);
       }
       .sidebar-controls {
-        padding-top: var(--large-padding);
+        /* */
       }
       .slider-wrapper {
         padding-top: 0.1rem;
@@ -220,16 +221,17 @@
       }
       .top-nav-button[aria-selected="true"] {
         color: var(--accent);
+        border-bottom: 3px solid var(--ui__picker);
       }
       .nav-tab-list {
         border-bottom: 1px solid var(--ui__picker);
-        margin-top: var(--default-margin);
+        margin-top: var(--xxxsmall-margin);
         margin-bottom: var(--xlarge-margin);
       }
       .ui-two-column {
         display: grid;
         grid-template-columns: 1fr 13.4rem;
-        gap: 2rem;
+        gap: 1rem;
       }
       [role="tab"] {
         background: none;
@@ -639,7 +641,7 @@
       </div>
     </template>
 
-    <color-picker class="flow">
+    <color-picker>
       <div class="xlarge-wrapper ui-two-column">
         <div class="scroll-wrapper">
           <tab-group>
@@ -652,6 +654,7 @@
               >
                 Picker
               </button>
+              <!--
               <button
                 class="top-nav-button"
                 role="tab"
@@ -659,6 +662,7 @@
               >
                 Customize
               </button>
+-->
               <button
                 class="top-nav-button"
                 role="tab"
@@ -666,6 +670,7 @@
               >
                 Export
               </button>
+              <!--
               <button
                 class="top-nav-button"
                 role="tab"
@@ -680,14 +685,15 @@
               >
                 Debugging
               </button>
+-->
             </div>
 
             <div role="tabpanel">
-              <div class="content-wrapper">
-                <div class="content-body default-flow">
+              <div>
+                <div class="content-body">
                   <hgroup class="large-bottom-margin">
                     <h1>Alan's Color Picker</h1>
-                    <p class="align-end small-font">
+                    <p class="align-end">
                       made by
                       <a href="https://www.alanwsmith.com/">alan w smith</a>
                     </p>
@@ -769,39 +775,8 @@
               </div>
             </div>
 
-            <div role="tabpanel" hidden>
-              <hgroup class="large-bottom-margin">
-                <h1>Alan's Color Picker</h1>
-                <p class="align-end">
-                  made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-                </p>
-              </hgroup>
-              <div class="default-flow">
-                <h2>Settings</h2>
-                <div class="number-of-colors-wrapper">
-                  <label for="number-of-colors-selector"
-                    >Number of Colors:</label
-                  >
-                  <select
-                    id="number-of-colors-selector"
-                    class="number-of-colors-selector"
-                  ></select>
-                </div>
-                <h5>Color Names</h5>
-                <div class="color-names-wrapper"></div>
-                <p>Customizations are a work in progress. They'll include:</p>
-                <ul>
-                  <li>Change the number of colors</li>
-                  <li>Change the names off the styles</li>
-                  <li>Customize CSS (e.g. to bring in fonts)</li>
-                  <li>Customize HTML with your content</li>
-                </ul>
-                <p>Check out the TODO list for more.</p>
-              </div>
-            </div>
-
-            <div role="tabpanel" hidden>
-              <hgroup class="large-bottom-margin">
+            <div class="small-flow" role="tabpanel" hidden>
+              <hgroup>
                 <h1>Alan's Color Picker</h1>
                 <p class="align-end">
                   made by <a href="https://www.alanwsmith.com/">alan w smith</a>
@@ -851,6 +826,37 @@
                   class="basic-css-output large-width xsmall-font utility-styles"
                   rows="18"
                 ></textarea>
+              </div>
+            </div>
+
+            <div role="tabpanel" hidden>
+              <hgroup class="large-bottom-margin">
+                <h1>Alan's Color Picker</h1>
+                <p class="align-end">
+                  made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+                </p>
+              </hgroup>
+              <div class="default-flow">
+                <h2>Settings</h2>
+                <div class="number-of-colors-wrapper">
+                  <label for="number-of-colors-selector"
+                    >Number of Colors:</label
+                  >
+                  <select
+                    id="number-of-colors-selector"
+                    class="number-of-colors-selector"
+                  ></select>
+                </div>
+                <h5>Color Names</h5>
+                <div class="color-names-wrapper"></div>
+                <p>Customizations are a work in progress. They'll include:</p>
+                <ul>
+                  <li>Change the number of colors</li>
+                  <li>Change the names off the styles</li>
+                  <li>Customize CSS (e.g. to bring in fonts)</li>
+                  <li>Customize HTML with your content</li>
+                </ul>
+                <p>Check out the TODO list for more.</p>
               </div>
             </div>
 

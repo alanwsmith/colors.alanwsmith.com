@@ -692,483 +692,84 @@
     <color-picker>
       <div class="xlarge-wrapper ui-two-column">
         <div class="scroll-wrapper">
-          <tab-group>
-            <div role="tablist" class="nav-tab-list">
-              <button
-                class="top-nav-button"
-                role="tab"
-                data-kind="top-nav-button"
-              >
-                Picker
-              </button>
-              <!--
-              <button
-                class="top-nav-button"
-                role="tab"
-                data-kind="top-nav-button"
-              >
-                Customize
-              </button>
--->
-              <button
-                class="top-nav-button"
-                role="tab"
-                data-kind="top-nav-button"
-                aria-selected="true"
-              >
-                Export
-              </button>
-              <!--
-              <button
-                class="top-nav-button"
-                role="tab"
-                data-kind="top-nav-button"
-              >
-                TODO
-              </button>
-              <button
-                class="top-nav-button"
-                role="tab"
-                data-kind="top-nav-button"
-              >
-                Debugging
-              </button>
--->
-            </div>
-
-            <div role="tabpanel">
-              <div class="small-flow">
-                <div class="content-body small-flow">
-                  <hgroup>
-                    <h1>Alan's Color Picker</h1>
-                    <p class="align-end">
-                      made by
-                      <a href="https://www.alanwsmith.com/">alan w smith</a>
-                    </p>
-                  </hgroup>
-                  <div class="small-flow">
-                    <h2>The Basics</h2>
-                    <p>
-                      Play around with the <em>Mode</em>, <em>Background</em>,
-                      and <em>Colors</em> controls in the sidebar to change
-                      colors.
-                    </p>
-                    <p>
-                      Hit <em>Export</em> above when you've got a palette you
-                      like to get your stylesheet.
-                    </p>
-                    <p>There is no step 3.</p>
-                    <h2>Some Details</h2>
-                    <h3>Color Modes</h3>
-                    <p>
-                      There are two color modes: <em>Light</em>, <em>Dark</em>,
-                      The buttons in the <em>Mode</em> box change between
-                      them<sup>guidelines</sup>.
-                    </p>
-                    <h3>The Background Color</h3>
-                    <p>
-                      The three sliders in the <em>Background</em> box are
-                      <em>l</em>, <em>c</em>, and <em>h</em> (aka lightness,
-                      chroma, and hue). Changing them changes the background
-                      color. Fiddle with them to get an idea of how they work.
-                    </p>
-                    <p>
-                      You can use the <em>Isolate</em> checkbox to hide content.
-                      It makes it easier to focus on the color.
-                    </p>
-                    <h3>The Colors</h3>
-                    <p>
-                      The picker has five colors: content, link, title, heading,
-                      and accent<sup>more soon</sup>. Change between them with
-                      the colored tabs in the <em>Colors</em> box.
-                    </p>
-                    <p>
-                      Clicking/tapping a colored <em>set</em> from the grid
-                      changes the selected color to match it. The
-                      <em>c</em> slider below the <em>set</em> grid changes the
-                      <em>chroma</em> of the color<sup>more later</sup>.
-                      Basically, its intensity.
-                    </p>
-                    <p>
-                      The <em>Isolate</em> checkbox in the <em>Colors</em> box
-                      hides everything that's not using the selected color.
-                    </p>
-                    <h3>Picking</h3>
-                    <p>
-                      That's it. There's not a lot too it. That's kinda the
-                      point.
-                    </p>
-                    <p>
-                      I make
-                      <a href="https://links.alanwsmith.com/"
-                        >lots of websites</a
-                      >. Picking colors for them was always a pain with existing
-                      tools<sup>note about other tools</sup>. A friction that
-                      slowed me down with no payoff. I built this picker to
-                      address that. It's designed to generate a nice set of
-                      colors with as little effort as possible.
-                    </p>
-                    <p>I hope you enjoy it,</p>
-                    <p>-a</p>
-                    <h2>Footnotes</h2>
-                    <ol>
-                      <li>
-                        Changing the number of colors and what they are called
-                        is a work in progress.
-                      </li>
-                      <li>
-                        OKLCH is a &quot;color space&quot; which is a fancy way
-                        of saying it's a way for computers to deal with colors.
-                        There's lots of science behind it. I'll write more about
-                        it in future updates.
-                      </li>
-                    </ol>
-                  </div>
+          <div class="small-flow">
+            <hgroup>
+              <h1>Alan's Color Picker</h1>
+            </hgroup>
+            <div class="small-flow">
+              <h2>Preview</h2>
+              <div class="preview-wrapper">
+                <div class="preview-light">
+                  <div class="preview-light-1">Light default</div>
+                  <div class="preview-light-2">Light heading</div>
+                  <div class="preview-light-3">Light link</div>
+                  <div class="preview-light-4">Light accent</div>
+                  <div class="preview-light-5">Light warning</div>
+                </div>
+                <div class="preview-dark">
+                  <div class="preview-dark-1">Dark default</div>
+                  <div class="preview-dark-2">Dark heading</div>
+                  <div class="preview-dark-3">Dark link</div>
+                  <div class="preview-dark-4">Dark accent</div>
+                  <div class="preview-dark-5">Dark warning</div>
                 </div>
               </div>
-            </div>
+              <h2>The Basics</h2>
+              <ol>
+                <li>
+                  Play around with the <em>Mode</em>, <em>Background</em>, and
+                  <em>Colors</em>
+                  controls in the sidebar to pick your colors
+                </li>
+                <li>Pick if you want to default to light or dark mode below</li>
+                <li>Copy the color variables for you palette into your CSS.</li>
+              </ol>
 
-            <div class="small-flow" role="tabpanel" hidden>
-              <hgroup>
-                <h1>Alan's Color Picker</h1>
-                <p class="align-end">
-                  made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-                </p>
-              </hgroup>
-              <div class="small-flow">
-                <h2>Preview</h2>
-                <div class="preview-wrapper">
-                  <div class="preview-light">
-                    <div class="preview-light-1">Light default</div>
-                    <div class="preview-light-2">Light heading</div>
-                    <div class="preview-light-3">Light link</div>
-                    <div class="preview-light-4">Light accent</div>
-                    <div class="preview-light-5">Light warning</div>
-                  </div>
-                  <div class="preview-dark">
-                    <div class="preview-dark-1">Dark default</div>
-                    <div class="preview-dark-2">Dark heading</div>
-                    <div class="preview-dark-3">Dark link</div>
-                    <div class="preview-dark-4">Dark accent</div>
-                    <div class="preview-dark-5">Dark warning</div>
-                  </div>
+              <h2>Default Mode</h2>
+              <p>
+                Browsers can often determine if someone visiting your site
+                prefers light or dark mode. That's not always possible. Which
+                mode would you like to present if a preference can't be
+                determined?
+              </p>
+              <div class="default-mode-selection-wrapper">
+                <div>
+                  <input
+                    data-kind="default-mode-radio-button"
+                    type="radio"
+                    id="default-mode-light"
+                    name="default-mode"
+                    value="light"
+                    checked
+                  />
+                  <label for="default-mode-light">Light</label>
                 </div>
-
-                <h2>Colors CSS</h2>
-                <p>
-                  Browsers can often determine if someone visiting your site
-                  prefers light or dark mode. That's not always possible. Which
-                  mode would you like to present if a preference can't be
-                  determined?
-                </p>
-                <div class="default-mode-selection-wrapper">
-                  <div>
-                    <input
-                      data-kind="default-mode-radio-button"
-                      type="radio"
-                      id="default-mode-light"
-                      name="default-mode"
-                      value="light"
-                      checked
-                    />
-                    <label for="default-mode-light">Light</label>
-                  </div>
-                  <div>
-                    <input
-                      data-kind="default-mode-radio-button"
-                      type="radio"
-                      id="default-mode-dark"
-                      name="default-mode"
-                      value="dark"
-                    />
-                    <label for="default-mode-dark">Dark</label>
-                  </div>
+                <div>
+                  <input
+                    data-kind="default-mode-radio-button"
+                    type="radio"
+                    id="default-mode-dark"
+                    name="default-mode"
+                    value="dark"
+                  />
+                  <label for="default-mode-dark">Dark</label>
                 </div>
-                <p>Here's the CSS variables for your color palette:</p>
-                <textarea
-                  class="basic-css-output large-width xsmall-font"
-                  rows="16"
-                ></textarea>
-                <p>Enjoy!</p>
-                <p>-a</p>
-                <h3>Starter Styles</h3>
-                <p>TODO: Write these up</p>
-                <textarea
-                  class="basic-css-output large-width xsmall-font utility-styles"
-                  rows="18"
-                ></textarea>
               </div>
+              <p>Here's the CSS variables for your color palette:</p>
+              <textarea
+                class="basic-css-output large-width xsmall-font"
+                rows="16"
+              ></textarea>
+              <p>Enjoy!</p>
+              <p>-a</p>
+              <h3>Starter Styles</h3>
+              <p>TODO: Write these up</p>
+              <textarea
+                class="basic-css-output large-width xsmall-font utility-styles"
+                rows="18"
+              ></textarea>
             </div>
-
-            <div role="tabpanel" hidden>
-              <hgroup class="large-bottom-margin">
-                <h1>Alan's Color Picker</h1>
-                <p class="align-end">
-                  made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-                </p>
-              </hgroup>
-              <div class="default-flow">
-                <h2>Settings</h2>
-                <div class="number-of-colors-wrapper">
-                  <label for="number-of-colors-selector"
-                    >Number of Colors:</label
-                  >
-                  <select
-                    id="number-of-colors-selector"
-                    class="number-of-colors-selector"
-                  ></select>
-                </div>
-                <h5>Color Names</h5>
-                <div class="color-names-wrapper"></div>
-                <p>Customizations are a work in progress. They'll include:</p>
-                <ul>
-                  <li>Change the number of colors</li>
-                  <li>Change the names off the styles</li>
-                  <li>Customize CSS (e.g. to bring in fonts)</li>
-                  <li>Customize HTML with your content</li>
-                </ul>
-                <p>Check out the TODO list for more.</p>
-              </div>
-            </div>
-
-            <div class="picker-text" role="tabpanel" hidden>
-              <h2>TODO</h2>
-              <ul>
-                <li>
-                  <input type="checkbox" disabled />
-                  Clear cache button to go back to defaults
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Mute colors so you can them on individually
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Add example text under the isoloate color button so you can
-                  see something even if the actual text isn't in view
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Mute all button
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Multiple sample pages
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Float controls so they are always visible
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Optimize so only changes get updated in the stylesheet
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Consolidate variable output into single <code>:root</code>
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Change Black and White CSS names
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Click Themes, Background, Colors to collapse boxes
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Control click on things to get style info about them.
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Customize `-style-border` name and value
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Change Background color name
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Change `border`, `radius`, etc... string names
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Add faded Background values
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Change number of colors
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Templates for variable and class names to format in custom
-                  orders
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Color picker on both Instructions and Picker tabs
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Only show instructions the first time you load the page.
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Stay on the same tab after page refresh
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Set min light level for each color
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Example palettes
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Contrast calculations
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Undo/Redo
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Set faded alt values
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Include/Remove black and white variables
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Make back button work for tab switching?
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Optional utility classes
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Change CSS variable names
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  JSON schema for data
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Change mode names
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Add/subtract themes
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Refactor to use 'theme' instead of 'mode'
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Copy button for CSS
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Edit CSS
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Edit HTML
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Save/Load
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Shareable URLs
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Implementation example
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Web component for mode switching
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Randomizer
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Switch between 45 and 60 degrees
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Show/Hide content to focus on base color
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Issoldated color view to look at them one at a time
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Use min light level from each color
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Mode selection works
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Background sliders work
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Isolating background works
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Switching between colors works
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Changing colors via set buttons works
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Changing colors via chroma slider
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Isolating colors works
-                </li>
-                <li>
-                  <input type="checkbox" disabled checked />
-                  Default faded alternatives
-                </li>
-                <li>
-                  <input type="checkbox" disabled />
-                  Save state in localstorage
-                </li>
-              </ul>
-            </div>
-
-            <div role="tabpanel" hidden>
-              <div class="default-flow picker-text">
-                <h2>Debugging</h2>
-                <p>
-                  I'm working on the next round of features. This page is here
-                  to help me with that.
-                </p>
-                <h3>Here Be Dragons</h3>
-                <pre class="debugging-content xsmall-font"></pre>
-              </div>
-            </div>
-
-            <!-- end of line -->
-          </tab-group>
+          </div>
         </div>
         <div>
           <div

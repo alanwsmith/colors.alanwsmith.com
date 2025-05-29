@@ -2738,19 +2738,19 @@ class Picker extends HTMLElement {
   }
 
   updateCustomizeTab() {
-    const selector = el("number-of-colors-selector");
-    html("", selector);
-    ad("kind", "number-of-colors-selector", selector);
-    for (let num = 0; num < p.maxNumberOfColors; num++) {
-      const opt = dc("option");
-      opt.value = num + 1;
-      opt.innerHTML = num + 1;
-      if (num + 1 === p.numberOfColors) {
-        opt.selected = true;
-      }
-      a(opt, selector);
-    }
-    this.updateColorNamesCustomizer();
+    // const selector = el("number-of-colors-selector");
+    // html("", selector);
+    // ad("kind", "number-of-colors-selector", selector);
+    // for (let num = 0; num < p.maxNumberOfColors; num++) {
+    //   const opt = dc("option");
+    //   opt.value = num + 1;
+    //   opt.innerHTML = num + 1;
+    //   if (num + 1 === p.numberOfColors) {
+    //     opt.selected = true;
+    //   }
+    //   a(opt, selector);
+    // }
+    // this.updateColorNamesCustomizer();
   }
 
   updateColorNamesCustomizer() {
@@ -2808,7 +2808,7 @@ class Picker extends HTMLElement {
         );
       });
     });
-    el("debugging-content").innerHTML = JSON.stringify(p, null, 2);
+    //el("debugging-content").innerHTML = JSON.stringify(p, null, 2);
   }
 
   updateLightnessHue(obj) {

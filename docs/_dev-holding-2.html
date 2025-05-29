@@ -1,0 +1,1188 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Alan's Color Picker</title>
+    <meta charset="UTF-8" />
+
+    <style data-name="Reset Styles" class="reset-styles">
+      /* Base Reset */
+      *,
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
+        box-sizing: border-box;
+      }
+      *,
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
+        margin: 0;
+      }
+      body {
+        line-height: var(--default-line-height);
+      }
+      dt,
+      dl,
+      dd,
+      li,
+      ol,
+      ul > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      audio,
+      canvas,
+      embed,
+      iframe,
+      img,
+      map,
+      object,
+      svg,
+      video {
+        display: block;
+      }
+    </style>
+
+    <style data-name="Interface Styles" class="interface-styles">
+      .background-box-name {
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--default-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .background-box-isolate-wrapper {
+        text-align: end;
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--default-padding);
+      }
+      .background-box-sliders {
+        padding-block: var(--default-padding);
+        padding-inline: var(--default-padding);
+      }
+      .background-box-slider-wrapper {
+        display: grid;
+        grid-template-columns: 2ch 1fr;
+      }
+      .background-box-wrapper {
+        border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        color: var(--ui__picker);
+        font-size: var(--small-font);
+      }
+      .background-box-isolate-wrapper {
+        border-top: 1px solid var(--ui__picker);
+      }
+      .color-box-set-button {
+        background-color: inherit;
+        border: none;
+        border-radius: 0;
+        font-size: var(--small-font);
+        font-weight: bold;
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--xxsmall-padding);
+      }
+      .color-grid-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        margin-block: var(--large-margin);
+        padding-bottom: var(--large-padding);
+        padding-inline: var(--small-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .color-selector-button {
+        border: 0;
+        border-right: 1px solid var(--ui__picker);
+        border-top: 1px solid var(--ui__picker);
+        cursor: pointer;
+        font-size: var(--default-font);
+        outline: inherit;
+        padding: 0;
+        width: 2.3ch;
+        line-height: 1.4;
+      }
+      .colors-box-name {
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--default-padding);
+      }
+      .colors-box-tab-list {
+        padding: 0;
+      }
+      .reverse-bottom-border {
+        border-bottom: 1px solid var(--reverse);
+      }
+      .color-selector-tab-name {
+        border-bottom: 1px solid var(--ui__picker);
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--small-padding);
+      }
+      .colors-box-chroma-checkbox-wrapper {
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--default-padding);
+        text-align: end;
+      }
+      .colors-box-chroma-checkbox-label {
+        color: var(--ui__picker);
+      }
+      .colors-box-chroma-slider-label {
+        color: var(--ui__picker);
+      }
+      .colors-box-chroma-slider-wrapper {
+        display: grid;
+        grid-template-columns: 1.6ch 1fr;
+        padding-inline: var(--default-padding);
+        padding-bottom: var(--small-padding);
+        border-bottom: 1px solid var(--ui__picker);
+      }
+      .colors-box-name {
+        color: var(--ui__picker);
+      }
+      .colors-box-wrapper {
+        border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        font-size: var(--small-font);
+      }
+      .default-mode-selection-wrapper {
+        display: grid;
+      }
+      hgroup p {
+        font-size: var(--small-font);
+      }
+      input[type="range"] {
+        width: 100%;
+      }
+      .invisible {
+        visibility: hidden;
+      }
+      .mode-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--default-padding);
+        justify-content: space-evenly;
+      }
+      .mode-buttons-name {
+        border-bottom: 1px solid var(--ui__picker);
+        color: var(--ui__picker);
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--default-padding);
+        font-size: var(--small-font);
+      }
+      .mode-button-wrapper {
+        display: grid;
+        grid-template-columns: 2.2ch 1fr;
+        /*
+          border: 1px solid var(--ui__picker);
+          border-radius: var(--default-radius);
+          font-size: var(--small-font);
+          margin-top: var(--default-margin);
+        */
+      }
+      .mode-buttons-wrapper {
+        border: 1px solid var(--ui__picker);
+        border-radius: var(--default-radius);
+        font-size: var(--small-font);
+      }
+      .preview-dark {
+        background-color: var(--dark-mode__background);
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--small-padding);
+      }
+      .preview-dark-1 {
+        color: var(--dark-mode__default);
+      }
+      .preview-dark-2 {
+        color: var(--dark-mode__heading);
+      }
+      .preview-dark-3 {
+        color: var(--dark-mode__link);
+      }
+      .preview-dark-4 {
+        color: var(--dark-mode__accent);
+      }
+      .preview-dark-5 {
+        color: var(--dark-mode__warning);
+      }
+      .preview-light {
+        background-color: var(--light-mode__background);
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--small-padding);
+      }
+      .preview-light-1 {
+        color: var(--light-mode__default);
+      }
+      .preview-light-2 {
+        color: var(--light-mode__heading);
+      }
+      .preview-light-3 {
+        color: var(--light-mode__link);
+      }
+      .preview-light-4 {
+        color: var(--light-mode__accent);
+      }
+      .preview-light-5 {
+        color: var(--light-mode__warning);
+      }
+      .preview-wrapper {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+        font-size: var(--small-font);
+      }
+      .scroll-wrapper {
+        border: 1px solid var(--reverse-faded2);
+        border-radius: var(--default-radius);
+        height: 94vh;
+        margin-top: var(--default-margin);
+        overflow-y: scroll;
+        padding: var(--default-padding);
+      }
+      .sidebar-controls {
+        margin-top: var(--default-margin);
+      }
+      .slider-wrapper {
+        padding-top: 0.1rem;
+      }
+      .styles-grid {
+        display: grid;
+        grid-template-columns: 3ch 1fr;
+      }
+      .styles-grid code {
+        font-size: var(--xxsmall-font);
+      }
+      .styles-grid details {
+        font-size: var(--small-font);
+      }
+      .styles-grid pre {
+        line-height: 1;
+      }
+      .styles-grid summary {
+        font-size: var(--small-font);
+      }
+      .top-nav-button {
+        border: var(--background-border);
+        color: var(--link);
+        font-size: var(--small-font);
+        font-weight: 900;
+      }
+      .top-nav-button[aria-selected="true"] {
+        color: var(--accent);
+        border-bottom: 3px solid var(--ui__picker);
+      }
+      .nav-tab-list {
+        border-bottom: 1px solid var(--ui__picker);
+        margin-top: var(--xxxsmall-margin);
+        margin-bottom: var(--xlarge-margin);
+      }
+      .ui-two-column {
+        display: grid;
+        grid-template-columns: 1fr 13.4rem;
+        gap: 1rem;
+      }
+      [role="tab"] {
+        background: none;
+        cursor: pointer;
+        outline: inherit;
+        border-radius: 0;
+        &[aria-selected="true"] {
+          font-style: normal;
+        }
+      }
+      [role="tablist"] {
+        font-style: normal;
+      }
+      [role="tabpanel"] {
+        padding: 0;
+      }
+      .round-upper-right-corner {
+        border-top-right-radius: 0.3rem;
+      }
+    </style>
+
+    <style class="layout-styles" data-name="Layout Styles">
+      ::marker {
+        color: var(--default);
+      }
+      a {
+        color: var(--link);
+        text-decoration: none;
+      }
+      a:hover,
+      a:focus {
+        color: var(--accent);
+      }
+      abbr {
+        color: var(--accent);
+        font-style: italic;
+      }
+      aside {
+        margin-left: 20vw;
+        font-style: italic;
+        border-left: 3px solid var(--reverse-faded);
+        padding: var(--default-padding);
+      }
+      audio {
+        border: var(--accent-border);
+      }
+      b {
+        font-weight: 900;
+      }
+      blockquote {
+        margin: var(--large-margin);
+        padding: var(--default-padding);
+        background-color: var(--reverse-faded2);
+      }
+      body {
+        background-color: var(--background);
+        color: var(--default);
+        font-family: system-ui;
+        font-size: var(--default-font);
+      }
+      button {
+        background-color: var(--reverse-faded2);
+        border: var(--reverse-border);
+        border-radius: var(--xsmall-radius);
+        color: var(--match);
+        cursor: pointer;
+      }
+      canvas {
+        max-width: 100%;
+      }
+      caption {
+        caption-side: bottom;
+        padding: 10px;
+        font-weight: 900;
+      }
+      cite {
+        font-style: italic;
+      }
+      .color-names-wrapper {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+      }
+      data {
+        /* */
+      }
+      code {
+        font-size: var(--small-font);
+        color: var(--reverse);
+      }
+      dd {
+        margin-left: var(--default-margin);
+      }
+      del {
+        background-color: var(--accent-faded2);
+        text-decoration: line-through;
+      }
+      details {
+        border: var(--accent-border-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+      }
+      dfn {
+        font-style: italic;
+      }
+      dl {
+        /* */
+      }
+      dt {
+        /* */
+      }
+      em {
+        font-style: italic;
+      }
+      embed {
+        max-width: 100%;
+      }
+      fieldset {
+        border-radius: var(--default-radius);
+      }
+      figcaption {
+        background-color: var(--reverse);
+        color: var(--match);
+        font-size: var(--small-font);
+        padding: var(--default-padding);
+        text-align: var(--alight-center);
+      }
+      figure {
+        max-width: 100%;
+      }
+      footer {
+        color: var(--default-faded);
+        font-size: var(--small-font);
+        margin-bottom: var(--default-margin);
+        margin-inline: auto;
+        margin-top: var(--xlarge-margin);
+        text-align: var(--align-center);
+        width: var(--default-width);
+      }
+      h1 {
+        color: var(--heading);
+        border-bottom: var(--default-border);
+        font-size: var(--xxxlarge-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
+        text-wrap: balance;
+      }
+      h2 {
+        color: var(--heading);
+        border-bottom: var(--default-border);
+        font-size: var(--xxlarge-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
+        text-wrap: balance;
+      }
+      h3 {
+        color: var(--heading);
+        font-size: var(--xlarge-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
+        text-wrap: balance;
+      }
+      h4 {
+        color: var(--heading);
+        font-size: var(--large-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
+        text-wrap: balance;
+      }
+      h5 {
+        color: var(--heading);
+        font-size: var(--large-font);
+        font-weight: var(--weight-400);
+        line-height: var(--xsmall-line-height);
+        text-wrap: balance;
+      }
+      h6 {
+        color: var(--heading);
+        font-size: var(--large-font);
+        font-style: var(--italic);
+        font-weight: var(--weight-400);
+        line-height: var(--xsmall-line-height);
+        text-wrap: balance;
+      }
+      header {
+        margin-bottom: var(--small-margin);
+        margin-inline: auto;
+        margin-top: var(--xsmall-margin);
+        width: var(--default-width);
+      }
+      hgroup {
+        /* */
+      }
+      hr {
+        border: none;
+        border-top: 3px double var(--reverse-faded);
+        color: var(--reverse);
+        overflow: visible;
+        text-align: var(--align-center);
+        height: 5px;
+      }
+      hr::after {
+        background: var(--background);
+        content: "§";
+        padding-inline: var(--large-padding);
+        position: relative;
+        top: -13px;
+      }
+      i {
+        font-style: var(--italic);
+      }
+      iframe {
+        max-width: 100%;
+        border: var(--accent-border);
+      }
+      img {
+        max-width: 100%;
+        border: var(--accent-border);
+      }
+      input {
+        margin: var(--xxxsmall-margin);
+      }
+      ins {
+        background-color: var(--accent-faded);
+        font-style: var(--italic);
+      }
+      kbd {
+        background-color: var(--reverse-faded2);
+        border: var(--reverse-faded);
+        border-radius: var(--xsmall-radius);
+        font-family: monospace;
+        font-size: var(--small-font);
+        padding-inline: var(--xxsmall-padding);
+      }
+      label {
+        /* */
+      }
+      legend {
+        font-weight: var(--weight-900);
+      }
+      li {
+        /* */
+      }
+      main {
+        margin-inline: auto;
+        width: var(--default-width);
+      }
+      main > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      map {
+        max-width: 100%;
+      }
+      mark {
+        background-color: var(--accent-faded2);
+      }
+      menu {
+        /* */
+      }
+      meter {
+        padding-inline: var(--default-padding);
+      }
+      nav {
+        /* */
+      }
+      object {
+        max-width: 100%;
+      }
+      ol {
+        /* */
+      }
+      output {
+        font-weight: var(--weight-900);
+      }
+      p {
+        /* */
+      }
+      picture {
+        max-width: 100%;
+      }
+      pre {
+        /* */
+      }
+      progress {
+        padding-inline: var(--small-padding);
+      }
+      q {
+        font-style: var(--italic);
+      }
+      s {
+        /* */
+      }
+      samp {
+        font-weight: var(--weight-900);
+      }
+      search {
+        padding-inline: var(--small-padding);
+      }
+      section {
+        /* */
+      }
+      select {
+        padding-inline: var(--small-padding);
+      }
+      small {
+        font-size: var(--xsmall-font);
+      }
+      span {
+        /* */
+      }
+      strong {
+        /* */
+      }
+      sub {
+        /* */
+      }
+      summary {
+        font-weight: var(--weight-900);
+      }
+      sup {
+        /* */
+      }
+      svg {
+        max-width: 100%;
+      }
+      table {
+        margin: var(--default-margin);
+      }
+      tbody {
+        /* */
+      }
+      td {
+        /* */
+      }
+      textarea {
+        max-width: 100%;
+      }
+      tfoot {
+        /* */
+      }
+      th {
+        font-weight: var(--weight-900);
+      }
+      thead {
+        /* */
+      }
+      time {
+        /* */
+      }
+      tr {
+        /* */
+      }
+      u {
+        text-decoration: var(--accent-faded) var(--wavy) var(--underline);
+      }
+      ul {
+        /* */
+      }
+      var {
+        font-weight: var(--weight-900);
+      }
+      video {
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <template id="customize-color-name">
+      <label></label>
+      <input type="text" />
+    </template>
+
+    <template id="picker-controls-template">
+      <div class="mode-buttons-wrapper">
+        <div class="mode-buttons-name">Mode</div>
+        <div class="mode-buttons"></div>
+      </div>
+      <div class="background-box-wrapper">
+        <div class="background-box-name">Background</div>
+        <div class="background-box-sliders">
+          <div class="background-box-slider-wrapper" data-aspect="l">
+            <label></label>
+            <div class="slider-wrapper">
+              <input type="range" data-kind="background-box-slider" />
+            </div>
+          </div>
+          <div class="background-box-slider-wrapper" data-aspect="c">
+            <label></label>
+            <div class="slider-wrapper">
+              <input type="range" data-kind="background-box-slider" />
+            </div>
+          </div>
+          <div class="background-box-slider-wrapper" data-aspect="h">
+            <label></label>
+            <div class="slider-wrapper">
+              <input type="range" data-kind="background-box-slider" />
+            </div>
+          </div>
+        </div>
+        <div class="background-box-isolate-wrapper">
+          <label>Isolate:</label>
+          <input type="checkbox" />
+        </div>
+      </div>
+      <div class="colors-box-wrapper">
+        <div class="colors-box-name">Colors</div>
+        <div class="colors-box-tabs-wrapper"></div>
+      </div>
+    </template>
+
+    <color-picker>
+      <div class="xlarge-wrapper ui-two-column">
+        <div class="scroll-wrapper">
+          <tab-group>
+            <div role="tablist" class="nav-tab-list">
+              <button
+                class="top-nav-button"
+                role="tab"
+                data-kind="top-nav-button"
+              >
+                Picker
+              </button>
+              <!--
+              <button
+                class="top-nav-button"
+                role="tab"
+                data-kind="top-nav-button"
+              >
+                Customize
+              </button>
+-->
+              <button
+                class="top-nav-button"
+                role="tab"
+                data-kind="top-nav-button"
+                aria-selected="true"
+              >
+                Export
+              </button>
+              <!--
+              <button
+                class="top-nav-button"
+                role="tab"
+                data-kind="top-nav-button"
+              >
+                TODO
+              </button>
+              <button
+                class="top-nav-button"
+                role="tab"
+                data-kind="top-nav-button"
+              >
+                Debugging
+              </button>
+-->
+            </div>
+
+            <div role="tabpanel">
+              <div class="small-flow">
+                <div class="content-body small-flow">
+                  <hgroup>
+                    <h1>Alan's Color Picker</h1>
+                    <p class="align-end">
+                      made by
+                      <a href="https://www.alanwsmith.com/">alan w smith</a>
+                    </p>
+                  </hgroup>
+                  <div class="small-flow">
+                    <h2>The Basics</h2>
+                    <p>
+                      Play around with the <em>Mode</em>, <em>Background</em>,
+                      and <em>Colors</em> controls in the sidebar to change
+                      colors.
+                    </p>
+                    <p>
+                      Hit <em>Export</em> above when you've got a palette you
+                      like to get your stylesheet.
+                    </p>
+                    <p>There is no step 3.</p>
+                    <h2>Some Details</h2>
+                    <h3>Color Modes</h3>
+                    <p>
+                      There are two color modes: <em>Light</em>, <em>Dark</em>,
+                      The buttons in the <em>Mode</em> box change between
+                      them<sup>guidelines</sup>.
+                    </p>
+                    <h3>The Background Color</h3>
+                    <p>
+                      The three sliders in the <em>Background</em> box are
+                      <em>l</em>, <em>c</em>, and <em>h</em> (aka lightness,
+                      chroma, and hue). Changing them changes the background
+                      color. Fiddle with them to get an idea of how they work.
+                    </p>
+                    <p>
+                      You can use the <em>Isolate</em> checkbox to hide content.
+                      It makes it easier to focus on the color.
+                    </p>
+                    <h3>The Colors</h3>
+                    <p>
+                      The picker has five colors: content, link, title, heading,
+                      and accent<sup>more soon</sup>. Change between them with
+                      the colored tabs in the <em>Colors</em> box.
+                    </p>
+                    <p>
+                      Clicking/tapping a colored <em>set</em> from the grid
+                      changes the selected color to match it. The
+                      <em>c</em> slider below the <em>set</em> grid changes the
+                      <em>chroma</em> of the color<sup>more later</sup>.
+                      Basically, its intensity.
+                    </p>
+                    <p>
+                      The <em>Isolate</em> checkbox in the <em>Colors</em> box
+                      hides everything that's not using the selected color.
+                    </p>
+                    <h3>Picking</h3>
+                    <p>
+                      That's it. There's not a lot too it. That's kinda the
+                      point.
+                    </p>
+                    <p>
+                      I make
+                      <a href="https://links.alanwsmith.com/"
+                        >lots of websites</a
+                      >. Picking colors for them was always a pain with existing
+                      tools<sup>note about other tools</sup>. A friction that
+                      slowed me down with no payoff. I built this picker to
+                      address that. It's designed to generate a nice set of
+                      colors with as little effort as possible.
+                    </p>
+                    <p>I hope you enjoy it,</p>
+                    <p>-a</p>
+                    <h2>Footnotes</h2>
+                    <ol>
+                      <li>
+                        Changing the number of colors and what they are called
+                        is a work in progress.
+                      </li>
+                      <li>
+                        OKLCH is a &quot;color space&quot; which is a fancy way
+                        of saying it's a way for computers to deal with colors.
+                        There's lots of science behind it. I'll write more about
+                        it in future updates.
+                      </li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="small-flow" role="tabpanel" hidden>
+              <hgroup>
+                <h1>Alan's Color Picker</h1>
+                <p class="align-end">
+                  made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+                </p>
+              </hgroup>
+              <div class="small-flow">
+                <h2>Preview</h2>
+                <div class="preview-wrapper">
+                  <div class="preview-light">
+                    <div class="preview-light-1">Light default</div>
+                    <div class="preview-light-2">Light heading</div>
+                    <div class="preview-light-3">Light link</div>
+                    <div class="preview-light-4">Light accent</div>
+                    <div class="preview-light-5">Light warning</div>
+                  </div>
+                  <div class="preview-dark">
+                    <div class="preview-dark-1">Dark default</div>
+                    <div class="preview-dark-2">Dark heading</div>
+                    <div class="preview-dark-3">Dark link</div>
+                    <div class="preview-dark-4">Dark accent</div>
+                    <div class="preview-dark-5">Dark warning</div>
+                  </div>
+                </div>
+
+                <h2>Colors CSS</h2>
+                <p>
+                  Browsers can often determine if someone visiting your site
+                  prefers light or dark mode. That's not always possible. Which
+                  mode would you like to present if a preference can't be
+                  determined?
+                </p>
+                <div class="default-mode-selection-wrapper">
+                  <div>
+                    <input
+                      data-kind="default-mode-radio-button"
+                      type="radio"
+                      id="default-mode-light"
+                      name="default-mode"
+                      value="light"
+                      checked
+                    />
+                    <label for="default-mode-light">Light</label>
+                  </div>
+                  <div>
+                    <input
+                      data-kind="default-mode-radio-button"
+                      type="radio"
+                      id="default-mode-dark"
+                      name="default-mode"
+                      value="dark"
+                    />
+                    <label for="default-mode-dark">Dark</label>
+                  </div>
+                </div>
+                <p>Here's the CSS variables for your color palette:</p>
+                <textarea
+                  class="basic-css-output large-width xsmall-font"
+                  rows="16"
+                ></textarea>
+                <p>Enjoy!</p>
+                <p>-a</p>
+                <h3>Starter Styles</h3>
+                <p>TODO: Write these up</p>
+                <textarea
+                  class="basic-css-output large-width xsmall-font utility-styles"
+                  rows="18"
+                ></textarea>
+              </div>
+            </div>
+
+            <div role="tabpanel" hidden>
+              <hgroup class="large-bottom-margin">
+                <h1>Alan's Color Picker</h1>
+                <p class="align-end">
+                  made by <a href="https://www.alanwsmith.com/">alan w smith</a>
+                </p>
+              </hgroup>
+              <div class="default-flow">
+                <h2>Settings</h2>
+                <div class="number-of-colors-wrapper">
+                  <label for="number-of-colors-selector"
+                    >Number of Colors:</label
+                  >
+                  <select
+                    id="number-of-colors-selector"
+                    class="number-of-colors-selector"
+                  ></select>
+                </div>
+                <h5>Color Names</h5>
+                <div class="color-names-wrapper"></div>
+                <p>Customizations are a work in progress. They'll include:</p>
+                <ul>
+                  <li>Change the number of colors</li>
+                  <li>Change the names off the styles</li>
+                  <li>Customize CSS (e.g. to bring in fonts)</li>
+                  <li>Customize HTML with your content</li>
+                </ul>
+                <p>Check out the TODO list for more.</p>
+              </div>
+            </div>
+
+            <div class="picker-text" role="tabpanel" hidden>
+              <h2>TODO</h2>
+              <ul>
+                <li>
+                  <input type="checkbox" disabled />
+                  Clear cache button to go back to defaults
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Mute colors so you can them on individually
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Add example text under the isoloate color button so you can
+                  see something even if the actual text isn't in view
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Mute all button
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Multiple sample pages
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Float controls so they are always visible
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Optimize so only changes get updated in the stylesheet
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Consolidate variable output into single <code>:root</code>
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Change Black and White CSS names
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Click Themes, Background, Colors to collapse boxes
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Control click on things to get style info about them.
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Customize `-style-border` name and value
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Change Background color name
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Change `border`, `radius`, etc... string names
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Add faded Background values
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Change number of colors
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Templates for variable and class names to format in custom
+                  orders
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Color picker on both Instructions and Picker tabs
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Only show instructions the first time you load the page.
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Stay on the same tab after page refresh
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Set min light level for each color
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Example palettes
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Contrast calculations
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Undo/Redo
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Set faded alt values
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Include/Remove black and white variables
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Make back button work for tab switching?
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Optional utility classes
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Change CSS variable names
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  JSON schema for data
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Change mode names
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Add/subtract themes
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Refactor to use 'theme' instead of 'mode'
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Copy button for CSS
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Edit CSS
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Edit HTML
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Save/Load
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Shareable URLs
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Implementation example
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Web component for mode switching
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Randomizer
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Switch between 45 and 60 degrees
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Show/Hide content to focus on base color
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Issoldated color view to look at them one at a time
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Use min light level from each color
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Mode selection works
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Background sliders work
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Isolating background works
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Switching between colors works
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Changing colors via set buttons works
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Changing colors via chroma slider
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Isolating colors works
+                </li>
+                <li>
+                  <input type="checkbox" disabled checked />
+                  Default faded alternatives
+                </li>
+                <li>
+                  <input type="checkbox" disabled />
+                  Save state in localstorage
+                </li>
+              </ul>
+            </div>
+
+            <div role="tabpanel" hidden>
+              <div class="default-flow picker-text">
+                <h2>Debugging</h2>
+                <p>
+                  I'm working on the next round of features. This page is here
+                  to help me with that.
+                </p>
+                <h3>Here Be Dragons</h3>
+                <pre class="debugging-content xsmall-font"></pre>
+              </div>
+            </div>
+
+            <!-- end of line -->
+          </tab-group>
+        </div>
+        <div>
+          <div
+            class="sidebar-controls default-flow"
+            data-tab="instructions"
+          ></div>
+        </div>
+      </div>
+    </color-picker>
+
+    <script src="/components/color-picker.js" type="module"></script>
+
+    <noscript>
+      <p>Could not load the picker. It appears JavaScript is not available.</p>
+    </noscript>
+  </body>
+</html>

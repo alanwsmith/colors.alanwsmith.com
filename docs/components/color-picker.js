@@ -53,11 +53,20 @@ let p = {};
 const templates = {
   "colorName": `<label></label><div></div>`,
   "colorExample": `
-<div class="color-example-wrapper">
-<div class="color-example-name"></div>
-<div class="no-fade"></div>
-<div class="faded"></div>
-<div class="faded2"></div>
+<div class="color-example-wrapper small-flow">
+  <div class="color-example-name"></div>
+  <div class="two-column">
+    <div class="no-fade"></div>
+    <div class="no-fade-border default-inline-padding default-radius">border example</div>
+  </div>
+  <div class="two-column">
+    <div class="faded"></div>
+    <div class="faded-border default-inline-padding default-radius">border example</div>
+  </div>
+  <div class="two-column">
+    <div class="faded2"></div>
+    <div class="faded2-border default-inline-padding default-radius">border example</div>
+  </div>
 </div>
 `,
 };
@@ -1708,17 +1717,19 @@ class Picker extends HTMLElement {
       const noFade = getEl(".no-fade", template);
       html("This is the full color with no fade", noFade);
       ac(colorName, noFade);
+      const noFadeBorder = getEl(".no-fade-border", template);
+      ac(`${colorName}-border`, noFadeBorder);
       const faded = getEl(".faded", template);
       html("This is the faded color", faded);
       ac(`${colorName}-faded`, faded);
+      const fadedBorder = getEl(".faded-border", template);
+      ac(`${colorName}-border-faded`, fadedBorder);
       const faded2 = getEl(".faded2", template);
       html("This is the faded2 color", faded2);
       ac(`${colorName}-faded2`, faded2);
-
+      const faded2Border = getEl(".faded2-border", template);
+      ac(`${colorName}-border-faded2`, faded2Border);
       a(template, wrapper);
-      //ac(name, wrapper);
-
-      //html(name, getEl("color-example-name", example);
     });
   }
 

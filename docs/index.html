@@ -72,6 +72,9 @@
       .background-box-isolate-wrapper {
         border-top: 1px solid var(--ui__picker);
       }
+      .basic-css-output {
+        color: var(--ui__picker);
+      }
       .color-box-set-button {
         background-color: inherit;
         border: none;
@@ -272,10 +275,18 @@
         color: var(--accent);
         border-bottom: 3px solid var(--ui__picker);
       }
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
       .nav-tab-list {
         border-bottom: 1px solid var(--ui__picker);
         margin-top: var(--xxxsmall-margin);
         margin-bottom: var(--xlarge-margin);
+      }
+      .ui__picker {
+        color: var(--ui__picker);
       }
       .ui-two-column {
         display: grid;
@@ -708,21 +719,22 @@
               </p>
             </hgroup>
             <div class="small-flow">
-              <h2>Step 1</h2>
+              <h2>Step 1 - Pick Colors</h2>
               <p>
-                Play around with the <em>Mode</em>, <em>Background</em>, and
+                Play around with the <em>Background</em> and
                 <em>Colors</em>
-                controls in the sidebar to pick your colors
+                controls in the sidebar to pick your colors for both
+                <em>Light</em> and <em>Dark</em> mode.
               </p>
 
               <p>
                 Each color has three version. The full color and two faded
-                styles (-faded and faded2). Here's what they look like:
+                styles. Here's what they look like:
               </p>
 
               <div class="color-examples-wrapper default-flow"></div>
 
-              <h2>Default Mode</h2>
+              <h2>Step 2 - Set Default Mode</h2>
               <p>
                 Browsers can often determine if someone visiting your site
                 prefers light or dark mode. That's not always possible. Which
@@ -747,7 +759,9 @@
                       value="light"
                       checked
                     />
-                    <label for="default-mode-light">Light</label>
+                    <label for="default-mode-light" class="ui__picker"
+                      >Light</label
+                    >
                   </div>
                 </div>
                 <div>
@@ -766,15 +780,20 @@
                       name="default-mode"
                       value="dark"
                     />
-                    <label for="default-mode-dark">Dark</label>
+                    <label for="default-mode-dark" class="ui__picker"
+                      >Dark</label
+                    >
                   </div>
                 </div>
               </div>
               <div class="default-mode-selection-wrapper"></div>
+
+              <h2>Step 3 - Copy Your CSS</h2>
               <p>Here's the CSS variables for your color palette:</p>
               <pre
                 class="basic-css-output xxsmall-font accent-border-faded default-radius default-padding"
               ></pre>
+              <p>That's it.</p>
               <p>Enjoy!</p>
               <p>-a</p>
               <h3>Starter Styles</h3>

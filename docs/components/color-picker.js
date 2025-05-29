@@ -274,10 +274,10 @@ const defaultPalette = {
     "heading",
     "link",
     "accent",
-    "alternate",
     "warning",
     "info",
     "extra",
+    "bonus",
   ],
   directions: [
     ["block", true],
@@ -1087,8 +1087,7 @@ class Picker extends HTMLElement {
     const lines = [];
     this.getSizesWithFull().forEach((sizeName) => {
       const name = `.${sizeName}-wrapper`;
-      const values =
-        `width: var(--${sizeName}-width); margin-inline: auto; & > :where(:not(:first-child)) { margin-top: var(--flow-space, var(--default-flow)); } `;
+      const values = `width: var(--${sizeName}-width); margin-inline: auto; `;
       lines.push(`${name} { ${values} }`);
     });
     lines.sort();

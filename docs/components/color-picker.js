@@ -1037,6 +1037,7 @@ class Picker extends HTMLElement {
 
   generateTextAlignmentClasses() {
     const lines = [];
+    lines.push(makeClass(".nowrap", "white-space", "nowrap"));
     this.getAlignments().forEach((alignment) => {
       const name = `.align-${alignment}`;
       const key = `text-align`;

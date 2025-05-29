@@ -1969,29 +1969,31 @@ class Picker extends HTMLElement {
   outputUtilityClasses() {
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     const out = [];
-    out.push("/*");
-    out.push(
-      "TODO: add font-family (use --default-family and .default-family",
-    );
-    out.push(
-      "thinking the color names? probably they just need to be custom names)",
-    );
-    out.push(
-      "TODO: heights or min heights?",
-    );
-    out.push("TODO: add flexes and maybe grids?");
-    out.push(
-      "TODO: add italic (and italics), underline (and underlined), etc...",
-    );
-    out.push("TODO: add grids (if there are reasonsable defaults)");
-    out.push("TODO: add tabs?");
-    out.push("TODO: vertical aligns?");
-    out.push("TODO: classes for wrapping and no wrapping pre blocks?");
-    out.push(
-      "TODO: large-border? where you can set the number of pixels vai a var?",
-    );
-    out.push("*/");
-    out.push("\n");
+
+    // out.push("/*");
+    // out.push(
+    //   "TODO: add font-family (use --default-family and .default-family",
+    // );
+    // out.push(
+    //   "thinking the color names? probably they just need to be custom names)",
+    // );
+    // out.push(
+    //   "TODO: heights or min heights?",
+    // );
+    // out.push("TODO: add flexes and maybe grids?");
+    // out.push(
+    //   "TODO: add italic (and italics), underline (and underlined), etc...",
+    // );
+    // out.push("TODO: add grids (if there are reasonsable defaults)");
+    // out.push("TODO: add tabs?");
+    // out.push("TODO: vertical aligns?");
+    // out.push("TODO: classes for wrapping and no wrapping pre blocks?");
+    // out.push(
+    //   "TODO: large-border? where you can set the number of pixels vai a var?",
+    // );
+    // out.push("*/");
+    // out.push("\n");
+
     // Color Scheme Signal
     out.push(":root {");
     out.push("  /* Color Scheme Signal */");

@@ -187,6 +187,11 @@
         border-radius: var(--default-radius);
         font-size: var(--small-font);
       }
+      .nav-tab-list {
+        border-bottom: 1px solid var(--ui__picker);
+        margin-top: var(--xxxsmall-margin);
+        margin-bottom: var(--xlarge-margin);
+      }
       .preview-dark {
         background-color: var(--dark-mode__background);
         border: 1px solid var(--reverse-faded);
@@ -285,11 +290,6 @@
         grid-template-columns: 1fr 1fr;
         gap: 1rem;
       }
-      .nav-tab-list {
-        border-bottom: 1px solid var(--ui__picker);
-        margin-top: var(--xxxsmall-margin);
-        margin-bottom: var(--xlarge-margin);
-      }
       .ui__picker {
         color: var(--ui__picker);
       }
@@ -297,6 +297,24 @@
         display: grid;
         grid-template-columns: 1fr 13.4rem;
         gap: 1rem;
+      }
+      .utility-html {
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+        max-height: 10rem;
+        overflow-y: scroll;
+        max-width: 100%;
+        background-color: var(--reverse-faded2);
+      }
+      .utility-styles {
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+        max-height: 10rem;
+        overflow-y: scroll;
+        max-width: 100%;
+        background-color: var(--reverse-faded2);
       }
       [role="tab"] {
         background: none;
@@ -729,23 +747,22 @@
               <p>
                 Play around with the <em>Background</em> and
                 <em>Colors</em>
-                controls in the sidebar to pick your colors for both
+                controls in the sidebar to pick colors for both
                 <em>Light</em> and <em>Dark</em> mode.
               </p>
 
               <p>
-                Each color has three versions. The full color and two faded
-                styles. Here's what they look like:
+                Each color has three versions. The full color and two
+                automatically created faded styles. Here's what they look like:
               </p>
 
               <div class="color-examples-wrapper default-flow"></div>
 
               <h2>Step 2 - Set Default Mode</h2>
               <p>
-                Browsers can often determine if someone visiting your site
-                prefers light or dark mode. That's not always possible. Which
-                mode would you like to present if a preference can't be
-                determined?
+                Browsers can usually determine if your visitors prefer light or
+                dark mode. That's not always possible. Which mode would you like
+                to present if a preference can't be determined?
               </p>
               <div class="preview-wrapper">
                 <div>
@@ -826,7 +843,7 @@
                 each one with either
                 <code class="nowrap">-faded</code> or
                 <code class="nowrap">-faded2</code> to get the faded versions of
-                the colors. For example:
+                the colors. Here's example of what a style might look like:
               </p>
               <pre
                 class="small-font reverse-border-faded default-radius default-padding"
@@ -837,14 +854,29 @@ h1 {
   color: var(--heading);
 }</pre
               >
-              <p>Enjoy!</p>
-              <p>-a</p>
-              <h3>Starter Styles</h3>
-              <p>TODO: Write these up</p>
-              <textarea
-                class="basic-css-output large-width xsmall-font utility-styles"
-                rows="18"
-              ></textarea>
+              <p>I hope you enjoy playing with the colors,</p>
+              <p class="xxxlarge-bottom-padding xxxlarge-bottom-margin">-a</p>
+              <details class="default-flow" open>
+                <summary>Utility Classes Template</summary>
+                <p>
+                  I make
+                  <a href="https://links.alanwsmith.com/">a lot of websites</a>.
+                  Having to start from scratch every time is a friction that can
+                  stop me from following an idea. I use this template to avoid
+                  that. It's a basic HTML page with utility classes for the
+                  colors and bunch of stuff I use by default.
+                </p>
+                <pre class="basic-css-output xsmall-font utility-html"></pre>
+                <p>
+                  Copy and paste that into an empty .html file and you'll have a
+                  complete starter page.
+                </p>
+                <p>
+                  Here's just the CSS utility classes and variables extracted
+                  out.
+                </p>
+                <pre class="basic-css-output xsmall-font utility-styles"></pre>
+              </details>
             </div>
           </div>
         </div>

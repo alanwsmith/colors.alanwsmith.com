@@ -1886,6 +1886,22 @@ class Picker extends HTMLElement {
       ac(`background`, faded2background);
       a(template, wrapper);
     });
+
+    const borderWrapper = el("border-examples");
+    this.getDirections().forEach((dir) => {
+      let d = `-${dir[0]}`;
+      if (dir[1] === false) {
+        d = "";
+      }
+      const ex = dc("div");
+      const key = `reverse${d}-border`;
+      ac("xlarge-margin", ex);
+      ac("large-inline-padding", ex);
+      ac("match-background-faded", ex);
+      ac(`${key}`, ex);
+      a(ex, borderWrapper);
+      html(`--${key}`, ex);
+    });
   }
 
   initColorTabs() {

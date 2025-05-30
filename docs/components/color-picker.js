@@ -53,8 +53,8 @@ let p = {};
 const templates = {
   "colorName": `<label></label><div></div>`,
   "colorExample": `
-<div class="color-example-wrapper small-flow">
-  <div class="color-example-name"></div>
+<details class="color-example-wrapper small-flow" open>
+  <summary class="color-example-name"></summary>
   <div class="three-column">
     <div class="no-fade"></div>
     <div class="no-fade-border default-inline-padding default-radius">border</div>
@@ -70,14 +70,14 @@ const templates = {
     <div class="faded2-border default-inline-padding default-radius">border</div>
     <div class="faded2-background default-inline-padding default-radius">background</div>
   </div>
-</div>
+</details>
 `,
   "htmlStart": `<!DOCTYPE html>
 <html lang="en">
   <head>
     <title></title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--
     <link rel="shortcut icon" href="">
     <meta property="og:title" content="">
@@ -91,8 +91,13 @@ const templates = {
     <link rel="manifest" href="">
     <link rel="mask-icon" href="" color="">
     <meta name="description" content="">
-    -->`,
-  "htmlEnd": `</head>
+    -->
+    <style>
+`,
+  "htmlEnd": `
+</style>
+  </head>
+
   <body>
     <header class="default-wrapper"></header>
     <main class="default-wrapper default-flow">
@@ -356,8 +361,6 @@ const defaultPalette = {
   ],
   borderRadiiDirections: [
     ["", false],
-    ["top-left-and-bottom-right", true],
-    ["top-right-and-bottom-left", true],
     ["top-left", true],
     ["top-right", true],
     ["bottom-left", true],
@@ -497,8 +500,8 @@ const defaultPalette = {
           hueOffsetValues: [
             {
               c: 0.10434,
-              h: 1,
-              l: 1,
+              h: 3,
+              l: 2,
             },
             {
               c: 0.2,
@@ -514,8 +517,8 @@ const defaultPalette = {
           hueOffsetValues: [
             {
               c: 0.0534,
-              h: 3,
-              l: 1,
+              h: 7,
+              l: 2,
             },
             {
               c: 0.118,
@@ -530,8 +533,8 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              c: 0.09171,
-              h: 3,
+              c: 0.17763,
+              h: 6,
               l: 2,
             },
             {
@@ -1819,7 +1822,6 @@ class Picker extends HTMLElement {
         name,
       );
       ac(colorName, name);
-      ac(`${colorName}-bottom-border`, name);
       ac("weight-900", name);
       const noFade = getEl(".no-fade", template);
       html(`This is the variable<br>--${colorName}`, noFade);
@@ -1901,6 +1903,10 @@ class Picker extends HTMLElement {
       ac(`${key}`, ex);
       a(ex, borderWrapper);
       html(`--${key}`, ex);
+    });
+
+    const paddingWrapper = el(`padding-example`);
+    p.paddings.forEach((padding, paddingIndex) => {
     });
   }
 

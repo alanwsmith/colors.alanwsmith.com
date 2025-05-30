@@ -1168,6 +1168,15 @@ class Picker extends HTMLElement {
         );
       });
     });
+    this.getFadedValues().forEach((fade) => {
+      lines.push(
+        makeClass(
+          `.background${fade}`,
+          `color`,
+          `var(--background${fade})`,
+        ),
+      );
+    });
     lines.sort();
     return [`/* Color Text */`, ...lines];
   }
@@ -1817,6 +1826,7 @@ class Picker extends HTMLElement {
       ac(`${colorName}-border`, noFadeBorder);
       const noFadebackground = getEl(".no-fade-background", template);
       ac(`${colorName}-background`, noFadebackground);
+      ac(`background`, noFadebackground);
       const faded = getEl(".faded", template);
       html("This is the faded color", faded);
       ac(`${colorName}-faded`, faded);
@@ -1824,6 +1834,7 @@ class Picker extends HTMLElement {
       ac(`${colorName}-border-faded`, fadedBorder);
       const fadedbackground = getEl(".faded-background", template);
       ac(`${colorName}-background-faded`, fadedbackground);
+      ac(`background`, fadedbackground);
       const faded2 = getEl(".faded2", template);
       html("This is the faded2 color", faded2);
       ac(`${colorName}-faded2`, faded2);
@@ -1831,6 +1842,7 @@ class Picker extends HTMLElement {
       ac(`${colorName}-border-faded2`, faded2Border);
       const faded2background = getEl(".faded2-background", template);
       ac(`${colorName}-background-faded2`, faded2background);
+      ac(`background`, faded2background);
       a(template, wrapper);
     });
   }

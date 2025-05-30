@@ -1814,11 +1814,20 @@ class Picker extends HTMLElement {
     this.getColorNames().forEach((colorName, colorIndex) => {
       const template = getLocalTemplate("colorExample");
       const name = getEl(".color-example-name", template);
-      html(colorName, name);
+      html(
+        `${colorName}`,
+        name,
+      );
+      // html(
+      //   `--${colorName} <span class="${colorName}-faded">--${colorName}-faded</span> <span class="${colorName}-faded2">--${colorName}-faded2</span>`,
+      //   name,
+      // );
       ac(colorName, name);
+      ac(`${colorName}-bottom-border`, name);
+
       ac("weight-900", name);
       const noFade = getEl(".no-fade", template);
-      html("This is the full color with no fade", noFade);
+      html(`This is the variable<br>--${colorName}`, noFade);
       ac(colorName, noFade);
       const noFadeBorder = getEl(".no-fade-border", template);
       ac(`${colorName}-border`, noFadeBorder);
@@ -1826,7 +1835,7 @@ class Picker extends HTMLElement {
       ac(`${colorName}-background`, noFadebackground);
       ac(`background`, noFadebackground);
       const faded = getEl(".faded", template);
-      html("This is the faded color", faded);
+      html(`This is the variable<br>--${colorName}-faded`, faded);
       ac(`${colorName}-faded`, faded);
       const fadedBorder = getEl(".faded-border", template);
       ac(`${colorName}-border-faded`, fadedBorder);
@@ -1834,7 +1843,7 @@ class Picker extends HTMLElement {
       ac(`${colorName}-background-faded`, fadedbackground);
       ac(`background`, fadedbackground);
       const faded2 = getEl(".faded2", template);
-      html("This is the faded2 color", faded2);
+      html(`This is the variable<br>--${colorName}-faded2`, faded2);
       ac(`${colorName}-faded2`, faded2);
       const faded2Border = getEl(".faded2-border", template);
       ac(`${colorName}-border-faded2`, faded2Border);

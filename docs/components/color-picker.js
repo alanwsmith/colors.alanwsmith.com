@@ -1818,13 +1818,47 @@ class Picker extends HTMLElement {
         `${colorName}`,
         name,
       );
-      // html(
-      //   `--${colorName} <span class="${colorName}-faded">--${colorName}-faded</span> <span class="${colorName}-faded2">--${colorName}-faded2</span>`,
-      //   name,
-      // );
       ac(colorName, name);
       ac(`${colorName}-bottom-border`, name);
+      ac("weight-900", name);
+      const noFade = getEl(".no-fade", template);
+      html(`This is the variable<br>--${colorName}`, noFade);
+      ac(colorName, noFade);
+      const noFadeBorder = getEl(".no-fade-border", template);
+      ac(`${colorName}-border`, noFadeBorder);
+      const noFadebackground = getEl(".no-fade-background", template);
+      ac(`${colorName}-background`, noFadebackground);
+      ac(`background`, noFadebackground);
+      const faded = getEl(".faded", template);
+      html(`This is the variable<br>--${colorName}-faded`, faded);
+      ac(`${colorName}-faded`, faded);
+      const fadedBorder = getEl(".faded-border", template);
+      ac(`${colorName}-border-faded`, fadedBorder);
+      const fadedbackground = getEl(".faded-background", template);
+      ac(`${colorName}-background-faded`, fadedbackground);
+      ac(`background`, fadedbackground);
+      const faded2 = getEl(".faded2", template);
+      html(`This is the variable<br>--${colorName}-faded2`, faded2);
+      ac(`${colorName}-faded2`, faded2);
+      const faded2Border = getEl(".faded2-border", template);
+      ac(`${colorName}-border-faded2`, faded2Border);
+      const faded2background = getEl(".faded2-background", template);
+      ac(`${colorName}-background-faded2`, faded2background);
+      ac(`background`, faded2background);
+      a(template, wrapper);
+    });
 
+    const bwColors = ["black", "white", "match", "reverse"];
+    bwColors.forEach((colorName) => {
+      const wrapper = el(`${colorName}-example`);
+      const template = getLocalTemplate("colorExample");
+      const name = getEl(".color-example-name", template);
+      html(
+        `${colorName}`,
+        name,
+      );
+      ac(colorName, name);
+      ac(`${colorName}-bottom-border`, name);
       ac("weight-900", name);
       const noFade = getEl(".no-fade", template);
       html(`This is the variable<br>--${colorName}`, noFade);

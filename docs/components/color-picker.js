@@ -72,6 +72,36 @@ const templates = {
   </div>
 </div>
 `,
+  "htmlStart": `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+    <link rel="shortcut icon" href="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <link rel="apple-touch-icon" sizes="180x180" href="">
+    <link rel="icon" type="image/png" sizes="32x32" href="">
+    <link rel="icon" type="image/png" sizes="16x16" href="">
+    <link rel="manifest" href="">
+    <link rel="mask-icon" href="" color="">
+    <meta name="description" content="">
+    -->`,
+  "htmlEnd": `</head>
+  <body>
+    <header class="default-wrapper"></header>
+    <main class="default-wrapper default-flow">
+      <h1>Getting Started</h1>
+    </main>
+    <footer class="default-wrapper align-center"></footer>
+  </body>
+</html>
+`,
 };
 
 // Append Object To Target
@@ -98,6 +128,38 @@ function ac(data, obj) {
 // Add Key Value Data To Dataset
 function ad(key, value, obj) {
   obj.dataset[key] = value;
+}
+
+// Adder for the copy button.
+function addCopyButton(codeSelector, buttonParentSelector, buttonText) {
+  const codeEl = document.querySelector(codeSelector);
+  const buttonParentEl = document.querySelector(buttonParentSelector);
+  const copyButton = document.createElement("button");
+  copyButton.innerHTML = buttonText;
+  copyButton.dataset.target = codeSelector;
+  copyButton.addEventListener("click", async (event) => {
+    const elToCopy = document.querySelector(event.target.dataset.target);
+    try {
+      let content;
+      if (elToCopy.value) {
+        content = elToCopy.value;
+      } else {
+        content = elToCopy.innerText;
+      }
+      await navigator.clipboard.writeText(content);
+      event.target.innerHTML = "Copied";
+    } catch (err) {
+      event.target.innerHTML = "Error copying";
+    }
+    setTimeout(
+      (theButton) => {
+        event.target.innerHTML = buttonText;
+      },
+      2000,
+      event.target,
+    );
+  });
+  buttonParentEl.appendChild(copyButton);
 }
 
 // Debug
@@ -128,6 +190,16 @@ function els(selector) {
 // Get Element By Selector
 function elV2(selector) {
   return document.querySelector(selector);
+}
+
+// make HTML not explode
+function escapeHTML(input) {
+  return input
+    .replaceAll(`&`, `&amp;`)
+    .replaceAll(`"`, `&quot;`)
+    .replaceAll(`'`, `&#39;`)
+    .replaceAll(`<`, `&lt;`)
+    .replaceAll(`>`, `&gt;`);
 }
 
 // Focus (print to console regardless of debug
@@ -733,6 +805,40 @@ class Picker extends HTMLElement {
   constructor() {
     super();
   }
+
+  addCopyButtons() {
+    addCopyButton(
+      ".basic-css-output",
+      ".basic-css-output-top-copy-button",
+      "Copy CSS",
+    );
+    addCopyButton(
+      ".basic-css-output",
+      ".basic-css-output-bottom-copy-button",
+      "Copy CSS",
+    );
+    addCopyButton(
+      ".utility-styles",
+      ".utility-styles-top-button",
+      "Copy CSS",
+    );
+    addCopyButton(
+      ".utility-styles",
+      ".utility-styles-bottom-button",
+      "Copy CSS",
+    );
+    addCopyButton(
+      ".utility-html",
+      ".utility-html-top-button",
+      "Copy HTML",
+    );
+    addCopyButton(
+      ".utility-html",
+      ".utility-html-bottom-button",
+      "Copy HTML",
+    );
+  }
+
   addListeners() {
     dbg("addListeners");
     this.addEventListener("click", (event) => {
@@ -762,8 +868,9 @@ class Picker extends HTMLElement {
     this.addListeners();
     this.updateDebuggingTab();
     this.updateCustomizeTab();
-    this.outputColorClasses();
+    this.outputBasicColorVars();
     this.outputUtilityClasses();
+    this.addCopyButtons();
   }
 
   finishUpdate() {
@@ -775,7 +882,7 @@ class Picker extends HTMLElement {
     this.updateDebuggingTab();
     this.updateCustomizeTab();
     this.toggleIsolation();
-    this.outputColorClasses();
+    this.outputBasicColorVars();
     this.outputUtilityClasses();
   }
 
@@ -1937,13 +2044,10 @@ class Picker extends HTMLElement {
     dbg("Loaded default colors");
   }
 
-  outputColorClasses() {
+  outputBasicColorVars() {
     const out = [];
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     out.push(":root {");
-    out.push(
-      `  color-scheme: light dark; /* Default: ${defaultThemeKind} */\n`,
-    );
     out.push(this.queryColorModeVars().join("\n"));
     out.push("}\n");
     if (defaultThemeKind === "light") {
@@ -1954,6 +2058,7 @@ class Picker extends HTMLElement {
       out.push(":root {");
       out.push(this.queryColorPreferredVars(1).join("\n"));
       out.push("}");
+      out.push("}");
     } else {
       out.push(":root {");
       out.push(this.queryColorPreferredVars(1).join("\n"));
@@ -1962,6 +2067,7 @@ class Picker extends HTMLElement {
       out.push(":root {");
       out.push(this.queryColorPreferredVars(0).join("\n"));
       out.push("}");
+      out.push("}");
     }
     el("basic-css-output").innerHTML = out.join("\n");
   }
@@ -1969,7 +2075,6 @@ class Picker extends HTMLElement {
   outputUtilityClasses() {
     const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
     const out = [];
-
     // out.push("/*");
     // out.push(
     //   "TODO: add font-family (use --default-family and .default-family",
@@ -1993,12 +2098,11 @@ class Picker extends HTMLElement {
     // );
     // out.push("*/");
     // out.push("\n");
-
     // Color Scheme Signal
-    out.push(":root {");
-    out.push("  /* Color Scheme Signal */");
-    out.push("  color-scheme: light dark;");
-    out.push("}\n");
+    // out.push(":root {");
+    // out.push("  /* Color Scheme Signal */");
+    // out.push("  color-scheme: light dark;");
+    // out.push("}\n");
     // Vars
     out.push(this.getUtilityVars());
     // Reset Styles
@@ -2008,6 +2112,27 @@ class Picker extends HTMLElement {
     // Layout Styles
     out.push(shiftReset(el("layout-styles").innerHTML));
     html(out.join("\n"), ".utility-styles");
+    this.outputUtilityHTML();
+  }
+
+  outputUtilityHTML() {
+    const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
+    const out = [];
+    out.push(escapeHTML(templates["htmlStart"]));
+    // out.push(":root {");
+    // out.push("  /* Color Scheme Signal */");
+    // out.push("  color-scheme: light dark;");
+    // out.push("}\n");
+    // Vars
+    out.push(this.getUtilityVars());
+    // Reset Styles
+    out.push(shiftReset(el("reset-styles").innerHTML));
+    // Classes
+    out.push(this.getUtilityClasses());
+    // Layout Styles
+    out.push(shiftReset(el("layout-styles").innerHTML));
+    out.push(escapeHTML(templates["htmlEnd"]));
+    html(out.join("\n"), ".utility-html");
   }
 
   queryReverseModeVars(modeIndex) {
@@ -2253,7 +2378,12 @@ class Picker extends HTMLElement {
       });
     });
     lines.sort(sortVars);
-    return [`  /* Color Base Variables */`, ...lines];
+    const defaultThemeKind = elV2(`input[name="default-mode"]:checked`).value;
+    return [
+      `  color-scheme: light dark; /* Default: ${defaultThemeKind} */`,
+      `  /* Color Base Variables */`,
+      ...lines,
+    ];
   }
 
   queryFlowVars() {
@@ -3049,7 +3179,7 @@ class Picker extends HTMLElement {
         if (kind === "background-box-slider") {
           this.updateBackgroundColors(event.target);
         } else if (kind === "default-mode-radio-button") {
-          this.outputColorClasses();
+          this.outputBasicColorVars();
           this.outputUtilityClasses();
         } else if (kind === "number-of-colors-selector") {
           this.setNumberOfColors(event.target);

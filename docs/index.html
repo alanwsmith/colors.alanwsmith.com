@@ -23,11 +23,21 @@
       body {
         line-height: var(--default-line-height);
       }
-      dt,
-      dl,
-      dd,
-      li,
-      ol,
+      dt > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      dl > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      dd > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      li > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      ol > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
       ul > :where(:not(:first-child)) {
         margin-top: var(--flow-space, var(--default-flow));
       }
@@ -74,6 +84,8 @@
       }
       .basic-css-output {
         color: var(--ui__picker);
+        max-height: 14rem;
+        overflow-y: scroll;
       }
       .color-box-set-button {
         background-color: inherit;
@@ -376,10 +388,10 @@
         font-size: var(--default-font);
       }
       button {
-        background-color: var(--reverse-faded2);
+        background-color: var(--match-faded);
         border: var(--reverse-border);
         border-radius: var(--xsmall-radius);
-        color: var(--match);
+        color: var(--reverse);
         cursor: pointer;
       }
       canvas {
@@ -401,7 +413,6 @@
         /* */
       }
       code {
-        color: var(--reverse);
         font-size: var(--small-font);
         padding-inline: var(--xsmall-padding);
       }
@@ -813,12 +824,16 @@
 
               <h2>Step 3 - Copy Your CSS</h2>
               <p>Here's the CSS variables for your color palette:</p>
+              <div class="align-right basic-css-output-top-copy-button"></div>
               <pre
-                class="basic-css-output xxsmall-font accent-border-faded default-radius default-padding"
+                class="reverse-background-faded2 basic-css-output xxsmall-font accent-border-faded default-radius default-padding"
               ></pre>
+              <div
+                class="align-right basic-css-output-bottom-copy-button"
+              ></div>
               <h2>Wrap Up</h2>
               <p>
-                That's it. You're all set to use these for colors in your
+                That's it. You're all set to use these colors in your
                 stylesheets:
               </p>
 
@@ -846,7 +861,7 @@
                 the colors. Here's example of what a style might look like:
               </p>
               <pre
-                class="small-font reverse-border-faded default-radius default-padding"
+                class="reverse-background-faded2 small-font reverse-border-faded default-radius default-padding"
               >
 h1 {
   background-color: var(--default-faded2);
@@ -854,28 +869,124 @@ h1 {
   color: var(--heading);
 }</pre
               >
-              <p>I hope you enjoy playing with the colors,</p>
+
+              <p>
+                I've always struggled with picking colors. There's a bunch of
+                tools out there. None of them worked for me. Most of it came
+                down to not being able to see the color changes directly on a
+                page. This picker is designed that in mind. I hope you enjoy
+                using it.
+              </p>
               <p class="xxxlarge-bottom-padding xxxlarge-bottom-margin">-a</p>
-              <details class="default-flow" open>
-                <summary>Utility Classes Template</summary>
+
+              <details class="default-flow">
+                <summary>Utility Styles</summary>
                 <p>
-                  I make
-                  <a href="https://links.alanwsmith.com/">a lot of websites</a>.
-                  Having to start from scratch every time is a friction that can
-                  stop me from following an idea. I use this template to avoid
-                  that. It's a basic HTML page with utility classes for the
-                  colors and bunch of stuff I use by default.
+                  I love making websites. I've got
+                  <a href="https://links.alanwsmith.com/">a bunch</a> and make
+                  more all the time. This is the current collection of styles I
+                  use to get started with a new one:
                 </p>
-                <pre class="basic-css-output xsmall-font utility-html"></pre>
+                <div>
+                  <div class="align-right utility-styles-top-button"></div>
+                  <pre class="xsmall-font utility-styles"></pre>
+                  <div class="align-right utility-styles-bottom-button"></div>
+                </div>
                 <p>
-                  Copy and paste that into an empty .html file and you'll have a
-                  complete starter page.
+                  The collection includes variables and classes for the colors
+                  from the picker along with some for blacks and whites. It also
+                  includes a bunch of basic layout variables and classes.
                 </p>
                 <p>
-                  Here's just the CSS utility classes and variables extracted
-                  out.
+                  Some folks have <em>Very Strong Opinions</em> about using
+                  utility styles directly on elements. Getting into debates
+                  about that is tedious and boring. I'd rather spend my time
+                  making things. These styles help me do that. Check 'em out if
+                  you're interested.
                 </p>
-                <pre class="basic-css-output xsmall-font utility-styles"></pre>
+              </details>
+
+              <details class="default-flow">
+                <summary>Utility Template</summary>
+                <p>
+                  This is my collection of utility styles wrapped in a basic
+                  HTML page. I copy and paste this to get started working on a
+                  new site.
+                </p>
+                <div>
+                  <div class="align-right utility-html-top-button"></div>
+                  <pre class="xsmall-font utility-html"></pre>
+                  <div class="align-right utility-html-bottom-button"></div>
+                </div>
+                <p>
+                  There's very little too it. It's purpose is not to do
+                  everything. It's only to reduce a little of the friction of
+                  getting started.
+                </p>
+              </details>
+
+              <details open>
+                <summary>Notes</summary>
+                <ul>
+                  <li>
+                    This picker uses
+                    <a
+                      href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch"
+                      >OKLCH</a
+                    >. Where L, C, and H correspond to Lightness, Chroma, and
+                    Hue. It's listed as having 92% coverage on
+                    <a href="https://caniuse.com/?search=oklch">Can I Use</a>.
+                  </li>
+                  <li>
+                    The <em>l</em>, <em>c</em>, and <em>h</em> sliders in the
+                    <em>Background</em> box of the sidebar set the background
+                    color.
+                  </li>
+                  <li>
+                    <p>
+                      The <em>h</em> (hue) slider in the <em>Background</em> box
+                      also changes the colors available in the grid of
+                      <em>set</em> colors in the <em>Colors</em> box.
+                    </p>
+                    <p>
+                      The hue value in an OKLCH's color is a number between 0
+                      and 360. The slider in the <em>Background</em> box sets
+                      the base number. The first row in the gird of
+                      <em>set</em> colors add 45 to the base. The second row
+                      adds 45 more, etc... (If the number goes over 360 it loops
+                      around)
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Columns in the grid of <em>set</em> colors increase the
+                      lightness value of the corresponding hue. The farthest
+                      left column is 20% lightness. The farthest right is 100%.
+                      The values in the middle are spaced at even intervals.
+                    </p>
+                    <p>
+                      I bumped the lower value to up 20% to prevent the entire
+                      column from becoming basically black. (Depending on the
+                      chroma value, colors set here with a 0% light level can
+                      still show some color. They are all very dark though.)
+                    </p>
+                    <p>
+                      You can get pure white out of any hue by setting the
+                      <em>Colors' chroma</em> slider all the way to the left and
+                      picking any <em>set</em> from the right hand column.
+                    </p>
+                    <p>
+                      The <em>Background l</em> slider covers the full range of
+                      lightness from 0 - 100%. Setting it all the way to the
+                      left with the <em>c</em> slider all the way to the left
+                      too will give you pure black.
+                    </p>
+                    <p>
+                      If you need a pure black foreground color you'll need to
+                      add it yourself. (I include it in my utility styles)
+                    </p>
+                  </li>
+                </ul>
               </details>
             </div>
           </div>

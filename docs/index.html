@@ -758,13 +758,14 @@
               <p>
                 Play around with the <em>Background</em> and
                 <em>Colors</em>
-                controls in the sidebar to pick colors for both
+                controls in the sidebar. Use them to pick colors for both
                 <em>Light</em> and <em>Dark</em> mode.
               </p>
 
               <p>
                 Each color has three versions. The full color and two
-                automatically created faded styles. Here's what they look like:
+                automatically created faded styles. Here's live previews of
+                their text, borders, and backgrounds:
               </p>
 
               <div class="color-examples-wrapper default-flow"></div>
@@ -929,6 +930,31 @@ h1 {
                 <summary>Notes</summary>
                 <ul>
                   <li>
+                    Try the isolate buttons in the <em>Background</em> and
+                    <em>Colors</em> boxes to focus on a single color with the
+                    background or just the background itself. (Being able to
+                    isolate the background to pick it is one of my favorite
+                    things about the tool.)
+                  </li>
+                  <li>
+                    <p>
+                      The output always includes both light and dark mode.
+                      Getting that set up was one of the driving factors behind
+                      building the picker.
+                    </p>
+                    <p>
+                      I prefer dark mode. There are folks with vision
+                      difficulties for whom that's inaccessible. With the wide
+                      spread availability of
+                      <a
+                        href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme"
+                        >prefers-color-scheme</a
+                      >
+                      there's an increasing argument that it's negligent not to
+                      provide both modes for automatic switching at a minimum.
+                    </p>
+                  </li>
+                  <li>
                     This picker uses
                     <a
                       href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch"
@@ -985,6 +1011,47 @@ h1 {
                       If you need a pure black foreground color you'll need to
                       add it yourself. (I include it in my utility styles)
                     </p>
+                  </li>
+                  <li>
+                    The <em>Colors chroma</em> slider applies to the entire grid
+                    of <em>set</em> colors. Moving it all the way to the left
+                    changes everything to different shades of gray and white.
+                    All the way to the right makes the colors their most
+                    intense.
+                  </li>
+                  <li>
+                    <p>
+                      There's more complexity to OKLCH colors than is
+                      represented here. The sliders can be set in ways that are
+                      outside the actual color space. Fallback colors are used
+                      whenever that happens.
+                    </p>
+                    <p>
+                      It's possible to set up an interface that wouldn't allow
+                      colors outside the color space. It would be way more
+                      complicated to use (see
+                      <a href="https://oklch.com/">oklch.com</a> for an
+                      example). I opted to keep the interface simpler knowing
+                      the fallbacks would take care of things.
+                    </p>
+                  </li>
+                  <li>
+                    There's no restrictions on the colors that can be used for
+                    Light and Dark mode. You can make either as dark or as light
+                    as you'd like. Just keep the folks who will be visiting your
+                    site in mind as you pick them.
+                  </li>
+                  <li>
+                    As with all things color, there's a ton of factors that go
+                    in to how things render and are perceived. Not the least of
+                    which is different monitors have different amounts of
+                    support for the colors they can render. Addressing all that
+                    is outside the concerns of this tool.
+                  </li>
+                  <li>
+                    The names default, heading, link, accent, and warning are
+                    what I use. You should be able to find/replace them
+                    relatively easily if you prefer something different.
                   </li>
                 </ul>
               </details>

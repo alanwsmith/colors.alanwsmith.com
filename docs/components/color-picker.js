@@ -1168,15 +1168,13 @@ class Picker extends HTMLElement {
         );
       });
     });
-    this.getFadedValues().forEach((fade) => {
-      lines.push(
-        makeClass(
-          `.background${fade}`,
-          `color`,
-          `var(--background${fade})`,
-        ),
-      );
-    });
+    lines.push(
+      makeClass(
+        `.background`,
+        `color`,
+        `var(--background)`,
+      ),
+    );
     lines.sort();
     return [`/* Color Text */`, ...lines];
   }

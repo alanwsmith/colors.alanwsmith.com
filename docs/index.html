@@ -1,16 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <title>Alan's Color Picker</title>
     <meta charset="UTF-8" />
-    <style data-name="Reset Styles" class="reset-styles-input">
-      *,
-      ::after,
-      ::before,
-      ::backdrop,
-      ::file-selector-button {
-        margin: 0;
-      }
+
+    <style data-name="Reset Styles" class="reset-styles">
+      /* Base Reset */
       *,
       ::after,
       ::before,
@@ -18,16 +13,33 @@
       ::file-selector-button {
         box-sizing: border-box;
       }
-      body {
-        line-height: 1.5;
+      *,
+      ::after,
+      ::before,
+      ::backdrop,
+      ::file-selector-button {
+        margin: 0;
       }
-      dt,
-      dl,
-      dd,
-      li,
-      ol,
+      body {
+        line-height: var(--default-line-height);
+      }
+      dt > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      dl > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      dd > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      li > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
+      ol > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
+      }
       ul > :where(:not(:first-child)) {
-        margin-top: var(--flow-space, 1em);
+        margin-top: var(--flow-space, var(--default-flow));
       }
       audio,
       canvas,
@@ -39,25 +51,18 @@
       svg,
       video {
         display: block;
-        max-width: calc(100vw - 1.4rem);
-      }
-      input,
-      button,
-      textarea,
-      select {
-        font: inherit;
       }
     </style>
 
-    <style data-name="Interface Styles">
+    <style data-name="Interface Styles" class="interface-styles">
       .background-box-name {
-        padding-block: var(--xsmall-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .background-box-isolate-wrapper {
         text-align: end;
-        padding-block: var(--small-padding);
+        padding-block: var(--xxsmall-padding);
         padding-inline: var(--default-padding);
       }
       .background-box-sliders {
@@ -66,36 +71,37 @@
       }
       .background-box-slider-wrapper {
         display: grid;
-        grid-template-columns: 1.6ch 1fr;
+        grid-template-columns: 2ch 1fr;
       }
       .background-box-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
         color: var(--ui__picker);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
       .background-box-isolate-wrapper {
         border-top: 1px solid var(--ui__picker);
-        padding-top: var(--default-padding);
       }
-      .colors-box-name {
-        padding-block: var(--xsmall-padding);
-        padding-inline: var(--default-padding);
+      .basic-css-output {
+        color: var(--ui__picker);
+        max-height: 14rem;
+        overflow-y: scroll;
       }
       .color-box-set-button {
         background-color: inherit;
         border: none;
         border-radius: 0;
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         font-weight: bold;
         padding-block: var(--xxxsmall-padding);
         padding-inline: var(--xxsmall-padding);
       }
       .color-grid-wrapper {
         display: grid;
-        justify-content: center;
-        margin-block: var(--default-margin);
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        margin-block: var(--large-margin);
         padding-bottom: var(--large-padding);
+        padding-inline: var(--small-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .color-selector-button {
@@ -103,10 +109,21 @@
         border-right: 1px solid var(--ui__picker);
         border-top: 1px solid var(--ui__picker);
         cursor: pointer;
-        font-size: var(--default-font-size);
+        font-size: var(--default-font);
         outline: inherit;
         padding: 0;
         width: 2.3ch;
+        line-height: 1.4;
+      }
+      .colors-box-name {
+        padding-block: var(--xxxsmall-padding);
+        padding-inline: var(--default-padding);
+      }
+      .colors-box-tab-list {
+        padding: 0;
+      }
+      .reverse-bottom-border {
+        border-bottom: 1px solid var(--reverse);
       }
       .color-selector-tab-name {
         border-bottom: 1px solid var(--ui__picker);
@@ -114,7 +131,8 @@
         padding-inline: var(--small-padding);
       }
       .colors-box-chroma-checkbox-wrapper {
-        padding: var(--default-padding);
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--default-padding);
         text-align: end;
       }
       .colors-box-chroma-checkbox-label {
@@ -127,7 +145,7 @@
         display: grid;
         grid-template-columns: 1.6ch 1fr;
         padding-inline: var(--default-padding);
-        padding-bottom: var(--default-padding);
+        padding-bottom: var(--small-padding);
         border-bottom: 1px solid var(--ui__picker);
       }
       .colors-box-name {
@@ -136,10 +154,16 @@
       .colors-box-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
-      hgroup {
-        padding-bottom: var(--large-padding);
+      .default-mode-selection-wrapper {
+        display: grid;
+      }
+      hgroup p {
+        font-size: var(--small-font);
+      }
+      input[type="range"] {
+        width: 100%;
       }
       .invisible {
         visibility: hidden;
@@ -147,73 +171,185 @@
       .mode-buttons {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem;
-        padding: var(--default-padding);
-        justify-content: space-between;
+        gap: 1rem;
+        padding-block: var(--xxsmall-padding);
+        padding-inline: var(--default-padding);
+        justify-content: space-evenly;
+        color: var(--ui__picker);
       }
       .mode-buttons-name {
         border-bottom: 1px solid var(--ui__picker);
         color: var(--ui__picker);
-        padding-block: var(--xsmall-padding);
+        padding-block: var(--xxxsmall-padding);
         padding-inline: var(--default-padding);
+        font-size: var(--small-font);
+      }
+      .mode-button-wrapper {
+        display: grid;
+        grid-template-columns: 2.2ch 1fr;
+        /*
+          border: 1px solid var(--ui__picker);
+          border-radius: var(--default-radius);
+          font-size: var(--small-font);
+          margin-top: var(--default-margin);
+        */
       }
       .mode-buttons-wrapper {
         border: 1px solid var(--ui__picker);
         border-radius: var(--default-radius);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
+      }
+      .nav-tab-list {
+        border-bottom: 1px solid var(--ui__picker);
+        margin-top: var(--xxxsmall-margin);
+        margin-bottom: var(--xlarge-margin);
+      }
+      .preview-dark {
+        background-color: var(--dark-mode__background);
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--small-padding);
+      }
+      .preview-dark-1 {
+        color: var(--dark-mode__default);
+      }
+      .preview-dark-2 {
+        color: var(--dark-mode__heading);
+      }
+      .preview-dark-3 {
+        color: var(--dark-mode__link);
+      }
+      .preview-dark-4 {
+        color: var(--dark-mode__accent);
+      }
+      .preview-dark-5 {
+        color: var(--dark-mode__warning);
+      }
+      .preview-light {
+        background-color: var(--light-mode__background);
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--small-padding);
+      }
+      .preview-light-1 {
+        color: var(--light-mode__default);
+      }
+      .preview-light-2 {
+        color: var(--light-mode__heading);
+      }
+      .preview-light-3 {
+        color: var(--light-mode__link);
+      }
+      .preview-light-4 {
+        color: var(--light-mode__accent);
+      }
+      .preview-light-5 {
+        color: var(--light-mode__warning);
+      }
+      .preview-wrapper {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: 1fr 1fr;
+        font-size: var(--small-font);
+      }
+      /*
+      .scroll-wrapper {
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        height: 94vh;
         margin-top: var(--default-margin);
+        overflow-y: scroll;
+        padding: var(--default-padding);
+      }
+      */
+      .sidebar {
+        position: sticky;
+        bottom: -30px;
+      }
+      .sidebar-wrapper {
+        margin-block: 0.4em;
       }
       .sidebar-controls {
-        padding-top: var(--large-padding);
+        margin-top: var(--default-margin);
+      }
+      .slider-wrapper {
+        padding-top: 0.1rem;
       }
       .styles-grid {
         display: grid;
         grid-template-columns: 3ch 1fr;
       }
       .styles-grid code {
-        font-size: var(--xxsmall-font-size);
+        font-size: var(--xxsmall-font);
       }
       .styles-grid details {
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
       }
       .styles-grid pre {
         line-height: 1;
       }
       .styles-grid summary {
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
+      }
+      .three-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
       }
       .top-nav-button {
-        border: var(--background-border-style);
+        border: var(--background-border);
         color: var(--link);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         font-weight: 900;
       }
-      .top-nav-button[aria-selected='true'] {
+      .top-nav-button[aria-selected="true"] {
         color: var(--accent);
+        border-bottom: 3px solid var(--ui__picker);
       }
-      .nav-tab-list {
-        border-bottom: 1px solid var(--ui__picker);
-        margin-top: var(--xlarge-margin);
-        margin-bottom: var(--xlarge-margin);
+      .two-column {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .ui__picker {
+        color: var(--ui__picker);
       }
       .ui-two-column {
         display: grid;
         grid-template-columns: 1fr 13.4rem;
-        gap: 2rem;
+        gap: 1rem;
       }
-      [role='tab'] {
+      .utility-html {
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+        max-height: 10rem;
+        overflow-y: scroll;
+        max-width: 100%;
+        background-color: var(--reverse-faded2);
+      }
+      .utility-styles {
+        border: 1px solid var(--reverse-faded);
+        border-radius: var(--default-radius);
+        padding: var(--default-padding);
+        max-height: 10rem;
+        overflow-y: scroll;
+        max-width: 100%;
+        background-color: var(--reverse-faded2);
+      }
+      [role="tab"] {
         background: none;
         cursor: pointer;
         outline: inherit;
         border-radius: 0;
-        &[aria-selected='true'] {
+        &[aria-selected="true"] {
           font-style: normal;
         }
       }
-      [role='tablist'] {
+      [role="tablist"] {
         font-style: normal;
       }
-      [role='tabpanel'] {
+      [role="tabpanel"] {
         padding: 0;
       }
       .round-upper-right-corner {
@@ -221,9 +357,9 @@
       }
     </style>
 
-    <style data-name="Layout Styles">
+    <style class="layout-styles" data-name="Layout Styles">
       ::marker {
-        color: var(--content);
+        color: var(--default);
       }
       a {
         color: var(--link);
@@ -240,11 +376,11 @@
       aside {
         margin-left: 20vw;
         font-style: italic;
-        border-left: 3px solid var(--reversed-faded);
+        border-left: 3px solid var(--reverse-faded);
         padding: var(--default-padding);
       }
       audio {
-        border: var(--accent-border-style);
+        border: var(--accent-border);
       }
       b {
         font-weight: 900;
@@ -252,23 +388,23 @@
       blockquote {
         margin: var(--large-margin);
         padding: var(--default-padding);
-        background-color: var(--reversed-faded2);
+        background-color: var(--reverse-faded2);
       }
       body {
         background-color: var(--background);
-        color: var(--content);
+        color: var(--default);
         font-family: system-ui;
-        font-size: var(--default-font-size);
+        font-size: var(--default-font);
       }
       button {
-        background-color: var(--reversed-faded2);
-        border: var(--reversed-border-style);
+        background-color: var(--match-faded);
+        border: var(--reverse-border);
         border-radius: var(--xsmall-radius);
-        color: var(--matched);
+        color: var(--reverse);
         cursor: pointer;
       }
       canvas {
-        border: var(--accent-border-style);
+        max-width: 100%;
       }
       caption {
         caption-side: bottom;
@@ -278,22 +414,26 @@
       cite {
         font-style: italic;
       }
+      .color-names-wrapper {
+        display: grid;
+        grid-template-columns: 5rem 1fr;
+      }
       data {
         /* */
       }
       code {
-        font-size: var(--small-font-size);
-        color: var(--reverse-faded);
+        font-size: var(--small-font);
+        padding-inline: var(--xsmall-padding);
       }
       dd {
-        /* */
+        margin-left: var(--default-margin);
       }
       del {
         background-color: var(--accent-faded2);
         text-decoration: line-through;
       }
       details {
-        border: var(--accent-border-style-faded);
+        border: var(--accent-border-faded);
         border-radius: var(--default-radius);
         padding: var(--default-padding);
       }
@@ -310,170 +450,185 @@
         font-style: italic;
       }
       embed {
-        border: var(--accent-border-style);
+        max-width: 100%;
       }
       fieldset {
         border-radius: var(--default-radius);
       }
       figcaption {
-        background-color: var(--reversed);
+        background-color: var(--reverse);
         color: var(--match);
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         padding: var(--default-padding);
         text-align: var(--alight-center);
       }
       figure {
-        border: var(--reversed-border-style);
-        display: flex;
-        flex-flow: column;
-        padding: var(--large-padding);
-        max-width: var(--xsmall-width);
+        max-width: 100%;
+      }
+      footer {
+        color: var(--default-faded);
+        font-size: var(--small-font);
+        margin-bottom: var(--default-margin);
         margin-inline: auto;
+        margin-top: var(--xlarge-margin);
+        text-align: var(--align-center);
+        width: var(--default-width);
       }
       h1 {
         color: var(--heading);
-        border-bottom: var(--content-border-style);
-        font-size: var(--xxxlarge-font-size);
-        font-weight: 900;
+        border-bottom: var(--accent-border);
+        font-size: var(--xxxlarge-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
         text-wrap: balance;
       }
       h2 {
         color: var(--heading);
-        border-bottom: var(--content-border-style);
-        font-size: var(--xxlarge-font-size);
-        font-weight: 900;
+        border-bottom: var(--accent-border);
+        font-size: var(--xxlarge-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
         text-wrap: balance;
       }
       h3 {
         color: var(--heading);
-        font-size: var(--xlarge-font-size);
-        font-weight: 900;
+        font-size: var(--xlarge-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
         text-wrap: balance;
       }
       h4 {
         color: var(--heading);
-        font-size: var(--large-font-size);
-        font-weight: 900;
+        font-size: var(--large-font);
+        font-weight: var(--weight-900);
+        line-height: var(--xsmall-line-height);
         text-wrap: balance;
       }
       h5 {
         color: var(--heading);
-        font-size: var(--large-font-size);
-        font-weight: 400;
+        font-size: var(--large-font);
+        font-weight: var(--weight-400);
+        line-height: var(--xsmall-line-height);
         text-wrap: balance;
       }
       h6 {
         color: var(--heading);
-        font-size: var(--large-font-size);
-        font-style: italic;
-        font-weight: 400;
+        font-size: var(--large-font);
+        font-style: var(--italic);
+        font-weight: var(--weight-400);
+        line-height: var(--xsmall-line-height);
         text-wrap: balance;
+      }
+      header {
+        margin-bottom: var(--small-margin);
+        margin-inline: auto;
+        margin-top: var(--xsmall-margin);
+        width: var(--default-width);
       }
       hgroup {
         /* */
       }
       hr {
         border: none;
-        border-top: 3px double var(--reversed-faded);
-        color: var(--reversed);
+        border-top: 3px double var(--reverse-faded);
+        color: var(--reverse);
         overflow: visible;
         text-align: var(--align-center);
         height: 5px;
       }
       hr::after {
-        /* background was in the mdn example, 
-        I'm not sure whey. commenting out until
-        I have a chance to look closer 
-        background: #fff;
-        */
-        content: '§';
-        padding-inline: var(--small-padding);
+        background: var(--background);
+        content: "§";
+        padding-inline: var(--large-padding);
         position: relative;
         top: -13px;
       }
       i {
-        font-style: italic;
+        font-style: var(--italic);
       }
       iframe {
-        border: var(--accent-border-style);
+        max-width: 100%;
+        border: var(--accent-border);
       }
       img {
-        border: var(--accent-border-style);
+        max-width: 100%;
+        border: var(--accent-border);
       }
       input {
-        margin-inline: var(--small-margin);
+        margin: var(--xxxsmall-margin);
       }
       ins {
         background-color: var(--accent-faded);
-        font-style: italic;
+        font-style: var(--italic);
       }
       kbd {
-        background-color: var(--reversed-faded2);
-        border: var(--reversed-faded);
+        background-color: var(--reverse-faded2);
+        border: var(--reverse-faded);
         border-radius: var(--xsmall-radius);
         font-family: monospace;
-        font-size: var(--small-font-size);
+        font-size: var(--small-font);
         padding-inline: var(--xxsmall-padding);
       }
       label {
-        color: var(--reversed);
+        /* */
       }
       legend {
-        color: var(--reversed);
-        font-weight: 900;
+        font-weight: var(--weight-900);
       }
       li {
         /* */
       }
       main {
-        /* */
+        margin-inline: auto;
+        width: var(--default-width);
+      }
+      main > :where(:not(:first-child)) {
+        margin-top: var(--flow-space, var(--default-flow));
       }
       map {
-        /* */
+        max-width: 100%;
       }
       mark {
         background-color: var(--accent-faded2);
       }
       menu {
-        border: var(--reversed-border-style);
+        /* */
       }
       meter {
         padding-inline: var(--default-padding);
       }
       nav {
-        border: var(--reversed-border-style);
+        /* */
       }
       object {
-        border: var(--accent-border-style);
+        max-width: 100%;
       }
       ol {
         /* */
       }
       output {
-        font-weight: 900;
+        font-weight: var(--weight-900);
       }
       p {
         /* */
       }
       picture {
-        display: block;
-        margin: var(--default-margin);
         max-width: 100%;
       }
       pre {
-        margin: var(--default-margin);
+        /* */
       }
       progress {
         padding-inline: var(--small-padding);
       }
       q {
-        font-style: italic;
+        font-style: var(--italic);
       }
       s {
         /* */
       }
       samp {
-        font-weight: bold;
+        font-weight: var(--weight-900);
       }
       search {
         padding-inline: var(--small-padding);
@@ -485,7 +640,7 @@
         padding-inline: var(--small-padding);
       }
       small {
-        font-size: var(--xsmall-font-size);
+        font-size: var(--xsmall-font);
       }
       span {
         /* */
@@ -497,13 +652,13 @@
         /* */
       }
       summary {
-        font-weight: 900;
+        font-weight: var(--weight-900);
       }
       sup {
         /* */
       }
       svg {
-        border: var(--accent-border-style);
+        max-width: 100%;
       }
       table {
         margin: var(--default-margin);
@@ -515,43 +670,46 @@
         /* */
       }
       textarea {
-        max-width: var(--large-width);
-        margin: var(--default-margin);
+        max-width: 100%;
       }
       tfoot {
         /* */
       }
       th {
-        font-weight: 900;
+        font-weight: var(--weight-900);
       }
       thead {
         /* */
       }
       time {
-        font-weight: 900;
+        /* */
       }
       tr {
-        font-weight: 900;
+        /* */
       }
       u {
-        text-decoration: var(--accent-faded) wavy underline;
+        text-decoration: var(--accent-faded) var(--wavy) var(--underline);
       }
       ul {
         /* */
       }
       var {
-        font-weight: 900;
+        font-weight: var(--weight-900);
       }
       video {
-        border: var(--accent-border-style);
+        max-width: 100%;
       }
     </style>
   </head>
-
   <body>
+    <template id="customize-color-name">
+      <label></label>
+      <input type="text" />
+    </template>
+
     <template id="picker-controls-template">
       <div class="mode-buttons-wrapper">
-        <div class="mode-buttons-name">Themes</div>
+        <div class="mode-buttons-name">Mode</div>
         <div class="mode-buttons"></div>
       </div>
       <div class="background-box-wrapper">
@@ -559,15 +717,21 @@
         <div class="background-box-sliders">
           <div class="background-box-slider-wrapper" data-aspect="l">
             <label></label>
-            <input type="range" data-kind="background-box-slider" />
+            <div class="slider-wrapper">
+              <input type="range" data-kind="background-box-slider" />
+            </div>
           </div>
           <div class="background-box-slider-wrapper" data-aspect="c">
             <label></label>
-            <input type="range" data-kind="background-box-slider" />
+            <div class="slider-wrapper">
+              <input type="range" data-kind="background-box-slider" />
+            </div>
           </div>
           <div class="background-box-slider-wrapper" data-aspect="h">
             <label></label>
-            <input type="range" data-kind="background-box-slider" />
+            <div class="slider-wrapper">
+              <input type="range" data-kind="background-box-slider" />
+            </div>
           </div>
         </div>
         <div class="background-box-isolate-wrapper">
@@ -581,1088 +745,429 @@
       </div>
     </template>
 
-    <color-picker class="flow">
-      <div class="xlarge-wrapper">
-        <tab-group>
-          <div role="tablist" class="nav-tab-list">
-            <!--
-            <button class="top-nav-button" role="tab" data-kind="top-nav-button">Customize</button>
--->
-            <button
-              class="top-nav-button"
-              role="tab"
-              data-kind="top-nav-button"
-              aria-selected="true"
-            >
-              Picker
-            </button>
-            <button
-              class="top-nav-button"
-              role="tab"
-              data-kind="top-nav-button"
-            >
-              Customize
-            </button>
-            <button
-              class="top-nav-button"
-              role="tab"
-              data-kind="top-nav-button"
-            >
-              Export
-            </button>
-            <!--
-            <button class="top-nav-button" role="tab" data-kind="top-nav-button">B&amp;W</button>
-            <button class="top-nav-button" role="tab" data-kind="top-nav-button">Utilities</button>
--->
-            <button
-              class="top-nav-button"
-              role="tab"
-              data-kind="top-nav-button"
-            >
-              TODO
-            </button>
-
-            <button
-              class="top-nav-button"
-              role="tab"
-              data-kind="top-nav-button"
-            >
-              Debugging
-            </button>
-          </div>
-
-          <!--
-          <div role="tabpanel" hidden>
-            <div class="content-wrapper ui-two-column">
-              <main class="content-body default-flow">
-                <hgroup class="large-bottom-margin">
-                  <h1>Alan's Color Picker</h1>
-                  <p class="align-end">
-                    made by
-                    <a href="https://www.alanwsmith.com/">alan w smith</a>
-                  </p>
-                </hgroup>
-                <h2 class="title">Basic Sample</h2>
-                <p>
-                  Fly by night, and you waste little time Glue the sheet to the
-                  dark blue background Go now and come here later
-                </p>
-                <abbr>CSS</abbr>
-
-                <aside>
-                  <p>
-                    The Rough-skinned Newt defends itself with a deadly
-                    neurotoxin.
-                  </p>
-                </aside>
-
-                <figure>
-                  <figcaption>
-                    Example of what this looks like. There is no actual audio
-                  </figcaption>
-                  <audio controls src=""></audio>
-                  <a href=""> Link to audio would go here </a>
-                </figure>
-
-                <b>Bring Attention</b>
-
-                <blockquote cite="https://www.huxley.net/bnw/four.html">
-                  <p>
-                    Words can be like X-rays, if you use them properly—they’ll
-                    go through anything. You read and you’re pierced.
-                  </p>
-                </blockquote>
-
-                <button class="favorite styled" type="button">
-                  Add to favorites
-                </button>
-
-                <table>
-                  <caption>
-                    He-Man and Skeletor facts
-                  </caption>
-                  <tr>
-                    <td></td>
-                    <th scope="col" class="heman">He-Man</th>
-                    <th scope="col" class="skeletor">Skeletor</th>
-                  </tr>
-                  <tr>
-                    <th scope="row">Role</th>
-                    <td>Hero</td>
-                    <td>Villain</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Weapon</th>
-                    <td>Power Sword</td>
-                    <td>Havoc Staff</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Dark secret</th>
-                    <td>Expert florist</td>
-                    <td>Cries at romcoms</td>
-                  </tr>
-                </table>
-
-                <cite
-                  ><a href="http://www.george-orwell.org/1984/0.html"
-                    >Nineteen Eighty-Four</a
-                  ></cite
+    <color-picker>
+      <div class="xlarge-wrapper ui-two-column">
+        <div class="scroll-wrapper">
+          <div class="small-flow">
+            <hgroup>
+              <h1>Alan's Color Picker</h1>
+              <p class="align-right small-font">
+                made by <a href="https://www.alanwsmith.com/">alan w smith</a> ~
+                <a href="https://github.com/alanwsmith/colors.alanwsmith.com"
+                  >source</a
                 >
+                ~
+                <a href="https://links.alanwsmith.com/">other projects</a>
+                ~
+                <a href="https://socials.alanwsmith.com/">socials</a>
+              </p>
+            </hgroup>
+            <div class="small-flow">
+              <h2>Step 1 - Pick Your Colors</h2>
+              <p>
+                Play around with the <em>Background</em> and
+                <em>Colors</em>
+                controls in the sidebar. Use them to pick colors for both
+                <em>Light</em> and <em>Dark</em> mode.
+              </p>
 
-                <data value="398">Mini Ketchup</data>
+              <h3>Something To Look At</h3>
+              <p>
+                This section is placeholder text to give you something to see
+                how your colors look on a page. It contains a link and spans for
+                the warning and accent colors.
+              </p>
 
-                do dl, dd, dt
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In
+                vehicula, mauris sed dictum suscipit,
+                <a href="">this is a link example</a> nisl leo congue massa, at
+                placerat diam elit non metus. Aenean luctus turpis at ligula
+                porta, ut efficitur
+              </p>
+              <p>
+                Ligula molestie.
+                <span class="accent">This span uses accent</span>. Quisque et
+                nulla id magna
+              </p>
 
-                <del>nothing</del>
+              <p>
+                Vulputate rhoncus convallis ut elit.
+                <span class="warning">This is a span with warning.</span>
+                Sapien in eleifend lacinia, sem metus facilisis nibh, ut
+                vulputate turpis justo quis lorem. Maecenas et lacinia lorem.
+                Donec fermentum dolor id dolor tempus, at aliquet lorem
+                fermentum. Suspendisse non purus ac ligula accumsan varius.
+              </p>
+              <p>
+                Ut et venenatis velit, volutpat mollis metus. Integer ultrices
+                in justo dapibus rhoncus. Nam lobortis vitae lacus sed lobortis.
+                Pellentesque porta et enim vel dapibus. Vivamus pellentesque
+                metus ut iaculis pellentesque.
+              </p>
 
-                <details>
-                  <summary>Details</summary>
-                  Something small enough to escape casual notice.
-                </details>
+              <h3>Borders and Backgrounds</h3>
+              <p>
+                Each color has three versions. The full color and two
+                automatically created faded styles. Here's live previews of
+                their text, borders, and backgrounds:
+              </p>
 
-                <dfn id="def-validator">validator</dfn>
+              <div class="color-examples-wrapper default-flow"></div>
 
-                <em>now</em>
-
-                <fieldset>
-                  <legend>Choose your favorite monster</legend>
-
-                  <input type="radio" id="kraken" name="monster" value="K" />
-                  <label for="kraken">Kraken</label><br />
-
-                  <input type="radio" id="sasquatch" name="monster" value="S" />
-                  <label for="sasquatch">Sasquatch</label><br />
-
-                  <input type="radio" id="mothman" name="monster" value="M" />
-                  <label for="mothman">Mothman</label>
-                </fieldset>
-
-                <figure>
-                  <img
-                    src="https://placecats.com/millie/300/150"
-                    alt="The cat Millie from placecats"
-                  />
-                  <figcaption>The cat Millie from placecats</figcaption>
-                </figure>
-
-                <hgroup>
-                  <h1>Frankenstein</h1>
-                  <p>Or: The Modern Prometheus</p>
-                </hgroup>
-                <p>
-                  Victor Frankenstein, a Swiss scientist, has a great ambition:
-                  to create intelligent life. But when his creature first stirs,
-                  he realizes he has made a monster. A monster which, abandoned
-                  by his master and shunned by everyone who sees it, follows Dr
-                  Frankenstein to the very ends of the earth.
-                </p>
-
-                <hr />
-
-                <i>This can't be real!</i>
-
-                <ins cite="../how-to-be-a-wizard.html" datetime="2018-05">
-                  <p>&ldquo;A wizard is never late &hellip;&rdquo;</p>
-                </ins>
-
-                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
-
-                <div class="preference">
-                  <label for="cheese">Do you like cheese?</label>
-                  <input type="checkbox" name="cheese" id="cheese" />
+              <h2>Step 2 - Set Default Mode</h2>
+              <p>
+                Browsers can usually determine if your visitors prefer light or
+                dark mode. That's not always possible. Which mode would you like
+                to present if a preference can't be determined?
+              </p>
+              <div class="preview-wrapper">
+                <div>
+                  <div class="preview-light">
+                    <div class="preview-light-1">Light default</div>
+                    <div class="preview-light-2">Light heading</div>
+                    <div class="preview-light-3">Light link</div>
+                    <div class="preview-light-4">Light accent</div>
+                    <div class="preview-light-5">Light warning</div>
+                  </div>
+                  <div>
+                    <input
+                      data-kind="default-mode-radio-button"
+                      type="radio"
+                      id="default-mode-light"
+                      name="default-mode"
+                      value="light"
+                      checked
+                    />
+                    <label for="default-mode-light" class="ui__picker"
+                      >Light</label
+                    >
+                  </div>
                 </div>
-
-                <mark>salamander</mark>
-
-                <menu>
-                  <li><button id="save">Save for later</button></li>
-                  <li><button id="share">Share this news</button></li>
-                </menu>
-
-                <meter
-                  id="fuel"
-                  min="0"
-                  max="100"
-                  low="33"
-                  high="66"
-                  optimum="80"
-                  value="50"
-                >
-                  at 50/100
-                </meter>
-
-                <nav class="crumbs">
-                  <ol>
-                    <li class="crumb"><a href="#">Bikes</a></li>
-                    <li class="crumb"><a href="#">BMX</a></li>
-                    <li class="crumb">Jump Bike 3000</li>
-                  </ol>
-                </nav>
-
-                <object type="video/mp4" width="250" height="200"></object>
-
-                <output name="result" for="a b">60</output>
-
-                <p>para</p>
-
-                <picture>
-                  <source
-                    srcset="https://placecats.com/millie/300/150"
-                    media="Millie the cat from placecats"
-                  />
-                  <img
-                    src="https://placecats.com/millie/300/150"
-                    alt="Millie the cat from placecats"
-                  />
-                </picture>
-
-                <pre>some pre text</pre>
-
-                <label for="file">File progress:</label>
-                <progress id="file" max="100" value="70">70%</progress>
-
-                <q
-                  cite="https://www.imdb.com/title/tt0062622/quotes/?item=qt0396921&ref_=ext_shr_lnk"
-                >
-                  I'm sorry, Dave. I'm afraid I can't do that.
-                </q>
-
+                <div>
+                  <div class="preview-dark">
+                    <div class="preview-dark-1">Dark default</div>
+                    <div class="preview-dark-2">Dark heading</div>
+                    <div class="preview-dark-3">Dark link</div>
+                    <div class="preview-dark-4">Dark accent</div>
+                    <div class="preview-dark-5">Dark warning</div>
+                  </div>
+                  <div>
+                    <input
+                      data-kind="default-mode-radio-button"
+                      type="radio"
+                      id="default-mode-dark"
+                      name="default-mode"
+                      value="dark"
+                    />
+                    <label for="default-mode-dark" class="ui__picker"
+                      >Dark</label
+                    >
+                  </div>
+                </div>
+              </div>
+              <div class="default-mode-selection-wrapper"></div>
+              <h2>Step 3 - Copy Your CSS</h2>
+              <p>Here's the CSS variables for your color palette:</p>
+              <div class="align-right basic-css-output-top-copy-button"></div>
+              <pre
+                class="reverse-background-faded2 basic-css-output xxsmall-font accent-border-faded default-radius default-padding"
+              ></pre>
+              <div
+                class="align-right basic-css-output-bottom-copy-button"
+              ></div>
+              <h3>Wrap Up</h3>
+              <p>
+                That's it. You're all set to use these colors in your
+                stylesheets:
+              </p>
+              <ul>
+                <li>
+                  <code class="nowrap">var(--default)</code>
+                </li>
+                <li><code class="nowrap">var(--heading)</code></li>
+                <li><code class="nowrap">var(--link)</code></li>
+                <li>
+                  <code class="nowrap">var(--accent)</code>
+                </li>
+                <li>
+                  <code class="nowrap">var(--warning)</code>
+                </li>
+              </ul>
+              <p>
+                They'll automatically switch between Light and Dark mode based
+                on a person's preference whenever possible. You can also append
+                each one with either
+                <code class="nowrap">-faded</code> or
+                <code class="nowrap">-faded2</code> to get the faded versions of
+                the colors. Here's example of what a style might look like:
+              </p>
+              <pre
+                class="reverse-background-faded2 small-font reverse-border-faded default-radius default-padding"
+              >
+h1 {
+  background-color: var(--default-faded2);
+  border-bottom: 1px solid var(--accent);
+  color: var(--heading);
+}</pre
+              >
+              <p>
+                I've always struggled with picking colors. There's a bunch of
+                tools out there. None of them worked for me. Most of it came
+                down to not being able to see the color changes directly on a
+                page. This picker is designed that in mind. I hope you enjoy
+                using it.
+              </p>
+              <p class="xxxlarge-bottom-padding xxxlarge-bottom-margin">-a</p>
+              <details class="default-flow">
+                <summary>Utility Styles</summary>
                 <p>
-                  <s
-                    >There will be a few tickets available at the box office
-                    tonight.</s
-                  >
+                  I love making websites. I've got
+                  <a href="https://links.alanwsmith.com/">a bunch</a> and make
+                  more all the time. This is the current collection of styles I
+                  use to get started with a new one:
                 </p>
-
-                <samp>Keyboard not found <br />Press F1 to continue</samp>
-
-                <search>
-                  <form action="./search/">
-                    <label for="movie">Find a Movie</label>
-                    <input type="search" id="movie" name="q" />
-                    <button type="submit">Search</button>
-                  </form>
-                </search>
-
-                <select name="pets" id="pet-select">
-                  <option value="">--Please choose an option--</option>
-                  <option value="dog">Dog</option>
-                  <option value="cat">Cat</option>
-                  <option value="hamster">Hamster</option>
-                  <option value="parrot">Parrot</option>
-                  <option value="spider">Spider</option>
-                  <option value="goldfish">Goldfish</option>
-                </select>
-
-                <small
-                  >The content is licensed under a Creative Commons
-                  Attribution-ShareAlike 2.5 Generic License.</small
-                >
-
+                <div>
+                  <div class="align-right utility-styles-top-button"></div>
+                  <pre class="xsmall-font utility-styles"></pre>
+                  <div class="align-right utility-styles-bottom-button"></div>
+                </div>
                 <p>
-                  Add the <span class="ingredient">basil</span>,
-                  <span class="ingredient">pine nuts</span> and
-                  <span class="ingredient">garlic</span> to a blender and blend
-                  into a paste.
+                  The collection includes variables and classes for the colors
+                  from the picker along with some for blacks and whites. It also
+                  includes a bunch of basic layout variables and classes.
                 </p>
-
-                <strong>never feed him after midnight</strong>.
-
                 <p>
-                  Almost every developer's favorite molecule is
-                  C<sub>8</sub>H<sub>10</sub>N<sub>4</sub>O<sub>2</sub>, also
-                  known as "caffeine."
+                  Some folks have <em>Very Strong Opinions</em> about using
+                  utility styles directly on elements. Getting into debates
+                  about that is tedious and boring. I'd rather spend my time
+                  making things. These styles help me do that. Check 'em out if
+                  you're interested.
                 </p>
+              </details>
 
-                <details>
-                  <summary>
-                    I have keys but no doors. I have space but no room. You can
-                    enter but can’t leave. What am I?
-                  </summary>
-                  A keyboard.
-                </details>
-
-                <var>a<sup>2</sup></var> + <var>b<sup>2</sup></var> =
-                <var>c<sup>2</sup></var>
-
-                <table>
-                  <caption>
-                    Front-end web developer course 2021
-                  </caption>
-                  <thead>
-                    <tr>
-                      <th scope="col">Person</th>
-                      <th scope="col">Most interest in</th>
-                      <th scope="col">Age</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Chris</th>
-                      <td>HTML tables</td>
-                      <td>22</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Dennis</th>
-                      <td>Web accessibility</td>
-                      <td>45</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Sarah</th>
-                      <td>JavaScript frameworks</td>
-                      <td>29</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Karen</th>
-                      <td>Web performance</td>
-                      <td>36</td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th scope="row" colspan="2">Average age</th>
-                      <td>33</td>
-                    </tr>
-                  </tfoot>
-                </table>
-
-                <textarea id="story" name="story" rows="5" cols="33">
-It was a dark and stormy night...
-</textarea
-                >
-
-                <time datetime="2018-07-07">July 7</time>
-
-                <p>
-                  You could use this element to highlight
-                  <u>speling</u> mistakes, so the writer can <u>corect</u> them.
-                </p>
-
+              <details class="default-flow" open>
+                <summary>Utility Examples</summary>
+                <p>A few quick examples from the utility styles</p>
                 <ul>
-                  <li>Milk</li>
                   <li>
-                    Cheese
-                    <ul>
-                      <li>Blue cheese</li>
-                      <li>Feta</li>
-                    </ul>
+                    <p>
+                      The <em>black</em> and <em>white</em> variables and
+                      classes are just what they say they are.
+                    </p>
+                    <div class="black-example"></div>
+                    <div class="white-example"></div>
+                  </li>
+                  <li>
+                    <p>
+                      The <em>match</em> and <em>reverse</em> are also black and
+                      white. Which one they render as is dependent on the color
+                      mode. In <em>Light</em> mode, <em>match</em> is white and
+                      <em>reverse</em> is black. In <em>Dark</em> mode,
+                      <em>match</em> becomes black and <em>reverse</em> becomes
+                      white.
+                    </p>
+                    <p>
+                      I use these almost all the time over the static black and
+                      white.
+                    </p>
+                    <div class="match-example"></div>
+                    <div class="reverse-example"></div>
+                  </li>
+                  <li>
+                    The format for the backgrounds is
+                    <code class="nowrap">--COLOR-background</code>,
+                    <code class="nowrap">--COLOR-background-faded</code>, and
+                    <code class="nowrap">--COLOR-background-faded2</code>. Where
+                    <code class="nowrap">COLOR</code>
+                    can be one of: default, headline, link, accent, warning,
+                    black, white, match, or reverse.
+                  </li>
+                  <li>
+                    <p>
+                      Borders work similar to backgrounds but have an optional
+                      direction associate with them.
+                    </p>
+                    <div class="border-examples"></div>
+                  </li>
+                  <li>
+                    <p>
+                      Padding and Margins have the format:
+                      <code class="nowrap">SIZE-DIRECTION-PAD/MARGIN</code>. For
+                      example:
+                    </p>
+                    <div class="padding-example"></div>
                   </li>
                 </ul>
+              </details>
 
+              <details class="default-flow">
+                <summary>Utility Template</summary>
                 <p>
-                  The volume of a box is <var>l</var> × <var>w</var> ×
-                  <var>h</var>, where <var>l</var> represents the length,
-                  <var>w</var> the width and <var>h</var> the height of the box.
+                  This is my collection of utility styles wrapped in a basic
+                  HTML page. I copy and paste this to get started working on a
+                  new site.
                 </p>
+                <div>
+                  <div class="align-right utility-html-top-button"></div>
+                  <pre class="xsmall-font utility-html"></pre>
+                  <div class="align-right utility-html-bottom-button"></div>
+                </div>
+                <p>
+                  There's very little too it. It's purpose is not to do
+                  everything. It's only to reduce a little of the friction of
+                  getting started.
+                </p>
+              </details>
 
-                <p>
-                  Greet the new guests and leave quickly Guess the results from
-                  the first scores Hang tinsel from both branches
-                </p>
-                <h2>Ping</h2>
-                <h3>Heave the line over</h3>
-                <p>
-                  the port side Help the weak to preserve their strength Hoist
-                  it up and take it away
-                </p>
-              </div>
-              <div
-                class="sidebar-controls default-flow"
-                data-tab="picker"
-              ></main>
+              <details>
+                <summary>Notes</summary>
+                <ul>
+                  <li>
+                    Try the isolate buttons in the <em>Background</em> and
+                    <em>Colors</em> boxes to focus on a single color with the
+                    background or just the background itself. (Being able to
+                    isolate the background to pick it is one of my favorite
+                    things about the tool.)
+                  </li>
+                  <li>
+                    <p>
+                      The output always includes both light and dark mode.
+                      Getting that set up was one of the driving factors behind
+                      building the picker.
+                    </p>
+                    <p>
+                      I prefer dark mode. There are folks with vision
+                      difficulties for whom that's inaccessible. With the wide
+                      spread availability of
+                      <a
+                        href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme"
+                        >prefers-color-scheme</a
+                      >
+                      there's an increasing argument that it's negligent not to
+                      provide both modes for automatic switching at a minimum.
+                    </p>
+                  </li>
+                  <li>
+                    This picker uses
+                    <a
+                      href="https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch"
+                      >OKLCH</a
+                    >. Where L, C, and H correspond to Lightness, Chroma, and
+                    Hue. It's listed as having 92% coverage on
+                    <a href="https://caniuse.com/?search=oklch">Can I Use</a>.
+                  </li>
+                  <li>
+                    The <em>l</em>, <em>c</em>, and <em>h</em> sliders in the
+                    <em>Background</em> box of the sidebar set the background
+                    color.
+                  </li>
+                  <li>
+                    <p>
+                      The <em>h</em> (hue) slider in the <em>Background</em> box
+                      also changes the colors available in the grid of
+                      <em>set</em> colors in the <em>Colors</em> box.
+                    </p>
+                    <p>
+                      The hue value in an OKLCH's color is a number between 0
+                      and 360. The slider in the <em>Background</em> box sets
+                      the base number. The first row in the gird of
+                      <em>set</em> colors add 45 to the base. The second row
+                      adds 45 more, etc... (If the number goes over 360 it loops
+                      around)
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      Columns in the grid of <em>set</em> colors increase the
+                      lightness value of the corresponding hue. The farthest
+                      left column is 20% lightness. The farthest right is 100%.
+                      The values in the middle are spaced at even intervals.
+                    </p>
+                    <p>
+                      I bumped the lower value to up 20% to prevent the entire
+                      column from becoming basically black. (Depending on the
+                      chroma value, colors set here with a 0% light level can
+                      still show some color. They are all very dark though.)
+                    </p>
+                    <p>
+                      You can get pure white out of any hue by setting the
+                      <em>Colors' chroma</em> slider all the way to the left and
+                      picking any <em>set</em> from the right hand column.
+                    </p>
+                    <p>
+                      The <em>Background l</em> slider covers the full range of
+                      lightness from 0 - 100%. Setting it all the way to the
+                      left with the <em>c</em> slider all the way to the left
+                      too will give you pure black.
+                    </p>
+                    <p>
+                      If you need a pure black foreground color you'll need to
+                      add it yourself. (I include it in my utility styles)
+                    </p>
+                  </li>
+                  <li>
+                    The <em>Colors chroma</em> slider applies to the entire grid
+                    of <em>set</em> colors. Moving it all the way to the left
+                    changes everything to different shades of gray and white.
+                    All the way to the right makes the colors their most
+                    intense.
+                  </li>
+                  <li>
+                    <p>
+                      There's more complexity to OKLCH colors than is
+                      represented here. The sliders can be set in ways that are
+                      outside the actual color space. Fallback colors are used
+                      whenever that happens.
+                    </p>
+                    <p>
+                      It's possible to set up an interface that wouldn't allow
+                      colors outside the color space. It would be way more
+                      complicated to use (see
+                      <a href="https://oklch.com/">oklch.com</a> for an
+                      example). I opted to keep the interface simpler knowing
+                      the fallbacks would take care of things.
+                    </p>
+                  </li>
+                  <li>
+                    There's no restrictions on the colors that can be used for
+                    Light and Dark mode. You can make either as dark or as light
+                    as you'd like. Just keep the folks who will be visiting your
+                    site in mind as you pick them.
+                  </li>
+                  <li>
+                    As with all things color, there's a ton of factors that go
+                    in to how things render and are perceived. Not the least of
+                    which is different monitors have different amounts of
+                    support for the colors they can render. Addressing all that
+                    is outside the concerns of this tool.
+                  </li>
+                  <li>
+                    The names default, heading, link, accent, and warning are
+                    what I use. You should be able to find/replace them
+                    relatively easily if you prefer something different.
+                  </li>
+                </ul>
+              </details>
             </div>
           </div>
--->
-
-          <div role="tabpanel">
-            <div class="content-wrapper ui-two-column">
-              <div class="content-body default-flow">
-                <hgroup class="large-bottom-margin">
-                  <h1>Alan's Color Picker</h1>
-                  <p class="align-end">
-                    made by
-                    <a href="https://www.alanwsmith.com/">alan w smith</a>
-                  </p>
-                </hgroup>
-
-                <div
-                  class="xlarge-inline-margin large-inline-padding large-block-padding link-border default-radius default-flow"
-                >
-                  <h2>Head's Up: Work-In-Progres</h2>
-                  <p>
-                    Hi there! You're early, but that's cool. Just two things to
-                    know:
-                  </p>
-                  <ol>
-                    <li>The color sliders and buttons work.</li>
-                    <li>The export doesn't (yet).</li>
-                  </ol>
-                  <p>
-                    It's currently May 21st. I plan to have the export working
-                    to launch a fully operationaly tool in the next few days.
-                  </p>
-
-                  <p>
-                    Click around to get a sense of the picker. Check back to see
-                    about the export. Or, follow me on
-                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a>,
-                    <a href="https://bsky.app/profile/alanwsmith.com">Bluesky</a
-                    >, or
-                    <a href="https://www.alanwsmith.com/feeds/posts.xml">
-                      my RSS feed</a
-                    >
-                    for updates.
-                  </p>
-                </div>
-
-                <h2>Content For Launch</h2>
-
-                <div
-                  class="xlarge-inline-margin large-inline-padding xlarge-block-padding accent-border default-radius default-flow"
-                >
-                  <div class="content-bottom-border">
-                    <strong>TL;DR</strong>
-                  </div>
-                  <p>
-                    Play around with the <em>Themes</em>, <em>Background</em>,
-                    and <em>Colors</em> controls in the sidebar to change
-                    colors.
-                  </p>
-                  <p>
-                    Hit <em>Export</em> above when you've got a palette you
-                    like. It'll give you a stylesheet with your colors.
-                  </p>
-                  <p>There is no step 3.</p>
-                  <p class="content-top-border large-top-padding">
-                    I'm working on more features. Follow me on
-                    <a href="https://hachyderm.io/@TheIdOfAlan">Mastodon</a> or
-                    <a href="https://bsky.app/profile/alanwsmith.com"
-                      >Bluesky</a
-                    >
-                    for updates. Or,
-                    <a href="https://www.alanwsmith.com/feeds/posts.xml"
-                      >grab my RSS feed</a
-                    >.
-                  </p>
-                </div>
-                <h2>The Basics</h2>
-                <h3>Color Themes</h3>
-                <p>
-                  There are four themes: <em>Light</em>,
-                  <em>High-Contrast Light</em>, <em>Dark</em>,
-                  <em>High-Constast Dark</em><sup>pitch for more themes</sup>.
-                  The buttons in the <em>Themes</em> box change between
-                  them<sup>guidelines</sup>.
-                </p>
-
-                <h3>The Background Color</h3>
-                <p>
-                  The three sliders in the <em>Background</em> box are
-                  <em>l</em>, <em>c</em>, and <em>h</em> (aka lightness, chroma,
-                  and hue). Changing them changes the background color. Fiddle
-                  with them to get an idea of how they work.
-                </p>
-                <p>
-                  You can use the <em>Isolate</em> checkbox to hide content. It
-                  makes it easier to focus on the color.
-                </p>
-
-                <h3>The Colors</h3>
-                <p>
-                  The picker has five colors: content, link, title, heading, and
-                  accent<sup>more soon</sup>. Change between them with the
-                  colored tabs in the <em>Colors</em> box.
-                </p>
-
-                <p>
-                  Clicking/tapping a colored <em>set</em> from the grid changes
-                  the selected color to match it. The <em>c</em> slider below
-                  the <em>set</em> grid changes the <em>chroma</em> of the
-                  color<sup>more later</sup>. Basically, its intensity.
-                </p>
-                <p>
-                  The <em>Isolate</em> checkbox in the <em>Colors</em> box hides
-                  everything that's not using the selected color.
-                </p>
-
-                <h3>Picking</h3>
-                <p>
-                  That's it. There's not a lot too it. That's kinda the point.
-                </p>
-
-                <p>
-                  I make
-                  <a href="https://links.alanwsmith.com/">lots of websites</a>.
-                  Picking colors for them was always a pain with existing
-                  tools<sup>note about other tools</sup>. A friction that slowed
-                  me down with no payoff. I built this picker to address that.
-                  It's designed to generate a nice set of colors with as little
-                  effort as possible.
-                </p>
-
-                <p>I hope you enjoy it,</p>
-
-                <p>-a</p>
-
-
-<!--
-                <h3>Set Color Mechanics</h3>
-                <p>
-                  The picker users OKLCH<sup>2</sup>. The <em>L</em>,
-                  <em>C</em>, and <em>H</em> being our lightness, chroma, and
-                  hue. Each of the <em>set</em> colors is based off the the
-                  <em>h/hue</em> value from the <em>Background</em>.
-                </p>
-                <p>
-                  Behind the scenes, the <em>Background</em>
-                  <em>h/hue</em> value is between 0 and 360. The first from of
-                  the <em>set</em> colors adds 45 to it. Each subsequent row
-                  adds another 45<sup>flips</sup>.
-                </p>
-                <ol>
-                  <li>
-                    Move the &quot;l&quot;, &quot;c&quot;, and &quot;h&quot;
-                    sliders in the &quot;Background&quot; box around to find a
-                    background color you like
-                  </li>
-                  <li>
-                    Click/Tap some of the &quot;set&quot; buttons in the
-                    &quot;Colors&quot; box to choose a text color
-                  </li>
-                  <li>
-                    Move the &quot;c&quot; slider around in the
-                    &quot;Colors&quot; box around to change the intensity of the
-                    color
-                  </li>
-                  <li>
-                    Check out the other features below to learn more about how
-                    things work
-                  </li>
-                  <li>
-                    Click/Tap the &quot;Export Colors&quot; tab above to get
-                    your colors
-                  </li>
-                </ol>
-                <h2>Previewing</h2>
-                <p>
-                  Click/Tap any of the content in the main part of the page to
-                  hide the color picker controls. This is designed to make it
-                  easier to evaluate palettes without the other options
-                  influencing the way things look.
-                </p>
-                <h2>Other Colors</h2>
-                <p>
-                  Click the single letter tabs at the top of the
-                  &quot;Colors&quot; box to change which text the
-                  &quot;set&quot; colors effect (e.g. the main content, the
-                  title, links, etc.).
-                </p>
-                <p>The current set is:</p>
-                <ul class="current-colors-list">
-                  <li>
-                    TODO: attempting to generate list...
-                    <noscript
-                      >This list needs JavaScript to work. It is not currently
-                      available</noscript
-                    >
-                  </li>
-                </ul>
-                <h2>Isolating Colors</h2>
-                <p>
-                  The &quot;Isolate&quot; button at the bottom of the
-                  &quot;Color&quot; box hides all the content except for what
-                  the selected color applies to. I added it to make it easier to
-                  find links and accents which might only appear on a page a few
-                  times.
-                </p>
-                <h2>Isolating The Background</h2>
-                <p>
-                  The &quot;Background&quot; box also has an &quot;Isolate&quot;
-                  checkbox. Ticking it hides all the content so you can pick the
-                  background without existing text colors influencing it.
-                </p>
--->
-
-                <h2>Footnotes</h2>
-                <ol>
-                  <li>
-                    Changing the number of colors and what they are called is a
-                    work in progress.
-                  </li>
-                  <li>
-                    OKLCH is a &quot;color space&quot; which is a fancy way of
-                    saying it's a way for computers to deal with colors. There's
-                    lots of science behind it. I'll write more about it in
-                    future updates.
-                  </li>
-                </ol>
-              </div>
+        </div>
+        <sticky-sidebar>
+          <div class="sidebar-wrapper">
+            <div class="sidebar">
               <div
                 class="sidebar-controls default-flow"
                 data-tab="instructions"
               ></div>
             </div>
           </div>
-
-          <div role="tabpanel" hidden>
-            <hgroup class="large-bottom-margin">
-              <h1>Alan's Color Picker</h1>
-              <p class="align-end">
-                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-              </p>
-            </hgroup>
-            <div class="default-flow">
-              <h2>Settings</h2>
-              <!--
-              <div class="number-of-colors-wrapper">
-                <label for="number-of-colors">Number of Colors:</label>
-                <select
-                  id="number-of-colors"
-                  class="number-of-colors-selector"
-                ></select>
-              </div>
--->
-              <p>Customiztions are a work in progress. They'll include:</p>
-              <ul>
-                <li>Change the number of colors</li>
-                <li>Change the names off the styles</li>
-                <li>Customize CSS (e.g. to bring in fonts)</li>
-                <li>Customize HTML with your content</li>
-              </ul>
-
-              <p>Check out the TODO list for more.</p>
-            </div>
-          </div>
-
-          <div role="tabpanel" hidden>
-            <hgroup class="large-bottom-margin">
-              <h1>Alan's Color Picker</h1>
-              <p class="align-end">
-                made by <a href="https://www.alanwsmith.com/">alan w smith</a>
-              </p>
-            </hgroup>
-            <div class="default-flow">
-              <h2>Basic CSS Export</h2>
-              <p>
-                Modern browsers and operating systems work together to
-                automatcially switch between light and dark modes based on a
-                person's preferences. Pick which of your themes you want to use
-                for the two automatic modes:
-              </p>
-              <div class="light-mode-selector-wrapper">
-                <label for="light-mode-selector">Light mode:</label>
-                <select id="light-mode-picker"></select>
-              </div>
-              <div class="dark-mode-selector-wrapper">
-                <label for="dark-mode-selector">Dark mode:</label>
-                <select id="dark-mode-picker"></select>
-              </div>
-
-              <p>Here's the CSS variables for your color palette:</p>
-              <pre><code class="colors-only"></code></pre>
-
-              <p>If all you need is the colors, you're all set.</p>
-              <p>
-                Check out the next section if you'd like some bonus features.
-              </p>
-
-              <h2>Advanced CSS Export</h2>
-              <p>
-                I built this tool to make it quicker to get a new site up and
-                running. Colors are the key feature. There's a bunch of standard
-                uses for them too. This is the collection of my current
-                &quot;Quick-Start&quot; variables and classes.
-              </p>
-
-              <p>
-                Use these checkboxes to mix and match your own collection if you
-                want more than just the colors.
-              </p>
-
-              <h3>Variables</h3>
-
-              <div class="styles-grid">
-                <!-- Color Theme Variables -->
-                <input type="checkbox" id="color-theme-vars-checkbox" checked />
-                <div>
-                  <details>
-                    <summary>Color - Theme Variables</summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="color-theme-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!-- Color Active Variables -->
-                <input
-                  type="checkbox"
-                  id="color-active-vars-checkbox"
-                  checked
-                />
-                <div>
-                  <details>
-                    <summary>Color - Active Variables</summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="color-active-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!-- Color Border Style Variables -->
-                <input type="checkbox" id="color-border-style-vars-checkbox" />
-                <div>
-                  <details>
-                    <summary>Color - Border Style Variables</summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="color-border-style-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!-- Black and White Normal Theme Variables -->
-                <input type="checkbox" id="bw-normal-theme-vars-checkbox" />
-                <div>
-                  <details>
-                    <summary>
-                      Black &amp; White (Normal) - Theme Variables
-                    </summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="bw-normal-theme-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!--  Black and White Normal Active Variables -->
-                <input type="checkbox" id="bw-normal-active-vars-checkbox" />
-                <div>
-                  <details>
-                    <summary>
-                      Black &amp; White (Normal) - Active Variables
-                    </summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="bw-normal-active-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!-- Black and White Normal Border Style Variables -->
-                <input
-                  type="checkbox"
-                  id="bw-normal-border-style-vars-checkbox"
-                />
-                <div>
-                  <details>
-                    <summary>
-                      Black &amp; White (Normal) - Border Style Variables
-                    </summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="bw-normal-border-style-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!-- Black and White Reversed Theme Variables -->
-                <input type="checkbox" id="bw-reversed-theme-vars-checkbox" />
-                <div>
-                  <details>
-                    <summary>
-                      Black &amp; White (Reversed) - Theme Variables
-                    </summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="bw-reversed-theme-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-
-                <!-- Black and White Reversed Active Variables -->
-                <input type="checkbox" id="bw-reversed-active-vars-checkbox" />
-                <div>
-                  <details>
-                    <summary>
-                      Black &amp; White (Reversed) - Active Variables
-                    </summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="bw-reversed-active-vars"></code></pre>
-                    </details>
-                  </details>
-                </div>
-              </div>
-
-              <pre>
-
-
-/* Border Style Black &amp; White Variables */
-
-/* Border Radii Variables */
-
-/* Flow Variables */
-
-/* Font Size Variables */
-
-/* Margin Variables */
-
-/* Padding Variables */
-
-/* Text Alignment Variables */
-
-/* Width Variables */
-</pre
-              >
-
-              <h3>Classes</h3>
-              <div class="styles-grid">
-                <input type="checkbox" id="reset-styles-checkbox" />
-                <div>
-                  <details>
-                    <summary>Reset Defaults</summary>
-                    <p>Description</p>
-                    <details>
-                      <summary>Preview</summary>
-                      <pre><code class="reset-styles"></code></pre>
-                    </details>
-                  </details>
-                </div>
-              </div>
-
-              <div class="export-content picker-text"></div>
-            </div>
-          </div>
-
-          <!--
-          <div class="default-flow" role="tabpanel" hidden>
-            <h2>Black And White Examples</h2>
-            <h3>Black And White Colors</h3>
-            <div class="bw-color-examples-wrapper"></div>
-            <h3>Black And White Backgrounds</h3>
-            <div class="bw-background-examples-wrapper"></div>
-            <h3>Black And White Borders</h3>
-            <div class="bw-border-examples-wrapper"></div>
-          </div>
-
-          <div class="default-flow" role="tabpanel" hidden>
-            <h2>Utility Varaibles and Classes</h2>
-            <h3>Font Sizes</h3>
-            <div class="font-size-examples-wrapper default-flow"></div>
-            <h3>Text Alignments</h3>
-            <div class="alignment-examples-wrapper default-flow"></div>
-            <h3>Margins</h3>
-            <div class="margin-examples-wrapper large-flow"></div>
-            <h3>Padding</h3>
-            <div class="padding-examples-wrapper large-flow"></div>
-            <h3>Flows</h3>
-            <div class="flow-examples-wrapper"></div>
-            <h3>Widths</h3>
-            <div class="width-examples-wrapper large-flow"></div>
-            <h3>Wrappers</h3>
-            <div class="wrapper-examples-wrapper large-flow"></div>
-            <h3>Border Radius</h3>
-            <div class="border-radius-examples-wrapper large-flow"></div>
-          </div>
-
--->
-
-          <div class="picker-text" role="tabpanel" hidden>
-            <h2>TODO</h2>
-
-            <ul>
-              <li>
-                <input type="checkbox" disabled /> Clear cache button to go back
-                to defaults
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Mute colors so you can them
-                on individually
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Add example text under the
-                isoloate color button so you can see something even if the
-                actual text isn't in view
-              </li>
-              <li><input type="checkbox" disabled /> Mute all button</li>
-              <li><input type="checkbox" disabled /> Multiple sample pages</li>
-              <li>
-                <input type="checkbox" disabled /> Float controls so they are
-                always visible
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Optimize so only changes get
-                updated in the stylesheet
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Consolidate variable output
-                into single <code>:root</code>
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Change Black and White CSS
-                names
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Click Themes, Background,
-                Colors to collapse boxes
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Control click on things to
-                get style info about them.
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Customize `-style-border`
-                name and value
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Change Background color name
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Change `border`, `radius`,
-                etc... string names
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Add faded Background values
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Change number of colors
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Templates for variable and
-                class names to format in custom orders
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Color picker on both
-                Instructions and Picker tabs
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Only show instructions the
-                first time you load the page.
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Stay on the same tab after
-                page refresh
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Set min light level for each
-                color
-              </li>
-              <li><input type="checkbox" disabled /> Example palettes</li>
-              <li><input type="checkbox" disabled /> Contrast calculations</li>
-              <li><input type="checkbox" disabled /> Undo/Redo</li>
-              <li><input type="checkbox" disabled /> Set faded alt values</li>
-              <li>
-                <input type="checkbox" disabled /> Include/Remove black and
-                white variables
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Make back button work for tab
-                switching?
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Optional utility classes
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Change CSS variable names
-              </li>
-              <li><input type="checkbox" disabled /> JSON schema for data</li>
-              <li><input type="checkbox" disabled /> Change mode names</li>
-              <li><input type="checkbox" disabled /> Add/subtract themes</li>
-              <li>
-                <input type="checkbox" disabled /> Refactor to use 'theme'
-                instead of 'mode'
-              </li>
-              <li><input type="checkbox" disabled /> Copy button for CSS</li>
-              <li><input type="checkbox" disabled /> Edit CSS</li>
-              <li><input type="checkbox" disabled /> Edit HTML</li>
-              <li><input type="checkbox" disabled /> Save/Load</li>
-              <li><input type="checkbox" disabled /> Shareable URLs</li>
-              <li><input type="checkbox" disabled /> Implementation example</li>
-              <li>
-                <input type="checkbox" disabled /> Web component for mode
-                switching
-              </li>
-              <li><input type="checkbox" disabled /> Randomizer</li>
-              <li>
-                <input type="checkbox" disabled /> Switch between 45 and 60
-                degrees
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Show/Hide content to
-                focus on base color
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Issoldated color view
-                to look at them one at a time
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Use min light level
-                from each color
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Mode selection works
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Background sliders
-                work
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Isolating background
-                works
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Switching between
-                colors works
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Changing colors via
-                set buttons works
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Changing colors via
-                chroma slider
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Isolating colors
-                works
-              </li>
-              <li>
-                <input type="checkbox" disabled checked /> Default faded
-                alternatives
-              </li>
-              <li>
-                <input type="checkbox" disabled /> Save state in localstorage
-              </li>
-            </ul>
-          </div>
-
-          <div role="tabpanel" hidden>
-            <div class="default-flow picker-text">
-              <h2>Debugging</h2>
-              <p>
-                I'm working on the next round of features. This page is here to
-                help me with that.
-              </p>
-              <h3>Here Be Dragons</h3>
-              <pre class="debugging-content xsmall-font-size"></pre>
-            </div>
-          </div>
-
-          <!-- end of line -->
-        </tab-group>
+        </sticky-sidebar>
       </div>
     </color-picker>
+
     <script src="/components/color-picker.js" type="module"></script>
+    <script src="/components/sticky-sidebar.js" type="module"></script>
+
     <noscript>
       <p>Could not load the picker. It appears JavaScript is not available.</p>
     </noscript>

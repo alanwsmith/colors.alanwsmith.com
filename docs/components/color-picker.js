@@ -75,22 +75,22 @@ const templates = {
   "htmlStart": `<!DOCTYPE html>
 <html lang="en">
   <head>
-    <title></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--
-    <link rel="shortcut icon" href="">
-    <meta property="og:title" content="">
-    <meta property="og:description" content="">
+    <title>Starter Page</title>
+    <link rel="shortcut icon" href="/favicons/favicon.ico">
+    <meta property="og:title" content="Start Page">
+    <meta property="og:description" content="a post by alan w smith">
     <meta property="og:type" content="article">
-    <meta property="og:url" content="">
+    <meta property="og:url" content="https://www.alanwsmith.com/">
     <meta property="og:image" content="">
-    <link rel="apple-touch-icon" sizes="180x180" href="">
-    <link rel="icon" type="image/png" sizes="32x32" href="">
-    <link rel="icon" type="image/png" sizes="16x16" href="">
-    <link rel="manifest" href="">
-    <link rel="mask-icon" href="" color="">
-    <meta name="description" content="">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+    <link rel="manifest" href="/favicons/site.webmanifest">
+    <link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="description" content="a post by alan w smith">
     -->
     <style>
 `,
@@ -367,10 +367,10 @@ const defaultPalette = {
     ["bottom-right", true],
   ],
   borderRadiiDirectionHelpers: [
-    ["top", "top-left", "top-right"],
-    ["bottom", "bottom-left", "bottom-right"],
-    ["left", "top-left", "bottom-left"],
-    ["right", "top-right", "bottom-right"],
+    // ["top", "top-left", "top-right"],
+    // ["bottom", "bottom-left", "bottom-right"],
+    // ["left", "top-left", "bottom-left"],
+    // ["right", "top-right", "bottom-right"],
   ],
   colorNames: [
     "default",
@@ -601,7 +601,7 @@ const defaultPalette = {
     },
 
     {
-      base: { c: 0.05262, h: 78.336, l: 25.71 },
+      base: { c: 0.06408, h: 140.868, l: 20.25 },
       blackAndWhiteFaded: [0.4, 0.1],
       blackAndWhiteValues: [0, 100],
       blackAndWhitereverseFaded: [0.4, 0.1],
@@ -612,9 +612,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              c: 0.27672,
-              h: 3,
-              l: 2,
+              c: 0.15021,
+              h: 2,
+              l: 3,
             },
             {
               c: 0.2,
@@ -630,8 +630,8 @@ const defaultPalette = {
           hueOffsetValues: [
             {
               c: 0.118,
-              h: 2,
-              l: 3,
+              h: 1,
+              l: 4,
             },
             {
               c: 0.2,
@@ -648,7 +648,7 @@ const defaultPalette = {
             {
               c: 0.22386,
               h: 3,
-              l: 3,
+              l: 5,
             },
             {
               c: 0.2,
@@ -663,9 +663,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              c: 0.06066,
-              h: 5,
-              l: 3,
+              c: 0.18525,
+              h: 3,
+              l: 2,
             },
             {
               c: 0.2,
@@ -680,9 +680,9 @@ const defaultPalette = {
           hueOffsetIndex: 0,
           hueOffsetValues: [
             {
-              c: 0.03654,
-              h: 3,
-              l: 3,
+              c: 0.22620,
+              h: 5,
+              l: 1,
             },
             {
               c: 0.2,
@@ -887,6 +887,7 @@ class Picker extends HTMLElement {
     this.toggleIsolation();
     this.outputBasicColorVars();
     this.outputUtilityClasses();
+    this.saveData();
   }
 
   generateColorBackgroundClasses() {
@@ -2101,22 +2102,24 @@ class Picker extends HTMLElement {
   // TODO: Verify
   loadData() {
     const checkData = localStorage.getItem(config.storageName);
-    if (checkData && checkData.version[0] === 1) {
+    console.log(checkData);
+    if (checkData) {
       dbg(`Loaded colors from storage`);
-      p = checkData;
+      p = JSON.parse(checkData);
     } else {
-      this.loadDefaults();
+      // p = this.loadDefaults();
+      p = defaultPalette;
     }
-    p = data.palettes[0];
   }
 
   // TODO: Verify
   loadDefaults() {
-    data = {
-      palettes: [defaultPalette],
-      schemaVersion: [1, 0, 0],
-    };
-    dbg("Loaded default colors");
+    //return
+    // data = {
+    //   palettes: [defaultPalette],
+    //   schemaVersion: [1, 0, 0],
+    // };
+    // dbg("Loaded default colors");
   }
 
   outputBasicColorVars() {
@@ -2839,6 +2842,15 @@ class Picker extends HTMLElement {
     tests.forEach((test) => {
       this.testResults.push(this.runTest(test));
     });
+  }
+
+  saveData() {
+    localStorage.setItem(
+      config.storageName,
+      JSON.stringify(
+        p,
+      ),
+    );
   }
 
   setColorAspect(mode, color, aspect, value) {

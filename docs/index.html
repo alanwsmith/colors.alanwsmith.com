@@ -252,6 +252,7 @@
         grid-template-columns: 1fr 1fr;
         font-size: var(--small-font);
       }
+      /*
       .scroll-wrapper {
         border: 1px solid var(--reverse-faded);
         border-radius: var(--default-radius);
@@ -259,6 +260,14 @@
         margin-top: var(--default-margin);
         overflow-y: scroll;
         padding: var(--default-padding);
+      }
+      */
+      .sidebar {
+        position: sticky;
+        bottom: -30px;
+      }
+      .sidebar-wrapper {
+        margin-block: 0.4em;
       }
       .sidebar-controls {
         margin-top: var(--default-margin);
@@ -778,13 +787,13 @@
               </p>
               <p>
                 Ligula molestie.
-                <span class="warning">This span uses warning</span>. Quisque et
+                <span class="accent">This span uses accent</span>. Quisque et
                 nulla id magna
               </p>
 
               <p>
                 Vulputate rhoncus convallis ut elit.
-                <span class="accent">This is a span with accent.</span>
+                <span class="warning">This is a span with warning.</span>
                 Sapien in eleifend lacinia, sem metus facilisis nibh, ut
                 vulputate turpis justo quis lorem. Maecenas et lacinia lorem.
                 Donec fermentum dolor id dolor tempus, at aliquet lorem
@@ -858,7 +867,6 @@
                 </div>
               </div>
               <div class="default-mode-selection-wrapper"></div>
-
               <h2>Step 3 - Copy Your CSS</h2>
               <p>Here's the CSS variables for your color palette:</p>
               <div class="align-right basic-css-output-top-copy-button"></div>
@@ -873,12 +881,10 @@
                 That's it. You're all set to use these colors in your
                 stylesheets:
               </p>
-
               <ul>
                 <li>
                   <code class="nowrap">var(--default)</code>
                 </li>
-
                 <li><code class="nowrap">var(--heading)</code></li>
                 <li><code class="nowrap">var(--link)</code></li>
                 <li>
@@ -888,7 +894,6 @@
                   <code class="nowrap">var(--warning)</code>
                 </li>
               </ul>
-
               <p>
                 They'll automatically switch between Light and Dark mode based
                 on a person's preference whenever possible. You can also append
@@ -906,7 +911,6 @@ h1 {
   color: var(--heading);
 }</pre
               >
-
               <p>
                 I've always struggled with picking colors. There's a bunch of
                 tools out there. None of them worked for me. Most of it came
@@ -915,7 +919,6 @@ h1 {
                 using it.
               </p>
               <p class="xxxlarge-bottom-padding xxxlarge-bottom-margin">-a</p>
-
               <details class="default-flow">
                 <summary>Utility Styles</summary>
                 <p>
@@ -945,7 +948,7 @@ h1 {
 
               <details class="default-flow" open>
                 <summary>Utility Examples</summary>
-                <p>A few quick example from the utility styles</p>
+                <p>A few quick examples from the utility styles</p>
                 <ul>
                   <li>
                     <p>
@@ -955,7 +958,6 @@ h1 {
                     <div class="black-example"></div>
                     <div class="white-example"></div>
                   </li>
-
                   <li>
                     <p>
                       The <em>match</em> and <em>reverse</em> are also black and
@@ -994,7 +996,6 @@ h1 {
                       <code class="nowrap">SIZE-DIRECTION-PAD/MARGIN</code>. For
                       example:
                     </p>
-
                     <div class="padding-example"></div>
                   </li>
                 </ul>
@@ -1151,16 +1152,21 @@ h1 {
             </div>
           </div>
         </div>
-        <div>
-          <div
-            class="sidebar-controls default-flow"
-            data-tab="instructions"
-          ></div>
-        </div>
+        <sticky-sidebar>
+          <div class="sidebar-wrapper">
+            <div class="sidebar">
+              <div
+                class="sidebar-controls default-flow"
+                data-tab="instructions"
+              ></div>
+            </div>
+          </div>
+        </sticky-sidebar>
       </div>
     </color-picker>
 
     <script src="/components/color-picker.js" type="module"></script>
+    <script src="/components/sticky-sidebar.js" type="module"></script>
 
     <noscript>
       <p>Could not load the picker. It appears JavaScript is not available.</p>

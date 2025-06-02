@@ -44,9 +44,11 @@
  *
  * ****************************************************/
 
+import Color from "/scripts/color.js";
+
 let data = {};
 
-let debug = true;
+let debug = false;
 
 let p = {};
 
@@ -475,7 +477,7 @@ const defaultPalette = {
               l: 1,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-1
         {
@@ -492,7 +494,7 @@ const defaultPalette = {
               l: 0,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-2
         {
@@ -509,7 +511,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-3
         {
@@ -526,7 +528,7 @@ const defaultPalette = {
               l: 2,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-4
         {
@@ -543,7 +545,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-5
         {
@@ -560,7 +562,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-6
         {
@@ -577,7 +579,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 0-7
         {
@@ -594,7 +596,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
       ],
       name: "Light",
@@ -622,7 +624,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-1
         {
@@ -639,7 +641,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-2
         {
@@ -656,7 +658,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-3
         {
@@ -673,7 +675,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-4
         {
@@ -690,7 +692,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-5
         {
@@ -707,7 +709,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-6
         {
@@ -724,7 +726,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
         // 2-7
         {
@@ -741,7 +743,7 @@ const defaultPalette = {
               l: 4,
             },
           ],
-          minLightLevel: 20,
+          minLightLevel: 10,
         },
       ],
       name: "Dark",
@@ -856,7 +858,7 @@ class Picker extends HTMLElement {
   }
 
   connectedCallback() {
-    fx("Connected Color Picker");
+    dbg("Connected Color Picker");
     // Reminder: Default data needs to be loaded for tests
     p = JSON.parse(JSON.stringify(defaultPalette));
     this.runTests();
@@ -873,6 +875,7 @@ class Picker extends HTMLElement {
     this.updateCustomizeTab();
     this.outputBasicColorVars();
     this.outputUtilityClasses();
+    this.updateColorRatio();
     this.addCopyButtons();
   }
 
@@ -887,6 +890,7 @@ class Picker extends HTMLElement {
     this.toggleIsolation();
     this.outputBasicColorVars();
     this.outputUtilityClasses();
+    this.updateColorRatio();
     this.saveData();
   }
 
@@ -2101,8 +2105,8 @@ class Picker extends HTMLElement {
 
   // TODO: Verify
   loadData() {
-    const checkData = localStorage.getItem(config.storageName);
-    console.log(checkData);
+    let checkData = localStorage.getItem(config.storageName);
+    checkData = false;
     if (checkData) {
       dbg(`Loaded colors from storage`);
       p = JSON.parse(checkData);
@@ -3004,17 +3008,6 @@ class Picker extends HTMLElement {
     this.uiIsolationStyleSheet.innerHTML = out;
   }
 
-  updateColorActive(obj) {
-    const color = gdi("color", obj);
-    dbg(`updateColorActive: ${color}`);
-    p.activeColor = color;
-    if (p.isolatedColor >= 0) {
-      p.isolatedColor = color;
-    }
-    this.initColorTabs();
-    this.finishUpdate();
-  }
-
   updateBackgroundColors(obj) {
     const mode = p.activeMode;
     const aspect = gds("aspect", obj);
@@ -3032,6 +3025,17 @@ class Picker extends HTMLElement {
     });
   }
 
+  updateColorActive(obj) {
+    const color = gdi("color", obj);
+    dbg(`updateColorActive: ${color}`);
+    p.activeColor = color;
+    if (p.isolatedColor >= 0) {
+      p.isolatedColor = color;
+    }
+    this.initColorTabs();
+    this.finishUpdate();
+  }
+
   updateColorChroma(obj) {
     const value = gvf(obj);
     this.setColorAspect(p.activeMode, p.activeColor, "c", value);
@@ -3041,6 +3045,21 @@ class Picker extends HTMLElement {
   updateColorName(obj) {
     const color = gdi("color", obj);
     p.colorNames[color] = obj.value;
+  }
+
+  updateColorRatio() {
+    const backgroundString = `oklch(${
+      this.getBackgroundValueL(p.activeMode)
+    }% ${this.getBackgroundValueC(p.activeMode)} ${
+      this.getBackgroundValueH(p.activeMode)
+    })`;
+    const backgroundColor = new Color(backgroundString);
+    const foregroundString = `oklch(${this.getColorActiveValueL()}% ${
+      this.getColorActiveValueC(p.activeMode)
+    } ${this.getColorActiveValueH(p.activeMode)})`;
+    const foregroundColor = new Color(foregroundString);
+    let contrast = backgroundColor.contrast(foregroundColor, "APCA");
+    html(contrast.toFixed(1), el("ratio"));
   }
 
   updateCustomizeTab() {
